@@ -84,6 +84,8 @@ p { margin: 0 0 calc(var(--step) * 2); max-width: var(--measure); }
 
 .full { max-width: none; }
 
+strong { font-weight: 600; }
+
 a { color: var(--accent); text-underline-offset: 2px; }
 
 .eyebrow {
