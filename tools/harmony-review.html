@@ -222,12 +222,22 @@
     margin: 0 0 calc(var(--step) * 0.5);
   }
   #builder-staff { margin-top: calc(var(--step) * 2); }
-  .chord-line {
-    font-family: var(--font-data);
-    font-size: 0.85rem;
-    color: var(--muted);
+  .chord-facts {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: calc(var(--step) * 0.5) calc(var(--step) * 2);
     margin: 0;
+    font-family: var(--font-data);
+    font-size: 0.88rem;
   }
+  .chord-facts dt {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    align-self: baseline;
+  }
+  .chord-facts dd { margin: 0; color: var(--ink); }
 
   .callout {
     max-width: none;
@@ -495,9 +505,9 @@
       <section class="panel">
         <h3>root</h3>
         <div class="rootpick" id="rootpick"></div>
-        <svg id="builder-staff" viewBox="0 0 320 210" role="img" aria-label="The selected chord written on a treble staff, with the stack measured in semitones"></svg>
+        <svg id="builder-staff" viewBox="0 46 260 120" role="img" aria-label="The selected chord written on a treble staff, with the stack measured in semitones"></svg>
         <p class="chord-name" id="builder-name"></p>
-        <p class="chord-line" id="builder-line"></p>
+        <dl class="chord-facts" id="builder-facts"></dl>
       </section>
     </div>
   </section>
@@ -1166,7 +1176,7 @@
     var rootIndex = 0, chord = TRIADS[2];
     var staff = document.getElementById("builder-staff");
     var nameEl = document.getElementById("builder-name");
-    var lineEl = document.getElementById("builder-line");
+    var factsEl = document.getElementById("builder-facts");
     var groups = [];
 
     function offsets(type) {
@@ -1193,11 +1203,11 @@
 
     function drawChord() {
       while (staff.firstChild) { staff.removeChild(staff.firstChild); }
-      var top = ROW_TOP, x = 200;
+      var top = ROW_TOP, x = 130;
 
       for (var L = 0; L < 5; L++) {
         staff.appendChild(el("line", {
-          x1: 10, y1: top + 12 * L, x2: 310, y2: top + 12 * L, "class": "staff-line"
+          x1: 10, y1: top + 12 * L, x2: 250, y2: top + 12 * L, "class": "staff-line"
         }));
       }
       staff.appendChild(el("text", { x: 18, y: noteY(2, 0), "class": "clef" }, "\uE050"));
@@ -1230,11 +1240,11 @@
       for (var i = 0; i < chord.steps.length; i++) {
         var yA = noteY(notes[i].step, 0), yB = noteY(notes[i + 1].step, 0);
         staff.appendChild(el("path", {
-          d: "M" + 241 + " " + yA + " L" + 246 + " " + yA +
-             " L" + 246 + " " + yB + " L" + 241 + " " + yB, "class": "bracket"
+          d: "M" + 171 + " " + yA + " L" + 176 + " " + yA +
+             " L" + 176 + " " + yB + " L" + 171 + " " + yB, "class": "bracket"
         }));
         staff.appendChild(el("text", {
-          x: 259, y: (yA + yB) / 2, "class": "span-num"
+          x: 189, y: (yA + yB) / 2, "class": "span-num"
         }, String(chord.steps[i])));
       }
 
@@ -1245,9 +1255,20 @@
       staff.setAttribute("aria-label",
         root.name + " " + chord.name + ", " + notes.map(function (n) { return n.name; }).join(" "));
       nameEl.textContent = root.name + " " + chord.name;
-      lineEl.textContent = notes.map(function (n) { return n.name; }).join(" ") + "   " +
-                           symbolRoot + chord.sym + "   " + chord.abbr + "   " +
-                           chord.steps.join(" + ");
+      while (factsEl.firstChild) { factsEl.removeChild(factsEl.firstChild); }
+      [
+        ["pitches", notes.map(function (n) { return n.name; }).join(" ")],
+        ["symbol", symbolRoot + chord.sym],
+        ["quality", chord.abbr],
+        ["stack", chord.steps.join(" + ") + " = " + offsets(chord).pop()]
+      ].forEach(function (pair) {
+        var dt = document.createElement("dt");
+        dt.textContent = pair[0];
+        var dd = document.createElement("dd");
+        dd.textContent = pair[1];
+        factsEl.appendChild(dt);
+        factsEl.appendChild(dd);
+      });
     }
 
     /* ----- recipe rows ----- */
