@@ -178,8 +178,8 @@
   .triad.lit .caret { stroke: var(--accent); }
   .triad.lit .degree-acc { fill: var(--accent); }
   .panels.uneven { grid-template-columns: 1.45fr 1fr; }
-  #sec-minor-triads > .panel { margin-bottom: calc(var(--step) * 4); }
-  #sec-minor-triads > .panel:last-of-type { margin-bottom: 0; }
+  #sec-minor-triads > .panels { margin-bottom: calc(var(--step) * 4); }
+  #sec-minor-triads > .panels:last-of-type { margin-bottom: 0; }
   .panel h3 { margin-bottom: calc(var(--step) * 1.5); }
   svg.aug { max-width: 200px; }
   @media (max-width: 62rem) { .panels.uneven { grid-template-columns: 1fr; } }
@@ -255,7 +255,6 @@
         <p>Natural minor runs 2 1 2 2 1 2 2, with the semitones between 2̂ and ♭3̂ and between 5̂ and ♭6̂. It takes the key signature of the major scale a minor third above: A natural minor and C major share all seven pitches and differ in tonic.</p>
         <div class="callout">
           <p>A degree number carries quality as well as position, measured against the major scale on the same tonic. From 1̂ to 3̂ in major is a major third. The same span in any minor scale is a minor third, one semitone smaller, and the smaller degree takes a flat: <strong>♭3̂</strong>. Natural minor reads 1̂ 2̂ ♭3̂ 4̂ 5̂ ♭6̂ ♭7̂, harmonic minor raises the seventh back to 7̂, and melodic minor ascending raises both to 6̂ and 7̂.</p>
-          <p>A roman numeral takes the accidental of its root. The triad built on ♭3̂ in natural minor is <strong>♭III</strong>, and the one on ♭6̂ is <strong>♭VI</strong>.</p>
         </div>
       </section>
       <section class="panel">
@@ -425,22 +424,33 @@
     <h2>diatonic triads in minor</h2>
     <p class="full">Written in C minor, against C major above.</p>
 
-    <section class="panel">
-      <h3>natural minor</h3>
-      <svg id="triads-nat" viewBox="0 0 580 240" role="img" aria-label="The seven diatonic triads of C natural minor on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
-    </section>
+    <div class="panels uneven">
+      <section class="panel">
+        <h3>natural minor</h3>
+        <svg id="triads-nat" viewBox="0 0 580 240" role="img" aria-label="The seven diatonic triads of C natural minor on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
+        <div class="callout">
+          <p>A roman numeral takes the accidental of its root. The triad built on ♭3̂ is <strong>♭III</strong>, the one on ♭6̂ is <strong>♭VI</strong>, and the one on ♭7̂ is <strong>♭VII</strong>.</p>
+        </div>
+      </section>
+    </div>
 
-    <section class="panel">
-      <h3>harmonic minor</h3>
-      <svg id="triads-harm" viewBox="0 0 580 240" role="img" aria-label="The seven diatonic triads of C harmonic minor on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
-      <p>Two major thirds stacked give a fourth triad quality: 4 and 4, an outer 8. The augmented triad sits on ♭3̂ in harmonic and melodic minor.</p>
-      <svg id="recipe-aug" class="aug" viewBox="0 0 128 140" role="img" aria-label="Stacking recipe for the augmented triad, two major thirds"></svg>
-    </section>
+    <div class="panels uneven">
+      <section class="panel">
+        <h3>harmonic minor</h3>
+        <svg id="triads-harm" viewBox="0 0 580 240" role="img" aria-label="The seven diatonic triads of C harmonic minor on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
+      </section>
+      <section class="panel">
+        <p>Two major thirds stacked give a fourth triad quality: 4 and 4, an outer 8. The augmented triad sits on ♭3̂ in harmonic and melodic minor.</p>
+        <svg id="recipe-aug" class="aug" viewBox="0 0 128 140" role="img" aria-label="Stacking recipe for the augmented triad, two major thirds"></svg>
+      </section>
+    </div>
 
-    <section class="panel">
-      <h3>melodic minor ascending</h3>
-      <svg id="triads-mel" viewBox="0 0 580 240" role="img" aria-label="The seven diatonic triads of C melodic minor ascending on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
-    </section>
+    <div class="panels uneven">
+      <section class="panel">
+        <h3>melodic minor ascending</h3>
+        <svg id="triads-mel" viewBox="0 0 580 240" role="img" aria-label="The seven diatonic triads of C melodic minor ascending on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
+      </section>
+    </div>
   </section>
 
   <footer>
