@@ -219,8 +219,9 @@
   .chord-name {
     font-family: var(--font-body);
     font-size: 1.05rem;
-    margin: calc(var(--step) * 2) 0 calc(var(--step) * 0.5);
+    margin: 0 0 calc(var(--step) * 0.5);
   }
+  #builder-staff { margin-top: calc(var(--step) * 2); }
   .chord-line {
     font-family: var(--font-data);
     font-size: 0.85rem;
@@ -486,22 +487,19 @@
 
     <div class="panels uneven">
       <section class="panel">
-        <svg id="builder-staff" viewBox="0 0 320 210" role="img" aria-label="The selected chord written on a treble staff, with the stack measured in semitones"></svg>
-        <p class="chord-name" id="builder-name"></p>
-        <p class="chord-line" id="builder-line"></p>
+        <h3>triads</h3>
+        <svg id="rec-triads" viewBox="0 0 440 150" role="img" aria-label="The four triads as stacked thirds: choose one to build it on the staff"></svg>
+        <h3>seventh chords</h3>
+        <svg id="rec-sevenths" viewBox="0 0 760 175" role="img" aria-label="The seven seventh chords as stacked thirds: choose one to build it on the staff"></svg>
       </section>
       <section class="panel">
         <h3>root</h3>
         <div class="rootpick" id="rootpick"></div>
+        <svg id="builder-staff" viewBox="0 0 320 210" role="img" aria-label="The selected chord written on a treble staff, with the stack measured in semitones"></svg>
+        <p class="chord-name" id="builder-name"></p>
+        <p class="chord-line" id="builder-line"></p>
       </section>
     </div>
-
-    <section class="panel">
-      <h3>triads</h3>
-      <svg id="rec-triads" viewBox="0 0 440 150" role="img" aria-label="The four triads as stacked thirds: choose one to build it on the staff"></svg>
-      <h3>seventh chords</h3>
-      <svg id="rec-sevenths" viewBox="0 0 760 175" role="img" aria-label="The seven seventh chords as stacked thirds: choose one to build it on the staff"></svg>
-    </section>
   </section>
 
   <footer>
