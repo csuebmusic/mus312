@@ -150,6 +150,25 @@
   table.intervals tr.tritone .semis,
   table.intervals tr.tritone .name { color: var(--accent); }
 
+  .roman {
+    font-family: var(--font-body);
+    font-size: 16px;
+    fill: var(--ink);
+    text-anchor: middle;
+  }
+  .chordsym {
+    font-family: var(--font-data);
+    font-size: 14px;
+    fill: var(--muted);
+    text-anchor: middle;
+  }
+  .triad.lit .notehead { fill: var(--accent); }
+  .triad.lit .roman { fill: var(--accent); }
+  .triad.lit .chordsym { fill: var(--accent); }
+  .triad.lit .degree { fill: var(--accent); }
+  .triad.lit .caret { stroke: var(--accent); }
+  .panel.wide { margin-top: 0; }
+
   .callout {
     max-width: none;
     border-left: 3px solid var(--ink);
@@ -343,6 +362,17 @@
         </tbody>
       </table>
     </div>
+  </section>
+
+  <hr class="rule">
+
+  <section class="scale" id="sec-triads">
+    <h2>diatonic triads</h2>
+    <p class="full">Stacking two thirds on each degree of the major scale gives the seven diatonic triads. Their qualities come from where the semitones fall: major on 1̂, 4̂, and 5̂, minor on 2̂, 3̂, and 6̂, diminished on 7̂.</p>
+    <section class="panel wide">
+      <svg id="triads" viewBox="0 0 580 240" role="img" aria-label="The seven diatonic triads of C major on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
+    </section>
+    <p class="full">A roman numeral names the degree and the quality at once: upper case for major, lower case for minor, lower case with a ring for diminished. The chord symbol under it names the same chord from its root, with a capital letter for major, a lower-case letter and a dash for minor, and a ring for diminished.</p>
   </section>
 
   <footer>
@@ -778,6 +808,67 @@
     ],
     ghost: [0, 2, 3, 5, 7, 8, 10]
   });
+
+  /* ---------- diatonic triads ---------- */
+
+  (function triads() {
+    var svg = document.getElementById("triads");
+    var top = ROW_TOP;
+    var ROMAN = ["I", "ii", "iii", "IV", "V", "vi", "vii\u00B0"];
+    var SYMBOL = ["C", "d-", "e-", "F", "G", "a-", "b\u00B0"];
+    var TRIAD_NAMES = [
+      "C major", "D minor", "E minor", "F major",
+      "G major", "A minor", "B diminished"
+    ];
+    var LETTERS = ["C", "D", "E", "F", "G", "A", "B"];
+
+    for (var L = 0; L < 5; L++) {
+      svg.appendChild(el("line", {
+        x1: 10, y1: top + 12 * L, x2: 568, y2: top + 12 * L, "class": "staff-line"
+      }));
+    }
+    svg.appendChild(el("text", { x: 18, y: noteY(2, 0), "class": "clef" }, "\uE050"));
+
+    var x0 = 104, gap = 64;
+    for (var i = 0; i < 7; i++) {
+      var x = x0 + gap * i;
+      var g = el("g", {
+        "class": "triad", tabindex: "0", role: "img",
+        "aria-label": "degree " + (i + 1) + ", " + ROMAN[i] + ", " + TRIAD_NAMES[i] +
+                      ", " + LETTERS[i % 7] + " " + LETTERS[(i + 2) % 7] + " " + LETTERS[(i + 4) % 7]
+      });
+
+      [0, 2, 4].forEach(function (k) {
+        var step = i + k - 2;
+        var y = noteY(step, 0);
+        if (step <= -2) {
+          for (var v = -2; v >= step; v -= 2) {
+            g.appendChild(el("line", {
+              x1: x - 7, y1: noteY(v, 0), x2: x + 27, y2: noteY(v, 0), "class": "ledger"
+            }));
+          }
+        }
+        g.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
+      });
+
+      g.appendChild(el("text", { x: x + 10, y: top - 34, "class": "degree" }, String(i + 1)));
+      g.appendChild(el("path", {
+        d: "M" + (x + 5) + " " + (top - 45) + " L" + (x + 10) + " " + (top - 49) +
+           " L" + (x + 15) + " " + (top - 45), "class": "caret"
+      }));
+      g.appendChild(el("text", { x: x + 10, y: top + 108, "class": "roman" }, ROMAN[i]));
+      g.appendChild(el("text", { x: x + 10, y: top + 134, "class": "chordsym" }, SYMBOL[i]));
+      g.appendChild(el("rect", {
+        x: x - 12, y: top - 52, width: 44, height: 196, "class": "note-hit"
+      }));
+
+      svg.appendChild(g);
+      g.addEventListener("mouseenter", function () { this.classList.add("lit"); });
+      g.addEventListener("mouseleave", function () { this.classList.remove("lit"); });
+      g.addEventListener("focus", function () { this.classList.add("lit"); });
+      g.addEventListener("blur", function () { this.classList.remove("lit"); });
+    }
+  })();
 
 })();
 </script>
