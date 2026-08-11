@@ -219,9 +219,9 @@
   .chord-name {
     font-family: var(--font-body);
     font-size: 1.05rem;
-    margin: 0 0 calc(var(--step) * 0.5);
+    margin: calc(var(--step) * 2.5) 0 0;
   }
-  #builder-staff { margin-top: calc(var(--step) * 2); }
+  #builder-staff { margin-bottom: calc(var(--step) * 1.5); }
   .chord-facts {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -505,8 +505,8 @@
       <section class="panel">
         <h3>root</h3>
         <div class="rootpick" id="rootpick"></div>
-        <svg id="builder-staff" viewBox="0 46 260 120" role="img" aria-label="The selected chord written on a treble staff, with the stack measured in semitones"></svg>
         <p class="chord-name" id="builder-name"></p>
+        <svg id="builder-staff" viewBox="0 46 260 120" role="img" aria-label="The selected chord written on a treble staff, with the stack measured in semitones"></svg>
         <dl class="chord-facts" id="builder-facts"></dl>
       </section>
     </div>
