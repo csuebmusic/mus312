@@ -563,6 +563,19 @@
       <p>* The full figure for a root-position triad is 3 over 5, and it is almost always left off the page. An unfigured bass note means 3 and 5, which is why the figures above are in parenthesis.</p>
     </div>
 
+    <p class="full">Now the same bass line with a different chord over the F: the 6 above it is D, and the sounding chord is D minor with its third in the bass.</p>
+
+    <div class="panels">
+      <section class="panel">
+        <h3>every interval figured</h3>
+        <svg id="fb-ii6-full" viewBox="0 0 450 300" role="img" aria-label="The bass line realized with a first-inversion chord on F, every interval figured beneath the bass"></svg>
+      </section>
+      <section class="panel">
+        <h3>as it is written</h3>
+        <svg id="fb-ii6-real" viewBox="0 0 450 300" role="img" aria-label="The same realization with only the six written beneath the F"></svg>
+      </section>
+    </div>
+
   </section>
 
   <footer>
@@ -1408,20 +1421,23 @@
   /* ---------- figured bass ---------- */
 
   (function figuredBass() {
-    var LETTERS = "CDEFGAB";
-    function dia(n) { return parseInt(n.slice(1), 10) * 7 + LETTERS.indexOf(n.charAt(0)); }
+    var NOTE_LETTERS = "CDEFGAB";
+    function dia(n) {
+      return parseInt(n.slice(1), 10) * 7 + NOTE_LETTERS.indexOf(n.charAt(0));
+    }
     var TREBLE_BOTTOM = dia("E4"), BASS_BOTTOM = dia("G2");
 
     var XS = [130, 216, 302, 388];
-    var BASS_LINE = ["C3", "F3", "G3", "C3"];
-    var UPPER = [
-      ["E4", "G4", "C5"],
-      ["F4", "A4", "C5"],
-      ["D4", "G4", "B4"],
-      ["E4", "G4", "C5"]
-    ];
     var DEGREES = [1, 4, 5, 1];
     var SOLFEGE = ["do", "fa", "sol", "do"];
+    var BASS_LINE = ["C3", "F3", "G3", "C3"];
+
+    var UPPER_ROOT = [
+      ["E4", "G4", "C5"], ["F4", "A4", "C5"], ["D4", "G4", "B4"], ["E4", "G4", "C5"]
+    ];
+    var UPPER_II6 = [
+      ["E4", "G4", "C5"], ["D4", "A4", "D5"], ["D4", "G4", "B4"], ["E4", "G4", "C5"]
+    ];
 
     function staffLines(svg, topY) {
       for (var L = 0; L < 5; L++) {
@@ -1430,8 +1446,6 @@
         }));
       }
     }
-
-    function place(note, bottomY, bottom) { return bottomY - 6 * (dia(note) - bottom); }
 
     function drawNote(svg, x, note, bottomY, bottom) {
       var step = dia(note) - bottom;
@@ -1450,51 +1464,58 @@
         }
       }
       svg.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
-      return y;
     }
 
-    function labels(svg, degY, solY) {
+    /* the bass alone, with degrees and solfege above */
+    (function bassOnly() {
+      var svg = document.getElementById("fb-bass");
+      var top = 74, bottom = top + 48;
+      staffLines(svg, top);
+      svg.appendChild(el("text", { x: 18, y: bottom - 36, "class": "clef" }, "\uE062"));
       XS.forEach(function (x, i) {
-        svg.appendChild(el("text", { x: x + 10, y: solY, "class": "solfege" }, SOLFEGE[i]));
-        svg.appendChild(el("text", { x: x + 10, y: degY, "class": "degree" }, String(DEGREES[i])));
+        svg.appendChild(el("text", { x: x + 10, y: 26, "class": "solfege" }, SOLFEGE[i]));
+        svg.appendChild(el("text", { x: x + 10, y: 52, "class": "degree" }, String(DEGREES[i])));
         svg.appendChild(el("path", {
-          d: "M" + (x + 5) + " " + (degY - 11) + " L" + (x + 10) + " " + (degY - 15) +
-             " L" + (x + 15) + " " + (degY - 11), "class": "caret"
+          d: "M" + (x + 5) + " 41 L" + (x + 10) + " 37 L" + (x + 15) + " 41", "class": "caret"
         }));
+        drawNote(svg, x, BASS_LINE[i], bottom, BASS_BOTTOM);
+      });
+    })();
+
+    /* a realization on a grand staff, with figures under the bass */
+    function system(id, upper, figures, star) {
+      var svg = document.getElementById(id);
+      var trebleTop = 74, trebleBottom = trebleTop + 48;
+      var bassTop = 186, bassBottom = bassTop + 48;
+
+      staffLines(svg, trebleTop);
+      staffLines(svg, bassTop);
+      svg.appendChild(el("text", { x: 18, y: trebleBottom - 12, "class": "clef" }, "\uE050"));
+      svg.appendChild(el("text", { x: 18, y: bassBottom - 36, "class": "clef" }, "\uE062"));
+      svg.appendChild(el("line", {
+        x1: 10, y1: trebleTop, x2: 10, y2: bassBottom, "class": "staff-line"
+      }));
+
+      XS.forEach(function (x, i) {
+        upper[i].forEach(function (n) { drawNote(svg, x, n, trebleBottom, TREBLE_BOTTOM); });
+        drawNote(svg, x, BASS_LINE[i], bassBottom, BASS_BOTTOM);
+        figures[i].forEach(function (f, k) {
+          svg.appendChild(el("text", {
+            x: x + 10, y: bassBottom + 26 + 20 * k, "class": "figure"
+          }, f));
+        });
+        if (star && i === 0) {
+          svg.appendChild(el("text", {
+            x: x + 34, y: bassBottom + 26, "class": "figure"
+          }, "*"));
+        }
       });
     }
 
-    /* left: the bass alone */
-    var a = document.getElementById("fb-bass");
-    var aTop = 74, aBottom = aTop + 48;
-    staffLines(a, aTop);
-    a.appendChild(el("text", { x: 18, y: aBottom - 6 * 6, "class": "clef" }, "\uE062"));
-    labels(a, 52, 26);
-    XS.forEach(function (x, i) { drawNote(a, x, BASS_LINE[i], aBottom, BASS_BOTTOM); });
-
-    /* right: the same bass, figured and realized */
-    var b = document.getElementById("fb-full");
-    var trebleTop = 74, trebleBottom = trebleTop + 48;
-    var bassTop = 186, bassBottom = bassTop + 48;
-    staffLines(b, trebleTop);
-    staffLines(b, bassTop);
-    b.appendChild(el("text", { x: 18, y: trebleBottom - 6 * 2, "class": "clef" }, "\uE050"));
-    b.appendChild(el("text", { x: 18, y: bassBottom - 6 * 6, "class": "clef" }, "\uE062"));
-    b.appendChild(el("line", {
-      x1: 10, y1: trebleTop, x2: 10, y2: bassBottom, "class": "staff-line"
-    }));
-
-    XS.forEach(function (x, i) {
-      UPPER[i].forEach(function (n) { drawNote(b, x, n, trebleBottom, TREBLE_BOTTOM); });
-      drawNote(b, x, BASS_LINE[i], bassBottom, BASS_BOTTOM);
-      b.appendChild(el("text", { x: x + 10, y: bassBottom + 26, "class": "figure" }, "(3)"));
-      b.appendChild(el("text", { x: x + 10, y: bassBottom + 46, "class": "figure" }, "(5)"));
-      if (i === 0) {
-        b.appendChild(el("text", {
-          x: x + 34, y: bassBottom + 26, "class": "figure"
-        }, "*"));
-      }
-    });
+    var FULL = ["(3)", "(5)"];
+    system("fb-full", UPPER_ROOT, [FULL, FULL, FULL, FULL], true);
+    system("fb-ii6-full", UPPER_II6, [FULL, ["(3)", "6"], FULL, FULL], false);
+    system("fb-ii6-real", UPPER_II6, [[], ["6"], [], []], false);
   })();
 
 })();
