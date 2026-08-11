@@ -109,20 +109,6 @@
     fill: var(--accent);
     text-anchor: middle;
   }
-  .hint {
-    font-family: var(--font-data);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    fill: var(--muted);
-    text-anchor: middle;
-  }
-
-  .legend {
-    font-family: var(--font-data);
-    font-size: 0.78rem;
-    color: var(--muted);
-    margin: calc(var(--step) * 1.5) 0 0;
-  }
   .controls { align-items: baseline; gap: calc(var(--step) * 2.5); }
 </style>
 </head>
@@ -132,24 +118,24 @@
   <p class="eyebrow">mus 312 &middot; harmony review &middot; part one</p>
   <h1>counting in semitones</h1>
 
-  <p class="lede full">The same pitches sit in both spaces below. On the staff they carry register and spelling. On the clock they carry distance. Scale degrees run above the staff, pitch classes around the clock.</p>
+  <p class="lede full">A pitch on the staff carries register and spelling. The same pitch on the clock carries distance. Scale degrees run above the staff, pitch classes around the clock.</p>
 
   <p class="howto">Hover a pitch in either space to find it in the other. Click any pitch on the clock to make it scale degree 1.</p>
 
   <section class="scale" id="sec-major">
-    <h2>the major scale</h2>
+    <h2>major</h2>
     <div class="panels">
       <section class="panel">
         <h3>musical space</h3>
         <svg class="staff" viewBox="0 0 580 200" role="img" aria-label="Major scale on a treble staff with key signature, scale degrees, and the step pattern marked beneath"></svg>
-        <p>The clef fixes identity and register: it tells you that this line is E and that space is F. It says nothing about the distance between them. That comes from the scale. This one is the major scale, spaced 2 2 1 2 2 2 1 in semitones, the pattern braced under the staff. The semitones fall between 3̂ and 4̂ and between 7̂ and 8̂.</p>
+        <p>The clef fixes identity and register: this line is E, that space is F. The distance between them comes from the scale. The major scale is spaced 2 2 1 2 2 2 1 in semitones, the pattern braced under the staff, with the semitones between 3̂ and 4̂ and between 7̂ and 8̂.</p>
         <p>A scale degree is the position a pitch holds in that pattern, counted from the tonic: 1̂ is the tonic, 2̂ the pitch a step above it, on to 7̂, with the octave returning to 1̂. The caret marks the number as a degree rather than a quantity. 3̂ is E in C major and G♭ in E♭ major.</p>
       </section>
       <section class="panel">
         <h3>pitch-class space</h3>
         <svg class="clock" viewBox="0 0 440 440" role="img" aria-label="Clock face of twelve pitch classes with the major scale marked, a semitone arrow from four to five, and a whole-tone arrow from zero to two"></svg>
         <p>A pitch class is a pitch with register and spelling stripped away: every C in every octave is pitch class 0, and C♯ and D♭ are both pitch class 1. Twelve pitch classes, numbered 0 through 11 from C, fill the octave.</p>
-        <p>What you count here is distance. Each position is one semitone from its neighbor. C to D is 0 to 2: one, two, a whole tone. E to F is 4 to 5: one, a semitone.</p>
+        <p>Each position is one semitone from its neighbor. C to D is 0 to 2: one, two, a whole tone. E to F is 4 to 5: one, a semitone.</p>
       </section>
     </div>
     <div class="controls">
@@ -169,7 +155,7 @@
       </section>
       <section class="panel">
         <svg class="clock" viewBox="0 0 440 440" role="img" aria-label="Clock face of twelve pitch classes with the natural minor scale marked"></svg>
-        <p>The shape is the major shape read from a different starting position. Set the tonic to A here and to C above: the two figures cover the same seven pitch classes, and the ring moves.</p>
+        <p>The shape is the major shape read from a different starting position. Set the tonic to A here and to C in the major scale: the two figures cover the same seven pitch classes, and the ring moves.</p>
       </section>
     </div>
     <div class="controls">
@@ -209,8 +195,7 @@
       </section>
       <section class="panel">
         <svg class="clock" viewBox="0 0 440 440" role="img" aria-label="Clock face of twelve pitch classes with the ascending melodic minor scale filled and the descending form outlined"></svg>
-        <p>Both forms sit on one clock. The filled shape with solid dots is ascending, the dashed outline with hollow dots descending. Five pitch classes are common to both. The shapes part at 6̂ and 7̂.</p>
-        <p class="legend">solid: ascending &middot; dashed: descending</p>
+        <p>Both forms sit on one clock, the filled shape with solid dots ascending and the dashed outline with hollow dots descending. Five pitch classes are common to both. The shapes part at 6̂ and 7̂.</p>
       </section>
     </div>
     <div class="controls">
@@ -221,7 +206,7 @@
 
   <hr class="rule">
 
-  <p class="full">Reading a distance on the staff means counting letter names and then correcting for where the semitones fall. Reading it on the clock means subtracting. Each of these four scales is one shape: the key signature changes with the tonic, the spelling changes with the key, and the pattern holds in all twelve.</p>
+  <p class="full">Reading a distance on the staff means counting letter names and correcting for where the semitones fall. Reading it on the clock means subtracting.</p>
 
   <footer>
     <p>Notation set in Bravura, Steinberg Media Technologies. Text set in IBM Plex. Both under the SIL Open Font License.</p>
@@ -592,9 +577,8 @@
     }));
     clock.appendChild(layer);
 
-    var hub = el("text", { x: CX, y: CY - 4, "class": "hub" });
+    var hub = el("text", { x: CX, y: CY, "class": "hub", dy: "0.35em" });
     clock.appendChild(hub);
-    clock.appendChild(el("text", { x: CX, y: CY + 18, "class": "hint" }, "CLICK A PITCH"));
 
     slots.forEach(function (s, i) { bind(s, i); });
 
