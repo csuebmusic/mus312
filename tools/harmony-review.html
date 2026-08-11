@@ -10,12 +10,13 @@
 
   .staff-line, .ledger { stroke: var(--ink); stroke-width: 1; }
   .clef, .notehead, .keysig { font-family: var(--font-music); fill: var(--ink); font-size: 48px; }
-  .pc-tag {
+  .degree {
     font-family: var(--font-data);
-    font-size: 12px;
+    font-size: 13px;
     fill: var(--muted);
     text-anchor: middle;
   }
+  .caret { fill: none; stroke: var(--muted); stroke-width: 1.1; }
   .step-brace { stroke: var(--ink); stroke-width: 1; fill: none; }
   .step-num {
     font-family: var(--font-data);
@@ -28,11 +29,13 @@
 
   .tonic-ring { fill: none; stroke: var(--accent); stroke-width: 1.5; }
   .tonic-mark .notehead { fill: var(--accent); }
-  .tonic-mark .pc-tag { fill: var(--accent); }
+  .tonic-mark .degree { fill: var(--accent); }
+  .tonic-mark .caret { stroke: var(--accent); }
 
   .note-hit, .slot-hit { fill: transparent; cursor: pointer; }
   .note.lit .notehead { fill: var(--accent); }
-  .note.lit .pc-tag { fill: var(--accent); }
+  .note.lit .degree { fill: var(--accent); }
+  .note.lit .caret { stroke: var(--accent); }
 
   .rim { fill: none; stroke: var(--ink); stroke-width: 1; }
   .spoke { stroke: var(--rule); stroke-width: 1; }
@@ -94,7 +97,7 @@
   <p class="eyebrow">mus 312 &middot; harmony review &middot; part one</p>
   <h1>counting in semitones</h1>
 
-  <p class="lede full">The same seven pitches sit in both spaces below. On the staff they carry register and spelling. On the clock they carry distance. Hover a pitch in either space to find it in the other, and click any pitch on the clock to make it scale degree 1.</p>
+  <p class="lede full">The same seven pitches sit in both spaces below. On the staff they carry register and spelling. On the clock they carry distance. Scale degrees run above the staff and pitch classes around the clock. Hover a pitch in either space to find it in the other, and click any pitch on the clock to make it scale degree 1.</p>
 
   <div class="panels">
 
@@ -232,7 +235,7 @@
       var g = el("g", {
         "class": "note" + (isTonic ? " tonic-mark" : ""),
         tabindex: "0", role: "img",
-        "aria-label": "degree " + (i + 1) + ", " + LETTER[li] + acc + ", pitch class " + pc
+        "aria-label": "degree " + (i === 7 ? 1 : i + 1) + ", " + LETTER[li] + acc + ", pitch class " + pc
       });
 
       if (step <= -2) {
@@ -249,7 +252,10 @@
       if (isTonic) {
         g.appendChild(el("circle", { cx: x + 10, cy: y, r: 17, "class": "tonic-ring" }));
       }
-      g.appendChild(el("text", { x: x + 10, y: 30, "class": "pc-tag" }, String(pc)));
+      g.appendChild(el("text", { x: x + 10, y: 32, "class": "degree" }, String(i === 7 ? 1 : i + 1)));
+      g.appendChild(el("path", {
+        d: "M" + (x + 5) + " 21 L" + (x + 10) + " 17 L" + (x + 15) + " 21", "class": "caret"
+      }));
       g.appendChild(el("rect", { x: x - 9, y: y - 17, width: 38, height: 34, "class": "note-hit" }));
       staff.appendChild(g);
       staffNotes.push({ g: g, pc: pc });
