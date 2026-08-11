@@ -47,13 +47,13 @@ Sonata-form terminology follows Hepokoski and Darcy. Elsewhere terminology follo
 
 | wk | meetings | Caplin | supplement |
 |---|---|---|---|
-| 10 | Mon Oct 19<br>Wed Oct 21 | Ch. 9, sonata form overview (261–285) and Ch. 10, main theme (286–307) | H&D 3–13, 14–22, 65–92 |
-| 11 | Mon Oct 26<br>Wed Oct 28 | Ch. 11, transition (308–352) | H&D 23–50 (medial caesura), 93–116 |
-| 12 | Mon Nov 2<br>Wed Nov 4 | Ch. 12, subordinate theme (353–419) | H&D 51–64, 117–149, 180–194, 306–317; Laitz 163–182, modal mixture |
-| 13 | Mon Nov 9 | Ch. 13, development (420–474) | H&D 195–230; Laitz 183–196, Neapolitan and augmented sixth |
-| 14 | Mon Nov 16<br>Wed Nov 18 | Ch. 13 continued, and Ch. 14, recapitulation (475–518) | H&D 231–254 |
+| 10 | Mon Oct 19<br>Wed Oct 21 | Ch. 9, sonata form overview (the Type 3 sonata) (261–285) and Ch. 10, main theme (primary theme, P) (286–307) | H&D 3–13, 14–22, 65–92 |
+| 11 | Mon Oct 26<br>Wed Oct 28 | Ch. 11, transition (transition, TR; medial caesura, MC) (308–352) | H&D 23–50 (medial caesura), 93–116 |
+| 12 | Mon Nov 2<br>Wed Nov 4 | Ch. 12, subordinate theme (secondary theme, S; essential expositional closure, EEC; closing zone, C) (353–419) | H&D 51–64, 117–149, 180–194, 306–317; Laitz 163–182, modal mixture |
+| 13 | Mon Nov 9 | Ch. 13, development (developmental space) (420–474) | H&D 195–230; Laitz 183–196, Neapolitan and augmented sixth |
+| 14 | Mon Nov 16<br>Wed Nov 18 | Ch. 13 continued, and Ch. 14, recapitulation (recapitulatory rotation; essential structural closure, ESC) (475–518) | H&D 231–254 |
 | 15 | — | Fall Recess | |
-| 16 | Mon Nov 30<br>Wed Dec 2 | Ch. 15, coda (519–550) and Ch. 16, slow introduction (551–564) | H&D 281–305 |
+| 16 | Mon Nov 30<br>Wed Dec 2 | Ch. 15, coda and Ch. 16, slow introduction (parageneric spaces) (519–550, 551–564) | H&D 281–305 |
 | — | Dec 7–12 | final exam slot, time to be confirmed | |
 
 ## omitted
