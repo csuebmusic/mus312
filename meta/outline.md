@@ -12,6 +12,8 @@ Single-meeting weeks: week 1 (Wednesday start), week 4 (Labor Day, September 7),
 
 Other dates: census September 15, last day to withdraw November 6, grades due December 15 at 8:00 PM.
 
+No class meeting is given to an exam. All twenty-seven meetings carry content.
+
 ## texts
 
 Caplin, *Analyzing Classical Form*, chapters 1 through 16 (Parts I and II). Main text, one chapter per week.
@@ -33,7 +35,7 @@ Sonata-form terminology follows Hepokoski and Darcy. Elsewhere terminology follo
 | 5 | Sep 14, 16 | 5, phrase and cadential deviations, framing functions (123–165) | |
 | 6 | Sep 21, 23 | 6, compound themes (166–194) | |
 | 7 | Sep 28, 30 | 7, the small ternary (195–237) | Laitz 197–207, ternary form |
-| 8 | Oct 5, 7 | 8, the small binary (238–260), Monday. exam 1, Wednesday | Laitz 148–162, modulation and binary form |
+| 8 | Oct 5, 7 | 8, the small binary (238–260). Wednesday: Part I synthesis, analysis at the board | Laitz 148–162, modulation and binary form |
 
 ## part ii: sonata form
 
@@ -62,18 +64,16 @@ Hepokoski and Darcy chapters 17, 19 through 22: Type 2 sonata, Type 5 sonata and
 
 ## arithmetic
 
-Sixteen Caplin chapters, fifteen week-slots with meetings. Chapters 9 and 10 are paired in week 9 and chapters 15 and 16 are paired in week 14. Everything else is one chapter per week.
+Seventeen content units (Caplin 1 through 16, plus week 16) into fifteen week-slots with meetings. Chapters 9 and 10 are paired in week 9; chapters 15 and 16 are paired in week 14. Everything else is one chapter per week.
 
 Week 13 has one meeting for chapter 14.
 
-Week 11 is the heaviest reading load in the term: Caplin's longest chapter, three Hepokoski and Darcy chapters, and Laitz on mixture.
+Week 11 is the heaviest reading load in the term: Caplin's longest chapter, three Hepokoski and Darcy chapters, and Laitz on mixture. Chapter 12 can begin on the Wednesday of week 10 if the transition material finishes early.
 
 ## open
 
 - Final exam slot: confirm the university's assigned time for a MW 11:00 class.
-- Exam 1 is set for Wednesday, October 7, covering chapters 1 through 8. Chapter 8 then gets a single meeting.
-- No second in-class exam. Week 16 carries variation, rondo, and slow-movement forms, which the catalog description and SLO 1 name and which Caplin Part III would have covered. A second exam takes that week.
+- Assessment is entirely coursework: analyses, problem sets, and the final project. Components and weights to be set.
 - SLO 4 performance component: short recurring play-and-defend segments, or a single graded presentation in the final slot.
-- Assessment components and weights.
 - Repertoire list, work by work, per week.
 - Nineteenth-century repertoire has no week of its own. Options: distribute examples through weeks 10 through 14, or carry it in the final project.
