@@ -28,32 +28,32 @@ Sonata-form terminology follows Hepokoski and Darcy. Elsewhere terminology follo
 
 | wk | meetings | Caplin | supplement |
 |---|---|---|---|
-| 1 | Wed Aug 19 | 1, review of harmony (1–31) | Laitz 126–136, sequences |
-| 2 | Mon Aug 24<br>Wed Aug 26 | 1, review of harmony, continued | Laitz 137–147, applied chords and tonicization |
+| 1 | Wed Aug 19 | Ch. 1, review of harmony (1–31) | Laitz 126–136, sequences |
+| 2 | Mon Aug 24<br>Wed Aug 26 | Ch. 1, review of harmony, continued | Laitz 137–147, applied chords and tonicization |
 
 ## part i: conventional theme types
 
 | wk | meetings | Caplin | supplement |
 |---|---|---|---|
-| 3 | Mon Aug 31<br>Wed Sep 2 | 2, the sentence (33–72) | Laitz 114–125, period, double period, sentence |
-| 4 | Wed Sep 9 | 3, the period (73–98) | |
-| 5 | Mon Sep 14<br>Wed Sep 16 | 4, hybrid themes (99–122) | |
-| 6 | Mon Sep 21<br>Wed Sep 23 | 5, phrase and cadential deviations, framing functions (123–165) | |
-| 7 | Mon Sep 28<br>Wed Sep 30 | 6, compound themes (166–194) | |
-| 8 | Mon Oct 5<br>Wed Oct 7 | 7, the small ternary (195–237) | Laitz 197–207, ternary form |
-| 9 | Mon Oct 12<br>Wed Oct 14 | 8, the small binary (238–260) | Laitz 148–162, modulation and binary form |
+| 3 | Mon Aug 31<br>Wed Sep 2 | Ch. 2, the sentence (33–72) | Laitz 114–125, period, double period, sentence |
+| 4 | Wed Sep 9 | Ch. 3, the period (73–98) | |
+| 5 | Mon Sep 14<br>Wed Sep 16 | Ch. 4, hybrid themes (99–122) | |
+| 6 | Mon Sep 21<br>Wed Sep 23 | Ch. 5, phrase and cadential deviations, framing functions (123–165) | |
+| 7 | Mon Sep 28<br>Wed Sep 30 | Ch. 6, compound themes (166–194) | |
+| 8 | Mon Oct 5<br>Wed Oct 7 | Ch. 7, the small ternary (195–237) | Laitz 197–207, ternary form |
+| 9 | Mon Oct 12<br>Wed Oct 14 | Ch. 8, the small binary (238–260) | Laitz 148–162, modulation and binary form |
 
 ## part ii: sonata form
 
 | wk | meetings | Caplin | supplement |
 |---|---|---|---|
-| 10 | Mon Oct 19<br>Wed Oct 21 | 9, sonata form overview (261–285) and 10, main theme (286–307) | H&D 3–13, 14–22, 65–92 |
-| 11 | Mon Oct 26<br>Wed Oct 28 | 11, transition (308–352) | H&D 23–50 (medial caesura), 93–116 |
-| 12 | Mon Nov 2<br>Wed Nov 4 | 12, subordinate theme (353–419) | H&D 51–64, 117–149, 180–194, 306–317; Laitz 163–182, modal mixture |
-| 13 | Mon Nov 9 | 13, development (420–474) | H&D 195–230; Laitz 183–196, Neapolitan and augmented sixth |
-| 14 | Mon Nov 16<br>Wed Nov 18 | 13 continued, and 14, recapitulation (475–518) | H&D 231–254 |
+| 10 | Mon Oct 19<br>Wed Oct 21 | Ch. 9, sonata form overview (261–285) and Ch. 10, main theme (286–307) | H&D 3–13, 14–22, 65–92 |
+| 11 | Mon Oct 26<br>Wed Oct 28 | Ch. 11, transition (308–352) | H&D 23–50 (medial caesura), 93–116 |
+| 12 | Mon Nov 2<br>Wed Nov 4 | Ch. 12, subordinate theme (353–419) | H&D 51–64, 117–149, 180–194, 306–317; Laitz 163–182, modal mixture |
+| 13 | Mon Nov 9 | Ch. 13, development (420–474) | H&D 195–230; Laitz 183–196, Neapolitan and augmented sixth |
+| 14 | Mon Nov 16<br>Wed Nov 18 | Ch. 13 continued, and Ch. 14, recapitulation (475–518) | H&D 231–254 |
 | 15 | — | Fall Recess | |
-| 16 | Mon Nov 30<br>Wed Dec 2 | 15, coda (519–550) and 16, slow introduction (551–564) | H&D 281–305 |
+| 16 | Mon Nov 30<br>Wed Dec 2 | Ch. 15, coda (519–550) and Ch. 16, slow introduction (551–564) | H&D 281–305 |
 | — | Dec 7–12 | final exam slot, time to be confirmed | |
 
 ## omitted
