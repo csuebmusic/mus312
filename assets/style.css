@@ -41,9 +41,9 @@
   --ink: #101010;
   --rule: #cfcfcf;
   --muted: #6a6a6a;
-  --accent: #1f35d6;
-  --accent-wash: rgba(31, 53, 214, 0.10);
-  --accent-edge: rgba(31, 53, 214, 0.35);
+  --accent: #e2560d;
+  --accent-wash: rgba(226, 86, 13, 0.10);
+  --accent-edge: rgba(226, 86, 13, 0.38);
 
   --font-body: "Plex Sans", system-ui, sans-serif;
   --font-data: "Plex Mono", ui-monospace, monospace;
@@ -81,6 +81,8 @@ h2 { font-size: 1.05rem; }
 h3 { font-size: 0.95rem; }
 
 p { margin: 0 0 calc(var(--step) * 2); max-width: var(--measure); }
+
+.full { max-width: none; }
 
 a { color: var(--accent); text-underline-offset: 2px; }
 

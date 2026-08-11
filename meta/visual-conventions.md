@@ -2,7 +2,7 @@
 
 ## palette
 
-White ground, black line, one accent. The accent marks what is live: highlights, arrows, active controls, hover state.
+White ground, black line, one accent. The accent marks what is live: highlights, hover state, active controls, and the element under discussion. Fixed reference marks stay in ink.
 
 | variable | value | use |
 |---|---|---|
@@ -10,9 +10,9 @@ White ground, black line, one accent. The accent marks what is live: highlights,
 | `--ink` | `#101010` | text, staff lines, primary strokes |
 | `--rule` | `#cfcfcf` | secondary strokes, dividers |
 | `--muted` | `#6a6a6a` | labels, captions, readouts |
-| `--accent` | `#1f35d6` | highlight, arrows, active state |
-| `--accent-wash` | `rgba(31, 53, 214, 0.10)` | fills under the accent |
-| `--accent-edge` | `rgba(31, 53, 214, 0.35)` | outlines on washed fills |
+| `--accent` | `#e2560d` | highlight, active state, the thing under discussion |
+| `--accent-wash` | `rgba(226, 86, 13, 0.10)` | fills under the accent |
+| `--accent-edge` | `rgba(226, 86, 13, 0.38)` | outlines on washed fills |
 
 Colors are addressed through these variables. Component CSS carries no hex values.
 
@@ -32,9 +32,11 @@ Headings are lowercase and set in the body face at 600.
 
 Bravura is a SMuFL font: one em equals four staff spaces. A staff with 12px spaces sets Bravura at 48px, and glyph origins land where the SMuFL specification puts them, so a notehead's origin is its left edge at the vertical center and a G clef's origin sits on the G line.
 
-Codepoints in use: `U+E050` G clef, `U+E0A2` whole notehead.
+Codepoints in use: `U+E050` G clef, `U+E0A2` whole notehead, `U+E260` flat, `U+E262` sharp.
 
-Staff geometry: spaces of 12px, bottom line E4 at y = 88, pitch positions at 6px per scale step.
+Key signatures are drawn from the accidental orders (F C G D A E B, B E A D G C F) at fixed staff positions, 13px apart, starting at x = 66. Notes start at x = 74 + 13 per accidental.
+
+Staff geometry: spaces of 12px, bottom line E4 at y = 118, pitch positions at 6px per scale step. Ledger lines are drawn at even step positions beyond the staff.
 
 ## structure
 
@@ -49,5 +51,7 @@ Interactive tools live in `tools/`. Each is one file.
 Every control is a real `button` with `aria-pressed` where it toggles. Hit targets are transparent shapes over the drawing rather than the drawn marks themselves.
 
 Focus is visible: a 2px accent outline at 2px offset.
+
+Prose above and below a panel pair takes `.full`. Prose inside a panel keeps the default measure.
 
 Motion is a single transform or opacity transition, 300ms to 800ms, on a `cubic-bezier(0.4, 0, 0.2, 1)` curve. `prefers-reduced-motion: reduce` collapses all of it.
