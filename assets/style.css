@@ -95,6 +95,18 @@ a { color: var(--accent); text-underline-offset: 2px; }
   margin: 0 0 calc(var(--step) * 1.5);
 }
 
+.howto {
+  max-width: none;
+  font-family: var(--font-data);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--accent-wash);
+  border-left: 3px solid var(--accent);
+  padding: calc(var(--step) * 1.5) calc(var(--step) * 2);
+  margin: 0 0 calc(var(--step) * 4);
+}
+
 .rule {
   border: 0;
   border-top: var(--line) solid var(--ink);
