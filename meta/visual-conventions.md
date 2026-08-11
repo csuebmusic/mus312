@@ -1,0 +1,53 @@
+# mus 312 visual conventions
+
+## palette
+
+White ground, black line, one accent. The accent marks what is live: highlights, arrows, active controls, hover state.
+
+| variable | value | use |
+|---|---|---|
+| `--paper` | `#ffffff` | background |
+| `--ink` | `#101010` | text, staff lines, primary strokes |
+| `--rule` | `#cfcfcf` | secondary strokes, dividers |
+| `--muted` | `#6a6a6a` | labels, captions, readouts |
+| `--accent` | `#1f35d6` | highlight, arrows, active state |
+| `--accent-wash` | `rgba(31, 53, 214, 0.10)` | fills under the accent |
+| `--accent-edge` | `rgba(31, 53, 214, 0.35)` | outlines on washed fills |
+
+Colors are addressed through these variables. Component CSS carries no hex values.
+
+## type
+
+| variable | family | use |
+|---|---|---|
+| `--font-body` | IBM Plex Sans, 400 and 600 | prose, headings |
+| `--font-data` | IBM Plex Mono, 400 and 500 | numbers, labels, controls, eyebrows |
+| `--font-music` | Bravura | notation glyphs |
+
+All three are self-hosted woff2 in `assets/fonts/`, under the SIL Open Font License. License files sit beside them. Pages that use notation credit Bravura and Plex in the footer.
+
+Headings are lowercase and set in the body face at 600.
+
+## notation
+
+Bravura is a SMuFL font: one em equals four staff spaces. A staff with 12px spaces sets Bravura at 48px, and glyph origins land where the SMuFL specification puts them, so a notehead's origin is its left edge at the vertical center and a G clef's origin sits on the G line.
+
+Codepoints in use: `U+E050` G clef, `U+E0A2` whole notehead.
+
+Staff geometry: spaces of 12px, bottom line E4 at y = 88, pitch positions at 6px per scale step.
+
+## structure
+
+Student-facing pages are hand-authored HTML linking `assets/style.css` with a `?v=N` query. Bump N whenever the stylesheet changes.
+
+Pages are self-contained: no build step, no runtime dependency, no external request. SVG is written inline so the variables resolve. Page-specific CSS sits in a `<style>` block in the page and uses the variables above.
+
+Interactive tools live in `tools/`. Each is one file.
+
+## interaction
+
+Every control is a real `button` with `aria-pressed` where it toggles. Hit targets are transparent shapes over the drawing rather than the drawn marks themselves.
+
+Focus is visible: a 2px accent outline at 2px offset.
+
+Motion is a single transform or opacity transition, 300ms to 800ms, on a `cubic-bezier(0.4, 0, 0.2, 1)` curve. `prefers-reduced-motion: reduce` collapses all of it.
