@@ -545,7 +545,7 @@
 
   <section class="scale" id="sec-figured">
     <h2>figured bass</h2>
-    <p class="full">A bass line carries figures: numbers naming the intervals to be built above each bass note, counted in scale steps rather than semitones.</p>
+    <p class="full">A bass line carries figures: numbers naming the intervals to be built above each bass note, counted in scale steps rather than semitones. A 3 above C is E and a 5 above C is G, both taken from the key signature and left unaltered unless the figure says otherwise.</p>
 
     <div class="panels">
       <section class="panel">
@@ -555,17 +555,14 @@
       <section class="panel">
         <h3>the bass realized</h3>
         <p>The realization puts the bass in the left hand and the three upper voices in the right, close together, which is called keyboard style.</p>
-        <svg id="fb-full" viewBox="0 0 450 300" role="img" aria-label="The same bass line with five three figures beneath and the resulting triads written in keyboard style on a treble staff above"></svg>
+        <svg id="fb-full" viewBox="0 0 450 300" role="img" aria-label="The same bass line with three five figures beneath and the resulting triads written in keyboard style on a treble staff above"></svg>
       </section>
     </div>
 
     <div class="callout">
-      <p>* The full figure for a root-position triad is 5 over 3, and it is almost always left off the page. An unfigured bass note means 5 and 3, which is why the figures above are bracketed.</p>
+      <p>* The full figure for a root-position triad is 3 over 5, and it is almost always left off the page. An unfigured bass note means 5 and 3, which is why the figures above are bracketed.</p>
     </div>
 
-    <div class="callout hi">
-      <p>A figure counts from the <strong>bass</strong>, not from the root. Every chord here is in root position, so the bass is the root and 5 and 3 measure from both at once. Put the third or the fifth of the chord in the bass and the figures change while the chord itself stays what it was.</p>
-    </div>
   </section>
 
   <footer>
@@ -1490,8 +1487,8 @@
     XS.forEach(function (x, i) {
       UPPER[i].forEach(function (n) { drawNote(b, x, n, trebleBottom, TREBLE_BOTTOM); });
       drawNote(b, x, BASS_LINE[i], bassBottom, BASS_BOTTOM);
-      b.appendChild(el("text", { x: x + 10, y: bassBottom + 26, "class": "figure" }, "(5)"));
-      b.appendChild(el("text", { x: x + 10, y: bassBottom + 46, "class": "figure" }, "(3)"));
+      b.appendChild(el("text", { x: x + 10, y: bassBottom + 26, "class": "figure" }, "(3)"));
+      b.appendChild(el("text", { x: x + 10, y: bassBottom + 46, "class": "figure" }, "(5)"));
       if (i === 0) {
         b.appendChild(el("text", {
           x: x + 34, y: bassBottom + 26, "class": "figure"
