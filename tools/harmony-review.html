@@ -111,6 +111,45 @@
   }
   .controls { align-items: baseline; gap: calc(var(--step) * 2.5); }
 
+  .table-wrap { overflow-x: auto; }
+
+  table.intervals {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+  table.intervals th {
+    font-family: var(--font-data);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 400;
+    text-align: left;
+    padding: 0 calc(var(--step) * 1.5) var(--step) 0;
+    border-bottom: 1px solid var(--ink);
+    white-space: nowrap;
+  }
+  table.intervals td {
+    padding: calc(var(--step) * 1.1) calc(var(--step) * 1.5) calc(var(--step) * 1.1) 0;
+    border-bottom: 1px solid var(--rule);
+    white-space: nowrap;
+    vertical-align: baseline;
+  }
+  table.intervals .semis,
+  table.intervals .short,
+  table.intervals .pitches { font-family: var(--font-data); }
+  table.intervals .semis { font-weight: 500; }
+  table.intervals .short { color: var(--muted); }
+  table.intervals .alt { color: var(--muted); font-size: 0.86rem; }
+  table.intervals .axis {
+    border-left: 1px solid var(--ink);
+    padding-left: calc(var(--step) * 2.5);
+  }
+  table.intervals tr.tritone td { background: var(--accent-wash); }
+  table.intervals tr.tritone .semis,
+  table.intervals tr.tritone .name { color: var(--accent); }
+
   .callout {
     max-width: none;
     border-left: 3px solid var(--ink);
@@ -214,6 +253,95 @@
     <div class="controls">
       <button class="reset" type="button">reset to A</button>
       <p class="readout"></p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section class="scale" id="sec-intervals">
+    <h2>interval names</h2>
+    <p class="full">Each row pairs an interval with its inversion. The numbers sum to 9, the semitones to 12. The two halves meet at the tritone, 6 semitones read either direction, spelled augmented fourth going up from C and diminished fifth coming down to it.</p>
+    <div class="table-wrap">
+      <table class="intervals">
+        <thead>
+          <tr>
+            <th>semitones</th><th>interval</th><th>from C</th><th>also spelled</th>
+            <th class="axis">semitones</th><th>interval</th><th>from C</th><th>also spelled</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="semis">0</td>
+          <td class="name">perfect unison <span class="short">P1</span></td>
+          <td class="pitches">C–C</td>
+          <td class="alt">diminished second <span class="short">d2</span>, C–D♭♭</td>
+          <td class="semis axis">12</td>
+          <td class="name">perfect octave <span class="short">P8</span></td>
+          <td class="pitches">C–C</td>
+          <td class="alt">augmented seventh <span class="short">A7</span>, C–B♯</td>
+        </tr>
+        <tr>
+          <td class="semis">1</td>
+          <td class="name">minor second <span class="short">m2</span></td>
+          <td class="pitches">C–D♭</td>
+          <td class="alt">augmented unison <span class="short">A1</span>, C–C♯</td>
+          <td class="semis axis">11</td>
+          <td class="name">major seventh <span class="short">M7</span></td>
+          <td class="pitches">C–B</td>
+          <td class="alt">diminished octave <span class="short">d8</span>, C–C♭</td>
+        </tr>
+        <tr>
+          <td class="semis">2</td>
+          <td class="name">major second <span class="short">M2</span></td>
+          <td class="pitches">C–D</td>
+          <td class="alt">diminished third <span class="short">d3</span>, C–E♭♭</td>
+          <td class="semis axis">10</td>
+          <td class="name">minor seventh <span class="short">m7</span></td>
+          <td class="pitches">C–B♭</td>
+          <td class="alt">augmented sixth <span class="short">A6</span>, C–A♯</td>
+        </tr>
+        <tr>
+          <td class="semis">3</td>
+          <td class="name">minor third <span class="short">m3</span></td>
+          <td class="pitches">C–E♭</td>
+          <td class="alt">augmented second <span class="short">A2</span>, C–D♯</td>
+          <td class="semis axis">9</td>
+          <td class="name">major sixth <span class="short">M6</span></td>
+          <td class="pitches">C–A</td>
+          <td class="alt">diminished seventh <span class="short">d7</span>, C–B♭♭</td>
+        </tr>
+        <tr>
+          <td class="semis">4</td>
+          <td class="name">major third <span class="short">M3</span></td>
+          <td class="pitches">C–E</td>
+          <td class="alt">diminished fourth <span class="short">d4</span>, C–F♭</td>
+          <td class="semis axis">8</td>
+          <td class="name">minor sixth <span class="short">m6</span></td>
+          <td class="pitches">C–A♭</td>
+          <td class="alt">augmented fifth <span class="short">A5</span>, C–G♯</td>
+        </tr>
+        <tr>
+          <td class="semis">5</td>
+          <td class="name">perfect fourth <span class="short">P4</span></td>
+          <td class="pitches">C–F</td>
+          <td class="alt">augmented third <span class="short">A3</span>, C–E♯</td>
+          <td class="semis axis">7</td>
+          <td class="name">perfect fifth <span class="short">P5</span></td>
+          <td class="pitches">C–G</td>
+          <td class="alt">diminished sixth <span class="short">d6</span>, C–A♭♭</td>
+        </tr>
+        <tr class="tritone">
+          <td class="semis">6</td>
+          <td class="name">augmented fourth <span class="short">A4</span></td>
+          <td class="pitches">C–F♯</td>
+          <td class="alt">tritone</td>
+          <td class="semis axis">6</td>
+          <td class="name">diminished fifth <span class="short">d5</span></td>
+          <td class="pitches">C–G♭</td>
+          <td class="alt">tritone</td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
