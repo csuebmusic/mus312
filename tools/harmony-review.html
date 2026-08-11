@@ -168,6 +168,10 @@
   .triad.lit .degree { fill: var(--accent); }
   .triad.lit .caret { stroke: var(--accent); }
   .panels.uneven { grid-template-columns: 1.45fr 1fr; }
+  #sec-minor-triads > .panel { margin-bottom: calc(var(--step) * 4); }
+  #sec-minor-triads > .panel:last-of-type { margin-bottom: 0; }
+  .panel h3 { margin-bottom: calc(var(--step) * 1.5); }
+  svg.aug { max-width: 200px; }
   @media (max-width: 62rem) { .panels.uneven { grid-template-columns: 1fr; } }
 
   .bar { fill: var(--ink); }
@@ -399,6 +403,30 @@
       </section>
     </div>
     <p class="full">A roman numeral names the degree and the quality at once: upper case for major, lower case for minor, lower case with a ring for diminished. The chord symbol under it names the same chord from its root, with a capital letter for major, a lower-case letter and a dash for minor, and a ring for diminished.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section class="scale" id="sec-minor-triads">
+    <h2>diatonic triads in minor</h2>
+    <p class="full">Written in C minor, against C major above.</p>
+
+    <section class="panel">
+      <h3>natural minor</h3>
+      <svg id="triads-nat" viewBox="0 0 580 240" role="img" aria-label="The seven diatonic triads of C natural minor on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
+    </section>
+
+    <section class="panel">
+      <h3>harmonic minor</h3>
+      <svg id="triads-harm" viewBox="0 0 580 240" role="img" aria-label="The seven diatonic triads of C harmonic minor on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
+      <p>Two major thirds stacked give a fourth triad quality: 4 and 4, an outer 8. The augmented triad sits on 3̂ in harmonic and melodic minor.</p>
+      <svg id="recipe-aug" class="aug" viewBox="0 0 128 140" role="img" aria-label="Stacking recipe for the augmented triad, two major thirds"></svg>
+    </section>
+
+    <section class="panel">
+      <h3>melodic minor ascending</h3>
+      <svg id="triads-mel" viewBox="0 0 580 240" role="img" aria-label="The seven diatonic triads of C melodic minor ascending on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
+    </section>
   </section>
 
   <footer>
@@ -837,16 +865,19 @@
 
   /* ---------- diatonic triads ---------- */
 
-  (function triads() {
-    var svg = document.getElementById("triads");
+  var ROMAN_BASE = ["I", "II", "III", "IV", "V", "VI", "VII"];
+  var QUALITY = {
+    "4,7":  { code: "M", roman: "",  symbol: "",  word: "major" },
+    "3,7":  { code: "m", roman: "",  symbol: "-", word: "minor" },
+    "3,6":  { code: "d", roman: "\u00B0", symbol: "\u00B0", word: "diminished" },
+    "4,8":  { code: "A", roman: "+", symbol: "+", word: "augmented" }
+  };
+
+  function buildTriads(cfg) {
+    var svg = document.getElementById(cfg.id);
+    var key = cfg.keys[cfg.tonic];
+    var ks = keySigMap(key);
     var top = ROW_TOP;
-    var ROMAN = ["I", "ii", "iii", "IV", "V", "vi", "vii\u00B0"];
-    var SYMBOL = ["C", "d-", "e-", "F", "G", "a-", "b\u00B0"];
-    var TRIAD_NAMES = [
-      "C major", "D minor", "E minor", "F major",
-      "G major", "A minor", "B diminished"
-    ];
-    var LETTERS = ["C", "D", "E", "F", "G", "A", "B"];
 
     for (var L = 0; L < 5; L++) {
       svg.appendChild(el("line", {
@@ -855,24 +886,61 @@
     }
     svg.appendChild(el("text", { x: 18, y: noteY(2, 0), "class": "clef" }, "\uE050"));
 
-    var x0 = 104, gap = 64;
+    var order = key.kind === "flat" ? FLAT_ORDER : SHARP_ORDER;
+    var sigSteps = key.kind === "flat" ? FLAT_STEPS : SHARP_STEPS;
+    for (var a = 0; a < key.count; a++) {
+      svg.appendChild(el("text", {
+        x: 66 + 13 * a, y: noteY(sigSteps[a], 0), "class": "keysig"
+      }, KEYSIG_GLYPH[key.kind]));
+    }
+
+    var x0 = 104 + 13 * key.count, gap = 64;
+
     for (var i = 0; i < 7; i++) {
       var x = x0 + gap * i;
-      var g = el("g", {
-        "class": "triad", tabindex: "0", role: "img",
-        "aria-label": "degree " + (i + 1) + ", " + ROMAN[i] + ", " + TRIAD_NAMES[i] +
-                      ", " + LETTERS[i % 7] + " " + LETTERS[(i + 2) % 7] + " " + LETTERS[(i + 4) % 7]
+      var members = [0, 2, 4].map(function (k) {
+        var idx = i + k;
+        var semis = cfg.offsets[idx % 7] + 12 * Math.floor(idx / 7);
+        return spellNote(cfg.tonic, key, [semis, idx]);
       });
 
-      [0, 2, 4].forEach(function (k) {
-        var step = i + k - 2;
-        var y = noteY(step, 0);
-        if (step <= -2) {
-          for (var v = -2; v >= step; v -= 2) {
+      var third = (members[1].pc - members[0].pc + 12) % 12;
+      var fifth = (members[2].pc - members[0].pc + 12) % 12;
+      var q = QUALITY[third + "," + fifth];
+      var upper = (q.code === "M" || q.code === "A");
+      var roman = (upper ? ROMAN_BASE[i] : ROMAN_BASE[i].toLowerCase()) + q.roman;
+      var rootName = members[0].name;
+      var symbol = (upper ? rootName : rootName.charAt(0).toLowerCase() + rootName.slice(1)) +
+                   q.symbol;
+
+      var g = el("g", {
+        "class": "triad", tabindex: "0", role: "img",
+        "aria-label": "degree " + (i + 1) + ", " + roman + ", " +
+                      members[0].name + " " + q.word + ", " +
+                      members.map(function (m) { return m.name; }).join(" ")
+      });
+
+      var accCount = 0;
+      members.slice().reverse().forEach(function (m) {
+        var y = noteY(m.step, 0);
+        if (m.step <= -2) {
+          for (var v = -2; v >= m.step; v -= 2) {
             g.appendChild(el("line", {
               x1: x - 7, y1: noteY(v, 0), x2: x + 27, y2: noteY(v, 0), "class": "ledger"
             }));
           }
+        } else if (m.step >= 10) {
+          for (var w = 10; w <= m.step; w += 2) {
+            g.appendChild(el("line", {
+              x1: x - 7, y1: noteY(w, 0), x2: x + 27, y2: noteY(w, 0), "class": "ledger"
+            }));
+          }
+        }
+        if (m.alt !== (ks[m.letterIndex] || 0)) {
+          g.appendChild(el("text", {
+            x: x - 17 - 13 * accCount, y: y, "class": "accidental"
+          }, ACC_GLYPH[String(m.alt)]));
+          accCount += 1;
         }
         g.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
       });
@@ -882,10 +950,10 @@
         d: "M" + (x + 5) + " " + (top - 45) + " L" + (x + 10) + " " + (top - 49) +
            " L" + (x + 15) + " " + (top - 45), "class": "caret"
       }));
-      g.appendChild(el("text", { x: x + 10, y: top + 108, "class": "roman" }, ROMAN[i]));
-      g.appendChild(el("text", { x: x + 10, y: top + 134, "class": "chordsym" }, SYMBOL[i]));
+      g.appendChild(el("text", { x: x + 10, y: top + 108, "class": "roman" }, roman));
+      g.appendChild(el("text", { x: x + 10, y: top + 134, "class": "chordsym" }, symbol));
       g.appendChild(el("rect", {
-        x: x - 12, y: top - 52, width: 44, height: 196, "class": "note-hit"
+        x: x - 22, y: top - 52, width: 54, height: 196, "class": "note-hit"
       }));
 
       svg.appendChild(g);
@@ -894,25 +962,25 @@
       g.addEventListener("focus", function () { this.classList.add("lit"); });
       g.addEventListener("blur", function () { this.classList.remove("lit"); });
     }
-  })();
+  }
+
+  buildTriads({ id: "triads", tonic: 0, keys: MAJOR_KEYS, offsets: [0, 2, 4, 5, 7, 9, 11] });
+  buildTriads({ id: "triads-nat", tonic: 0, keys: MINOR_KEYS, offsets: [0, 2, 3, 5, 7, 8, 10] });
+  buildTriads({ id: "triads-harm", tonic: 0, keys: MINOR_KEYS, offsets: [0, 2, 3, 5, 7, 8, 11] });
+  buildTriads({ id: "triads-mel", tonic: 0, keys: MINOR_KEYS, offsets: [0, 2, 3, 5, 7, 9, 11] });
 
   /* ---------- triad recipes ---------- */
 
-  (function recipes() {
-    var svg = document.getElementById("recipes");
+  function drawRecipes(id, cols) {
+    var svg = document.getElementById(id);
     var BASE = 96, UNIT = 9, HALF = 18;
-    var COLS = [
-      { cx: 62,  name: "MAJOR",      lower: 4, upper: 3 },
-      { cx: 168, name: "MINOR",      lower: 3, upper: 4 },
-      { cx: 274, name: "DIMINISHED", lower: 3, upper: 3 }
-    ];
 
-    COLS.forEach(function (c) {
+    cols.forEach(function (c) {
       var outer = c.lower + c.upper;
       var yRoot = BASE;
       var yThird = BASE - c.lower * UNIT;
       var yFifth = BASE - outer * UNIT;
-      var odd = outer === 6;
+      var odd = outer !== 7;
 
       [yRoot, yThird, yFifth].forEach(function (y) {
         svg.appendChild(el("rect", {
@@ -947,7 +1015,16 @@
         x: c.cx, y: 126, "class": "recipe-name"
       }, c.name));
     });
-  })();
+  }
+
+  drawRecipes("recipes", [
+    { cx: 62,  name: "MAJOR",      lower: 4, upper: 3 },
+    { cx: 168, name: "MINOR",      lower: 3, upper: 4 },
+    { cx: 274, name: "DIMINISHED", lower: 3, upper: 3 }
+  ]);
+  drawRecipes("recipe-aug", [
+    { cx: 62, name: "AUGMENTED", lower: 4, upper: 4 }
+  ]);
 
 })();
 </script>
