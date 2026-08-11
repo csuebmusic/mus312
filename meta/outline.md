@@ -12,7 +12,7 @@ Single-meeting weeks: week 1 (Wednesday start), week 4 (Labor Day, September 7),
 
 Other dates: census September 15, last day to withdraw November 6, grades due December 15 at 8:00 PM.
 
-No class meeting is given to an exam. All twenty-seven meetings carry content.
+No class meeting is given to an exam. All twenty-seven meetings carry chapter content.
 
 ## texts
 
@@ -35,7 +35,7 @@ Sonata-form terminology follows Hepokoski and Darcy. Elsewhere terminology follo
 | 5 | Sep 14, 16 | 5, phrase and cadential deviations, framing functions (123–165) | |
 | 6 | Sep 21, 23 | 6, compound themes (166–194) | |
 | 7 | Sep 28, 30 | 7, the small ternary (195–237) | Laitz 197–207, ternary form |
-| 8 | Oct 5, 7 | 8, the small binary (238–260). Wednesday: Part I synthesis, analysis at the board | Laitz 148–162, modulation and binary form |
+| 8 | Oct 5, 7 | 8, the small binary (238–260) | Laitz 148–162, modulation and binary form |
 
 ## part ii: sonata form
 
