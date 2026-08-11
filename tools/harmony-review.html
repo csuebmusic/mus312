@@ -203,6 +203,31 @@
     text-anchor: middle;
   }
 
+  .recipe { cursor: pointer; }
+  .recipe .wash { fill: none; }
+  .recipe.sel .wash { fill: var(--accent-wash); }
+  .recipe.sel .bar { fill: var(--accent); }
+  .recipe.sel .bracket { stroke: var(--accent); }
+  .recipe.sel .span-num { fill: var(--accent); font-weight: 500; }
+  .recipe.sel .recipe-name { fill: var(--accent); }
+  .recipe:hover .recipe-name { fill: var(--ink); }
+  .recipe .hit { fill: transparent; }
+
+  .rootpick { display: flex; flex-wrap: wrap; gap: calc(var(--step) * 0.75); }
+  .rootpick button { padding: calc(var(--step)) calc(var(--step) * 1.4); min-width: 3.1rem; }
+
+  .chord-name {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    margin: calc(var(--step) * 2) 0 calc(var(--step) * 0.5);
+  }
+  .chord-line {
+    font-family: var(--font-data);
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0;
+  }
+
   .callout {
     max-width: none;
     border-left: 3px solid var(--ink);
@@ -453,6 +478,32 @@
     </div>
   </section>
 
+  <hr class="rule">
+
+  <section class="scale" id="sec-builder">
+    <h2>chord builder</h2>
+    <p class="full">Two thirds stacked give the four triads, and every combination of 3 and 4 is one of them. Three thirds stacked give the seven seventh chords: 4 and 4 and 4 would close the octave, and the other seven combinations are all in use.</p>
+
+    <div class="panels uneven">
+      <section class="panel">
+        <svg id="builder-staff" viewBox="0 0 320 210" role="img" aria-label="The selected chord written on a treble staff, with the stack measured in semitones"></svg>
+        <p class="chord-name" id="builder-name"></p>
+        <p class="chord-line" id="builder-line"></p>
+      </section>
+      <section class="panel">
+        <h3>root</h3>
+        <div class="rootpick" id="rootpick"></div>
+      </section>
+    </div>
+
+    <section class="panel">
+      <h3>triads</h3>
+      <svg id="rec-triads" viewBox="0 0 440 150" role="img" aria-label="The four triads as stacked thirds: choose one to build it on the staff"></svg>
+      <h3>seventh chords</h3>
+      <svg id="rec-sevenths" viewBox="0 0 760 175" role="img" aria-label="The seven seventh chords as stacked thirds: choose one to build it on the staff"></svg>
+    </section>
+  </section>
+
   <footer>
     <p>Notation set in Bravura, Steinberg Media Technologies. Text set in IBM Plex. Both under the SIL Open Font License.</p>
   </footer>
@@ -514,6 +565,8 @@
   var MAJOR_REF = [0, 2, 4, 5, 7, 9, 11];
   var DEG_ACC = { "-1": "\u266D", "1": "\u266F" };
   var DEG_WORD = { "-1": "flat ", "1": "sharp " };
+
+  function mod12(n) { return ((n % 12) + 12) % 12; }
 
   function degreeAlt(semis, letterOffset) {
     var oct = Math.floor(letterOffset / 7);
@@ -594,7 +647,7 @@
     var semis = pair[0], lo = pair[1];
     var li = (key.letter + lo) % 7;
     var pc = (tonic + semis) % 12;
-    var alt = ((pc - NATURAL_PC[li] + 6) % 12) - 6;
+    var alt = mod12(pc - NATURAL_PC[li] + 6) - 6;
     return {
       pc: pc,
       letterIndex: li,
@@ -1083,6 +1136,202 @@
   drawRecipes("recipe-aug", [
     { cx: 62, name: "AUGMENTED", lower: 4, upper: 4 }
   ]);
+
+  /* ---------- chord builder ---------- */
+
+  (function builder() {
+    var ROOTS = [
+      { name: "C", letter: 0 },        { name: "D\u266D", letter: 1 },
+      { name: "D", letter: 1 },        { name: "E\u266D", letter: 2 },
+      { name: "E", letter: 2 },        { name: "F", letter: 3 },
+      { name: "G\u266D", letter: 4 },  { name: "G", letter: 4 },
+      { name: "A\u266D", letter: 5 },  { name: "A", letter: 5 },
+      { name: "B\u266D", letter: 6 },  { name: "B", letter: 6 }
+    ];
+
+    var TRIADS = [
+      { steps: [3, 3], abbr: "\u00B0", name: "diminished", sym: "\u00B0", upper: false },
+      { steps: [3, 4], abbr: "m",      name: "minor",      sym: "-",      upper: false },
+      { steps: [4, 3], abbr: "M",      name: "major",      sym: "",       upper: true  },
+      { steps: [4, 4], abbr: "+",      name: "augmented",  sym: "+",      upper: true  }
+    ];
+    var SEVENTHS = [
+      { steps: [3, 3, 3], abbr: "\u00B07", name: "fully diminished seventh",  sym: "\u00B07", upper: false },
+      { steps: [3, 3, 4], abbr: "\u00F87", name: "half-diminished seventh",   sym: "\u00F87", upper: false },
+      { steps: [3, 4, 3], abbr: "mm7",     name: "minor seventh",             sym: "-7",      upper: false },
+      { steps: [3, 4, 4], abbr: "mM7",     name: "minor-major seventh",       sym: "-M7",     upper: false },
+      { steps: [4, 3, 3], abbr: "Mm7",     name: "dominant seventh",          sym: "7",       upper: true  },
+      { steps: [4, 3, 4], abbr: "MM7",     name: "major seventh",             sym: "M7",      upper: true  },
+      { steps: [4, 4, 3], abbr: "+M7",     name: "augmented major seventh",   sym: "+M7",     upper: true  }
+    ];
+
+    var rootIndex = 0, chord = TRIADS[2];
+    var staff = document.getElementById("builder-staff");
+    var nameEl = document.getElementById("builder-name");
+    var lineEl = document.getElementById("builder-line");
+    var groups = [];
+
+    function offsets(type) {
+      var out = [0], run = 0;
+      type.steps.forEach(function (st) { run += st; out.push(run); });
+      return out;
+    }
+
+    function spell(type) {
+      var root = ROOTS[rootIndex], offs = offsets(type), out = [];
+      for (var i = 0; i < offs.length; i++) {
+        var li = (root.letter + 2 * i) % 7;
+        var pc = (rootIndex + offs[i]) % 12;
+        var alt = mod12(pc - NATURAL_PC[li] + 6) - 6;
+        out.push({
+          name: LETTER[li] + ACC_SIGN[String(alt)],
+          alt: alt,
+          step: root.letter + 2 * i - 2,
+          pc: pc
+        });
+      }
+      return out;
+    }
+
+    function drawChord() {
+      while (staff.firstChild) { staff.removeChild(staff.firstChild); }
+      var top = ROW_TOP, x = 200;
+
+      for (var L = 0; L < 5; L++) {
+        staff.appendChild(el("line", {
+          x1: 10, y1: top + 12 * L, x2: 310, y2: top + 12 * L, "class": "staff-line"
+        }));
+      }
+      staff.appendChild(el("text", { x: 18, y: noteY(2, 0), "class": "clef" }, "\uE050"));
+
+      var notes = spell(chord), accCount = 0;
+      notes.slice().reverse().forEach(function (n) {
+        var y = noteY(n.step, 0);
+        if (n.step <= -2) {
+          for (var v = -2; v >= n.step; v -= 2) {
+            staff.appendChild(el("line", {
+              x1: x - 7, y1: noteY(v, 0), x2: x + 27, y2: noteY(v, 0), "class": "ledger"
+            }));
+          }
+        } else if (n.step >= 10) {
+          for (var w = 10; w <= n.step; w += 2) {
+            staff.appendChild(el("line", {
+              x1: x - 7, y1: noteY(w, 0), x2: x + 27, y2: noteY(w, 0), "class": "ledger"
+            }));
+          }
+        }
+        if (n.alt !== 0) {
+          staff.appendChild(el("text", {
+            x: x - 17 - 13 * accCount, y: y, "class": "accidental"
+          }, ACC_GLYPH[String(n.alt)]));
+          accCount += 1;
+        }
+        staff.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
+      });
+
+      for (var i = 0; i < chord.steps.length; i++) {
+        var yA = noteY(notes[i].step, 0), yB = noteY(notes[i + 1].step, 0);
+        staff.appendChild(el("path", {
+          d: "M" + 241 + " " + yA + " L" + 246 + " " + yA +
+             " L" + 246 + " " + yB + " L" + 241 + " " + yB, "class": "bracket"
+        }));
+        staff.appendChild(el("text", {
+          x: 259, y: (yA + yB) / 2, "class": "span-num"
+        }, String(chord.steps[i])));
+      }
+
+      var root = ROOTS[rootIndex];
+      var symbolRoot = chord.upper
+        ? notes[0].name
+        : notes[0].name.charAt(0).toLowerCase() + notes[0].name.slice(1);
+      staff.setAttribute("aria-label",
+        root.name + " " + chord.name + ", " + notes.map(function (n) { return n.name; }).join(" "));
+      nameEl.textContent = root.name + " " + chord.name;
+      lineEl.textContent = notes.map(function (n) { return n.name; }).join(" ") + "   " +
+                           symbolRoot + chord.sym + "   " + chord.abbr + "   " +
+                           chord.steps.join(" + ");
+    }
+
+    /* ----- recipe rows ----- */
+
+    function drawRow(id, types, base, unit, colW, x0) {
+      var svg = document.getElementById(id);
+      types.forEach(function (type, idx) {
+        var cx = x0 + colW * idx;
+        var offs = offsets(type);
+        var outer = offs[offs.length - 1];
+        var g = el("g", {
+          "class": "recipe", tabindex: "0", role: "button",
+          "aria-label": type.name + ", " + type.steps.join(" plus ") + " semitones"
+        });
+
+        g.appendChild(el("rect", {
+          x: cx - colW / 2 + 4, y: base - outer * unit - 16,
+          width: colW - 8, height: outer * unit + 52, "class": "wash"
+        }));
+
+        offs.forEach(function (o) {
+          g.appendChild(el("rect", {
+            x: cx - 18, y: base - o * unit - 1.5, width: 36, height: 3, "class": "bar"
+          }));
+        });
+
+        for (var i = 0; i < type.steps.length; i++) {
+          var yA = base - offs[i] * unit, yB = base - offs[i + 1] * unit;
+          g.appendChild(el("path", {
+            d: "M" + (cx + 21) + " " + yA + " L" + (cx + 26) + " " + yA +
+               " L" + (cx + 26) + " " + yB + " L" + (cx + 21) + " " + yB, "class": "bracket"
+          }));
+          g.appendChild(el("text", {
+            x: cx + 38, y: (yA + yB) / 2, "class": "span-num"
+          }, String(type.steps[i])));
+        }
+
+        g.appendChild(el("text", { x: cx, y: base + 30, "class": "recipe-name" }, type.abbr));
+        g.appendChild(el("rect", {
+          x: cx - colW / 2 + 4, y: base - outer * unit - 16,
+          width: colW - 8, height: outer * unit + 52, "class": "hit"
+        }));
+
+        svg.appendChild(g);
+        groups.push({ g: g, type: type });
+
+        function choose() {
+          chord = type;
+          groups.forEach(function (o) { o.g.classList.toggle("sel", o.type === chord); });
+          drawChord();
+        }
+        g.addEventListener("click", choose);
+        g.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); choose(); }
+        });
+      });
+    }
+
+    drawRow("rec-triads", TRIADS, 96, 9, 106, 62);
+    drawRow("rec-sevenths", SEVENTHS, 128, 9, 106, 62);
+
+    /* ----- root picker ----- */
+
+    var pick = document.getElementById("rootpick");
+    ROOTS.forEach(function (r, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.textContent = r.name;
+      b.setAttribute("aria-pressed", String(i === rootIndex));
+      b.addEventListener("click", function () {
+        rootIndex = i;
+        Array.prototype.forEach.call(pick.children, function (c, j) {
+          c.setAttribute("aria-pressed", String(j === rootIndex));
+        });
+        drawChord();
+      });
+      pick.appendChild(b);
+    });
+
+    groups.forEach(function (o) { o.g.classList.toggle("sel", o.type === chord); });
+    drawChord();
+  })();
 
 })();
 </script>

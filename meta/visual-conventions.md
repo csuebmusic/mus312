@@ -38,7 +38,9 @@ Codepoints in use: `U+E050` G clef, `U+E0A2` whole notehead, `U+E260` flat, `U+E
 
 Key signatures are drawn from the accidental orders (F C G D A E B, B E A D G C F) at fixed staff positions, 13px apart, starting at x = 66. Notes start at x = 74 + 13 per accidental, spaced 48px apart, or 54px where any note in the figure takes an accidental.
 
-A note's accidental is the difference between its pitch class and the natural pitch class of its letter, drawn whenever that differs from the key signature. Double sharps and double flats come out of this rule and are drawn.
+A note's accidental is the difference between its pitch class and the natural pitch class of its letter, drawn whenever that differs from the key signature. Double sharps and double flats come out of this rule and are drawn. The difference is taken with a positive modulo so it lands in the range -2 to 2.
+
+Scale degrees are measured against the major scale on the same tonic: a degree a semitone lower takes a flat, and a roman numeral takes the accidental of its root. Accidentals inside degree labels and numerals are drawn from Bravura, which maps U+266D and U+266F; neither Plex face does. A Bravura accidental sits centered on its staff line rather than on a text baseline, so it is raised by about 0.22em when set in text.
 
 Staves stack at 170px per row. Row labels sit at the left, above the staff.
 
