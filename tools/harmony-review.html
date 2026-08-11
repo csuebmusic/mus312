@@ -121,6 +121,9 @@
   .controls { align-items: baseline; gap: calc(var(--step) * 2.5); }
 
   .table-wrap { overflow-x: auto; }
+  .scroll-wrap { overflow-x: auto; }
+  .scroll-wrap svg { min-width: 30rem; }
+  #rec-sevenths { min-width: 34rem; }
 
   table.intervals {
     width: 100%;
@@ -264,13 +267,13 @@
     <div class="panels">
       <section class="panel">
         <h3>musical space</h3>
-        <svg class="staff" viewBox="0 0 580 200" role="img" aria-label="Major scale on a treble staff with key signature, scale degrees, and the step pattern marked beneath"></svg>
-        <p>The clef fixes identity and register: this line is E, that space is F. The distance between them comes from the scale. The major scale is spaced 2 2 1 2 2 2 1 in semitones, the pattern braced under the staff, with the semitones between 3̂ and 4̂ and between 7̂ and 8̂.</p>
-        <p>A scale degree is the position a pitch holds in that pattern, counted from the tonic: 1̂ is the tonic, 2̂ the pitch a step above it, on to 7̂, with the octave returning to 1̂. The caret marks the number as a degree rather than a quantity. 3̂ is E in C major and G♭ in E♭ major.</p>
+        <svg class="staff" viewBox="0 0 580 200" role="group" aria-label="Major scale on a treble staff with key signature, scale degrees, and the step pattern marked beneath"></svg>
+        <p>The clef fixes identity and register: this line is E, that space is F. The distance between them comes from the scale. The major scale is spaced 2 2 1 2 2 2 1 in semitones, the pattern braced under the staff, with the semitones between 3̂ and 4̂ and between 7̂ and the octave.</p>
+        <p>A scale degree is the position a pitch holds in that pattern, counted from the tonic: 1̂ is the tonic, 2̂ the pitch a step above it, on to 7̂, with the octave returning to 1̂. The caret marks the number as a degree rather than a quantity. 3̂ is E in C major and G in E♭ major.</p>
       </section>
       <section class="panel">
         <h3>pitch-class space</h3>
-        <svg class="clock" viewBox="0 0 440 440" role="img" aria-label="Clock face of twelve pitch classes with the major scale marked, a semitone arrow from four to five, and a whole-tone arrow from zero to two"></svg>
+        <svg class="clock" viewBox="0 0 440 440" role="group" aria-label="Clock face of twelve pitch classes with the major scale marked, a semitone arrow from four to five, and a whole-tone arrow from zero to two"></svg>
         <p>A pitch class is a pitch with register and spelling stripped away: every C in every octave is pitch class 0, and C♯ and D♭ are both pitch class 1. Twelve pitch classes, numbered 0 through 11 from C, fill the octave.</p>
         <p>Each position is one semitone from its neighbor. C to D is 0 to 2: one, two, a whole tone. E to F is 4 to 5: one, a semitone.</p>
       </section>
@@ -287,14 +290,14 @@
     <h2>natural minor</h2>
     <div class="panels">
       <section class="panel">
-        <svg class="staff" viewBox="0 0 580 200" role="img" aria-label="Natural minor scale on a treble staff with key signature, scale degrees, and the step pattern marked beneath"></svg>
+        <svg class="staff" viewBox="0 0 580 200" role="group" aria-label="Natural minor scale on a treble staff with key signature, scale degrees, and the step pattern marked beneath"></svg>
         <p>Natural minor runs 2 1 2 2 1 2 2, with the semitones between 2̂ and ♭3̂ and between 5̂ and ♭6̂. It takes the key signature of the major scale a minor third above: A natural minor and C major share all seven pitches and differ in tonic.</p>
         <div class="callout">
           <p>A degree number carries quality as well as position, measured against the major scale on the same tonic. From 1̂ to 3̂ in major is a major third. The same span in any minor scale is a minor third, one semitone smaller, and the smaller degree takes a flat: <strong>♭3̂</strong>. Natural minor reads 1̂ 2̂ ♭3̂ 4̂ 5̂ ♭6̂ ♭7̂, harmonic minor raises the seventh back to 7̂, and melodic minor ascending raises both to 6̂ and 7̂.</p>
         </div>
       </section>
       <section class="panel">
-        <svg class="clock" viewBox="0 0 440 440" role="img" aria-label="Clock face of twelve pitch classes with the natural minor scale marked"></svg>
+        <svg class="clock" viewBox="0 0 440 440" role="group" aria-label="Clock face of twelve pitch classes with the natural minor scale marked"></svg>
         <p>The shape is the major shape read from a different starting position. Set the tonic to A here and to C in the major scale: the two figures cover the same seven pitch classes, and the ring moves.</p>
       </section>
     </div>
@@ -310,7 +313,7 @@
     <h2>harmonic minor</h2>
     <div class="panels">
       <section class="panel">
-        <svg class="staff" viewBox="0 0 580 200" role="img" aria-label="Harmonic minor scale on a treble staff with key signature, an accidental on the seventh degree, scale degrees, and the step pattern marked beneath"></svg>
+        <svg class="staff" viewBox="0 0 580 200" role="group" aria-label="Harmonic minor scale on a treble staff with key signature, an accidental on the seventh degree, scale degrees, and the step pattern marked beneath"></svg>
         <p>Harmonic minor raises ♭7̂ of natural minor by a semitone to 7̂, giving a leading tone and a major V. The raised degree takes an accidental against the key signature, and the pattern runs 2 1 2 2 1 3 1. The 3 is an augmented second between ♭6̂ and 7̂.</p>
         <div class="callout">
           <p>An interval name carries two parts. The <strong>number</strong> counts letter names inclusively: F up to G spans two letters and is a second, whatever accidentals either pitch carries. The <strong>quality</strong> then measures the semitones against that number. A second of 1 semitone is minor, of 2 semitones major, and of 3 semitones augmented.</p>
@@ -318,7 +321,7 @@
         </div>
       </section>
       <section class="panel">
-        <svg class="clock" viewBox="0 0 440 440" role="img" aria-label="Clock face of twelve pitch classes with the harmonic minor scale marked and its three-semitone gap arced"></svg>
+        <svg class="clock" viewBox="0 0 440 440" role="group" aria-label="Clock face of twelve pitch classes with the harmonic minor scale marked and its three-semitone gap arced"></svg>
         <p>The gap of three positions between ♭6̂ and 7̂ is arced on the rim, the one place in these four scales where adjacent scale members sit more than a whole tone apart. Click any pitch: the gap turns with the shape.</p>
       </section>
     </div>
@@ -334,11 +337,11 @@
     <h2>melodic minor</h2>
     <div class="panels">
       <section class="panel">
-        <svg class="staff" viewBox="0 0 580 415" role="img" aria-label="Melodic minor on a treble staff, ascending form above and descending form below, with scale degrees and step patterns marked"></svg>
+        <svg class="staff" viewBox="0 0 580 415" role="group" aria-label="Melodic minor on a treble staff, ascending form above and descending form below, with scale degrees and step patterns marked"></svg>
         <p>Melodic minor takes two forms. Ascending, ♭6̂ and ♭7̂ both rise by a semitone to 6̂ and 7̂, giving 2 1 2 2 2 2 1: the upper four pitches match the major scale, the lower three stay minor. Descending, both revert and the scale is natural minor, written here from the octave down.</p>
       </section>
       <section class="panel">
-        <svg class="clock" viewBox="0 0 440 440" role="img" aria-label="Clock face of twelve pitch classes with the ascending melodic minor scale filled and the descending form outlined"></svg>
+        <svg class="clock" viewBox="0 0 440 440" role="group" aria-label="Clock face of twelve pitch classes with the ascending melodic minor scale filled and the descending form outlined"></svg>
         <p>Both forms sit on one clock, the filled shape with solid dots ascending and the dashed outline with hollow dots descending. Five pitch classes are common to both. The shapes part at the sixth and seventh degrees.</p>
       </section>
     </div>
@@ -352,7 +355,7 @@
 
   <section class="scale" id="sec-intervals">
     <h2>interval names</h2>
-    <p class="full">Each row pairs an interval with its inversion. The numbers sum to 9, the semitones to 12. The two halves meet at the tritone, 6 semitones read either direction, spelled augmented fourth going up from C and diminished fifth coming down to it.</p>
+    <p class="full">Each row pairs an interval with its inversion. The numbers sum to 9, the semitones to 12. The two halves meet at the tritone, 6 semitones either way, spelled augmented fourth as C–F♯ and diminished fifth as C–G♭.</p>
     <div class="table-wrap">
       <table class="intervals">
         <thead>
@@ -426,11 +429,11 @@
           <td class="semis">6</td>
           <td class="name">augmented fourth <span class="short">A4</span></td>
           <td class="pitches">C–F♯</td>
-          <td class="alt">tritone</td>
+          <td class="alt"></td>
           <td class="semis axis">6</td>
           <td class="name">diminished fifth <span class="short">d5</span></td>
           <td class="pitches">C–G♭</td>
-          <td class="alt">tritone</td>
+          <td class="alt"></td>
         </tr>
         </tbody>
       </table>
@@ -444,7 +447,7 @@
     <p class="full">Stacking two thirds on each degree of the major scale gives the seven diatonic triads. Their qualities come from where the semitones fall: major on 1̂, 4̂, and 5̂, minor on 2̂, 3̂, and 6̂, diminished on 7̂.</p>
     <div class="panels uneven">
       <section class="panel">
-        <svg id="triads" viewBox="0 0 580 240" role="img" aria-label="The seven diatonic triads of C major on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
+        <svg id="triads" viewBox="0 0 580 240" role="group" aria-label="The seven diatonic triads of C major on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
       </section>
       <section class="panel">
         <p>A triad is two thirds stacked. A minor third is 3 semitones, a major third is 4. Which one sits on the bottom decides the quality, and the two together give the outer fifth.</p>
@@ -463,7 +466,7 @@
     <div class="panels uneven">
       <section class="panel">
         <h3>natural minor</h3>
-        <svg id="triads-nat" viewBox="0 0 580 240" role="img" aria-label="The seven diatonic triads of C natural minor on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
+        <svg id="triads-nat" viewBox="0 0 580 240" role="group" aria-label="The seven diatonic triads of C natural minor on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
         <div class="callout">
           <p>A roman numeral takes the accidental of its root. The triad built on ♭3̂ is <strong>♭III</strong>, the one on ♭6̂ is <strong>♭VI</strong>, and the one on ♭7̂ is <strong>♭VII</strong>.</p>
         </div>
@@ -473,10 +476,10 @@
     <div class="panels uneven">
       <section class="panel">
         <h3>harmonic minor</h3>
-        <svg id="triads-harm" viewBox="0 0 580 240" role="img" aria-label="The seven diatonic triads of C harmonic minor on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
+        <svg id="triads-harm" viewBox="0 0 580 240" role="group" aria-label="The seven diatonic triads of C harmonic minor on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
       </section>
       <section class="panel">
-        <p>Two major thirds stacked give a fourth triad quality: 4 and 4, an outer 8. The augmented triad sits on ♭3̂ in harmonic and melodic minor.</p>
+        <p>Two major thirds stacked give a fourth triad quality: 4 and 4, an outer 8. Its roman numeral is upper case with a plus. The augmented triad sits on ♭3̂ in harmonic and melodic minor.</p>
         <svg id="recipe-aug" class="aug" viewBox="0 0 128 140" role="img" aria-label="Stacking recipe for the augmented triad, two major thirds"></svg>
       </section>
     </div>
@@ -484,7 +487,7 @@
     <div class="panels uneven">
       <section class="panel">
         <h3>melodic minor ascending</h3>
-        <svg id="triads-mel" viewBox="0 0 580 240" role="img" aria-label="The seven diatonic triads of C melodic minor ascending on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
+        <svg id="triads-mel" viewBox="0 0 580 240" role="group" aria-label="The seven diatonic triads of C melodic minor ascending on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
       </section>
     </div>
   </section>
@@ -498,9 +501,13 @@
     <div class="panels uneven">
       <section class="panel">
         <h3>triads</h3>
-        <svg id="rec-triads" viewBox="0 0 440 150" role="img" aria-label="The four triads as stacked thirds: choose one to build it on the staff"></svg>
+        <div class="scroll-wrap">
+          <svg id="rec-triads" viewBox="0 0 440 150" role="group" aria-label="The four triads as stacked thirds: choose one to build it on the staff"></svg>
+        </div>
         <h3>seventh chords</h3>
-        <svg id="rec-sevenths" viewBox="0 0 760 175" role="img" aria-label="The seven seventh chords as stacked thirds: choose one to build it on the staff"></svg>
+        <div class="scroll-wrap">
+          <svg id="rec-sevenths" viewBox="0 0 760 175" role="group" aria-label="The seven seventh chords as stacked thirds: choose one to build it on the staff"></svg>
+        </div>
       </section>
       <section class="panel">
         <h3>root</h3>
