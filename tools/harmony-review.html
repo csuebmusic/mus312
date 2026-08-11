@@ -363,6 +363,20 @@
   var btnReset = document.getElementById("btn-reset");
   var angle = 0;
 
+  function spell(pc) {
+    var key = KEYS[pc];
+    var order = key.kind === "flat" ? FLAT_ORDER : SHARP_ORDER;
+    var altered = {};
+    for (var a = 0; a < key.count; a++) { altered[order[a]] = key.kind; }
+    var out = [];
+    for (var i = 0; i < 7; i++) {
+      var li = (key.letter + i) % 7;
+      out.push(LETTER[li] +
+        (altered[li] === "sharp" ? "\u266F" : altered[li] === "flat" ? "\u266D" : ""));
+    }
+    return out;
+  }
+
   function setTonic(pc) {
     var target = pc * 30;
     var delta = ((target - (angle % 360)) % 360 + 540) % 360 - 180;
@@ -370,8 +384,7 @@
     scaleLayer.style.transform = "rotate(" + angle + "deg)";
     hub.textContent = KEYS[pc].name + " major";
     drawStaff(pc);
-    readout.textContent = KEYS[pc].name + " major: " +
-      MAJOR.map(function (m) { return (pc + m) % 12; }).join(" ") + ".";
+    readout.textContent = KEYS[pc].name + " major: " + spell(pc).join(" ") + ".";
     btnReset.disabled = (pc === 0);
   }
 
