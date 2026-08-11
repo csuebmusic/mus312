@@ -34,9 +34,13 @@ Bravura is a SMuFL font: one em equals four staff spaces. A staff with 12px spac
 
 Scale degrees are a Plex Mono digit with the caret drawn as an SVG path above it, since neither Bravura nor Plex carries a combining caret that sets reliably over a numeral.
 
-Codepoints in use: `U+E050` G clef, `U+E0A2` whole notehead, `U+E260` flat, `U+E262` sharp.
+Codepoints in use: `U+E050` G clef, `U+E0A2` whole notehead, `U+E260` flat, `U+E261` natural, `U+E262` sharp, `U+E263` double sharp, `U+E264` double flat.
 
-Key signatures are drawn from the accidental orders (F C G D A E B, B E A D G C F) at fixed staff positions, 13px apart, starting at x = 66. Notes start at x = 74 + 13 per accidental.
+Key signatures are drawn from the accidental orders (F C G D A E B, B E A D G C F) at fixed staff positions, 13px apart, starting at x = 66. Notes start at x = 74 + 13 per accidental, spaced 48px apart, or 54px where any note in the figure takes an accidental.
+
+A note's accidental is the difference between its pitch class and the natural pitch class of its letter, drawn whenever that differs from the key signature. Double sharps and double flats come out of this rule and are drawn.
+
+Staves stack at 170px per row. Row labels sit at the left, above the staff.
 
 Staff geometry: spaces of 12px, bottom line E4 at y = 118, pitch positions at 6px per scale step. Ledger lines are drawn at even step positions beyond the staff.
 

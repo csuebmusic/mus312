@@ -6,10 +6,16 @@
 <title>harmony review 1: counting in semitones</title>
 <link rel="stylesheet" href="../assets/style.css?v=3">
 <style>
-  .lede { margin-bottom: calc(var(--step) * 4); }
+  .lede { margin-bottom: calc(var(--step) * 3); }
+  section.scale { margin-bottom: calc(var(--step) * 2); }
+  section.scale > h2 { margin-bottom: calc(var(--step) * 2); }
 
   .staff-line, .ledger { stroke: var(--ink); stroke-width: 1; }
-  .clef, .notehead, .keysig { font-family: var(--font-music); fill: var(--ink); font-size: 48px; }
+  .clef, .notehead, .keysig, .accidental {
+    font-family: var(--font-music);
+    fill: var(--ink);
+    font-size: 48px;
+  }
   .degree {
     font-family: var(--font-data);
     font-size: 13px;
@@ -17,6 +23,13 @@
     text-anchor: middle;
   }
   .caret { fill: none; stroke: var(--muted); stroke-width: 1.1; }
+  .row-label {
+    font-family: var(--font-data);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    fill: var(--muted);
+  }
+
   .step-brace { stroke: var(--ink); stroke-width: 1; fill: none; }
   .step-num {
     font-family: var(--font-data);
@@ -24,8 +37,8 @@
     fill: var(--ink);
     text-anchor: middle;
   }
-  .step-num.semitone { fill: var(--accent); font-weight: 500; }
-  .step-brace.semitone { stroke: var(--accent); }
+  .step-num.odd { fill: var(--accent); font-weight: 500; }
+  .step-brace.odd { stroke: var(--accent); }
 
   .tonic-ring { fill: none; stroke: var(--accent); stroke-width: 1.5; }
   .tonic-mark .notehead { fill: var(--accent); }
@@ -33,7 +46,7 @@
   .tonic-mark .caret { stroke: var(--accent); }
 
   .note-hit, .slot-hit { fill: transparent; cursor: pointer; }
-  .note.lit .notehead { fill: var(--accent); }
+  .note.lit .notehead, .note.lit .accidental { fill: var(--accent); }
   .note.lit .degree { fill: var(--accent); }
   .note.lit .caret { stroke: var(--accent); }
 
@@ -67,13 +80,29 @@
     dominant-baseline: middle;
   }
 
-  #scale-layer {
+  .scale-layer {
     transform-box: view-box;
     transform-origin: 220px 220px;
     transition: transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
   }
   .scale-shape { fill: var(--accent-wash); stroke: var(--accent-edge); stroke-width: 1; }
+  .scale-shape.ghost {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1;
+    stroke-dasharray: 5 4;
+  }
   .scale-dot { fill: var(--accent); }
+  .scale-dot.hollow { fill: var(--paper); stroke: var(--accent); stroke-width: 1.25; }
+  .gap-arc { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+  .gap-label {
+    font-family: var(--font-data);
+    font-size: 13px;
+    fill: var(--accent);
+    text-anchor: middle;
+    dominant-baseline: middle;
+    transition: transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
   .hub {
     font-family: var(--font-data);
     font-size: 14px;
@@ -88,6 +117,12 @@
     text-anchor: middle;
   }
 
+  .legend {
+    font-family: var(--font-data);
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin: calc(var(--step) * 1.5) 0 0;
+  }
   .controls { align-items: baseline; gap: calc(var(--step) * 2.5); }
 </style>
 </head>
@@ -97,36 +132,96 @@
   <p class="eyebrow">mus 312 &middot; harmony review &middot; part one</p>
   <h1>counting in semitones</h1>
 
-  <p class="lede full">The same seven pitches sit in both spaces below. On the staff they carry register and spelling. On the clock they carry distance. Scale degrees run above the staff and pitch classes around the clock.</p>
+  <p class="lede full">The same pitches sit in both spaces below. On the staff they carry register and spelling. On the clock they carry distance. Scale degrees run above the staff and pitch classes around the clock.</p>
 
   <p class="howto">Hover a pitch in either space to find it in the other. Click any pitch on the clock to make it scale degree 1.</p>
 
-  <div class="panels">
-
-    <section class="panel">
-      <h2>musical space</h2>
-      <svg id="staff" viewBox="0 0 560 200" role="img" aria-label="Major scale on a treble staff with key signature, scale degrees, and the step pattern marked beneath"></svg>
-      <p>The clef fixes identity and register: it tells you that this line is E and that space is F. It says nothing about the distance between them. That comes from the scale. This one is the major scale, whose seven pitches are spaced 2 2 1 2 2 2 1 in semitones, the pattern braced under the staff. The two semitones sit between degrees 3 and 4 and between degrees 7 and 8, and that asymmetry is what gives the major scale its sound and every key its signature.</p>
-      <p>A scale degree is the position a pitch holds in that pattern, counted from the tonic: 1̂ is the tonic, 2̂ the pitch a step above it, and so on to 7̂, with the octave returning to 1̂. The caret marks the number as a degree rather than a quantity, so 3̂ reads as the third degree of whatever key is in force, E in C major and G♭ in E♭ major.</p>
-    </section>
-
-    <section class="panel">
-      <h2>pitch-class space</h2>
-      <svg id="clock" viewBox="0 0 440 440" role="img" aria-label="Clock face of twelve pitch classes with the major scale marked, a semitone arrow from four to five, and a whole-tone arrow from zero to two"></svg>
-      <p>A pitch class is a pitch with register and spelling stripped away: every C in every octave is pitch class 0, and C♯ and D♭ are both pitch class 1. Twelve pitch classes, numbered 0 through 11 from C, fill the octave.</p>
-      <p>What you count here is distance. Each position is one semitone from its neighbor, so moving from one number to the next is a step of 1. C to D is 0 to 2: one, two, a whole tone. E to F is 4 to 5: one, a semitone.</p>
-    </section>
-
-  </div>
-
-  <div class="controls">
-    <button id="btn-reset" type="button">reset to C major</button>
-    <p class="readout" id="readout"></p>
-  </div>
+  <section class="scale" id="sec-major">
+    <h2>the major scale</h2>
+    <div class="panels">
+      <section class="panel">
+        <h3>musical space</h3>
+        <svg class="staff" viewBox="0 0 580 200" role="img" aria-label="Major scale on a treble staff with key signature, scale degrees, and the step pattern marked beneath"></svg>
+        <p>The clef fixes identity and register: it tells you that this line is E and that space is F. It says nothing about the distance between them. That comes from the scale. This one is the major scale, whose seven pitches are spaced 2 2 1 2 2 2 1 in semitones, the pattern braced under the staff. The two semitones sit between degrees 3 and 4 and between degrees 7 and 8, and that asymmetry is what gives the major scale its sound and every key its signature.</p>
+        <p>A scale degree is the position a pitch holds in that pattern, counted from the tonic: 1̂ is the tonic, 2̂ the pitch a step above it, and so on to 7̂, with the octave returning to 1̂. The caret marks the number as a degree rather than a quantity, so 3̂ reads as the third degree of whatever key is in force, E in C major and G♭ in E♭ major.</p>
+      </section>
+      <section class="panel">
+        <h3>pitch-class space</h3>
+        <svg class="clock" viewBox="0 0 440 440" role="img" aria-label="Clock face of twelve pitch classes with the major scale marked, a semitone arrow from four to five, and a whole-tone arrow from zero to two"></svg>
+        <p>A pitch class is a pitch with register and spelling stripped away: every C in every octave is pitch class 0, and C♯ and D♭ are both pitch class 1. Twelve pitch classes, numbered 0 through 11 from C, fill the octave.</p>
+        <p>What you count here is distance. Each position is one semitone from its neighbor, so moving from one number to the next is a step of 1. C to D is 0 to 2: one, two, a whole tone. E to F is 4 to 5: one, a semitone.</p>
+      </section>
+    </div>
+    <div class="controls">
+      <button class="reset" type="button">reset to C</button>
+      <p class="readout"></p>
+    </div>
+  </section>
 
   <hr class="rule">
 
-  <p class="full">Reading a distance on the staff means counting letter names and then correcting for where the semitones fall. Reading it on the clock means subtracting. Degrees 3 to 4 and 7 to 8 are 1. Every other adjacent pair in the scale is 2. The key signature changes with the tonic. The pattern does not.</p>
+  <section class="scale" id="sec-natural">
+    <h2>natural minor</h2>
+    <div class="panels">
+      <section class="panel">
+        <svg class="staff" viewBox="0 0 580 200" role="img" aria-label="Natural minor scale on a treble staff with key signature, scale degrees, and the step pattern marked beneath"></svg>
+        <p>Natural minor runs 2 1 2 2 1 2 2. The same seven letters and the same key signature as the major scale a minor third above it, started from a different pitch: A natural minor and C major share every pitch, and the tonic is what differs. The semitones now fall between 2̂ and 3̂ and between 5̂ and 6̂.</p>
+      </section>
+      <section class="panel">
+        <svg class="clock" viewBox="0 0 440 440" role="img" aria-label="Clock face of twelve pitch classes with the natural minor scale marked"></svg>
+        <p>The shape on the clock is the major shape turned to a different starting position. Set the tonic to A here and to C in the major scale above, and the two figures cover the same seven pitch classes. What changes is which position carries the ring.</p>
+      </section>
+    </div>
+    <div class="controls">
+      <button class="reset" type="button">reset to A</button>
+      <p class="readout"></p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section class="scale" id="sec-harmonic">
+    <h2>harmonic minor</h2>
+    <div class="panels">
+      <section class="panel">
+        <svg class="staff" viewBox="0 0 580 200" role="img" aria-label="Harmonic minor scale on a treble staff with key signature, an accidental on the seventh degree, scale degrees, and the step pattern marked beneath"></svg>
+        <p>Harmonic minor raises 7̂ of natural minor by a semitone, which puts a leading tone a semitone below the tonic and lets V be major. The raised degree takes an accidental against the key signature, so the pattern runs 2 1 2 2 1 3 1. Every other adjacent pair in any of these scales is 1 or 2. This one is 3, an augmented second between 6̂ and 7̂.</p>
+      </section>
+      <section class="panel">
+        <svg class="clock" viewBox="0 0 440 440" role="img" aria-label="Clock face of twelve pitch classes with the harmonic minor scale marked and its three-semitone gap arced"></svg>
+        <p>The gap of three positions between 6̂ and 7̂ is arced on the rim. It is the one place in any of these four scales where two adjacent scale members sit more than a whole tone apart, and it survives transposition: click any pitch and the gap turns with the rest of the shape.</p>
+      </section>
+    </div>
+    <div class="controls">
+      <button class="reset" type="button">reset to A</button>
+      <p class="readout"></p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section class="scale" id="sec-melodic">
+    <h2>melodic minor</h2>
+    <div class="panels">
+      <section class="panel">
+        <svg class="staff" viewBox="0 0 580 370" role="img" aria-label="Melodic minor on a treble staff, ascending form above and descending form below, with scale degrees and step patterns marked"></svg>
+        <p>Melodic minor takes two forms. Ascending, both 6̂ and 7̂ rise by a semitone, giving 2 1 2 2 2 2 1: the upper four pitches match the major scale while the lower three stay minor. Descending, both revert and the scale is natural minor, read here from the octave down. The two forms are written on separate staves above, ascending first.</p>
+      </section>
+      <section class="panel">
+        <svg class="clock" viewBox="0 0 440 440" role="img" aria-label="Clock face of twelve pitch classes with the ascending melodic minor scale filled and the descending form outlined"></svg>
+        <p>Both forms sit on one clock. The filled shape with solid dots is the ascending form. The dashed outline with hollow dots is the descending form. Five pitch classes are common to both, and the two shapes part company only at 6̂ and 7̂.</p>
+        <p class="legend">solid: ascending &middot; dashed: descending</p>
+      </section>
+    </div>
+    <div class="controls">
+      <button class="reset" type="button">reset to A</button>
+      <p class="readout"></p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <p class="full">Reading a distance on the staff means counting letter names and then correcting for where the semitones fall. Reading it on the clock means subtracting. Each of these four scales is a single shape: the key signature changes with the tonic, the accidentals change with the spelling, and the pattern of 1s and 2s holds in all twelve keys.</p>
 
   <footer>
     <p>Notation set in Bravura, Steinberg Media Technologies. Text set in IBM Plex. Both under the SIL Open Font License.</p>
@@ -153,10 +248,11 @@
     ["F\u266F", "G\u266D"], ["G"], ["G\u266F", "A\u266D"], ["A"],
     ["A\u266F", "B\u266D"], ["B"]
   ];
-  var MAJOR = [0, 2, 4, 5, 7, 9, 11];
   var LETTER = ["C", "D", "E", "F", "G", "A", "B"];
+  var NATURAL_PC = [0, 2, 4, 5, 7, 9, 11];
 
-  var KEYS = [
+  /* tonic letter index and key signature, for major and for minor */
+  var MAJOR_KEYS = [
     { name: "C",       letter: 0, count: 0, kind: null },
     { name: "D\u266D", letter: 1, count: 5, kind: "flat" },
     { name: "D",       letter: 1, count: 2, kind: "sharp" },
@@ -170,119 +266,44 @@
     { name: "B\u266D", letter: 6, count: 2, kind: "flat" },
     { name: "B",       letter: 6, count: 5, kind: "sharp" }
   ];
+  var MINOR_KEYS = [
+    { name: "C",       letter: 0, count: 3, kind: "flat" },
+    { name: "C\u266F", letter: 0, count: 4, kind: "sharp" },
+    { name: "D",       letter: 1, count: 1, kind: "flat" },
+    { name: "E\u266D", letter: 2, count: 6, kind: "flat" },
+    { name: "E",       letter: 2, count: 1, kind: "sharp" },
+    { name: "F",       letter: 3, count: 4, kind: "flat" },
+    { name: "F\u266F", letter: 3, count: 3, kind: "sharp" },
+    { name: "G",       letter: 4, count: 2, kind: "flat" },
+    { name: "G\u266F", letter: 4, count: 5, kind: "sharp" },
+    { name: "A",       letter: 5, count: 0, kind: null },
+    { name: "B\u266D", letter: 6, count: 5, kind: "flat" },
+    { name: "B",       letter: 6, count: 2, kind: "sharp" }
+  ];
 
   var SHARP_ORDER = [3, 0, 4, 1, 5, 2, 6];
   var FLAT_ORDER  = [6, 2, 5, 1, 4, 0, 3];
   var SHARP_STEPS = [8, 5, 9, 6, 3, 7, 4];
   var FLAT_STEPS  = [4, 7, 3, 6, 2, 5, 1];
-  var GLYPH = { sharp: "\uE262", flat: "\uE260" };
+  var KEYSIG_GLYPH = { sharp: "\uE262", flat: "\uE260" };
+  var ACC_GLYPH = {
+    "-2": "\uE264", "-1": "\uE260", "0": "\uE261", "1": "\uE262", "2": "\uE263"
+  };
+  var ACC_SIGN = { "-2": "\u266D\u266D", "-1": "\u266D", "0": "", "1": "\u266F", "2": "x" };
 
-  /* ---------- state and cross-panel highlighting ---------- */
+  /* scale definitions: semitone offset paired with letter offset */
+  var MAJOR    = [[0, 0], [2, 1], [4, 2], [5, 3], [7, 4], [9, 5], [11, 6], [12, 7]];
+  var NAT_MIN  = [[0, 0], [2, 1], [3, 2], [5, 3], [7, 4], [8, 5], [10, 6], [12, 7]];
+  var HARM_MIN = [[0, 0], [2, 1], [3, 2], [5, 3], [7, 4], [8, 5], [11, 6], [12, 7]];
+  var MEL_UP   = [[0, 0], [2, 1], [3, 2], [5, 3], [7, 4], [9, 5], [11, 6], [12, 7]];
+  var MEL_DOWN = [[12, 7], [10, 6], [8, 5], [7, 4], [5, 3], [3, 2], [2, 1], [0, 0]];
 
-  var staffNotes = [];
-  var slots = [];
+  /* ---------- geometry ---------- */
 
-  function light(pc) {
-    slots.forEach(function (s, i) { s.classList.toggle("lit", i === pc); });
-    staffNotes.forEach(function (o) { o.g.classList.toggle("lit", o.pc === pc); });
-  }
-  function clear() {
-    slots.forEach(function (s) { s.classList.remove("lit"); });
-    staffNotes.forEach(function (o) { o.g.classList.remove("lit"); });
-  }
-  function bind(node, pc) {
-    node.addEventListener("mouseenter", function () { light(pc); });
-    node.addEventListener("mouseleave", clear);
-    node.addEventListener("focus", function () { light(pc); });
-    node.addEventListener("blur", clear);
-  }
+  var SP = 12, ROW_H = 170, ROW_TOP = 70;
+  function rowTop(r) { return ROW_TOP + ROW_H * r; }
+  function noteY(step, r) { return rowTop(r) + 48 - (SP / 2) * step; }
 
-  /* ---------- left: the staff ---------- */
-
-  var staff = document.getElementById("staff");
-  var SP = 12, E4Y = 118;
-  function noteY(step) { return E4Y - (SP / 2) * step; }
-
-  function drawStaff(tonic) {
-    while (staff.firstChild) { staff.removeChild(staff.firstChild); }
-    staffNotes = [];
-
-    var key = KEYS[tonic];
-
-    for (var L = 0; L < 5; L++) {
-      staff.appendChild(el("line", {
-        x1: 10, y1: 70 + 12 * L, x2: 548, y2: 70 + 12 * L, "class": "staff-line"
-      }));
-    }
-    staff.appendChild(el("text", { x: 18, y: noteY(2), "class": "clef" }, "\uE050"));
-
-    var order = key.kind === "flat" ? FLAT_ORDER : SHARP_ORDER;
-    var steps = key.kind === "flat" ? FLAT_STEPS : SHARP_STEPS;
-    var altered = {};
-    for (var a = 0; a < key.count; a++) {
-      altered[order[a]] = key.kind;
-      staff.appendChild(el("text", {
-        x: 66 + 13 * a, y: noteY(steps[a]), "class": "keysig"
-      }, GLYPH[key.kind]));
-    }
-
-    var x0 = 74 + 13 * key.count;
-    for (var i = 0; i < 8; i++) {
-      var li = (key.letter + i) % 7;
-      var step = key.letter + i - 2;
-      var x = x0 + 48 * i;
-      var y = noteY(step);
-      var pc = (tonic + (i === 7 ? 12 : MAJOR[i])) % 12;
-      var acc = altered[li] === "sharp" ? "\u266F" : (altered[li] === "flat" ? "\u266D" : "");
-      var isTonic = (i === 0 || i === 7);
-
-      var g = el("g", {
-        "class": "note" + (isTonic ? " tonic-mark" : ""),
-        tabindex: "0", role: "img",
-        "aria-label": "degree " + (i === 7 ? 1 : i + 1) + ", " + LETTER[li] + acc + ", pitch class " + pc
-      });
-
-      if (step <= -2) {
-        for (var v = -2; v >= step; v -= 2) {
-          g.appendChild(el("line", { x1: x - 7, y1: noteY(v), x2: x + 27, y2: noteY(v), "class": "ledger" }));
-        }
-      } else if (step >= 10) {
-        for (var w = 10; w <= step; w += 2) {
-          g.appendChild(el("line", { x1: x - 7, y1: noteY(w), x2: x + 27, y2: noteY(w), "class": "ledger" }));
-        }
-      }
-
-      g.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
-      if (isTonic) {
-        g.appendChild(el("circle", { cx: x + 10, cy: y, r: 17, "class": "tonic-ring" }));
-      }
-      g.appendChild(el("text", { x: x + 10, y: 32, "class": "degree" }, String(i === 7 ? 1 : i + 1)));
-      g.appendChild(el("path", {
-        d: "M" + (x + 5) + " 21 L" + (x + 10) + " 17 L" + (x + 15) + " 21", "class": "caret"
-      }));
-      g.appendChild(el("rect", { x: x - 9, y: y - 17, width: 38, height: 34, "class": "note-hit" }));
-      staff.appendChild(g);
-      staffNotes.push({ g: g, pc: pc });
-    }
-
-    for (var s = 0; s < 7; s++) {
-      var xa = x0 + 48 * s + 10, xb = x0 + 48 * (s + 1) + 10;
-      var half = (s === 6 ? 12 : MAJOR[s + 1]) - MAJOR[s];
-      var cls = half === 1 ? " semitone" : "";
-      staff.appendChild(el("path", {
-        d: "M" + xa + " 158 L" + xa + " 163 L" + xb + " 163 L" + xb + " 158",
-        "class": "step-brace" + cls
-      }));
-      staff.appendChild(el("text", { x: (xa + xb) / 2, y: 180, "class": "step-num" + cls },
-                          String(half)));
-    }
-
-    staffNotes.forEach(function (o) { bind(o.g, o.pc); });
-  }
-
-  /* ---------- right: the clock ---------- */
-
-  var clock = document.getElementById("clock");
   var CX = 220, CY = 220;
   var R_SPOKE_IN = 36, R_SPOKE_OUT = 100, R_NUM = 114, R_RIM = 130,
       R_NAME = 156, R_ARROW = 184, R_ARROW_LABEL = 202;
@@ -290,113 +311,353 @@
   function ang(pc) { return (-90 + 30 * pc) * Math.PI / 180; }
   function px(pc, r) { return CX + r * Math.cos(ang(pc)); }
   function py(pc, r) { return CY + r * Math.sin(ang(pc)); }
-
-  var defs = el("defs", {});
-  var marker = el("marker", {
-    id: "arrowhead", markerWidth: 8, markerHeight: 8, refX: 7, refY: 4,
-    orient: "auto", markerUnits: "userSpaceOnUse"
-  });
-  marker.appendChild(el("path", { d: "M0,0 L8,4 L0,8 z", "class": "arrowhead-fill" }));
-  defs.appendChild(marker);
-  clock.appendChild(defs);
-
-  clock.appendChild(el("circle", { cx: CX, cy: CY, r: R_RIM, "class": "rim" }));
-
-  for (var pc = 0; pc < 12; pc++) {
-    var sg = el("g", {
-      "class": "slot", tabindex: "0", role: "button",
-      "aria-label": "make " + NAMES[pc].join(" or ") + " the tonic"
-    });
-    sg.appendChild(el("line", {
-      x1: px(pc, R_SPOKE_IN), y1: py(pc, R_SPOKE_IN),
-      x2: px(pc, R_SPOKE_OUT), y2: py(pc, R_SPOKE_OUT),
-      "class": "spoke" + (pc % 3 === 0 ? " axis" : "")
-    }));
-    sg.appendChild(el("text", { x: px(pc, R_NUM), y: py(pc, R_NUM), "class": "pc-num" }, String(pc)));
-
-    var nameEl = el("text", { x: px(pc, R_NAME), y: py(pc, R_NAME), "class": "pc-name" });
-    if (NAMES[pc].length === 1) {
-      nameEl.setAttribute("dy", "0.35em");
-      nameEl.textContent = NAMES[pc][0];
-    } else {
-      nameEl.appendChild(el("tspan", { x: px(pc, R_NAME), dy: "-0.15em" }, NAMES[pc][0]));
-      nameEl.appendChild(el("tspan", { x: px(pc, R_NAME), dy: "1.15em" }, NAMES[pc][1]));
-    }
-    sg.appendChild(nameEl);
-    sg.appendChild(el("circle", { cx: px(pc, R_NUM), cy: py(pc, R_NUM), r: 15, "class": "slot-hit" }));
-    sg.appendChild(el("circle", { cx: px(pc, R_NAME), cy: py(pc, R_NAME), r: 17, "class": "slot-hit" }));
-    clock.appendChild(sg);
-    slots.push(sg);
-  }
-
-  function arc(fromPc, toPc, r, inset) {
-    var a1 = ang(fromPc) + inset, a2 = ang(toPc) - inset;
+  function arc(from, to, r, inset) {
+    var a1 = ang(from) + inset, a2 = ang(to) - inset;
     return "M" + (CX + r * Math.cos(a1)) + " " + (CY + r * Math.sin(a1)) +
            " A " + r + " " + r + " 0 0 1 " +
            (CX + r * Math.cos(a2)) + " " + (CY + r * Math.sin(a2));
   }
   var INSET = 6 * Math.PI / 180;
 
-  clock.appendChild(el("path", { d: arc(4, 5, R_ARROW, INSET), "class": "arrow", "marker-end": "url(#arrowhead)" }));
-  clock.appendChild(el("text", { x: px(4.5, R_ARROW_LABEL), y: py(4.5, R_ARROW_LABEL), "class": "arrow-label" }, "1"));
-  clock.appendChild(el("path", { d: arc(0, 2, R_ARROW, INSET), "class": "arrow", "marker-end": "url(#arrowhead)" }));
-  clock.appendChild(el("text", { x: px(1, R_ARROW_LABEL), y: py(1, R_ARROW_LABEL), "class": "arrow-label" }, "2"));
+  /* ---------- spelling ---------- */
 
-  var scaleLayer = el("g", { id: "scale-layer" });
-  var pts = MAJOR.map(function (p) { return px(p, R_RIM) + "," + py(p, R_RIM); }).join(" ");
-  scaleLayer.appendChild(el("polygon", { points: pts, "class": "scale-shape" }));
-  MAJOR.forEach(function (p) {
-    scaleLayer.appendChild(el("circle", { cx: px(p, R_RIM), cy: py(p, R_RIM), r: 5, "class": "scale-dot" }));
-  });
-  scaleLayer.appendChild(el("circle", { cx: px(0, R_RIM), cy: py(0, R_RIM), r: 12, "class": "tonic-ring" }));
-  clock.appendChild(scaleLayer);
-
-  var hub = el("text", { x: CX, y: CY - 4, "class": "hub" }, "C major");
-  clock.appendChild(hub);
-  clock.appendChild(el("text", { x: CX, y: CY + 18, "class": "hint" }, "CLICK A PITCH"));
-
-  slots.forEach(function (s, i) { bind(s, i); });
-
-  /* ---------- transposition ---------- */
-
-  var readout = document.getElementById("readout");
-  var btnReset = document.getElementById("btn-reset");
-  var angle = 0;
-
-  function spell(pc) {
-    var key = KEYS[pc];
+  function keySigMap(key) {
     var order = key.kind === "flat" ? FLAT_ORDER : SHARP_ORDER;
-    var altered = {};
-    for (var a = 0; a < key.count; a++) { altered[order[a]] = key.kind; }
-    var out = [];
-    for (var i = 0; i < 7; i++) {
-      var li = (key.letter + i) % 7;
-      out.push(LETTER[li] +
-        (altered[li] === "sharp" ? "\u266F" : altered[li] === "flat" ? "\u266D" : ""));
+    var m = {};
+    for (var a = 0; a < key.count; a++) {
+      m[order[a]] = key.kind === "flat" ? -1 : 1;
     }
-    return out;
+    return m;
   }
 
-  function setTonic(pc) {
-    var target = pc * 30;
-    var delta = ((target - (angle % 360)) % 360 + 540) % 360 - 180;
-    angle += delta;
-    scaleLayer.style.transform = "rotate(" + angle + "deg)";
-    hub.textContent = KEYS[pc].name + " major";
-    drawStaff(pc);
-    readout.textContent = KEYS[pc].name + " major: " + spell(pc).join(" ") + ".";
-    btnReset.disabled = (pc === 0);
+  function spellNote(tonic, key, pair) {
+    var semis = pair[0], lo = pair[1];
+    var li = (key.letter + lo) % 7;
+    var pc = (tonic + semis) % 12;
+    var alt = ((pc - NATURAL_PC[li] + 6) % 12) - 6;
+    return {
+      pc: pc,
+      letterIndex: li,
+      step: key.letter + lo - 2,
+      degree: (lo % 7) + 1,
+      alt: alt,
+      name: LETTER[li] + ACC_SIGN[String(alt)]
+    };
   }
 
-  slots.forEach(function (s, i) {
-    s.addEventListener("click", function () { setTonic(i); });
-    s.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setTonic(i); }
+  /* ---------- one section ---------- */
+
+  function buildSection(cfg) {
+    var root = document.getElementById(cfg.id);
+    var staff = root.querySelector(".staff");
+    var clock = root.querySelector(".clock");
+    var reset = root.querySelector(".reset");
+    var readout = root.querySelector(".readout");
+    var KEYS = cfg.keys;
+
+    var staffNotes = [];
+    var slots = [];
+    var angle = 0;
+
+    function light(pc) {
+      slots.forEach(function (s, i) { s.classList.toggle("lit", i === pc); });
+      staffNotes.forEach(function (o) { o.g.classList.toggle("lit", o.pc === pc); });
+    }
+    function clearLit() {
+      slots.forEach(function (s) { s.classList.remove("lit"); });
+      staffNotes.forEach(function (o) { o.g.classList.remove("lit"); });
+    }
+    function bind(node, pc) {
+      node.addEventListener("mouseenter", function () { light(pc); });
+      node.addEventListener("mouseleave", clearLit);
+      node.addEventListener("focus", function () { light(pc); });
+      node.addEventListener("blur", clearLit);
+    }
+
+    /* ----- staff ----- */
+
+    function drawRow(tonic, key, row, r, label, gap) {
+      var top = rowTop(r);
+      var ks = keySigMap(key);
+
+      for (var L = 0; L < 5; L++) {
+        staff.appendChild(el("line", {
+          x1: 10, y1: top + 12 * L, x2: 568, y2: top + 12 * L, "class": "staff-line"
+        }));
+      }
+      staff.appendChild(el("text", { x: 18, y: noteY(2, r), "class": "clef" }, "\uE050"));
+
+      if (label) {
+        staff.appendChild(el("text", { x: 10, y: top - 38, "class": "row-label" }, label));
+      }
+
+      var order = key.kind === "flat" ? FLAT_ORDER : SHARP_ORDER;
+      var steps = key.kind === "flat" ? FLAT_STEPS : SHARP_STEPS;
+      for (var a = 0; a < key.count; a++) {
+        staff.appendChild(el("text", {
+          x: 66 + 13 * a, y: noteY(steps[a], r), "class": "keysig"
+        }, KEYSIG_GLYPH[key.kind]));
+      }
+
+      var notes = row.map(function (pair) { return spellNote(tonic, key, pair); });
+      var x0 = 74 + 13 * key.count;
+
+      notes.forEach(function (n, i) {
+        var x = x0 + gap * i;
+        var y = noteY(n.step, r);
+        var isTonic = (n.degree === 1);
+        var showAcc = n.alt !== (ks[n.letterIndex] || 0);
+
+        var g = el("g", {
+          "class": "note" + (isTonic ? " tonic-mark" : ""),
+          tabindex: "0", role: "img",
+          "aria-label": "degree " + n.degree + ", " + n.name + ", pitch class " + n.pc
+        });
+
+        if (n.step <= -2) {
+          for (var v = -2; v >= n.step; v -= 2) {
+            g.appendChild(el("line", {
+              x1: x - 7, y1: noteY(v, r), x2: x + 27, y2: noteY(v, r), "class": "ledger"
+            }));
+          }
+        } else if (n.step >= 10) {
+          for (var w = 10; w <= n.step; w += 2) {
+            g.appendChild(el("line", {
+              x1: x - 7, y1: noteY(w, r), x2: x + 27, y2: noteY(w, r), "class": "ledger"
+            }));
+          }
+        }
+
+        if (showAcc) {
+          g.appendChild(el("text", {
+            x: x - 17, y: y, "class": "accidental"
+          }, ACC_GLYPH[String(n.alt)]));
+        }
+        g.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
+        if (isTonic) {
+          g.appendChild(el("circle", { cx: x + 10, cy: y, r: 17, "class": "tonic-ring" }));
+        }
+        g.appendChild(el("text", { x: x + 10, y: top - 34, "class": "degree" },
+                         String(n.degree)));
+        g.appendChild(el("path", {
+          d: "M" + (x + 5) + " " + (top - 45) + " L" + (x + 10) + " " + (top - 49) +
+             " L" + (x + 15) + " " + (top - 45), "class": "caret"
+        }));
+        g.appendChild(el("rect", {
+          x: x - (showAcc ? 20 : 9), y: y - 17,
+          width: (showAcc ? 49 : 38), height: 34, "class": "note-hit"
+        }));
+        staff.appendChild(g);
+        staffNotes.push({ g: g, pc: n.pc });
+      });
+
+      for (var s = 0; s < 7; s++) {
+        var xa = x0 + gap * s + 10, xb = x0 + gap * (s + 1) + 10;
+        var half = Math.abs(row[s + 1][0] - row[s][0]);
+        var cls = half === 2 ? "" : " odd";
+        staff.appendChild(el("path", {
+          d: "M" + xa + " " + (top + 88) + " L" + xa + " " + (top + 93) +
+             " L" + xb + " " + (top + 93) + " L" + xb + " " + (top + 88),
+          "class": "step-brace" + cls
+        }));
+        staff.appendChild(el("text", {
+          x: (xa + xb) / 2, y: top + 110, "class": "step-num" + cls
+        }, String(half)));
+      }
+    }
+
+    function drawStaff(tonic) {
+      while (staff.firstChild) { staff.removeChild(staff.firstChild); }
+      staffNotes = [];
+      var key = KEYS[tonic];
+      var ks = keySigMap(key);
+      var anyAcc = cfg.rows.some(function (row) {
+        return row.pairs.some(function (pair) {
+          var n = spellNote(tonic, key, pair);
+          return n.alt !== (ks[n.letterIndex] || 0);
+        });
+      });
+      var gap = anyAcc ? 54 : 48;
+      cfg.rows.forEach(function (row, r) {
+        drawRow(tonic, key, row.pairs, r, row.label, gap);
+      });
+      staffNotes.forEach(function (o) { bind(o.g, o.pc); });
+    }
+
+    /* ----- clock ----- */
+
+    var defs = el("defs", {});
+    var markerId = "arrowhead-" + cfg.id;
+    var marker = el("marker", {
+      id: markerId, markerWidth: 8, markerHeight: 8, refX: 7, refY: 4,
+      orient: "auto", markerUnits: "userSpaceOnUse"
     });
-  });
-  btnReset.addEventListener("click", function () { setTonic(0); });
+    marker.appendChild(el("path", { d: "M0,0 L8,4 L0,8 z", "class": "arrowhead-fill" }));
+    defs.appendChild(marker);
+    clock.appendChild(defs);
+    clock.appendChild(el("circle", { cx: CX, cy: CY, r: R_RIM, "class": "rim" }));
 
-  setTonic(0);
+    for (var pc = 0; pc < 12; pc++) {
+      var sg = el("g", {
+        "class": "slot", tabindex: "0", role: "button",
+        "aria-label": "make " + NAMES[pc].join(" or ") + " the tonic"
+      });
+      sg.appendChild(el("line", {
+        x1: px(pc, R_SPOKE_IN), y1: py(pc, R_SPOKE_IN),
+        x2: px(pc, R_SPOKE_OUT), y2: py(pc, R_SPOKE_OUT),
+        "class": "spoke" + (pc % 3 === 0 ? " axis" : "")
+      }));
+      sg.appendChild(el("text", {
+        x: px(pc, R_NUM), y: py(pc, R_NUM), "class": "pc-num"
+      }, String(pc)));
+
+      var nameEl = el("text", { x: px(pc, R_NAME), y: py(pc, R_NAME), "class": "pc-name" });
+      if (NAMES[pc].length === 1) {
+        nameEl.setAttribute("dy", "0.35em");
+        nameEl.textContent = NAMES[pc][0];
+      } else {
+        nameEl.appendChild(el("tspan", { x: px(pc, R_NAME), dy: "-0.15em" }, NAMES[pc][0]));
+        nameEl.appendChild(el("tspan", { x: px(pc, R_NAME), dy: "1.15em" }, NAMES[pc][1]));
+      }
+      sg.appendChild(nameEl);
+      sg.appendChild(el("circle", {
+        cx: px(pc, R_NUM), cy: py(pc, R_NUM), r: 15, "class": "slot-hit"
+      }));
+      sg.appendChild(el("circle", {
+        cx: px(pc, R_NAME), cy: py(pc, R_NAME), r: 17, "class": "slot-hit"
+      }));
+      clock.appendChild(sg);
+      slots.push(sg);
+    }
+
+    if (cfg.arrows) {
+      cfg.arrows.forEach(function (a) {
+        clock.appendChild(el("path", {
+          d: arc(a.from, a.to, R_ARROW, INSET), "class": "arrow",
+          "marker-end": "url(#" + markerId + ")"
+        }));
+        var m = (a.from + a.to) / 2;
+        clock.appendChild(el("text", {
+          x: px(m, R_ARROW_LABEL), y: py(m, R_ARROW_LABEL), "class": "arrow-label"
+        }, String(a.to - a.from)));
+      });
+    }
+
+    var layer = el("g", { "class": "scale-layer" });
+
+    if (cfg.ghost) {
+      layer.appendChild(el("polygon", {
+        points: cfg.ghost.map(function (p) { return px(p, R_RIM) + "," + py(p, R_RIM); }).join(" "),
+        "class": "scale-shape ghost"
+      }));
+    }
+    var main = cfg.rows[0].pairs.slice(0, 7).map(function (p) { return p[0]; });
+    layer.appendChild(el("polygon", {
+      points: main.map(function (p) { return px(p, R_RIM) + "," + py(p, R_RIM); }).join(" "),
+      "class": "scale-shape"
+    }));
+    if (cfg.ghost) {
+      cfg.ghost.forEach(function (p) {
+        if (main.indexOf(p) === -1) {
+          layer.appendChild(el("circle", {
+            cx: px(p, R_RIM), cy: py(p, R_RIM), r: 5, "class": "scale-dot hollow"
+          }));
+        }
+      });
+    }
+    main.forEach(function (p) {
+      layer.appendChild(el("circle", {
+        cx: px(p, R_RIM), cy: py(p, R_RIM), r: 5, "class": "scale-dot"
+      }));
+    });
+
+    var gapLabel = null;
+    if (cfg.gap) {
+      layer.appendChild(el("path", {
+        d: arc(cfg.gap[0], cfg.gap[1], R_ARROW, INSET), "class": "gap-arc",
+        "marker-end": "url(#" + markerId + ")"
+      }));
+      var gm = (cfg.gap[0] + cfg.gap[1]) / 2;
+      gapLabel = el("text", {
+        x: px(gm, R_ARROW_LABEL), y: py(gm, R_ARROW_LABEL), "class": "gap-label"
+      }, String(cfg.gap[1] - cfg.gap[0]));
+      gapLabel.style.transformBox = "view-box";
+      gapLabel.style.transformOrigin =
+        px(gm, R_ARROW_LABEL) + "px " + py(gm, R_ARROW_LABEL) + "px";
+      layer.appendChild(gapLabel);
+    }
+
+    layer.appendChild(el("circle", {
+      cx: px(0, R_RIM), cy: py(0, R_RIM), r: 12, "class": "tonic-ring"
+    }));
+    clock.appendChild(layer);
+
+    var hub = el("text", { x: CX, y: CY - 4, "class": "hub" });
+    clock.appendChild(hub);
+    clock.appendChild(el("text", { x: CX, y: CY + 18, "class": "hint" }, "CLICK A PITCH"));
+
+    slots.forEach(function (s, i) { bind(s, i); });
+
+    /* ----- transposition ----- */
+
+    function setTonic(pc) {
+      var target = pc * 30;
+      var delta = ((target - (angle % 360)) % 360 + 540) % 360 - 180;
+      angle += delta;
+      layer.style.transform = "rotate(" + angle + "deg)";
+      if (gapLabel) {
+        gapLabel.style.transform = "rotate(" + (-angle) + "deg)";
+      }
+      hub.textContent = KEYS[pc].name + " " + cfg.label;
+      drawStaff(pc);
+
+      var key = KEYS[pc];
+      var names = cfg.rows[0].pairs.slice(0, 7).map(function (pair) {
+        return spellNote(pc, key, pair).name;
+      });
+      readout.textContent = KEYS[pc].name + " " + cfg.label + ": " + names.join(" ") + ".";
+      reset.disabled = (pc === cfg.home);
+    }
+
+    slots.forEach(function (s, i) {
+      s.addEventListener("click", function () { setTonic(i); });
+      s.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setTonic(i); }
+      });
+    });
+    reset.addEventListener("click", function () { setTonic(cfg.home); });
+
+    setTonic(cfg.home);
+  }
+
+  /* ---------- the four scales ---------- */
+
+  buildSection({
+    id: "sec-major", label: "major", keys: MAJOR_KEYS, home: 0,
+    rows: [{ pairs: MAJOR, label: null }],
+    arrows: [{ from: 4, to: 5 }, { from: 0, to: 2 }]
+  });
+
+  buildSection({
+    id: "sec-natural", label: "natural minor", keys: MINOR_KEYS, home: 9,
+    rows: [{ pairs: NAT_MIN, label: null }]
+  });
+
+  buildSection({
+    id: "sec-harmonic", label: "harmonic minor", keys: MINOR_KEYS, home: 9,
+    rows: [{ pairs: HARM_MIN, label: null }],
+    gap: [8, 11]
+  });
+
+  buildSection({
+    id: "sec-melodic", label: "melodic minor", keys: MINOR_KEYS, home: 9,
+    rows: [
+      { pairs: MEL_UP, label: "ASCENDING" },
+      { pairs: MEL_DOWN, label: "DESCENDING" }
+    ],
+    ghost: [0, 2, 3, 5, 7, 8, 10]
+  });
+
 })();
 </script>
 </body>
