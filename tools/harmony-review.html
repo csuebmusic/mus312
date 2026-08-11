@@ -256,6 +256,8 @@
     text-anchor: middle;
   }
 
+  #sec-figured .callout { margin-top: calc(var(--step) * 3); }
+
   .callout.hi {
     border-left-color: var(--accent);
     background: var(--accent-wash);
@@ -556,11 +558,15 @@
       </section>
     </div>
 
+    <p class="full">The realization puts the bass in the left hand and the three upper voices in the right, close together, which is called keyboard style.</p>
+
+    <div class="callout">
+      <p>* The full figure for a root-position triad is 5 over 3, and it is almost always left off the page. An unfigured bass note means 5 and 3, which is why the figures above are bracketed.</p>
+    </div>
+
     <div class="callout hi">
       <p>A figure counts from the <strong>bass</strong>, not from the root. Every chord here is in root position, so the bass is the root and 5 and 3 measure from both at once. Put the third or the fifth of the chord in the bass and the figures change while the chord itself stays what it was.</p>
     </div>
-
-    <p class="full">The full figure for a root-position triad is 5 over 3, and it is almost always left off the page: an unfigured bass note means 5 and 3. The realization above puts the bass in the left hand and the three upper voices in the right, close together, which is called keyboard style.</p>
   </section>
 
   <footer>
@@ -1481,13 +1487,17 @@
     b.appendChild(el("line", {
       x1: 10, y1: trebleTop, x2: 10, y2: bassBottom, "class": "staff-line"
     }));
-    labels(b, 52, 26);
 
     XS.forEach(function (x, i) {
       UPPER[i].forEach(function (n) { drawNote(b, x, n, trebleBottom, TREBLE_BOTTOM); });
       drawNote(b, x, BASS_LINE[i], bassBottom, BASS_BOTTOM);
-      b.appendChild(el("text", { x: x + 10, y: bassBottom + 26, "class": "figure" }, "5"));
-      b.appendChild(el("text", { x: x + 10, y: bassBottom + 46, "class": "figure" }, "3"));
+      b.appendChild(el("text", { x: x + 10, y: bassBottom + 26, "class": "figure" }, "(5)"));
+      b.appendChild(el("text", { x: x + 10, y: bassBottom + 46, "class": "figure" }, "(3)"));
+      if (i === 0) {
+        b.appendChild(el("text", {
+          x: x + 34, y: bassBottom + 26, "class": "figure"
+        }, "*"));
+      }
     });
   })();
 
