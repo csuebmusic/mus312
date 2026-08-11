@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>harmony review 1: counting in semitones</title>
+<title>harmony review 1: counting in semitones, scales and chord construction</title>
 <link rel="stylesheet" href="../assets/style.css?v=5">
 <style>
   .lede { margin-bottom: calc(var(--step) * 3); }
@@ -242,6 +242,26 @@
   }
   .chord-facts dd { margin: 0; color: var(--ink); }
 
+  .solfege {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-style: italic;
+    fill: var(--muted);
+    text-anchor: middle;
+  }
+  .figure {
+    font-family: var(--font-data);
+    font-size: 15px;
+    fill: var(--ink);
+    text-anchor: middle;
+  }
+
+  .callout.hi {
+    border-left-color: var(--accent);
+    background: var(--accent-wash);
+    padding-right: calc(var(--step) * 2);
+  }
+
   .callout {
     max-width: none;
     border-left: 3px solid var(--ink);
@@ -255,8 +275,8 @@
 <body>
 <div class="wrap">
 
-  <p class="eyebrow">mus 312 &middot; harmony review &middot; part one</p>
-  <h1>counting in semitones</h1>
+  <p class="eyebrow">mus 312 &middot; harmony review &middot; part 1</p>
+  <h1>counting in semitones: scales and chord construction</h1>
 
   <p class="lede full">A pitch on the staff carries register and spelling. The same pitch on the clock carries distance. Scale degrees run above the staff, pitch classes around the clock.</p>
 
@@ -517,6 +537,30 @@
         <dl class="chord-facts" id="builder-facts"></dl>
       </section>
     </div>
+  </section>
+
+  <hr class="rule">
+
+  <section class="scale" id="sec-figured">
+    <h2>figured bass</h2>
+    <p class="full">A bass line carries figures: numbers naming the intervals to be built above each bass note, counted in scale steps rather than semitones. The line below is 1̂ 4̂ 5̂ 1̂ in C major.</p>
+
+    <div class="panels">
+      <section class="panel">
+        <h3>the bass alone</h3>
+        <svg id="fb-bass" viewBox="0 0 450 150" role="img" aria-label="A bass line of C, F, G, C in bass clef, with scale degrees and solfège above"></svg>
+      </section>
+      <section class="panel">
+        <h3>the bass realized</h3>
+        <svg id="fb-full" viewBox="0 0 450 300" role="img" aria-label="The same bass line with five three figures beneath and the resulting triads written in keyboard style on a treble staff above"></svg>
+      </section>
+    </div>
+
+    <div class="callout hi">
+      <p>A figure counts from the <strong>bass</strong>, not from the root. Every chord here is in root position, so the bass is the root and 5 and 3 measure from both at once. Put the third or the fifth of the chord in the bass and the figures change while the chord itself stays what it was.</p>
+    </div>
+
+    <p class="full">The full figure for a root-position triad is 5 over 3, and it is almost always left off the page: an unfigured bass note means 5 and 3. The realization above puts the bass in the left hand and the three upper voices in the right, close together, which is called keyboard style.</p>
   </section>
 
   <footer>
@@ -1357,6 +1401,94 @@
 
     groups.forEach(function (o) { o.g.classList.toggle("sel", o.type === chord); });
     drawChord();
+  })();
+
+  /* ---------- figured bass ---------- */
+
+  (function figuredBass() {
+    var LETTERS = "CDEFGAB";
+    function dia(n) { return parseInt(n.slice(1), 10) * 7 + LETTERS.indexOf(n.charAt(0)); }
+    var TREBLE_BOTTOM = dia("E4"), BASS_BOTTOM = dia("G2");
+
+    var XS = [130, 216, 302, 388];
+    var BASS_LINE = ["C3", "F3", "G3", "C3"];
+    var UPPER = [
+      ["E4", "G4", "C5"],
+      ["F4", "A4", "C5"],
+      ["D4", "G4", "B4"],
+      ["E4", "G4", "C5"]
+    ];
+    var DEGREES = [1, 4, 5, 1];
+    var SOLFEGE = ["do", "fa", "sol", "do"];
+
+    function staffLines(svg, topY) {
+      for (var L = 0; L < 5; L++) {
+        svg.appendChild(el("line", {
+          x1: 10, y1: topY + 12 * L, x2: 440, y2: topY + 12 * L, "class": "staff-line"
+        }));
+      }
+    }
+
+    function place(note, bottomY, bottom) { return bottomY - 6 * (dia(note) - bottom); }
+
+    function drawNote(svg, x, note, bottomY, bottom) {
+      var step = dia(note) - bottom;
+      var y = bottomY - 6 * step;
+      if (step <= -2) {
+        for (var v = -2; v >= step; v -= 2) {
+          svg.appendChild(el("line", {
+            x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v, "class": "ledger"
+          }));
+        }
+      } else if (step >= 10) {
+        for (var w = 10; w <= step; w += 2) {
+          svg.appendChild(el("line", {
+            x1: x - 7, y1: bottomY - 6 * w, x2: x + 27, y2: bottomY - 6 * w, "class": "ledger"
+          }));
+        }
+      }
+      svg.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
+      return y;
+    }
+
+    function labels(svg, degY, solY) {
+      XS.forEach(function (x, i) {
+        svg.appendChild(el("text", { x: x + 10, y: solY, "class": "solfege" }, SOLFEGE[i]));
+        svg.appendChild(el("text", { x: x + 10, y: degY, "class": "degree" }, String(DEGREES[i])));
+        svg.appendChild(el("path", {
+          d: "M" + (x + 5) + " " + (degY - 11) + " L" + (x + 10) + " " + (degY - 15) +
+             " L" + (x + 15) + " " + (degY - 11), "class": "caret"
+        }));
+      });
+    }
+
+    /* left: the bass alone */
+    var a = document.getElementById("fb-bass");
+    var aTop = 74, aBottom = aTop + 48;
+    staffLines(a, aTop);
+    a.appendChild(el("text", { x: 18, y: aBottom - 6 * 6, "class": "clef" }, "\uE062"));
+    labels(a, 52, 26);
+    XS.forEach(function (x, i) { drawNote(a, x, BASS_LINE[i], aBottom, BASS_BOTTOM); });
+
+    /* right: the same bass, figured and realized */
+    var b = document.getElementById("fb-full");
+    var trebleTop = 74, trebleBottom = trebleTop + 48;
+    var bassTop = 186, bassBottom = bassTop + 48;
+    staffLines(b, trebleTop);
+    staffLines(b, bassTop);
+    b.appendChild(el("text", { x: 18, y: trebleBottom - 6 * 2, "class": "clef" }, "\uE050"));
+    b.appendChild(el("text", { x: 18, y: bassBottom - 6 * 6, "class": "clef" }, "\uE062"));
+    b.appendChild(el("line", {
+      x1: 10, y1: trebleTop, x2: 10, y2: bassBottom, "class": "staff-line"
+    }));
+    labels(b, 52, 26);
+
+    XS.forEach(function (x, i) {
+      UPPER[i].forEach(function (n) { drawNote(b, x, n, trebleBottom, TREBLE_BOTTOM); });
+      drawNote(b, x, BASS_LINE[i], bassBottom, BASS_BOTTOM);
+      b.appendChild(el("text", { x: x + 10, y: bassBottom + 26, "class": "figure" }, "5"));
+      b.appendChild(el("text", { x: x + 10, y: bassBottom + 46, "class": "figure" }, "3"));
+    });
   })();
 
 })();
