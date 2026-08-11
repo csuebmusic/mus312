@@ -395,7 +395,7 @@
       </section>
       <section class="panel">
         <p>A triad is two thirds stacked. A minor third is 3 semitones, a major third is 4. Which one sits on the bottom decides the quality, and the two together give the outer fifth.</p>
-        <svg id="recipes" viewBox="0 0 340 270" role="img" aria-label="Stacking recipes for the major, minor, and diminished triads, measured in semitones"></svg>
+        <svg id="recipes" viewBox="0 0 340 140" role="img" aria-label="Stacking recipes for the major, minor, and diminished triads, measured in semitones"></svg>
       </section>
     </div>
     <p class="full">A roman numeral names the degree and the quality at once: upper case for major, lower case for minor, lower case with a ring for diminished. The chord symbol under it names the same chord from its root, with a capital letter for major, a lower-case letter and a dash for minor, and a ring for diminished.</p>
@@ -900,7 +900,7 @@
 
   (function recipes() {
     var svg = document.getElementById("recipes");
-    var BASE = 224, UNIT = 9, HALF = 18;
+    var BASE = 96, UNIT = 9, HALF = 18;
     var COLS = [
       { cx: 62,  name: "MAJOR",      lower: 4, upper: 3 },
       { cx: 168, name: "MINOR",      lower: 3, upper: 4 },
@@ -944,7 +944,7 @@
       }, String(outer)));
 
       svg.appendChild(el("text", {
-        x: c.cx, y: 252, "class": "recipe-name"
+        x: c.cx, y: 126, "class": "recipe-name"
       }, c.name));
     });
   })();
