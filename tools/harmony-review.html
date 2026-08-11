@@ -281,7 +281,7 @@
 
   /* ---------- geometry ---------- */
 
-  var SP = 12, ROW_H = 215, ROW_TOP = 70;
+  var SP = 12, ROW_H = 215, ROW_TOP = 80;
   function rowTop(r) { return ROW_TOP + ROW_H * r; }
   function noteY(step, r) { return rowTop(r) + 48 - (SP / 2) * step; }
 
@@ -369,7 +369,7 @@
       staff.appendChild(el("text", { x: 18, y: noteY(2, r), "class": "clef" }, "\uE050"));
 
       if (label) {
-        staff.appendChild(el("text", { x: 10, y: top - 38, "class": "row-label" }, label));
+        staff.appendChild(el("text", { x: 10, y: top - 62, "class": "row-label" }, label));
       }
 
       var order = key.kind === "flat" ? FLAT_ORDER : SHARP_ORDER;
