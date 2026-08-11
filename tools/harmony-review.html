@@ -167,7 +167,27 @@
   .triad.lit .chordsym { fill: var(--accent); }
   .triad.lit .degree { fill: var(--accent); }
   .triad.lit .caret { stroke: var(--accent); }
-  .panel.wide { margin-top: 0; }
+  .panels.uneven { grid-template-columns: 1.45fr 1fr; }
+  @media (max-width: 62rem) { .panels.uneven { grid-template-columns: 1fr; } }
+
+  .bar { fill: var(--ink); }
+  .bracket { fill: none; stroke: var(--ink); stroke-width: 1; }
+  .bracket.odd { stroke: var(--accent); }
+  .span-num {
+    font-family: var(--font-data);
+    font-size: 13px;
+    fill: var(--ink);
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+  .span-num.odd { fill: var(--accent); font-weight: 500; }
+  .recipe-name {
+    font-family: var(--font-data);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    fill: var(--muted);
+    text-anchor: middle;
+  }
 
   .callout {
     max-width: none;
@@ -369,9 +389,15 @@
   <section class="scale" id="sec-triads">
     <h2>diatonic triads</h2>
     <p class="full">Stacking two thirds on each degree of the major scale gives the seven diatonic triads. Their qualities come from where the semitones fall: major on 1̂, 4̂, and 5̂, minor on 2̂, 3̂, and 6̂, diminished on 7̂.</p>
-    <section class="panel wide">
-      <svg id="triads" viewBox="0 0 580 240" role="img" aria-label="The seven diatonic triads of C major on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
-    </section>
+    <div class="panels uneven">
+      <section class="panel">
+        <svg id="triads" viewBox="0 0 580 240" role="img" aria-label="The seven diatonic triads of C major on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
+      </section>
+      <section class="panel">
+        <p>A triad is two thirds stacked. A minor third is 3 semitones, a major third is 4. Which one sits on the bottom decides the quality, and the two together give the outer fifth.</p>
+        <svg id="recipes" viewBox="0 0 340 270" role="img" aria-label="Stacking recipes for the major, minor, and diminished triads, measured in semitones"></svg>
+      </section>
+    </div>
     <p class="full">A roman numeral names the degree and the quality at once: upper case for major, lower case for minor, lower case with a ring for diminished. The chord symbol under it names the same chord from its root, with a capital letter for major, a lower-case letter and a dash for minor, and a ring for diminished.</p>
   </section>
 
@@ -868,6 +894,59 @@
       g.addEventListener("focus", function () { this.classList.add("lit"); });
       g.addEventListener("blur", function () { this.classList.remove("lit"); });
     }
+  })();
+
+  /* ---------- triad recipes ---------- */
+
+  (function recipes() {
+    var svg = document.getElementById("recipes");
+    var BASE = 224, UNIT = 9, HALF = 18;
+    var COLS = [
+      { cx: 62,  name: "MAJOR",      lower: 4, upper: 3 },
+      { cx: 168, name: "MINOR",      lower: 3, upper: 4 },
+      { cx: 274, name: "DIMINISHED", lower: 3, upper: 3 }
+    ];
+
+    COLS.forEach(function (c) {
+      var outer = c.lower + c.upper;
+      var yRoot = BASE;
+      var yThird = BASE - c.lower * UNIT;
+      var yFifth = BASE - outer * UNIT;
+      var odd = outer === 6;
+
+      [yRoot, yThird, yFifth].forEach(function (y) {
+        svg.appendChild(el("rect", {
+          x: c.cx - HALF, y: y - 1.5, width: HALF * 2, height: 3, "class": "bar"
+        }));
+      });
+
+      function bracket(x, yA, yB, tick, cls) {
+        svg.appendChild(el("path", {
+          d: "M" + (x + tick) + " " + yA + " L" + x + " " + yA +
+             " L" + x + " " + yB + " L" + (x + tick) + " " + yB,
+          "class": "bracket" + cls
+        }));
+      }
+
+      bracket(c.cx + 26, yRoot, yThird, -5, "");
+      svg.appendChild(el("text", {
+        x: c.cx + 39, y: (yRoot + yThird) / 2, "class": "span-num"
+      }, String(c.lower)));
+
+      bracket(c.cx + 26, yThird, yFifth, -5, "");
+      svg.appendChild(el("text", {
+        x: c.cx + 39, y: (yThird + yFifth) / 2, "class": "span-num"
+      }, String(c.upper)));
+
+      bracket(c.cx - 26, yRoot, yFifth, 5, odd ? " odd" : "");
+      svg.appendChild(el("text", {
+        x: c.cx - 39, y: (yRoot + yFifth) / 2, "class": "span-num" + (odd ? " odd" : "")
+      }, String(outer)));
+
+      svg.appendChild(el("text", {
+        x: c.cx, y: 252, "class": "recipe-name"
+      }, c.name));
+    });
   })();
 
 })();
