@@ -1,90 +1,79 @@
 # mus 312 outline, fall 2026
 
-working document. topics and readings by meeting. not student-facing.
+working document. topics and readings by week. not student-facing.
 
 ## calendar
 
 Classes begin Tuesday, August 18. Last day of classes Saturday, December 5. Final exams December 7 to 12.
 
-MW 11:00 to 12:40. Twenty-seven meetings.
+MW 11:00 to 12:40. Sixteen weeks, fifteen of them with meetings, twenty-seven meetings total.
 
-Campus closed on class days: Monday, September 7 (Labor Day), Wednesday, November 11 (Veterans Day), Monday, November 23 and Wednesday, November 25 (Fall Recess).
+Single-meeting weeks: week 1 (Wednesday start), week 4 (Labor Day, September 7), week 13 (Veterans Day, November 11). Week 15 (November 23 and 25) is Fall Recess with no meetings.
 
 Other dates: census September 15, last day to withdraw November 6, grades due December 15 at 8:00 PM.
 
 ## texts
 
-Caplin, *Analyzing Classical Form*. Laitz and Bartlette, *Graduate Review of Tonal Theory*. Hepokoski and Darcy, *Elements of Sonata Theory*, chapter 2 (pp. 14 to 22).
+Caplin, *Analyzing Classical Form*, chapters 1 through 16 (Parts I and II). Main text, one chapter per week.
+
+Hepokoski and Darcy, *Elements of Sonata Theory*. Sonata-form terminology and the sonata weeks.
+
+Laitz and Bartlette, *Graduate Review of Tonal Theory*. Chromatic harmony and the forms outside Caplin Parts I and II.
 
 Sonata-form terminology follows Hepokoski and Darcy. Elsewhere terminology follows Caplin.
 
-## unit 1: harmony and cadence
+## part i: conventional theme types
 
-| # | date | topic | reading |
+| wk | meetings | Caplin | supplement |
 |---|---|---|---|
-| 1 | Wed Aug 19 | orientation. formal function and grouping structure. harmonic vocabulary, the three progression types | Caplin 1–8 |
-| 2 | Mon Aug 24 | cadence types. cadential progressions. the expanded cadential progression | Caplin 14–20, 24–26 |
-| 3 | Wed Aug 26 | prolongational and sequential progressions. harmonic sequence patterns | Caplin 9–14, 20–24; Laitz 126–136 |
-| 4 | Mon Aug 31 | applied chords, tonicization, extended tonicization. sequences with applied chords | Laitz 137–147 |
+| 1 | Wed Aug 19 | 1, review of harmony (1–31) | Laitz 126–136, sequences |
+| 2 | Aug 24, 26 | 2, the sentence (33–72) | Laitz 137–147, applied chords and tonicization |
+| 3 | Aug 31, Sep 2 | 3, the period (73–98) | Laitz 114–125, period and double period |
+| 4 | Wed Sep 9 | 4, hybrid themes (99–122) | |
+| 5 | Sep 14, 16 | 5, phrase and cadential deviations, framing functions (123–165) | |
+| 6 | Sep 21, 23 | 6, compound themes (166–194) | |
+| 7 | Sep 28, 30 | 7, the small ternary (195–237) | Laitz 197–207, ternary form |
+| 8 | Oct 5, 7 | 8, the small binary (238–260), Monday. exam 1, Wednesday | Laitz 148–162, modulation and binary form |
 
-## unit 2: theme types
+## part ii: sonata form
 
-| # | date | topic | reading |
+| wk | meetings | Caplin | supplement |
 |---|---|---|---|
-| 5 | Wed Sep 2 | the sentence: presentation phrase, continuation phrase | Caplin 33–55 |
-| — | Mon Sep 7 | Labor Day, campus closed | |
-| 6 | Wed Sep 9 | continuation becoming cadential. ECP within the theme. real and notated measures. modulating sentence | Caplin 55–72 |
-| 7 | Mon Sep 14 | the period. antecedent and consequent. reinterpreted half cadence | Caplin 73–98; Laitz 114–125 |
-| 8 | Wed Sep 16 | hybrid themes. compound basic idea. phrase ambiguity | Caplin 99–122 |
-| 9 | Mon Sep 21 | phrase deviations, cadential deviations, framing functions | Caplin 123–165 |
-| 10 | Wed Sep 23 | compound period and compound sentence | Caplin 166–194 |
+| 9 | Oct 12, 14 | 9, sonata form overview (261–285) and 10, main theme (286–307) | H&D 3–13, 14–22, 65–92 |
+| 10 | Oct 19, 21 | 11, transition (308–352) | H&D 23–50 (medial caesura), 93–116 |
+| 11 | Oct 26, 28 | 12, subordinate theme (353–419) | H&D 51–64, 117–149, 180–194; Laitz 163–182, modal mixture |
+| 12 | Nov 2, 4 | 13, development (420–474) | H&D 195–230; Laitz 183–196, Neapolitan and augmented sixth |
+| 13 | Mon Nov 9 | 14, recapitulation (475–518) | H&D 231–254 |
+| 14 | Nov 16, 18 | 15, coda (519–550) and 16, slow introduction (551–564) | H&D 281–305, 306–317 |
+| 15 | — | Fall Recess | |
 
-## unit 3: small forms and variation
+## forms outside caplin parts i and ii
 
-| # | date | topic | reading |
+| wk | meetings | topic | reading |
 |---|---|---|---|
-| 11 | Mon Sep 28 | small ternary. tight-knit and loose organization | Caplin 195–237 |
-| 12 | Wed Sep 30 | small binary. modulation, closely related keys, binary types | Caplin 238–260; Laitz 148–162 |
-| 13 | Mon Oct 5 | exam 1 |  |
-| 14 | Wed Oct 7 | theme and variations: sectional and continuous | Caplin 569–571, 586–590; Laitz 228–239 |
-| 15 | Mon Oct 12 | minuet/trio form | Caplin 607–641 |
-
-## unit 4: sonata form
-
-| # | date | topic | reading |
-|---|---|---|---|
-| 16 | Wed Oct 14 | sonata form as a whole. P TR S C, MC, EEC, ESC, rotation, the two repeats | Hepokoski and Darcy 14–22; Caplin 261–285 |
-| 17 | Mon Oct 19 | P: main theme | Caplin 286–307 |
-| 18 | Wed Oct 21 | TR and the medial caesura | Caplin 308–352 |
-| 19 | Mon Oct 26 | S, the EEC, and C | Caplin 353–419 |
-| 20 | Wed Oct 28 | modal mixture. minor-mode expositions and the choice of second key | Laitz 163–182 |
-| 21 | Mon Nov 2 | development: pre-core, core, retransition. developmental rotation | Caplin 420–474 |
-| 22 | Wed Nov 4 | Neapolitan and augmented sixth chords | Laitz 183–196 |
-| 23 | Mon Nov 9 | recapitulation, tonal resolution, the ESC | Caplin 475–518 |
-| — | Wed Nov 11 | Veterans Day, campus closed | |
-| 24 | Mon Nov 16 | coda and slow introduction | Caplin 519–564 |
-
-## unit 5: other full-movement forms
-
-| # | date | topic | reading |
-|---|---|---|---|
-| 25 | Wed Nov 18 | slow-movement forms: large ternary, sonata without development | Caplin 565–606 |
-| — | Mon Nov 23 | Fall Recess | |
-| — | Wed Nov 25 | Fall Recess | |
-| 26 | Mon Nov 30 | rondo forms: five-part rondo and sonata-rondo | Caplin 642–671; Laitz 244–250 |
-| 27 | Wed Dec 2 | the nineteenth-century extension: character-piece ternary, sonata practice after Beethoven | Laitz 240–243, 251–253 |
+| 16 | Nov 30, Dec 2 | variation forms, rondo forms, slow-movement forms | Laitz 228–239, 244–250; H&D 343–352, 388–429 |
 | — | Dec 7–12 | final exam slot, time to be confirmed | |
 
 ## omitted
 
-Concerto form (Caplin 672–698).
+Caplin Part III (chapters 17 through 20): slow-movement forms, minuet/trio, rondo, concerto.
+
+Hepokoski and Darcy chapters 17, 19 through 22: Type 2 sonata, Type 5 sonata and the Mozart concerto chapters.
+
+## arithmetic
+
+Sixteen Caplin chapters, fifteen week-slots with meetings. Chapters 9 and 10 are paired in week 9 and chapters 15 and 16 are paired in week 14. Everything else is one chapter per week.
+
+Week 13 has one meeting for chapter 14.
+
+Week 11 is the heaviest reading load in the term: Caplin's longest chapter, three Hepokoski and Darcy chapters, and Laitz on mixture.
 
 ## open
 
 - Final exam slot: confirm the university's assigned time for a MW 11:00 class.
-- Second in-term assessment: exam 2 at meeting 23 or 24, or a take-home sonata analysis due in week 14. Exam 2 costs one content meeting.
-- SLO 4 performance component: short recurring play-and-defend segments at meetings 11, 15, and 21, or a single graded presentation in the final slot.
-- Nineteenth-century repertoire: contained at meeting 27, or distributed through units 4 and 5.
+- Exam 1 is set for Wednesday, October 7, covering chapters 1 through 8. Chapter 8 then gets a single meeting.
+- No second in-class exam. Week 16 carries variation, rondo, and slow-movement forms, which the catalog description and SLO 1 name and which Caplin Part III would have covered. A second exam takes that week.
+- SLO 4 performance component: short recurring play-and-defend segments, or a single graded presentation in the final slot.
 - Assessment components and weights.
-- Repertoire list, work by work, per meeting.
-- Source gap: the Hepokoski and Darcy excerpt is chapter 2 only. It carries the terminology and the generic layout. It does not carry the medial-caesura options, the continuous exposition, the five sonata types, or deformation. Meetings 16 through 19 need either a handout covering those or a further excerpt.
+- Repertoire list, work by work, per week.
+- Nineteenth-century repertoire has no week of its own. Options: distribute examples through weeks 10 through 14, or carry it in the final project.
