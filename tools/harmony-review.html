@@ -1540,7 +1540,18 @@
       }));
 
       XS.forEach(function (x, i) {
-        upper[i].forEach(function (n) { drawNote(svg, x, n, trebleBottom, TREBLE_BOTTOM); });
+        /* two chord tones a second apart cannot share a column: the lower
+           one is displaced to the left of the other */
+        var sorted = upper[i].slice().sort(function (a, b) { return dia(a) - dia(b); });
+        var offset = {};
+        for (var k = sorted.length - 1; k > 0; k--) {
+          if (dia(sorted[k]) - dia(sorted[k - 1]) === 1 && !offset[sorted[k]]) {
+            offset[sorted[k - 1]] = -20;
+          }
+        }
+        sorted.forEach(function (n) {
+          drawNote(svg, x + (offset[n] || 0), n, trebleBottom, TREBLE_BOTTOM);
+        });
         drawNote(svg, x, BASS_LINE[i], bassBottom, BASS_BOTTOM);
         figures[i].forEach(function (f, k) {
           figureText(svg, x + 10, bassBottom + 26 + 20 * k, f);
