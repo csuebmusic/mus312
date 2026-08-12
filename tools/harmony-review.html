@@ -2033,6 +2033,7 @@
         for (var k = all.length - 1; k > 0; k--) {
           if (dia(all[k]) - dia(all[k - 1]) === 1 && !shift[all[k]]) {
             shift[all[k - 1]] = -20;
+            shift[all[k]] = 3;
           }
         }
 
@@ -2058,7 +2059,8 @@
 
         c.figs.forEach(function (f, k) {
           svg.appendChild(el("text", {
-            x: c.x + 10, y: (c.figs.length === 1 ? 172 : 166) + 13 * k, "class": "inv-fig"
+            x: c.x + 10 - (f.charAt(0) === "(" ? 7 : 0),
+            y: (c.figs.length === 1 ? 172 : 166) + 13 * k, "class": "inv-fig"
           }, f));
         });
       });
