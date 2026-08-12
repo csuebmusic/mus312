@@ -59,7 +59,7 @@ One unit is `--step`, 0.5rem. The vertical scale, in units:
 | 6 | the rule between sections |
 | 8 | page to footer |
 
-Inside a section, spacing is carried by `margin-top` on `section.scale > *`, so adjacent margins never compete. Paragraphs inside a panel keep their own bottom margin, and the last child of a panel drops it.
+Inside a section, spacing is carried by `margin-top` on `section.scale > *`, so adjacent margins never compete. A section's first heading takes no top margin; a later heading in the same section takes 6, so it reads as a subsection break. Paragraphs inside a panel keep their own bottom margin, and the last child of a panel drops it.
 
 ## structure
 

@@ -12,7 +12,8 @@
 
   section.scale { margin-bottom: 0; }
   section.scale > * { margin-top: calc(var(--step) * 4); margin-bottom: 0; }
-  section.scale > h2 { margin-top: 0; }
+  section.scale > h2 { margin-top: calc(var(--step) * 6); }
+  section.scale > h2:first-child { margin-top: 0; }
   section.scale > h2 + * { margin-top: calc(var(--step) * 3); }
   section.scale > .panels + .panels { margin-top: calc(var(--step) * 5); }
   section.scale > .controls { margin-top: calc(var(--step) * 3); }
