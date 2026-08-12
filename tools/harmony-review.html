@@ -268,6 +268,30 @@
 
   .fn-box { fill: none; stroke: var(--ink); stroke-width: 1; }
   .fn-div { stroke: var(--rule); stroke-width: 1; }
+  .pro-box {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1;
+    stroke-dasharray: 4 3;
+  }
+  .pro-title {
+    font-family: var(--font-data);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    fill: var(--muted);
+    text-anchor: middle;
+  }
+  .pro-pat {
+    font-family: var(--font-body);
+    font-size: 13px;
+    fill: var(--ink);
+  }
+  .pro-tag {
+    font-family: var(--font-data);
+    font-size: 10px;
+    fill: var(--muted);
+    text-anchor: end;
+  }
   .fn-mode {
     font-family: var(--font-data);
     font-size: 9px;
@@ -784,6 +808,17 @@
     </section>
 
 
+
+    <h2>structural and prolongational harmonies</h2>
+    <p class="full">A structural harmony moves the syntax from one function to the next. A prolongational harmony extends the function already in force without moving it. Both belong to the same phrase, and most phrases have more of the second kind than the first.</p>
+
+    <p class="full">Prolongational chords usually fall on weak beats and usually appear in inversion. Second-level analysis labels them by what they do rather than by their root: N for neighbor, P for passing, CL for chordal leap, arp for arpeggiation. Structural chords keep their roman numerals. Root-position V7 is structural and signals a cadence, while its inversions prolong.</p>
+
+    <section class="panel">
+      <svg id="prolong-map" viewBox="0 0 830 350" role="img" aria-label="Tonic, pre-dominant, and dominant in a row with a curved return to the tonic, each with a dotted box below listing its standard prolongations"></svg>
+    </section>
+
+    <p class="full">Patterns are written in major. Minor takes the same shapes with its own qualities, so I–I6 becomes i–i6.</p>
   </section>
 
   <footer>
@@ -2315,6 +2350,104 @@
     svg.appendChild(el("path", {
       d: "M786 " + (MID - 12) + " C 804 34, 824 34, 840 " + (MID - 12),
       "class": "fn-curve", "marker-end": "url(#master-head)"
+    }));
+  })();
+
+  /* ---------- prolongation map ---------- */
+
+  (function prolongMap() {
+    var svg = document.getElementById("prolong-map");
+    var BOX_TOP = 60, BOX_H = 64, MID = BOX_TOP + BOX_H / 2;
+    var DOT_TOP = 152, ROW0 = 200, ROW = 23, PAD = 95;
+
+    var COLS = [
+      { cx: 110, title: "TONIC", pats: [
+        ["I \u2013 I6", "CL"],
+        ["I \u2013 V6 \u2013 I", "N"],
+        ["I \u2013 vii\u00B06 \u2013 I6", "P"],
+        ["I \u2013 V4/3 \u2013 I6", "P"],
+        ["I \u2013 IV6 \u2013 I6", "arp"],
+        ["I \u2013 IV6/4 \u2013 I", "ped"]
+      ] },
+      { cx: 330, title: "PRE-DOMINANT", pats: [
+        ["ii \u2013 ii6", "CL"],
+        ["IV \u2013 ii6", "5\u20136"],
+        ["ii \u2013 I6 \u2013 ii6", "P"],
+        ["IV6 \u2013 I6/4 \u2013 ii6", "P"]
+      ] },
+      { cx: 550, title: "DOMINANT", pats: [
+        ["V \u2013 V6", "CL"],
+        ["V \u2013 IV6 \u2013 V6", "P"],
+        ["V6/4 \u2013 5/3", "cad"]
+      ] }
+    ];
+
+    COLS.forEach(function (c) {
+      var w = 120, x = c.cx - w / 2;
+      svg.appendChild(el("rect", {
+        x: x, y: BOX_TOP, width: w, height: BOX_H, "class": "fn-box"
+      }));
+      svg.appendChild(el("text", {
+        x: c.cx, y: BOX_TOP + 38, "class": "fn-title"
+      }, c.title));
+
+      var h = ROW0 - DOT_TOP + ROW * (c.pats.length - 1) + 22;
+      svg.appendChild(el("rect", {
+        x: c.cx - PAD, y: DOT_TOP, width: PAD * 2, height: h, "class": "pro-box"
+      }));
+      svg.appendChild(el("text", {
+        x: c.cx, y: DOT_TOP + 22, "class": "pro-title"
+      }, "PROLONGED BY"));
+
+      svg.appendChild(el("line", {
+        x1: c.cx, y1: BOX_TOP + BOX_H, x2: c.cx, y2: DOT_TOP,
+        "class": "pro-box"
+      }));
+
+      c.pats.forEach(function (pt, i) {
+        svg.appendChild(el("text", {
+          x: c.cx - PAD + 12, y: ROW0 + ROW * i, "class": "pro-pat"
+        }, pt[0]));
+        svg.appendChild(el("text", {
+          x: c.cx + PAD - 12, y: ROW0 + ROW * i, "class": "pro-tag"
+        }, pt[1]));
+      });
+    });
+
+    function blockArrow(x1, x2) {
+      var y = MID, s = 5, hw = 22, hh = 13;
+      svg.appendChild(el("polygon", {
+        points: [
+          x1 + "," + (y - s), (x2 - hw) + "," + (y - s), (x2 - hw) + "," + (y - hh),
+          x2 + "," + y, (x2 - hw) + "," + (y + hh), (x2 - hw) + "," + (y + s),
+          x1 + "," + (y + s)
+        ].join(" "),
+        "class": "fn-arrow"
+      }));
+    }
+
+    blockArrow(180, 262);
+    blockArrow(400, 482);
+
+    var defs = el("defs", {});
+    var marker = el("marker", {
+      id: "prolong-head", markerWidth: 12, markerHeight: 12, refX: 10, refY: 6,
+      orient: "auto", markerUnits: "userSpaceOnUse"
+    });
+    marker.appendChild(el("path", { d: "M0,0 L12,6 L0,12 z", "class": "fn-arrow" }));
+    defs.appendChild(marker);
+    svg.appendChild(defs);
+
+    svg.appendChild(el("rect", {
+      x: 690, y: BOX_TOP, width: 120, height: BOX_H, "class": "fn-box"
+    }));
+    svg.appendChild(el("text", {
+      x: 750, y: BOX_TOP + 38, "class": "fn-title"
+    }, "TONIC"));
+
+    svg.appendChild(el("path", {
+      d: "M620 " + (MID - 10) + " C 645 22, 668 22, 684 " + (MID - 10),
+      "class": "fn-curve", "marker-end": "url(#prolong-head)"
     }));
   })();
 
