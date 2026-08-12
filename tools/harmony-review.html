@@ -255,6 +255,10 @@
     fill: var(--muted);
     text-anchor: middle;
   }
+  .sensitive { fill: var(--accent); }
+  .vl-arrow { fill: none; stroke: var(--accent); stroke-width: 1.4; }
+  .vl-head { fill: var(--accent); }
+
   .figure {
     font-family: var(--font-data);
     font-size: 15px;
@@ -603,6 +607,19 @@
         <li>Both of these two categories are sensitive tones. Never double a sensitive tone.</li>
         <li>Avoid parallel motion into perfect consonances: unisons, fifths, and octaves. Contrary motion is the safest approach to them.</li>
       </ul>
+    </div>
+
+    <p class="full">The same two realizations, with the sensitive tones in color and arrows to their resolutions.</p>
+
+    <div class="panels">
+      <section class="panel">
+        <h3>D half-diminished seventh, annotated</h3>
+        <svg id="fb-annot-halfdim" viewBox="0 0 450 320" role="img" aria-label="The half-diminished seventh realization with its sensitive tones marked and arrows to their resolutions"></svg>
+      </section>
+      <section class="panel">
+        <h3>F major seventh, annotated</h3>
+        <svg id="fb-annot-maj7" viewBox="0 0 450 320" role="img" aria-label="The major seventh realization with its sensitive tones marked and arrows to their resolutions"></svg>
+      </section>
     </div>
 
   </section>
@@ -1485,7 +1502,7 @@
       }
     }
 
-    function drawNote(svg, x, note, bottomY, bottom) {
+    function drawNote(svg, x, note, bottomY, bottom, cls) {
       var step = dia(note) - bottom;
       var y = bottomY - 6 * step;
       if (step <= -2) {
@@ -1502,12 +1519,14 @@
         }
       }
       var q = parseNote(note);
+      var mark = cls ? " " + cls : "";
       if (q.alt !== 0) {
         svg.appendChild(el("text", {
-          x: x - 17, y: y, "class": "accidental"
+          x: x - 17, y: y, "class": "accidental" + mark
         }, ACC_GLYPH[String(q.alt)]));
       }
-      svg.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
+      svg.appendChild(el("text", { x: x, y: y, "class": "notehead" + mark }, "\uE0A2"));
+      return { x: x, y: y };
     }
 
     function figureText(svg, x, y, str) {
@@ -1538,8 +1557,14 @@
     })();
 
     /* a realization on a grand staff, with figures under the bass */
-    function system(id, upper, figures, star) {
+    function system(id, upper, figures, star, notes) {
       var svg = document.getElementById(id);
+      var marks = {};
+      (notes || []).forEach(function (a) {
+        marks[a[0] + ":" + a[1]] = true;
+        marks[a[2] + ":" + a[3]] = marks[a[2] + ":" + a[3]] || false;
+      });
+      var at = {};
       var trebleTop = 74, trebleBottom = trebleTop + 48;
       var bassTop = 186, bassBottom = bassTop + 48;
 
@@ -1562,7 +1587,9 @@
           }
         }
         sorted.forEach(function (n) {
-          drawNote(svg, x + (offset[n] || 0), n, trebleBottom, TREBLE_BOTTOM);
+          var key = i + ":" + n;
+          at[key] = drawNote(svg, x + (offset[n] || 0), n, trebleBottom, TREBLE_BOTTOM,
+                             marks[key] ? "sensitive" : null);
         });
         drawNote(svg, x, BASS_LINE[i], bassBottom, BASS_BOTTOM);
         figures[i].forEach(function (f, k) {
@@ -1574,6 +1601,27 @@
           }, "*"));
         }
       });
+
+      if (notes && notes.length) {
+        var mid = "vlhead-" + id;
+        var defs = el("defs", {});
+        var marker = el("marker", {
+          id: mid, markerWidth: 7, markerHeight: 7, refX: 6, refY: 3.5,
+          orient: "auto", markerUnits: "userSpaceOnUse"
+        });
+        marker.appendChild(el("path", { d: "M0,0 L7,3.5 L0,7 z", "class": "vl-head" }));
+        defs.appendChild(marker);
+        svg.appendChild(defs);
+
+        notes.forEach(function (a) {
+          var from = at[a[0] + ":" + a[1]], to = at[a[2] + ":" + a[3]];
+          if (!from || !to) { return; }
+          svg.appendChild(el("line", {
+            x1: from.x + 25, y1: from.y, x2: to.x - 8, y2: to.y,
+            "class": "vl-arrow", "marker-end": "url(#" + mid + ")"
+          }));
+        });
+      }
     }
 
     var UPPER_HALFDIM = [
@@ -1589,6 +1637,14 @@
     system("fb-ii6-real", UPPER_II6, [[], ["6"], [], []], false);
     system("fb-halfdim", UPPER_HALFDIM, [[], ["\u266D3", "5", "6"], ["7"], []], false);
     system("fb-maj7", UPPER_MAJ7, [[], ["7"], ["7"], []], false);
+
+    system("fb-annot-halfdim", UPPER_HALFDIM,
+      [[], ["\u266D3", "5", "6"], ["7"], []], false,
+      [[1, "C5", 2, "B4"], [1, "Ab4", 2, "G4"],
+       [2, "B4", 3, "C5"], [2, "F4", 3, "E4"]]);
+    system("fb-annot-maj7", UPPER_MAJ7,
+      [[], ["7"], ["7"], []], false,
+      [[1, "E4", 2, "D4"], [2, "B4", 3, "C5"], [2, "F4", 3, "E4"]]);
   })();
 
 })();
