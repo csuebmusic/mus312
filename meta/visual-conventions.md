@@ -46,6 +46,21 @@ Staves stack at 170px per row. Row labels sit at the left, above the staff.
 
 Staff geometry: spaces of 12px, bottom line E4 at y = 118, pitch positions at 6px per scale step. Ledger lines are drawn at even step positions beyond the staff.
 
+## spacing
+
+One unit is `--step`, 0.5rem. The vertical scale, in units:
+
+| units | use |
+|---|---|
+| 2 | paragraph to paragraph |
+| 3 | heading to its content; panel to its controls |
+| 4 | block to block inside a section |
+| 5 | between panel grids; grid column gap |
+| 6 | the rule between sections |
+| 8 | page to footer |
+
+Inside a section, spacing is carried by `margin-top` on `section.scale > *`, so adjacent margins never compete. Paragraphs inside a panel keep their own bottom margin, and the last child of a panel drops it.
+
 ## structure
 
 Student-facing pages are hand-authored HTML linking `assets/style.css` with a `?v=N` query. Bump N whenever the stylesheet changes.

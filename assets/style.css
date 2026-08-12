@@ -76,7 +76,7 @@ h1, h2, h3 {
   text-transform: lowercase;
   margin: 0 0 var(--step);
 }
-h1 { font-size: 1.5rem; }
+h1 { font-size: 1.5rem; margin-bottom: calc(var(--step) * 2); }
 h2 { font-size: 1.05rem; }
 h3 { font-size: 0.95rem; }
 
@@ -106,13 +106,13 @@ a { color: var(--accent); text-underline-offset: 2px; }
   background: var(--accent-wash);
   border-left: 3px solid var(--accent);
   padding: calc(var(--step) * 1.5) calc(var(--step) * 2);
-  margin: 0 0 calc(var(--step) * 4);
+  margin: 0 0 calc(var(--step) * 5);
 }
 
 .rule {
   border: 0;
   border-top: var(--line) solid var(--ink);
-  margin: calc(var(--step) * 4) 0;
+  margin: calc(var(--step) * 6) 0;
 }
 
 .panels {

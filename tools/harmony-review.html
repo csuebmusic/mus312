@@ -4,11 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>harmony review 1: counting in semitones, scales and chord construction</title>
-<link rel="stylesheet" href="../assets/style.css?v=5">
+<link rel="stylesheet" href="../assets/style.css?v=6">
 <style>
+  /* vertical rhythm: spacing is carried by margin-top inside a section,
+     so adjacent margins never compete */
   .lede { margin-bottom: calc(var(--step) * 3); }
-  section.scale { margin-bottom: calc(var(--step) * 2); }
-  section.scale > h2 { margin-bottom: calc(var(--step) * 2); }
+
+  section.scale { margin-bottom: 0; }
+  section.scale > * { margin-top: calc(var(--step) * 4); margin-bottom: 0; }
+  section.scale > h2 { margin-top: 0; }
+  section.scale > h2 + * { margin-top: calc(var(--step) * 3); }
+  section.scale > .panels + .panels { margin-top: calc(var(--step) * 5); }
+  section.scale > .controls { margin-top: calc(var(--step) * 3); }
 
   .staff-line, .ledger { stroke: var(--ink); stroke-width: 1; }
   .clef, .notehead, .keysig, .accidental {
@@ -181,9 +188,8 @@
   .triad.lit .caret { stroke: var(--accent); }
   .triad.lit .degree-acc { fill: var(--accent); }
   .panels.uneven { grid-template-columns: 1.45fr 1fr; }
-  #sec-minor-triads > .panels { margin-bottom: calc(var(--step) * 4); }
-  #sec-minor-triads > .panels:last-of-type { margin-bottom: 0; }
-  .panel h3 { margin-bottom: calc(var(--step) * 1.5); }
+  .panel h3 { margin-bottom: calc(var(--step) * 2); }
+  .panel h3 + h3, .panel svg + h3 { margin-top: calc(var(--step) * 3); }
   svg.aug { max-width: 200px; }
   @media (max-width: 62rem) { .panels.uneven { grid-template-columns: 1fr; } }
 
@@ -222,9 +228,9 @@
   .chord-name {
     font-family: var(--font-body);
     font-size: 1.05rem;
-    margin: calc(var(--step) * 2.5) 0 0;
+    margin: calc(var(--step) * 3) 0 calc(var(--step) * 0.5);
   }
-  #builder-staff { margin-bottom: calc(var(--step) * 1.5); }
+  #builder-staff { margin-bottom: calc(var(--step) * 2); }
   .chord-facts {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -256,9 +262,6 @@
     text-anchor: middle;
   }
 
-  #sec-figured .callout { margin-top: calc(var(--step) * 3); }
-  .spaced { margin-top: calc(var(--step) * 7); }
-
   .callout.hi {
     border-left-color: var(--accent);
     background: var(--accent-wash);
@@ -269,7 +272,7 @@
     max-width: none;
     border-left: 3px solid var(--ink);
     padding: calc(var(--step) * 0.5) 0 calc(var(--step) * 0.5) calc(var(--step) * 2);
-    margin: calc(var(--step) * 2) 0 0;
+    margin: calc(var(--step) * 3) 0 0;
   }
   .callout p { max-width: none; }
   .callout p:last-child { margin-bottom: 0; }
@@ -564,7 +567,7 @@
       <p>* The full figure for a root-position triad is 3 over 5, and it is almost always left off the page. An unfigured bass note means 3 and 5, which is why the figures above are in parenthesis.</p>
     </div>
 
-    <p class="full spaced">Now the same bass line with a different chord over the F: the 6 above it is D, and the sounding chord is D minor with its third in the bass.</p>
+    <p class="full">Now the same bass line with a different chord over the F: the 6 above it is D, and the sounding chord is D minor with its third in the bass.</p>
 
     <div class="panels">
       <section class="panel">
