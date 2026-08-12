@@ -255,8 +255,8 @@
     fill: var(--muted);
     text-anchor: middle;
   }
-  /* the box takes the width of one cell in a two-column grid, centered */
-  #sec-inversions > .panel {
+  /* a standalone box takes the width of one cell in the two-column grid */
+  .panel.centered {
     max-width: calc((78rem - var(--step) * 5) / 2);
     margin-left: auto;
     margin-right: auto;
@@ -664,7 +664,7 @@
     <h2>inversions</h2>
     <p class="full">The figures attached to a roman numeral come from the figured bass tradition: the numeral names the chord and the figures name the intervals above whatever note is in the bass, the same numbers a continuo player would read. Every chord below is C major in the first row and G dominant seventh in the second. Only the bass changes. Figures in parenthesis are the ones left off in practice.</p>
 
-    <section class="panel">
+    <section class="panel centered">
       <h3>triad</h3>
       <svg id="inv-triad" viewBox="0 0 560 270" role="img" aria-label="A C major triad in root position, first inversion, and second inversion, each with its figures and roman numeral"></svg>
       <h3>seventh chord</h3>
@@ -1703,21 +1703,21 @@
     var SMALL_ON_TOP = true;
 
     var TRIADS = [
-      { label: "ROOT IN THE BASS",  notes: ["C4", "E4", "G4"],
+      { label: "ROOT",  notes: ["C4", "E4", "G4"],
         stack: [[5, false], [3, false]] },
-      { label: "THIRD IN THE BASS", notes: ["E4", "G4", "C5"],
+      { label: "THIRD", notes: ["E4", "G4", "C5"],
         stack: [[6, true], [3, false]] },
-      { label: "FIFTH IN THE BASS", notes: ["G4", "C5", "E5"],
+      { label: "FIFTH", notes: ["G4", "C5", "E5"],
         stack: [[6, true], [4, true]] }
     ];
     var SEVENTHS = [
-      { label: "ROOT IN THE BASS",    notes: ["G4", "B4", "D5", "F5"],
+      { label: "ROOT",    notes: ["G4", "B4", "D5", "F5"],
         stack: [[7, true], [5, false], [3, false]] },
-      { label: "THIRD IN THE BASS",   notes: ["B3", "D4", "F4", "G4"],
+      { label: "THIRD",   notes: ["B3", "D4", "F4", "G4"],
         stack: [[6, true], [5, true], [3, false]] },
-      { label: "FIFTH IN THE BASS",   notes: ["D4", "F4", "G4", "B4"],
+      { label: "FIFTH",   notes: ["D4", "F4", "G4", "B4"],
         stack: [[6, false], [4, true], [3, true]] },
-      { label: "SEVENTH IN THE BASS", notes: ["F4", "G4", "B4", "D5"],
+      { label: "SEVENTH", notes: ["F4", "G4", "B4", "D5"],
         stack: [[6, false], [4, true], [2, true]] }
     ];
 
@@ -1737,6 +1737,9 @@
         }));
       }
       svg.appendChild(el("text", { x: 18, y: bottom - 12, "class": "clef" }, "\uE050"));
+      svg.appendChild(el("text", {
+        x: 10, y: 30, "class": "inv-label", "text-anchor": "start"
+      }, "IN THE BASS"));
 
       items.forEach(function (item, i) {
         var x = xs[i];

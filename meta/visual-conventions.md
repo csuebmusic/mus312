@@ -69,6 +69,18 @@ Pages are self-contained: no build step, no runtime dependency, no external requ
 
 Interactive tools live in `tools/`. Each is one file.
 
+A panel that stands alone rather than in a grid takes `.panel.centered`, which caps it at the width of one cell in the two-column grid and centers it:
+
+```css
+.panel.centered {
+  max-width: calc((78rem - var(--step) * 5) / 2);
+  margin-left: auto;
+  margin-right: auto;
+}
+```
+
+Drawings render at the scale their box gives them, so a drawing sized for a gridded panel doubles in a full-width one. Cap the box, not the drawing.
+
 ## interaction
 
 Every control is a real `button` with `aria-pressed` where it toggles. Hit targets are transparent shapes over the drawing rather than the drawn marks themselves.
