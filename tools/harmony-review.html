@@ -352,6 +352,7 @@
     fill: var(--ink);
     text-anchor: end;
   }
+  .roman-alt { fill: var(--muted); }
   .inv-fig {
     font-family: var(--font-data);
     font-size: 12px;
@@ -2088,7 +2089,10 @@
           t.appendChild(el("tspan", { "class": "acc-inline", dy: "-3.5" }, "\u266D"));
           t.appendChild(el("tspan", { dy: "3.5" }, c.roman));
         } else {
-          t.textContent = c.roman;
+          t.appendChild(el("tspan", {}, c.roman));
+        }
+        if (c.altQuality) {
+          t.appendChild(el("tspan", { "class": "roman-alt" }, "(" + c.altQuality + ")"));
         }
         svg.appendChild(t);
 
@@ -2140,7 +2144,8 @@
         { x: 368, notes: ["F4", "A4", "C5"], option: "E5", roman: "IV",    figs: ["(7)"] },
         { x: 464, notes: ["G4", "B4", "D5", "F5"],         roman: "V",     figs: ["7"] },
         { x: 560, notes: ["A4", "C5", "E5"],               roman: "vi",    figs: [] },
-        { x: 656, notes: ["D4", "F4", "B4"], option: "A4", roman: "vii\u00B0", figs: ["6", "(5)"] }
+        { x: 656, notes: ["D4", "F4", "B4"], option: "A4", roman: "vii\u00B0",
+          altQuality: "\u00F8", figs: ["6", "(5)"] }
       ],
       groups: [
         { members: [0],    label: "TONIC" },
@@ -2195,7 +2200,7 @@
       { x: 534, lw: 170, rw: 244, title: "DOMINANT",
         major: [
           { n: "V", figs: [[], ["7"], ["6", "5"], ["4", "3"], ["4", "2"]] },
-          { n: "vii\u00B0", figs: [["6"]] }
+          { n: "vii\u00B0", figs: [["6"], { n: "vii\u00F8", f: ["6", "5"] }] }
         ],
         minor: [
           { n: "V", figs: [[], ["7"], ["6", "5"], ["4", "3"], ["4", "2"]] },
@@ -2250,7 +2255,9 @@
       var opts = r.figs || [[]];
       var cx = x;
       opts.forEach(function (f) {
-        cx += label(cx, y, r, f) + 14;
+        var item = Array.isArray(f) ? { f: f } : f;
+        var who = item.n ? { n: item.n, flat: r.flat } : r;
+        cx += label(cx, y, who, item.f) + 14;
       });
     }
 
