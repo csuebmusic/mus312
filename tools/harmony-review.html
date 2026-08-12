@@ -674,7 +674,7 @@
     </div>
 
     <div class="callout">
-      <p>* The full figure for a root-position triad is 3 over 5, and it is almost always left off the page. An unfigured bass note means 3 and 5, which is why the figures above are in parenthesis.</p>
+      <p>* The full figure for a root-position triad is 5 over 3, and it is almost always left off the page. An unfigured bass note means 5 and 3, which is why the figures above are in parenthesis.</p>
     </div>
 
     <p class="full">Now the same bass line with a different chord over the F: the 6 above it is D, and the sounding chord is D minor with its third in the bass.</p>
@@ -1794,15 +1794,15 @@
       ["E4", "G4", "C5"], ["E4", "A4", "C5"], ["D4", "F4", "B4"], ["C4", "E4", "C5"]
     ];
 
-    var FULL = ["(3)", "(5)"];
+    var FULL = ["(5)", "(3)"];
     system("fb-full", UPPER_ROOT, [FULL, FULL, FULL, FULL], true);
-    system("fb-ii6-full", UPPER_II6, [FULL, ["(3)", "6"], FULL, FULL], false);
+    system("fb-ii6-full", UPPER_II6, [FULL, ["6", "(3)"], FULL, FULL], false);
     system("fb-ii6-real", UPPER_II6, [[], ["6"], [], []], false);
-    system("fb-halfdim", UPPER_HALFDIM, [[], ["\u266D3", "5", "6"], ["7"], []], false);
+    system("fb-halfdim", UPPER_HALFDIM, [[], ["6", "5", "\u266D3"], ["7"], []], false);
     system("fb-maj7", UPPER_MAJ7, [[], ["7"], ["7"], []], false);
 
     system("fb-annot-halfdim", UPPER_HALFDIM,
-      [[], ["\u266D3", "5", "6"], ["7"], []], false,
+      [[], ["6", "5", "\u266D3"], ["7"], []], false,
       [[1, "C5", 2, "B4"], [1, "Ab4", 2, "G4"],
        [2, "B4", 3, "C5"], [2, "F4", 3, "E4"]]);
     system("fb-annot-maj7", UPPER_MAJ7,
@@ -1814,8 +1814,8 @@
 
   (function inversions() {
     /* stacks are held largest first, as they are printed in scores;
-       SMALL_ON_TOP reverses them for this course's house order */
-    var SMALL_ON_TOP = true;
+       SMALL_ON_TOP would reverse them */
+    var SMALL_ON_TOP = false;
 
     var TRIADS = [
       { label: "ROOT",  notes: ["C4", "E4", "G4"],
@@ -1931,7 +1931,7 @@
       { x: 40,  title: "TONIC  (T)",
         chords: [["I", []]] },
       { x: 300, title: "PRE-DOMINANT  (PD)",
-        chords: [["IV", []], ["ii", ["6"]], ["ii\u00F8", ["5", "6"]], ["IV", ["7"]]] },
+        chords: [["IV", []], ["ii", ["6"]], ["ii\u00F8", ["6", "5"]], ["IV", ["7"]]] },
       { x: 560, title: "DOMINANT  (D)",
         chords: [["V", []], ["V", ["7"]]] },
       { x: 880, title: "TONIC  (T)",
@@ -2149,7 +2149,7 @@
       id: "fn-scale-minor", flats: 3,
       chords: [
         { x: 100, notes: ["C4", "Eb4", "G4"],                roman: "i",     figs: [] },
-        { x: 172, notes: ["F4", "Ab4", "D5"], option: "C5",  roman: "ii\u00B0", figs: ["(5)", "6"] },
+        { x: 172, notes: ["F4", "Ab4", "D5"], option: "C5",  roman: "ii\u00B0", figs: ["6", "(5)"] },
         { x: 244, notes: ["Eb4", "G4", "Bb4"],               roman: "III",   flat: true, figs: [] },
         { x: 316, notes: ["F4", "Ab4", "C5"],                roman: "iv",    figs: [] },
         { x: 388, notes: ["G4", "Bb4", "D5"],                roman: "v",     figs: [] },
@@ -2185,16 +2185,16 @@
         major: [{ n: "iii" }, { n: "vi" }],
         minor: [{ n: "III", flat: true }, { n: "VI", flat: true }] },
       { x: 400, lw: 86, rw: 96, title: "PRE-DOMINANT",
-        major: [{ n: "ii", figs: [["6"], ["5", "6"]] }, { n: "IV", figs: [[], ["7"]] }],
-        minor: [{ n: "ii\u00B0", figs: [["6"], ["5", "6"]] }, { n: "iv" }] },
+        major: [{ n: "ii", figs: [["6"], ["6", "5"]] }, { n: "IV", figs: [[], ["7"]] }],
+        minor: [{ n: "ii\u00B0", figs: [["6"], ["6", "5"]] }, { n: "iv" }] },
       { x: 640, lw: 118, rw: 162, title: "DOMINANT",
         major: [
-          { n: "V", figs: [[], ["7"], ["5", "6"], ["3", "4"], ["2", "4"]] },
+          { n: "V", figs: [[], ["7"], ["6", "5"], ["4", "3"], ["4", "2"]] },
           { n: "vii\u00B0", figs: [["6"]] }
         ],
         minor: [
-          { n: "V", figs: [[], ["7"], ["5", "6"], ["3", "4"], ["2", "4"]] },
-          { n: "vii\u00B0", figs: [["6"], ["7"], ["5", "6"], ["3", "4"], ["2", "4"]] }
+          { n: "V", figs: [[], ["7"], ["6", "5"], ["4", "3"], ["4", "2"]] },
+          { n: "vii\u00B0", figs: [["6"], ["7"], ["6", "5"], ["4", "3"], ["4", "2"]] }
         ] },
       { x: 1000, lw: 55, rw: 55, title: "TONIC",
         major: [{ n: "I" }],
