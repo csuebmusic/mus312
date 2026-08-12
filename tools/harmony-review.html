@@ -267,6 +267,25 @@
   }
 
   .fn-box { fill: none; stroke: var(--ink); stroke-width: 1; }
+  .fn-div { stroke: var(--rule); stroke-width: 1; }
+  .fn-mode {
+    font-family: var(--font-data);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    fill: var(--muted);
+    text-anchor: middle;
+  }
+  .fn-num {
+    font-family: var(--font-body);
+    font-size: 15px;
+    fill: var(--ink);
+  }
+  .fn-opt {
+    font-family: var(--font-data);
+    font-size: 11px;
+    fill: var(--ink);
+    text-anchor: middle;
+  }
   .fn-title {
     font-family: var(--font-data);
     font-size: 12px;
@@ -755,6 +774,17 @@
     </section>
 
     <p class="full">Two chords here stand outside the four functions. The minor v has no leading tone and does not carry dominant function: it works as a passing or voice-leading chord, harmonizing ♭7̂ in a bass that descends from the tonic. ♭VII most often acts as the dominant of ♭III and is labelled V/♭III when it does.</p>
+
+    <h2>the master function chart</h2>
+    <p class="full">Every chord from the two charts above, sorted by function. Left of each divider is the major mode, right of it the minor. A row gives one roman numeral followed by the figures available to it, so the V row covers the triad, the seventh chord, and its three inversions.</p>
+
+    <section class="panel">
+      <svg id="master-fn" viewBox="0 0 1130 240" role="img" aria-label="Four function boxes, tonic then mediant then pre-dominant then dominant, each split into major and minor, with a curved arrow returning to the tonic"></svg>
+    </section>
+
+    <p class="full">The fully diminished seventh on 7̂ is diatonic to harmonic minor and is borrowed into major freely. The minor v and ♭VII appear in neither box, since neither carries one of the four functions.</p>
+
+
   </section>
 
   <footer>
@@ -2136,6 +2166,122 @@
         { members: [7],       label: "SUBTONIC", above: true }
       ]
     });
+  })();
+
+  /* ---------- master function chart ---------- */
+
+  (function masterChart() {
+    var svg = document.getElementById("master-fn");
+    var TOP = 72, H = 112, MID = TOP + H / 2;
+    var ROW1 = TOP + 46, ROW2 = TOP + 82, MODE_Y = TOP + 22;
+
+    /* a row is one numeral and the figures available to it;
+       an empty figure list means the plain triad */
+    var BOXES = [
+      { x: 20, lw: 62, rw: 62, title: "TONIC",
+        major: [{ n: "I" }],
+        minor: [{ n: "i" }] },
+      { x: 200, lw: 72, rw: 72, title: "MEDIANT",
+        major: [{ n: "iii" }, { n: "vi" }],
+        minor: [{ n: "III", flat: true }, { n: "VI", flat: true }] },
+      { x: 400, lw: 86, rw: 96, title: "PRE-DOMINANT",
+        major: [{ n: "ii", figs: [["6"], ["5", "6"]] }, { n: "IV", figs: [[], ["7"]] }],
+        minor: [{ n: "ii\u00B0", figs: [["6"], ["5", "6"]] }, { n: "iv" }] },
+      { x: 640, lw: 118, rw: 162, title: "DOMINANT",
+        major: [
+          { n: "V", figs: [[], ["7"], ["5", "6"], ["3", "4"], ["2", "4"]] },
+          { n: "vii\u00B0", figs: [["6"]] }
+        ],
+        minor: [
+          { n: "V", figs: [[], ["7"], ["5", "6"], ["3", "4"], ["2", "4"]] },
+          { n: "vii\u00B0", figs: [["6"], ["7"], ["5", "6"], ["3", "4"], ["2", "4"]] }
+        ] },
+      { x: 1000, lw: 55, rw: 55, title: "TONIC",
+        major: [{ n: "I" }],
+        minor: [{ n: "i" }] }
+    ];
+
+    function numeral(x, y, r) {
+      var t = el("text", { x: x, y: y, "class": "fn-num" });
+      if (r.flat) {
+        t.appendChild(el("tspan", { "class": "acc-inline", dy: "-3" }, "\u266D"));
+        t.appendChild(el("tspan", { dy: "3" }, r.n));
+      } else {
+        t.textContent = r.n;
+      }
+      svg.appendChild(t);
+      return (r.flat ? 9 : 0) + r.n.length * 8;
+    }
+
+    function row(x, y, r) {
+      var w = numeral(x, y, r);
+      var cx = x + w + 13;
+      (r.figs || []).forEach(function (f) {
+        if (f.length === 0) { return; }
+        if (f.length === 1) {
+          svg.appendChild(el("text", { x: cx, y: y, "class": "fn-opt" }, f[0]));
+        } else {
+          f.forEach(function (v, k) {
+            svg.appendChild(el("text", {
+              x: cx, y: y - 6 + 12 * k, "class": "fn-opt"
+            }, v));
+          });
+        }
+        cx += 22;
+      });
+    }
+
+    BOXES.forEach(function (b) {
+      var w = b.lw + b.rw;
+      svg.appendChild(el("rect", {
+        x: b.x, y: TOP, width: w, height: H, "class": "fn-box"
+      }));
+      svg.appendChild(el("text", {
+        x: b.x + w / 2, y: TOP - 16, "class": "fn-title"
+      }, b.title));
+      svg.appendChild(el("line", {
+        x1: b.x + b.lw, y1: TOP + 6, x2: b.x + b.lw, y2: TOP + H - 6, "class": "fn-div"
+      }));
+      svg.appendChild(el("text", {
+        x: b.x + b.lw / 2, y: MODE_Y, "class": "fn-mode"
+      }, "MAJOR"));
+      svg.appendChild(el("text", {
+        x: b.x + b.lw + b.rw / 2, y: MODE_Y, "class": "fn-mode"
+      }, "MINOR"));
+
+      b.major.forEach(function (r, i) { row(b.x + 10, i ? ROW2 : ROW1, r); });
+      b.minor.forEach(function (r, i) { row(b.x + b.lw + 10, i ? ROW2 : ROW1, r); });
+    });
+
+    function blockArrow(x1, x2) {
+      var y = MID, s = 5, hw = 22, hh = 13;
+      svg.appendChild(el("polygon", {
+        points: [
+          x1 + "," + (y - s), (x2 - hw) + "," + (y - s), (x2 - hw) + "," + (y - hh),
+          x2 + "," + y, (x2 - hw) + "," + (y + hh), (x2 - hw) + "," + (y + s),
+          x1 + "," + (y + s)
+        ].join(" "),
+        "class": "fn-arrow"
+      }));
+    }
+
+    blockArrow(154, 192);
+    blockArrow(354, 392);
+    blockArrow(592, 632);
+
+    var defs = el("defs", {});
+    var marker = el("marker", {
+      id: "master-head", markerWidth: 12, markerHeight: 12, refX: 10, refY: 6,
+      orient: "auto", markerUnits: "userSpaceOnUse"
+    });
+    marker.appendChild(el("path", { d: "M0,0 L12,6 L0,12 z", "class": "fn-arrow" }));
+    defs.appendChild(marker);
+    svg.appendChild(defs);
+
+    svg.appendChild(el("path", {
+      d: "M930 " + (MID - 12) + " C 950 30, 972 30, 992 " + (MID - 12),
+      "class": "fn-curve", "marker-end": "url(#master-head)"
+    }));
   })();
 
 })();
