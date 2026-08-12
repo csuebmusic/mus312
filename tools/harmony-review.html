@@ -282,6 +282,13 @@
     fill: var(--ink);
     text-anchor: start;
   }
+  .fn-or {
+    font-family: var(--font-data);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    fill: var(--muted);
+    text-anchor: middle;
+  }
   .fn-arrow { fill: var(--accent); }
   .fn-curve { fill: none; stroke: var(--accent); stroke-width: 3; }
 
@@ -705,21 +712,11 @@
     <h2>tonal syntax</h2>
     <p class="full">Seven roman numerals collapse into three functions, and the three run in one direction: tonic, pre-dominant, dominant, tonic. That ordering is <strong>tonal syntax</strong>. Caplin builds the cadential progression on it and Laitz calls the same shape the phrase model. Functions can be omitted, a tonic can move straight to a dominant, and any one of them can be prolonged for pages. What does not happen is reversal: a dominant that turns back to a pre-dominant reads as retrogression rather than as a step in the syntax.</p>
 
-    <p class="full">A chord earns its function from where it goes, not from what it is built out of. The four chords written over the F differ in quality, in dissonance, and in figure, and each does the same work of preparing the dominant. That is why the middle box is the crowded one.</p>
+    <p class="full">A chord earns its function from where it goes in the syntax, from mostly a long history of musical tradition, not from what it is built out of. The four chords written over the F in the examples above differ in quality, in dissonance, and in figure, yet each does the same work of preparing the dominant.</p>
 
     <section class="panel">
-      <svg id="syntax-map" viewBox="0 0 1160 250" role="img" aria-label="Three boxes in a row, tonic then pre-dominant then dominant, with arrows between them and a curved arrow returning from the dominant to a separate tonic box"></svg>
+      <svg id="syntax-map" viewBox="0 0 1110 250" role="img" aria-label="Three boxes in a row, tonic then pre-dominant then dominant, with arrows between them and a curved arrow returning from the dominant to a separate tonic box"></svg>
     </section>
-
-    <div class="callout">
-      <h3>what belongs in each box</h3>
-      <ul>
-        <li>Tonic holds I and VI in any position.</li>
-        <li>Dominant holds V and vii° in any position, and III can stand in for the dominant in some contexts.</li>
-        <li>Pre-dominant holds a wide field: IV, ii, ♭II, applied dominants of the dominant such as V7 of V, and the augmented sixth chords. Every ii and every IV belongs here.</li>
-        <li>VI progressing straight to V is a tonic moving to a dominant with the pre-dominant skipped, rather than VI acting as a pre-dominant.</li>
-      </ul>
-    </div>
   </section>
 
   <footer>
@@ -1859,42 +1856,49 @@
 
   (function syntaxMap() {
     var svg = document.getElementById("syntax-map");
-    var BOX_TOP = 66, BOX_H = 120, MID = BOX_TOP + BOX_H / 2;
+    var BOX_TOP = 66, BOX_H = 150, BOX_W = 190, MID = BOX_TOP + BOX_H / 2;
+    var ROW = 34;
 
     var BOXES = [
-      { x: 40,  w: 150, title: "TONIC  (T)",
+      { x: 40,  title: "TONIC  (T)",
         chords: [["I", []]] },
-      { x: 260, w: 320, title: "PRE-DOMINANT  (PD)",
+      { x: 300, title: "PRE-DOMINANT  (PD)",
         chords: [["IV", []], ["ii", ["6"]], ["ii\u00F8", ["5", "6"]], ["IV", ["7"]]] },
-      { x: 650, w: 200, title: "DOMINANT  (D)",
+      { x: 560, title: "DOMINANT  (D)",
         chords: [["V", []], ["V", ["7"]]] },
-      { x: 980, w: 150, title: "TONIC  (T)",
+      { x: 880, title: "TONIC  (T)",
         chords: [["I", []]] }
     ];
 
     BOXES.forEach(function (b) {
       svg.appendChild(el("rect", {
-        x: b.x, y: BOX_TOP, width: b.w, height: BOX_H, "class": "fn-box"
+        x: b.x, y: BOX_TOP, width: BOX_W, height: BOX_H, "class": "fn-box"
       }));
       svg.appendChild(el("text", {
-        x: b.x + b.w / 2, y: BOX_TOP - 16, "class": "fn-title"
+        x: b.x + BOX_W / 2, y: BOX_TOP - 16, "class": "fn-title"
       }, b.title));
 
-      var slot = b.w / b.chords.length;
+      var cx = b.x + BOX_W / 2;
+      var n = b.chords.length;
+      var first = MID - ROW * (n - 1) / 2;
+
       b.chords.forEach(function (c, i) {
-        var cx = b.x + slot * i + slot / 2;
+        var y = first + ROW * i;
         var hasFig = c[1].length > 0;
         svg.appendChild(el("text", {
-          x: cx + (hasFig ? 0 : 8), y: MID + 7, "class": "fn-chord"
+          x: cx + (hasFig ? 0 : 9), y: y + 6, "class": "fn-chord"
         }, c[0]));
         if (c[1].length === 1) {
-          svg.appendChild(el("text", { x: cx + 3, y: MID + 7, "class": "fn-fig" }, c[1][0]));
+          svg.appendChild(el("text", { x: cx + 3, y: y + 6, "class": "fn-fig" }, c[1][0]));
         } else {
           c[1].forEach(function (f, k) {
-            svg.appendChild(el("text", {
-              x: cx + 3, y: MID + 1 + 13 * k, "class": "fn-fig"
-            }, f));
+            svg.appendChild(el("text", { x: cx + 3, y: y + 13 * k, "class": "fn-fig" }, f));
           });
+        }
+        if (i < n - 1) {
+          svg.appendChild(el("text", {
+            x: cx, y: y + ROW / 2 + 4, "class": "fn-or"
+          }, "or"));
         }
       });
     });
@@ -1911,8 +1915,8 @@
       }));
     }
 
-    blockArrow(200, 250);
-    blockArrow(590, 640);
+    blockArrow(240, 292);
+    blockArrow(500, 552);
 
     var defs = el("defs", {});
     var marker = el("marker", {
@@ -1924,8 +1928,7 @@
     svg.appendChild(defs);
 
     svg.appendChild(el("path", {
-      d: "M860 " + (MID - 10) + " C 900 " + (BOX_TOP - 34) +
-         ", 930 " + (BOX_TOP - 34) + ", 968 " + (MID - 10),
+      d: "M760 " + (MID - 14) + " C 800 30, 840 30, 872 " + (MID - 14),
       "class": "fn-curve", "marker-end": "url(#syntax-head)"
     }));
   })();
