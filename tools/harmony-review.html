@@ -255,6 +255,33 @@
     fill: var(--muted);
     text-anchor: middle;
   }
+  .inv-label {
+    font-family: var(--font-data);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    fill: var(--muted);
+    text-anchor: middle;
+  }
+  .inv-full {
+    font-family: var(--font-data);
+    font-size: 14px;
+    fill: var(--muted);
+    text-anchor: middle;
+  }
+  .inv-full.written { fill: var(--ink); font-weight: 500; }
+  .inv-roman {
+    font-family: var(--font-body);
+    font-size: 17px;
+    fill: var(--ink);
+    text-anchor: end;
+  }
+  .inv-fig {
+    font-family: var(--font-data);
+    font-size: 12px;
+    fill: var(--ink);
+    text-anchor: start;
+  }
+
   .sensitive { fill: var(--accent); }
   .vl-arrow { fill: none; stroke: var(--accent); stroke-width: 1.4; }
   .vl-head { fill: var(--accent); }
@@ -622,6 +649,20 @@
       </section>
     </div>
 
+  </section>
+
+  <hr class="rule">
+
+  <section class="scale" id="sec-inversions">
+    <h2>inversions</h2>
+    <p class="full">The figures attached to a roman numeral come from the figured bass tradition: the numeral names the chord and the figures name the intervals above whatever note is in the bass, the same numbers a continuo player would read. Every chord below is C major in the first row and G dominant seventh in the second. Only the bass changes. Figures in parenthesis are the ones left off in practice.</p>
+
+    <section class="panel">
+      <h3>triad</h3>
+      <svg id="inv-triad" viewBox="0 0 560 270" role="img" aria-label="A C major triad in root position, first inversion, and second inversion, each with its figures and roman numeral"></svg>
+      <h3>seventh chord</h3>
+      <svg id="inv-seventh" viewBox="0 0 560 290" role="img" aria-label="A G dominant seventh chord in root position and its three inversions, each with its figures and roman numeral"></svg>
+    </section>
   </section>
 
   <footer>
@@ -1645,6 +1686,113 @@
     system("fb-annot-maj7", UPPER_MAJ7,
       [[], ["7"], ["7"], []], false,
       [[1, "E4", 2, "D4"], [2, "B4", 3, "C5"], [2, "F4", 3, "E4"]]);
+  })();
+
+  /* ---------- inversion chart ---------- */
+
+  (function inversions() {
+    /* stacks are held largest first, as they are printed in scores;
+       SMALL_ON_TOP reverses them for this course's house order */
+    var SMALL_ON_TOP = true;
+
+    var TRIADS = [
+      { label: "ROOT IN THE BASS",  notes: ["C4", "E4", "G4"],
+        stack: [[5, false], [3, false]] },
+      { label: "THIRD IN THE BASS", notes: ["E4", "G4", "C5"],
+        stack: [[6, true], [3, false]] },
+      { label: "FIFTH IN THE BASS", notes: ["G4", "C5", "E5"],
+        stack: [[6, true], [4, true]] }
+    ];
+    var SEVENTHS = [
+      { label: "ROOT IN THE BASS",    notes: ["G4", "B4", "D5", "F5"],
+        stack: [[7, true], [5, false], [3, false]] },
+      { label: "THIRD IN THE BASS",   notes: ["B3", "D4", "F4", "G4"],
+        stack: [[6, true], [5, true], [3, false]] },
+      { label: "FIFTH IN THE BASS",   notes: ["D4", "F4", "G4", "B4"],
+        stack: [[6, false], [4, true], [3, true]] },
+      { label: "SEVENTH IN THE BASS", notes: ["F4", "G4", "B4", "D5"],
+        stack: [[6, false], [4, true], [2, true]] }
+    ];
+
+    var LETTERS = "CDEFGAB";
+    function dia(n) {
+      return parseInt(n.slice(1), 10) * 7 + LETTERS.indexOf(n.charAt(0));
+    }
+    var BOTTOM = dia("E4");
+
+    function draw(id, items, roman, xs) {
+      var svg = document.getElementById(id);
+      var top = 60, bottom = top + 48;
+
+      for (var L = 0; L < 5; L++) {
+        svg.appendChild(el("line", {
+          x1: 10, y1: top + 12 * L, x2: 550, y2: top + 12 * L, "class": "staff-line"
+        }));
+      }
+      svg.appendChild(el("text", { x: 18, y: bottom - 12, "class": "clef" }, "\uE050"));
+
+      items.forEach(function (item, i) {
+        var x = xs[i];
+
+        var sorted = item.notes.slice().sort(function (a, b) { return dia(a) - dia(b); });
+        var offset = {};
+        for (var k = sorted.length - 1; k > 0; k--) {
+          if (dia(sorted[k]) - dia(sorted[k - 1]) === 1 && !offset[sorted[k]]) {
+            offset[sorted[k - 1]] = -20;
+          }
+        }
+
+        sorted.forEach(function (n, idx) {
+          var step = dia(n) - BOTTOM;
+          var nx = x + (offset[n] || 0);
+          var y = bottom - 6 * step;
+          if (step <= -2) {
+            for (var v = -2; v >= step; v -= 2) {
+              svg.appendChild(el("line", {
+                x1: nx - 7, y1: bottom - 6 * v, x2: nx + 27, y2: bottom - 6 * v, "class": "ledger"
+              }));
+            }
+          } else if (step >= 10) {
+            for (var w = 10; w <= step; w += 2) {
+              svg.appendChild(el("line", {
+                x1: nx - 7, y1: bottom - 6 * w, x2: nx + 27, y2: bottom - 6 * w, "class": "ledger"
+              }));
+            }
+          }
+          svg.appendChild(el("text", {
+            x: nx, y: y, "class": "notehead" + (idx === 0 ? " sensitive" : "")
+          }, "\uE0A2"));
+        });
+
+        svg.appendChild(el("text", { x: x + 10, y: 30, "class": "inv-label" }, item.label));
+
+        var stack = SMALL_ON_TOP ? item.stack.slice().reverse() : item.stack.slice();
+        stack.forEach(function (row, k) {
+          svg.appendChild(el("text", {
+            x: x + 10, y: 156 + 20 * k,
+            "class": "inv-full" + (row[1] ? " written" : "")
+          }, row[1] ? String(row[0]) : "(" + row[0] + ")"));
+        });
+
+        var written = stack.filter(function (row) { return row[1]; });
+        var labelY = 156 + 20 * item.stack.length + 26;
+        svg.appendChild(el("text", { x: x + 8, y: labelY, "class": "inv-roman" }, roman));
+        if (written.length === 1) {
+          svg.appendChild(el("text", {
+            x: x + 12, y: labelY, "class": "inv-fig"
+          }, String(written[0][0])));
+        } else {
+          written.forEach(function (row, k) {
+            svg.appendChild(el("text", {
+              x: x + 12, y: labelY - 6 + 13 * k, "class": "inv-fig"
+            }, String(row[0])));
+          });
+        }
+      });
+    }
+
+    draw("inv-triad", TRIADS, "I", [140, 290, 440]);
+    draw("inv-seventh", SEVENTHS, "V", [120, 230, 340, 450]);
   })();
 
 })();
