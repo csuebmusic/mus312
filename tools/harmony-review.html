@@ -843,7 +843,7 @@
 
     <p class="full">Analysis is not a chord-by-chord translation. The first level names every sonority. The second level says which of them carry the phrase and which decorate it, and those are different questions. A passage with fourteen chords may have four functions.</p>
 
-    <p class="full">A phrase in C minor where every function is prolonged. The V6 neighbors between two tonics. The mediant is tonicized by its own dominant, ♭VII acting as V of ♭III, and then extended by a chordal leap in the bass. The pre-dominant is extended by the 5–6 motion that turns iv into ii°6 over a held bass. The dominant is extended by the cadential six-four that precedes it, labelled Cad6/4.</p>
+    <p class="full">A phrase in C minor where every function is prolonged. The tonic is extended by an arpeggiating bass, i to iv6 to i6, filling the descending sixth from 1̂ to 3̂. The mediant is tonicized by its own dominant, ♭VII acting as V of ♭III, and then extended by a chordal leap in the bass. The pre-dominant is extended by the 5–6 motion that turns iv into ii°6 over a held bass. The dominant is extended by the cadential six-four that precedes it, labelled Cad6/4.</p>
 
     <section class="panel">
       <svg id="minor-depth" viewBox="0 0 1130 350" role="img" aria-label="An eleven-chord phrase in C minor on a grand staff with roman numerals beneath and a second level of analysis showing four functions"></svg>
@@ -2572,14 +2572,14 @@
     var XS = [];
     for (var i = 0; i < 11; i++) { XS.push(110 + 96 * i); }
 
-    var BASS = ["C3", "B2", "C3", "Bb2", "Eb3", "G3", "F3", "F3", "G3", "G3", "C3"];
+    var BASS = ["C3", "Ab2", "Eb2", "Bb2", "Eb3", "G3", "F3", "F3", "G3", "G3", "C3"];
     var UPPER = [
-      ["Eb4", "G4", "C5"], ["D4", "G4", "D5"], ["Eb4", "G4", "C5"],
+      ["Eb4", "G4", "C5"], ["F4", "Ab4", "C5"], ["Eb4", "G4", "C5"],
       ["F4", "Bb4", "D5"], ["G4", "Bb4", "Eb5"], ["G4", "Bb4", "Eb5"],
       ["Ab4", "C5", "F5"], ["Ab4", "D5", "F5"], ["G4", "C5", "Eb5"],
       ["F4", "B4", "D5"], ["Eb4", "G4", "C5"]
     ];
-    var LEVEL1 = ["i", "V6", "i", "V/", "\u266DIII", "\u266DIII6",
+    var LEVEL1 = ["i", "iv6", "i6", "V/", "\u266DIII", "\u266DIII6",
                   "iv", "ii\u00B06", "Cad6/4", "V7", "i"];
     var LEVEL1_FLAT = [false, false, false, true, true, true, false, false, false, false, false];
 
@@ -2615,6 +2615,12 @@
         for (var v = -2; v >= step; v -= 2) {
           svg.appendChild(el("line", {
             x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v, "class": "ledger"
+          }));
+        }
+      } else if (step >= 10) {
+        for (var w = 10; w <= step; w += 2) {
+          svg.appendChild(el("line", {
+            x1: x - 7, y1: bottomY - 6 * w, x2: x + 27, y2: bottomY - 6 * w, "class": "ledger"
           }));
         }
       }
