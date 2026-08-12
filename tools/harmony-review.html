@@ -282,6 +282,22 @@
     fill: var(--ink);
     text-anchor: start;
   }
+  .optional { fill: var(--muted); }
+  .paren {
+    font-family: var(--font-body);
+    font-size: 30px;
+    fill: var(--muted);
+    text-anchor: middle;
+  }
+  .grp-line { fill: none; stroke: var(--ink); stroke-width: 1; }
+  .grp-label {
+    font-family: var(--font-data);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    fill: var(--muted);
+    text-anchor: middle;
+  }
+
   .fn-or {
     font-family: var(--font-data);
     font-size: 10px;
@@ -717,6 +733,15 @@
     <section class="panel">
       <svg id="syntax-map" viewBox="0 0 1110 250" role="img" aria-label="Three boxes in a row, tonic then pre-dominant then dominant, with arrows between them and a curved arrow returning from the dominant to a separate tonic box"></svg>
     </section>
+
+    <h2>the seven triads by function</h2>
+    <p class="full">The diatonic triads of C major, each in the position it usually takes, grouped by function. The groups do not fall in blocks along the scale. Pre-dominant and dominant interleave, and the mediants sit between them. The seventh on IV is in parenthesis because it is available rather than required.</p>
+
+    <section class="panel centered">
+      <svg id="fn-scale" viewBox="0 0 580 300" role="img" aria-label="The seven diatonic triads of C major with roman numerals and brackets grouping them by harmonic function"></svg>
+    </section>
+
+    <p class="full">iii and vi form one category. Each sits a third from the tonic, one above and one below, and each shares two of its three pitches with it. They substitute rather than drive the syntax forward.</p>
   </section>
 
   <footer>
@@ -1931,6 +1956,93 @@
       d: "M760 " + (MID - 14) + " C 800 30, 840 30, 872 " + (MID - 14),
       "class": "fn-curve", "marker-end": "url(#syntax-head)"
     }));
+  })();
+
+  /* ---------- the seven triads by function ---------- */
+
+  (function functionScale() {
+    var svg = document.getElementById("fn-scale");
+    var LETTERS = "CDEFGAB";
+    function dia(n) {
+      return parseInt(n.slice(1), 10) * 7 + LETTERS.indexOf(n.charAt(0));
+    }
+    var BOTTOM = dia("E4"), TOP = 60, BASE = TOP + 48;
+
+    var CHORDS = [
+      { x: 70,  notes: ["C4", "E4", "G4"],              roman: "I",     figs: [] },
+      { x: 145, notes: ["F4", "A4", "D5"],              roman: "ii",    figs: ["6"] },
+      { x: 220, notes: ["E4", "G4", "B4"],              roman: "iii",   figs: [] },
+      { x: 295, notes: ["F4", "A4", "C5"], option: "E5", roman: "IV",   figs: ["(7)"] },
+      { x: 370, notes: ["G4", "B4", "D5", "F5"],        roman: "V",     figs: ["7"] },
+      { x: 445, notes: ["A4", "C5", "E5"],              roman: "vi",    figs: [] },
+      { x: 520, notes: ["D4", "F4", "B4"],              roman: "vii\u00B0", figs: ["6"] }
+    ];
+
+    var GROUPS = [
+      { members: [0],    label: "TONIC",         level: 0 },
+      { members: [1, 3], label: "PRE-DOMINANT",  level: 0 },
+      { members: [4, 6], label: "DOMINANT",      level: 0 },
+      { members: [2, 5], label: "MEDIANTS",      level: 1 }
+    ];
+
+    for (var L = 0; L < 5; L++) {
+      svg.appendChild(el("line", {
+        x1: 10, y1: TOP + 12 * L, x2: 570, y2: TOP + 12 * L, "class": "staff-line"
+      }));
+    }
+    svg.appendChild(el("text", { x: 18, y: BASE - 12, "class": "clef" }, "\uE050"));
+
+    function noteY(n) { return BASE - 6 * (dia(n) - BOTTOM); }
+
+    CHORDS.forEach(function (c) {
+      c.notes.forEach(function (n) {
+        var step = dia(n) - BOTTOM, y = noteY(n);
+        if (step <= -2) {
+          for (var v = -2; v >= step; v -= 2) {
+            svg.appendChild(el("line", {
+              x1: c.x - 7, y1: BASE - 6 * v, x2: c.x + 27, y2: BASE - 6 * v, "class": "ledger"
+            }));
+          }
+        }
+        svg.appendChild(el("text", { x: c.x, y: y, "class": "notehead" }, "\uE0A2"));
+      });
+
+      if (c.option) {
+        var oy = noteY(c.option);
+        svg.appendChild(el("text", { x: c.x - 9, y: oy + 10, "class": "paren" }, "("));
+        svg.appendChild(el("text", {
+          x: c.x, y: oy, "class": "notehead optional"
+        }, "\uE0A2"));
+        svg.appendChild(el("text", { x: c.x + 30, y: oy + 10, "class": "paren" }, ")"));
+      }
+
+      svg.appendChild(el("text", {
+        x: c.x + 10 + (c.figs.length ? -4 : 0), y: 172, "class": "inv-roman"
+      }, c.roman));
+      if (c.figs.length) {
+        svg.appendChild(el("text", {
+          x: c.x + 10, y: 172, "class": "inv-fig"
+        }, c.figs[0]));
+      }
+    });
+
+    GROUPS.forEach(function (g) {
+      var y = 200 + 46 * g.level;
+      var xs = g.members.map(function (i) { return CHORDS[i].x + 10; });
+      var lo = Math.min.apply(null, xs), hi = Math.max.apply(null, xs);
+
+      xs.forEach(function (x) {
+        svg.appendChild(el("line", {
+          x1: x, y1: 184, x2: x, y2: y, "class": "grp-line"
+        }));
+      });
+      if (xs.length > 1) {
+        svg.appendChild(el("line", { x1: lo, y1: y, x2: hi, y2: y, "class": "grp-line" }));
+      }
+      svg.appendChild(el("text", {
+        x: (lo + hi) / 2, y: y + 18, "class": "grp-label"
+      }, g.label));
+    });
   })();
 
 })();
