@@ -761,16 +761,16 @@
     </section>
 
     <h2>the seven triads by function</h2>
-    <p class="full">The diatonic triads and common seventh chords of C major, each written in the inversion in which it most often appears in tonal music: ii and vii° in first inversion, V with its seventh, and an optional seventh on IV. The brackets group them by function, which cuts across the scale rather than running along it.</p>
+    <p class="full">The diatonic triads and common seventh chords of C major, each written in the inversion in which it most often appears in tonal music: ii and vii° in first inversion, V with its seventh, and optional sevenths on ii, IV, and vii°. The seventh on vii°6 makes it half-diminished. The brackets group them by function, which cuts across the scale rather than running along it.</p>
 
     <section class="panel centered wide">
-      <svg id="fn-scale" viewBox="0 4 680 236" role="img" aria-label="The seven diatonic triads of C major with roman numerals and brackets grouping them by harmonic function"></svg>
+      <svg id="fn-scale" viewBox="0 4 720 236" role="img" aria-label="The seven diatonic triads of C major with roman numerals and brackets grouping them by harmonic function"></svg>
     </section>
 
-    <p class="full">The same in C harmonic minor, with the alternatives the mode makes available. Degree 5 carries the minor v of natural minor and the V7 that the raised leading tone produces. The seventh on ii° is optional: with it the chord is half-diminished and the figure gains a 5.</p>
+    <p class="full">The same in C harmonic minor, with the alternatives the mode makes available. Degree 5 carries the minor v of natural minor and the V7 that the raised leading tone produces. The sevenths on ii° and vii° are optional. The first makes a half-diminished chord and the second a fully diminished one, and each adds a 5 to the figure.</p>
 
     <section class="panel centered wide">
-      <svg id="fn-scale-minor" viewBox="0 4 680 236" role="img" aria-label="The diatonic chords of C harmonic minor with roman numerals and brackets grouping them by harmonic function"></svg>
+      <svg id="fn-scale-minor" viewBox="0 4 720 236" role="img" aria-label="The diatonic chords of C harmonic minor with roman numerals and brackets grouping them by harmonic function"></svg>
     </section>
 
     <p class="full">Two chords here stand outside the four functions. The minor v has no leading tone and does not carry dominant function: it works as a passing or voice-leading chord, harmonizing ♭7̂ in a bass that descends from the tonic. ♭VII most often acts as the dominant of ♭III and is labelled V/♭III when it does.</p>
@@ -2026,7 +2026,7 @@
 
       for (var L = 0; L < 5; L++) {
         svg.appendChild(el("line", {
-          x1: 10, y1: TOP + 12 * L, x2: 670, y2: TOP + 12 * L, "class": "staff-line"
+          x1: 10, y1: TOP + 12 * L, x2: cfg.width - 10, y2: TOP + 12 * L, "class": "staff-line"
         }));
       }
       svg.appendChild(el("text", { x: 18, y: BASE - 12, "class": "clef" }, "\uE050"));
@@ -2036,7 +2036,7 @@
         }, KEYSIG_GLYPH.flat));
       }
 
-      function drawNote(x, n, cls) {
+      function drawNote(x, n, cls, accX) {
         var q = parse(n), step = dia(n) - BOTTOM, y = noteY(n);
         if (step <= -2) {
           for (var v = -2; v >= step; v -= 2) {
@@ -2047,7 +2047,8 @@
         }
         if (q.alt !== (sig[q.letter] || 0)) {
           svg.appendChild(el("text", {
-            x: x - 17, y: y, "class": "accidental" + (cls ? " " + cls : "")
+            x: (accX === undefined ? x : accX) - 17, y: y,
+            "class": "accidental" + (cls ? " " + cls : "")
           }, ACC_GLYPH[String(q.alt)]));
         }
         svg.appendChild(el("text", {
@@ -2067,11 +2068,15 @@
           }
         }
 
-        c.notes.forEach(function (n) { drawNote(c.x + (shift[n] || 0), n, null); });
+        var left = Math.min.apply(null, all.map(function (n) {
+          return c.x + (shift[n] || 0);
+        }));
+
+        c.notes.forEach(function (n) { drawNote(c.x + (shift[n] || 0), n, null, left); });
 
         if (c.option) {
           var ox = c.x + (shift[c.option] || 0);
-          var oy = drawNote(ox, c.option, "optional");
+          var oy = drawNote(ox, c.option, "optional", left);
           svg.appendChild(el("text", { x: ox - 5, y: oy + 7, "class": "paren" }, "("));
           svg.appendChild(el("text", { x: ox + 26, y: oy + 7, "class": "paren" }, ")"));
         }
@@ -2127,15 +2132,15 @@
     }
 
     chart({
-      id: "fn-scale", flats: 0,
+      id: "fn-scale", flats: 0, width: 720,
       chords: [
-        { x: 80, notes: ["C4", "E4", "G4"],               roman: "I",     figs: [] },
-        { x: 170, notes: ["F4", "A4", "D5"],               roman: "ii",    figs: ["6"] },
-        { x: 260, notes: ["E4", "G4", "B4"],               roman: "iii",   figs: [] },
-        { x: 350, notes: ["F4", "A4", "C5"], option: "E5", roman: "IV",    figs: ["(7)"] },
-        { x: 440, notes: ["G4", "B4", "D5", "F5"],         roman: "V",     figs: ["7"] },
-        { x: 530, notes: ["A4", "C5", "E5"],               roman: "vi",    figs: [] },
-        { x: 620, notes: ["D4", "F4", "B4"],               roman: "vii\u00B0", figs: ["6"] }
+        { x: 80,  notes: ["C4", "E4", "G4"],               roman: "I",     figs: [] },
+        { x: 176, notes: ["F4", "A4", "D5"], option: "C5", roman: "ii",    figs: ["6", "(5)"] },
+        { x: 272, notes: ["E4", "G4", "B4"],               roman: "iii",   figs: [] },
+        { x: 368, notes: ["F4", "A4", "C5"], option: "E5", roman: "IV",    figs: ["(7)"] },
+        { x: 464, notes: ["G4", "B4", "D5", "F5"],         roman: "V",     figs: ["7"] },
+        { x: 560, notes: ["A4", "C5", "E5"],               roman: "vi",    figs: [] },
+        { x: 656, notes: ["D4", "F4", "B4"], option: "A4", roman: "vii\u00B0", figs: ["6", "(5)"] }
       ],
       groups: [
         { members: [0],    label: "TONIC" },
@@ -2146,7 +2151,7 @@
     });
 
     chart({
-      id: "fn-scale-minor", flats: 3,
+      id: "fn-scale-minor", flats: 3, width: 720,
       chords: [
         { x: 100, notes: ["C4", "Eb4", "G4"],                roman: "i",     figs: [] },
         { x: 172, notes: ["F4", "Ab4", "D5"], option: "C5",  roman: "ii\u00B0", figs: ["6", "(5)"] },
@@ -2156,7 +2161,7 @@
         { x: 442, notes: ["G4", "B4", "D5", "F5"],           roman: "V",     figs: ["7"] },
         { x: 514, notes: ["Ab4", "C5", "Eb5"],               roman: "VI",    flat: true, figs: [] },
         { x: 586, notes: ["Bb4", "D5", "F5"],                roman: "VII",   flat: true, figs: [] },
-        { x: 640, notes: ["D4", "F4", "B4"],                 roman: "vii\u00B0", figs: ["6"] }
+        { x: 660, notes: ["D4", "F4", "B4"], option: "Ab4",  roman: "vii\u00B0", figs: ["6", "(5)"] }
       ],
       groups: [
         { members: [0],       label: "TONIC" },
