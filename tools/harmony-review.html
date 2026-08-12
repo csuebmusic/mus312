@@ -268,6 +268,21 @@
 
   .fn-box { fill: none; stroke: var(--ink); stroke-width: 1; }
   .fn-div { stroke: var(--rule); stroke-width: 1; }
+  .lvl1 {
+    font-family: var(--font-body);
+    font-size: 16px;
+    fill: var(--ink);
+    text-anchor: middle;
+  }
+  .lvl2 {
+    font-family: var(--font-data);
+    font-size: 14px;
+    font-weight: 500;
+    fill: var(--accent);
+    text-anchor: middle;
+  }
+  .lvl2-line { stroke: var(--accent); stroke-width: 1.25; fill: none; }
+
   .pro-box {
     fill: none;
     stroke: var(--ink);
@@ -819,6 +834,14 @@
     </section>
 
     <p class="full">Patterns are written in major. Minor takes the same shapes with its own qualities, so I–I6 becomes i–i6.</p>
+
+    <p class="full">A bass line of do ti do fa sol do. The first three chords are one harmony: the V6 is a neighbor between two tonics, and the tonic holds until the F arrives.</p>
+
+    <section class="panel centered wide">
+      <svg id="depth-example" viewBox="0 0 700 340" role="img" aria-label="A six-chord realization on a grand staff with roman numerals beneath and a second level of analysis showing the tonic carried across the first three chords"></svg>
+    </section>
+
+    <p class="full">Analysis is not a chord-by-chord translation. The first level names every sonority. The second level says which of them carry the phrase and which decorate it, and those are different questions. A passage with fourteen chords may have four functions.</p>
   </section>
 
   <footer>
@@ -2449,6 +2472,74 @@
       d: "M620 " + (MID - 10) + " C 645 22, 668 22, 684 " + (MID - 10),
       "class": "fn-curve", "marker-end": "url(#prolong-head)"
     }));
+  })();
+
+  /* ---------- depth of analysis example ---------- */
+
+  (function depthExample() {
+    var svg = document.getElementById("depth-example");
+    var LETTERS = "CDEFGAB";
+    function dia(n) {
+      return parseInt(n.slice(1), 10) * 7 + LETTERS.indexOf(n.charAt(0));
+    }
+    var TREBLE_BOTTOM = dia("E4"), BASS_BOTTOM = dia("G2");
+
+    var XS = [110, 205, 300, 400, 495, 590];
+    var BASS = ["C3", "B2", "C3", "F3", "G3", "C3"];
+    var UPPER = [
+      ["E4", "G4", "C5"], ["D4", "G4", "D5"], ["E4", "G4", "C5"],
+      ["D4", "F4", "A4"], ["D4", "F4", "B4"], ["C4", "E4", "C5"]
+    ];
+    var LEVEL1 = ["I", "V6", "I", "ii6", "V7", "I"];
+
+    var trebleTop = 66, trebleBottom = trebleTop + 48;
+    var bassTop = 178, bassBottom = bassTop + 48;
+
+    function staffLines(topY) {
+      for (var L = 0; L < 5; L++) {
+        svg.appendChild(el("line", {
+          x1: 10, y1: topY + 12 * L, x2: 680, y2: topY + 12 * L, "class": "staff-line"
+        }));
+      }
+    }
+    staffLines(trebleTop);
+    staffLines(bassTop);
+    svg.appendChild(el("text", { x: 18, y: trebleBottom - 12, "class": "clef" }, "\uE050"));
+    svg.appendChild(el("text", { x: 18, y: bassBottom - 36, "class": "clef" }, "\uE062"));
+    svg.appendChild(el("line", {
+      x1: 10, y1: trebleTop, x2: 10, y2: bassBottom, "class": "staff-line"
+    }));
+
+    function drawNote(x, n, bottomY, bottom) {
+      var step = dia(n) - bottom, y = bottomY - 6 * step;
+      if (step <= -2) {
+        for (var v = -2; v >= step; v -= 2) {
+          svg.appendChild(el("line", {
+            x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v, "class": "ledger"
+          }));
+        }
+      }
+      svg.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
+    }
+
+    XS.forEach(function (x, i) {
+      UPPER[i].forEach(function (n) { drawNote(x, n, trebleBottom, TREBLE_BOTTOM); });
+      drawNote(x, BASS[i], bassBottom, BASS_BOTTOM);
+      svg.appendChild(el("text", { x: x + 10, y: 272, "class": "lvl1" }, LEVEL1[i]));
+    });
+
+    /* second level: one tonic carried across the prolongation, then a
+       function for each of the three chords that follow */
+    var y2 = 308;
+    svg.appendChild(el("text", { x: XS[0] + 10, y: y2, "class": "lvl2" }, "T"));
+    svg.appendChild(el("line", {
+      x1: XS[0] + 24, y1: y2 - 5, x2: XS[3] - 14, y2: y2 - 5, "class": "lvl2-line"
+    }));
+    [[3, "PD"], [4, "D"], [5, "T"]].forEach(function (pair) {
+      svg.appendChild(el("text", {
+        x: XS[pair[0]] + 10, y: y2, "class": "lvl2"
+      }, pair[1]));
+    });
   })();
 
 })();
