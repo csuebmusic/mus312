@@ -289,7 +289,7 @@
   .optional { fill: var(--muted); }
   .paren {
     font-family: var(--font-body);
-    font-size: 30px;
+    font-size: 21px;
     fill: var(--muted);
     text-anchor: middle;
   }
@@ -2041,8 +2041,8 @@
         if (c.option) {
           var ox = c.x + (shift[c.option] || 0);
           var oy = drawNote(ox, c.option, "optional");
-          svg.appendChild(el("text", { x: ox - 9, y: oy + 10, "class": "paren" }, "("));
-          svg.appendChild(el("text", { x: ox + 30, y: oy + 10, "class": "paren" }, ")"));
+          svg.appendChild(el("text", { x: ox - 5, y: oy + 7, "class": "paren" }, "("));
+          svg.appendChild(el("text", { x: ox + 26, y: oy + 7, "class": "paren" }, ")"));
         }
 
         var t = el("text", {
