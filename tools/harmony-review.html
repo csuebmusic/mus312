@@ -255,6 +255,10 @@
     fill: var(--muted);
     text-anchor: middle;
   }
+  /* a full-width panel is roughly twice the width of a gridded one, so the
+     drawings are capped at the width they would render at in a .panels cell */
+  #inv-triad, #inv-seventh { max-width: 35rem; margin-left: auto; margin-right: auto; }
+
   .inv-label {
     font-family: var(--font-data);
     font-size: 11px;
