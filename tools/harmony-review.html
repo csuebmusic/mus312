@@ -777,10 +777,10 @@
     <p class="full">Two chords here stand outside the four functions. The minor v has no leading tone and does not carry dominant function: it works as a passing or voice-leading chord, harmonizing ♭7̂ in a bass that descends from the tonic. ♭VII most often acts as the dominant of ♭III and is labelled V/♭III when it does.</p>
 
     <h2>the master function chart</h2>
-    <p class="full">Every chord from the two charts above, sorted by function. Left of each divider is the major mode, right of it the minor. Each row runs through the options on one root, so the V row covers the triad, the seventh chord, and its three inversions.</p>
+    <p class="full">Every chord from the two charts above, sorted by function. Left of each divider is the major mode, right of it the minor. Each row runs through the options on one root. Where a seventh chord takes all three inversions, the row says so rather than listing them.</p>
 
     <section class="panel">
-      <svg id="master-fn" viewBox="0 0 1150 240" role="img" aria-label="Four function boxes, tonic then mediant then pre-dominant then dominant, each split into major and minor, with a curved arrow returning to the tonic"></svg>
+      <svg id="master-fn" viewBox="0 0 930 240" role="img" aria-label="Four function boxes, tonic then mediant then pre-dominant then dominant, each split into major and minor, with a curved arrow returning to the tonic"></svg>
     </section>
 
 
@@ -2199,23 +2199,24 @@
           { n: "ii\u00B0", figs: [["6"], { n: "ii\u00F8", f: ["6", "5"] }] },
           { n: "iv" }
         ] },
-      { x: 534, lw: 170, rw: 244, title: "DOMINANT",
+      { x: 534, lw: 106, rw: 136, title: "DOMINANT",
         major: [
-          { n: "V", figs: [[], ["7"], ["6", "5"], ["4", "3"], ["4", "2"]] },
+          { n: "V", figs: [[], { label: "V7 + inv" }] },
           { n: "vii\u00B0", figs: [["6"], { n: "vii\u00F8", f: ["6", "5"] }] }
         ],
         minor: [
-          { n: "V", figs: [[], ["7"], ["6", "5"], ["4", "3"], ["4", "2"]] },
-          { n: "vii\u00B0", figs: [["6"], ["7"], ["6", "5"], ["4", "3"], ["4", "2"]] }
+          { n: "V", figs: [[], { label: "V7 + inv" }] },
+          { n: "vii\u00B0", figs: [["6"], { label: "vii\u00B07 + inv" }] }
         ] },
-      { x: 1018, lw: 52, rw: 52, title: "TONIC",
+      { x: 802, lw: 52, rw: 52, title: "TONIC",
         major: [{ n: "I" }],
         minor: [{ n: "i" }] }
     ];
 
     /* advances measured from the loaded faces, in em */
     var ADV = { "I": 0.400, "i": 0.250, "V": 0.609, "v": 0.492,
-                "\u00B0": 0.468, "\u00F8": 0.568 };
+                "\u00B0": 0.468, "\u00F8": 0.568, "n": 0.568, "7": 0.600,
+                "+": 0.600, " ": 0.236 };
     var NUM_SIZE = 15, FLAT_ADV = 0.226 * 0.95, FIG_HALF = 0.6 * 11 / 2;
 
     function numWidth(r) {
@@ -2259,7 +2260,8 @@
       opts.forEach(function (f) {
         var item = Array.isArray(f) ? { f: f } : f;
         var who = item.n ? { n: item.n, flat: r.flat } : r;
-        cx += label(cx, y, who, item.f) + 14;
+        if (item.label) { who = { n: item.label }; }
+        cx += label(cx, y, who, item.label ? null : item.f) + 14;
       });
     }
 
@@ -2311,7 +2313,7 @@
     svg.appendChild(defs);
 
     svg.appendChild(el("path", {
-      d: "M958 " + (MID - 12) + " C 976 30, 996 30, 1012 " + (MID - 12),
+      d: "M742 " + (MID - 12) + " C 760 30, 780 30, 796 " + (MID - 12),
       "class": "fn-curve", "marker-end": "url(#master-head)"
     }));
   })();
