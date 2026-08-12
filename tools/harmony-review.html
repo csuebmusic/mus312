@@ -776,10 +776,10 @@
     <p class="full">Two chords here stand outside the four functions. The minor v has no leading tone and does not carry dominant function: it works as a passing or voice-leading chord, harmonizing ♭7̂ in a bass that descends from the tonic. ♭VII most often acts as the dominant of ♭III and is labelled V/♭III when it does.</p>
 
     <h2>the master function chart</h2>
-    <p class="full">Every chord from the two charts above, sorted by function. Left of each divider is the major mode, right of it the minor. A row gives one roman numeral followed by the figures available to it, so the V row covers the triad, the seventh chord, and its three inversions.</p>
+    <p class="full">Every chord from the two charts above, sorted by function. Left of each divider is the major mode, right of it the minor. Each row runs through the options on one root, so the V row covers the triad, the seventh chord, and its three inversions.</p>
 
     <section class="panel">
-      <svg id="master-fn" viewBox="0 0 1130 240" role="img" aria-label="Four function boxes, tonic then mediant then pre-dominant then dominant, each split into major and minor, with a curved arrow returning to the tonic"></svg>
+      <svg id="master-fn" viewBox="0 0 1290 240" role="img" aria-label="Four function boxes, tonic then mediant then pre-dominant then dominant, each split into major and minor, with a curved arrow returning to the tonic"></svg>
     </section>
 
     <p class="full">The fully diminished seventh on 7̂ is diatonic to harmonic minor and is borrowed into major freely. The minor v and ♭VII appear in neither box, since neither carries one of the four functions.</p>
@@ -2181,13 +2181,13 @@
       { x: 20, lw: 62, rw: 62, title: "TONIC",
         major: [{ n: "I" }],
         minor: [{ n: "i" }] },
-      { x: 200, lw: 72, rw: 72, title: "MEDIANT",
+      { x: 184, lw: 76, rw: 76, title: "MEDIANT",
         major: [{ n: "iii" }, { n: "vi" }],
         minor: [{ n: "III", flat: true }, { n: "VI", flat: true }] },
-      { x: 400, lw: 86, rw: 96, title: "PRE-DOMINANT",
+      { x: 376, lw: 92, rw: 104, title: "PRE-DOMINANT",
         major: [{ n: "ii", figs: [["6"], ["6", "5"]] }, { n: "IV", figs: [[], ["7"]] }],
         minor: [{ n: "ii\u00B0", figs: [["6"], ["6", "5"]] }, { n: "iv" }] },
-      { x: 640, lw: 118, rw: 162, title: "DOMINANT",
+      { x: 612, lw: 172, rw: 300, title: "DOMINANT",
         major: [
           { n: "V", figs: [[], ["7"], ["6", "5"], ["4", "3"], ["4", "2"]] },
           { n: "vii\u00B0", figs: [["6"]] }
@@ -2196,12 +2196,14 @@
           { n: "V", figs: [[], ["7"], ["6", "5"], ["4", "3"], ["4", "2"]] },
           { n: "vii\u00B0", figs: [["6"], ["7"], ["6", "5"], ["4", "3"], ["4", "2"]] }
         ] },
-      { x: 1000, lw: 55, rw: 55, title: "TONIC",
+      { x: 1154, lw: 55, rw: 55, title: "TONIC",
         major: [{ n: "I" }],
         minor: [{ n: "i" }] }
     ];
 
-    function numeral(x, y, r) {
+    /* every option carries its own numeral, so a numeral never stands alone
+       unless root position is itself available */
+    function label(x, y, r, figs) {
       var t = el("text", { x: x, y: y, "class": "fn-num" });
       if (r.flat) {
         t.appendChild(el("tspan", { "class": "acc-inline", dy: "-3" }, "\u266D"));
@@ -2210,24 +2212,29 @@
         t.textContent = r.n;
       }
       svg.appendChild(t);
-      return (r.flat ? 9 : 0) + r.n.length * 8;
-    }
 
-    function row(x, y, r) {
-      var w = numeral(x, y, r);
-      var cx = x + w + 13;
-      (r.figs || []).forEach(function (f) {
-        if (f.length === 0) { return; }
-        if (f.length === 1) {
-          svg.appendChild(el("text", { x: cx, y: y, "class": "fn-opt" }, f[0]));
+      var w = (r.flat ? 9 : 0) + r.n.length * 8;
+      if (figs && figs.length) {
+        var cx = x + w + 5;
+        if (figs.length === 1) {
+          svg.appendChild(el("text", { x: cx, y: y, "class": "fn-opt" }, figs[0]));
         } else {
-          f.forEach(function (v, k) {
+          figs.forEach(function (v, k) {
             svg.appendChild(el("text", {
               x: cx, y: y - 6 + 12 * k, "class": "fn-opt"
             }, v));
           });
         }
-        cx += 22;
+        w += 10;
+      }
+      return w;
+    }
+
+    function row(x, y, r) {
+      var opts = r.figs || [[]];
+      var cx = x;
+      opts.forEach(function (f) {
+        cx += label(cx, y, r, f) + 14;
       });
     }
 
@@ -2265,9 +2272,9 @@
       }));
     }
 
-    blockArrow(154, 192);
-    blockArrow(354, 392);
-    blockArrow(592, 632);
+    blockArrow(150, 180);
+    blockArrow(342, 372);
+    blockArrow(578, 608);
 
     var defs = el("defs", {});
     var marker = el("marker", {
@@ -2279,7 +2286,7 @@
     svg.appendChild(defs);
 
     svg.appendChild(el("path", {
-      d: "M930 " + (MID - 12) + " C 950 30, 972 30, 992 " + (MID - 12),
+      d: "M1094 " + (MID - 12) + " C 1112 30, 1132 30, 1148 " + (MID - 12),
       "class": "fn-curve", "marker-end": "url(#master-head)"
     }));
   })();
