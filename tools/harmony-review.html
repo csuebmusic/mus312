@@ -269,6 +269,7 @@
     fill: var(--muted);
     text-anchor: middle;
   }
+  .inv-label.left { text-anchor: start; }
   .inv-full {
     font-family: var(--font-data);
     font-size: 14px;
@@ -1738,7 +1739,7 @@
       }
       svg.appendChild(el("text", { x: 18, y: bottom - 12, "class": "clef" }, "\uE050"));
       svg.appendChild(el("text", {
-        x: 10, y: 30, "class": "inv-label", "text-anchor": "start"
+        x: 10, y: 30, "class": "inv-label left"
       }, "IN THE BASS"));
 
       items.forEach(function (item, i) {
