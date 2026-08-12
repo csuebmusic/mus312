@@ -779,7 +779,7 @@
     <p class="full">Every chord from the two charts above, sorted by function. Left of each divider is the major mode, right of it the minor. Each row runs through the options on one root, so the V row covers the triad, the seventh chord, and its three inversions.</p>
 
     <section class="panel">
-      <svg id="master-fn" viewBox="0 0 1290 240" role="img" aria-label="Four function boxes, tonic then mediant then pre-dominant then dominant, each split into major and minor, with a curved arrow returning to the tonic"></svg>
+      <svg id="master-fn" viewBox="0 0 1130 240" role="img" aria-label="Four function boxes, tonic then mediant then pre-dominant then dominant, each split into major and minor, with a curved arrow returning to the tonic"></svg>
     </section>
 
     <p class="full">The fully diminished seventh on 7̂ is diatonic to harmonic minor and is borrowed into major freely. The minor v and ♭VII appear in neither box, since neither carries one of the four functions.</p>
@@ -2183,16 +2183,16 @@
     /* a row is one numeral and the figures available to it;
        an empty figure list means the plain triad */
     var BOXES = [
-      { x: 20, lw: 62, rw: 62, title: "TONIC",
+      { x: 20, lw: 52, rw: 52, title: "TONIC",
         major: [{ n: "I" }],
         minor: [{ n: "i" }] },
-      { x: 184, lw: 76, rw: 76, title: "MEDIANT",
+      { x: 164, lw: 62, rw: 62, title: "MEDIANT",
         major: [{ n: "iii" }, { n: "vi" }],
         minor: [{ n: "III", flat: true }, { n: "VI", flat: true }] },
-      { x: 376, lw: 92, rw: 104, title: "PRE-DOMINANT",
+      { x: 328, lw: 74, rw: 84, title: "PRE-DOMINANT",
         major: [{ n: "ii", figs: [["6"], ["6", "5"]] }, { n: "IV", figs: [[], ["7"]] }],
         minor: [{ n: "ii\u00B0", figs: [["6"], ["6", "5"]] }, { n: "iv" }] },
-      { x: 612, lw: 172, rw: 300, title: "DOMINANT",
+      { x: 526, lw: 164, rw: 240, title: "DOMINANT",
         major: [
           { n: "V", figs: [[], ["7"], ["6", "5"], ["4", "3"], ["4", "2"]] },
           { n: "vii\u00B0", figs: [["6"]] }
@@ -2201,10 +2201,21 @@
           { n: "V", figs: [[], ["7"], ["6", "5"], ["4", "3"], ["4", "2"]] },
           { n: "vii\u00B0", figs: [["6"], ["7"], ["6", "5"], ["4", "3"], ["4", "2"]] }
         ] },
-      { x: 1154, lw: 55, rw: 55, title: "TONIC",
+      { x: 1000, lw: 52, rw: 52, title: "TONIC",
         major: [{ n: "I" }],
         minor: [{ n: "i" }] }
     ];
+
+    /* advances measured from the loaded faces, in em */
+    var ADV = { "I": 0.400, "i": 0.250, "V": 0.609, "v": 0.492,
+                "\u00B0": 0.468, "\u00F8": 0.568 };
+    var NUM_SIZE = 15, FLAT_ADV = 0.226 * 0.95, FIG_HALF = 0.6 * 11 / 2;
+
+    function numWidth(r) {
+      var w = r.flat ? FLAT_ADV : 0;
+      for (var i = 0; i < r.n.length; i++) { w += ADV[r.n.charAt(i)] || 0.5; }
+      return w * NUM_SIZE;
+    }
 
     /* every option carries its own numeral, so a numeral never stands alone
        unless root position is itself available */
@@ -2218,9 +2229,9 @@
       }
       svg.appendChild(t);
 
-      var w = (r.flat ? 9 : 0) + r.n.length * 8;
+      var w = numWidth(r);
       if (figs && figs.length) {
-        var cx = x + w + 5;
+        var cx = x + w + 4 + FIG_HALF;
         if (figs.length === 1) {
           svg.appendChild(el("text", { x: cx, y: y, "class": "fn-opt" }, figs[0]));
         } else {
@@ -2230,7 +2241,7 @@
             }, v));
           });
         }
-        w += 10;
+        w += 4 + 2 * FIG_HALF;
       }
       return w;
     }
@@ -2277,9 +2288,9 @@
       }));
     }
 
-    blockArrow(150, 180);
-    blockArrow(342, 372);
-    blockArrow(578, 608);
+    blockArrow(134, 160);
+    blockArrow(298, 324);
+    blockArrow(496, 522);
 
     var defs = el("defs", {});
     var marker = el("marker", {
@@ -2291,7 +2302,7 @@
     svg.appendChild(defs);
 
     svg.appendChild(el("path", {
-      d: "M1094 " + (MID - 12) + " C 1112 30, 1132 30, 1148 " + (MID - 12),
+      d: "M940 " + (MID - 12) + " C 958 30, 978 30, 994 " + (MID - 12),
       "class": "fn-curve", "marker-end": "url(#master-head)"
     }));
   })();
