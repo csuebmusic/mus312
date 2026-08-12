@@ -558,7 +558,7 @@
       </section>
       <section class="panel">
         <h3>the bass realized</h3>
-        <p>The realization puts the bass in the left hand and the three upper voices in the right, which is called keyboard style. Like SATB, it carries four voices while a triad holds three pitches, so one pitch is doubled in every chord. The realizations here double the root each time, the simplest choice and not always the best one.</p>
+        <p>The realization puts the bass in the left hand and the three upper voices in the right, which is called keyboard style. Like SATB, it carries four voices while a triad holds three pitches, so one pitch is doubled in every triad. The realizations here double the root, the simplest choice and not always the best one. A seventh chord holds four pitches and needs no doubling, though the fifth is often dropped and the root doubled in its place.</p>
         <svg id="fb-full" viewBox="0 0 450 300" role="img" aria-label="The same bass line with three five figures beneath and the resulting triads written in keyboard style on a treble staff above"></svg>
       </section>
     </div>
@@ -577,6 +577,19 @@
       <section class="panel">
         <h3>as it is written</h3>
         <svg id="fb-ii6-real" viewBox="0 0 450 300" role="img" aria-label="The same realization with only the six written beneath the F"></svg>
+      </section>
+    </div>
+
+    <p class="full">Two more chords over the same F, with a dominant seventh on the G in both.</p>
+
+    <div class="panels">
+      <section class="panel">
+        <h3>D half-diminished seventh, third in the bass</h3>
+        <svg id="fb-halfdim" viewBox="0 0 450 320" role="img" aria-label="The bass line realized with a D half-diminished seventh chord over the F and a dominant seventh over the G"></svg>
+      </section>
+      <section class="panel">
+        <h3>F major seventh, root in the bass</h3>
+        <svg id="fb-maj7" viewBox="0 0 450 320" role="img" aria-label="The bass line realized with an F major seventh chord over the F and a dominant seventh over the G"></svg>
       </section>
     </div>
 
@@ -1426,8 +1439,17 @@
 
   (function figuredBass() {
     var NOTE_LETTERS = "CDEFGAB";
+    function parseNote(n) {
+      var m = /^([A-G])([#b]?)(\d)$/.exec(n);
+      return {
+        letter: NOTE_LETTERS.indexOf(m[1]),
+        alt: m[2] === "#" ? 1 : (m[2] === "b" ? -1 : 0),
+        octave: parseInt(m[3], 10)
+      };
+    }
     function dia(n) {
-      return parseInt(n.slice(1), 10) * 7 + NOTE_LETTERS.indexOf(n.charAt(0));
+      var q = parseNote(n);
+      return q.octave * 7 + q.letter;
     }
     var TREBLE_BOTTOM = dia("E4"), BASS_BOTTOM = dia("G2");
 
@@ -1467,7 +1489,24 @@
           }));
         }
       }
+      var q = parseNote(note);
+      if (q.alt !== 0) {
+        svg.appendChild(el("text", {
+          x: x - 17, y: y, "class": "accidental"
+        }, ACC_GLYPH[String(q.alt)]));
+      }
       svg.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
+    }
+
+    function figureText(svg, x, y, str) {
+      var t = el("text", { x: x, y: y, "class": "figure" });
+      if (str.charAt(0) === "\u266D" || str.charAt(0) === "\u266F") {
+        t.appendChild(el("tspan", { "class": "acc-inline", dy: "-3.5" }, str.charAt(0)));
+        t.appendChild(el("tspan", { dy: "3.5" }, str.slice(1)));
+      } else {
+        t.textContent = str;
+      }
+      svg.appendChild(t);
     }
 
     /* the bass alone, with degrees and solfege above */
@@ -1504,9 +1543,7 @@
         upper[i].forEach(function (n) { drawNote(svg, x, n, trebleBottom, TREBLE_BOTTOM); });
         drawNote(svg, x, BASS_LINE[i], bassBottom, BASS_BOTTOM);
         figures[i].forEach(function (f, k) {
-          svg.appendChild(el("text", {
-            x: x + 10, y: bassBottom + 26 + 20 * k, "class": "figure"
-          }, f));
+          figureText(svg, x + 10, bassBottom + 26 + 20 * k, f);
         });
         if (star && i === 0) {
           svg.appendChild(el("text", {
@@ -1516,10 +1553,19 @@
       });
     }
 
+    var UPPER_HALFDIM = [
+      ["E4", "G4", "C5"], ["D4", "Ab4", "C5"], ["F4", "G4", "B4"], ["E4", "G4", "C5"]
+    ];
+    var UPPER_MAJ7 = [
+      ["E4", "G4", "C5"], ["E4", "A4", "C5"], ["F4", "G4", "B4"], ["E4", "G4", "C5"]
+    ];
+
     var FULL = ["(3)", "(5)"];
     system("fb-full", UPPER_ROOT, [FULL, FULL, FULL, FULL], true);
     system("fb-ii6-full", UPPER_II6, [FULL, ["(3)", "6"], FULL, FULL], false);
     system("fb-ii6-real", UPPER_II6, [[], ["6"], [], []], false);
+    system("fb-halfdim", UPPER_HALFDIM, [[], ["\u266D3", "5", "6"], ["7"], []], false);
+    system("fb-maj7", UPPER_MAJ7, [[], ["7"], ["7"], []], false);
   })();
 
 })();
