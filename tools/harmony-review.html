@@ -2159,7 +2159,8 @@
       id: "fn-scale-minor", flats: 3, width: 720,
       chords: [
         { x: 100, notes: ["C4", "Eb4", "G4"],                roman: "i",     figs: [] },
-        { x: 172, notes: ["F4", "Ab4", "D5"], option: "C5",  roman: "ii\u00B0", figs: ["6", "(5)"] },
+        { x: 172, notes: ["F4", "Ab4", "D5"], option: "C5",  roman: "ii\u00B0",
+          altQuality: "\u00F8", figs: ["6", "(5)"] },
         { x: 244, notes: ["Eb4", "G4", "Bb4"],               roman: "III",   flat: true, figs: [] },
         { x: 316, notes: ["F4", "Ab4", "C5"],                roman: "iv",    figs: [] },
         { x: 388, notes: ["G4", "Bb4", "D5"],                roman: "v",     figs: [] },
@@ -2196,7 +2197,10 @@
         minor: [{ n: "III", flat: true }, { n: "VI", flat: true }] },
       { x: 328, lw: 78, rw: 88, title: "PRE-DOMINANT",
         major: [{ n: "ii", figs: [["6"], ["6", "5"]] }, { n: "IV", figs: [[], ["7"]] }],
-        minor: [{ n: "ii\u00B0", figs: [["6"], ["6", "5"]] }, { n: "iv" }] },
+        minor: [
+          { n: "ii\u00B0", figs: [["6"], { n: "ii\u00F8", f: ["6", "5"] }] },
+          { n: "iv" }
+        ] },
       { x: 534, lw: 170, rw: 244, title: "DOMINANT",
         major: [
           { n: "V", figs: [[], ["7"], ["6", "5"], ["4", "3"], ["4", "2"]] },
