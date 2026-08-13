@@ -432,12 +432,6 @@
     text-anchor: middle;
   }
 
-  .callout.hi {
-    border-left-color: var(--accent);
-    background: var(--accent-wash);
-    padding-right: calc(var(--step) * 2);
-  }
-
   .callout {
     max-width: none;
     border-left: 3px solid var(--ink);
@@ -1228,7 +1222,6 @@
         staff.appendChild(el("text", { x: 10, y: top - 62, "class": "row-label" }, label));
       }
 
-      var order = key.kind === "flat" ? FLAT_ORDER : SHARP_ORDER;
       var steps = key.kind === "flat" ? FLAT_STEPS : SHARP_STEPS;
       for (var a = 0; a < key.count; a++) {
         staff.appendChild(el("text", {
@@ -1519,7 +1512,6 @@
     }
     svg.appendChild(el("text", { x: 18, y: noteY(2, 0), "class": "clef" }, "\uE050"));
 
-    var order = key.kind === "flat" ? FLAT_ORDER : SHARP_ORDER;
     var sigSteps = key.kind === "flat" ? FLAT_STEPS : SHARP_STEPS;
     for (var a = 0; a < key.count; a++) {
       svg.appendChild(el("text", {
@@ -2658,16 +2650,96 @@
     }));
   })();
 
+  /* ---------- grand staff ---------- */
+
+  var GS_LETTERS = "CDEFGAB";
+  var GS_NOTE = /^([A-G])([#b]?)(\d)$/;
+
+  function gsDia(n) {
+    var m = GS_NOTE.exec(n);
+    return parseInt(m[3], 10) * 7 + GS_LETTERS.indexOf(m[1]);
+  }
+  function gsAlt(n) {
+    var m = GS_NOTE.exec(n);
+    return m[2] === "#" ? 1 : (m[2] === "b" ? -1 : 0);
+  }
+
+  var GS = {
+    trebleTop: 66, trebleBottom: 114,
+    bassTop: 178, bassBottom: 226,
+    trebleRef: gsDia("E4"), bassRef: gsDia("G2")
+  };
+
+  /* Both staves, both clefs, the opening barline, and a flat key signature.
+     Returns the signature as a map from letter index to alteration. */
+  function grandStaff(svg, right, flats) {
+    [GS.trebleTop, GS.bassTop].forEach(function (topY) {
+      for (var L = 0; L < 5; L++) {
+        svg.appendChild(el("line", {
+          x1: 10, y1: topY + 12 * L, x2: right, y2: topY + 12 * L, "class": "staff-line"
+        }));
+      }
+    });
+    svg.appendChild(el("text", { x: 18, y: GS.trebleBottom - 12, "class": "clef" }, "\uE050"));
+    svg.appendChild(el("text", { x: 18, y: GS.bassBottom - 36, "class": "clef" }, "\uE062"));
+    svg.appendChild(el("line", {
+      x1: 10, y1: GS.trebleTop, x2: 10, y2: GS.bassBottom, "class": "staff-line"
+    }));
+    var sig = {};
+    for (var b = 0; b < (flats || 0); b++) {
+      sig[FLAT_ORDER[b]] = -1;
+      svg.appendChild(el("text", {
+        x: 46 + 13 * b, y: GS.trebleBottom - 6 * FLAT_STEPS[b], "class": "keysig"
+      }, KEYSIG_GLYPH.flat));
+      svg.appendChild(el("text", {
+        x: 46 + 13 * b, y: GS.bassBottom - 6 * (FLAT_STEPS[b] - 2), "class": "keysig"
+      }, KEYSIG_GLYPH.flat));
+    }
+    return sig;
+  }
+
+  function gsY(note, staff) {
+    var bottomY = staff === "b" ? GS.bassBottom : GS.trebleBottom;
+    var ref = staff === "b" ? GS.bassRef : GS.trebleRef;
+    return bottomY - 6 * (gsDia(note) - ref);
+  }
+
+  /* One notehead with its ledger lines, and its accidental where a key
+     signature is given and does not already supply it. */
+  function gsNote(svg, x, note, staff, opt) {
+    opt = opt || {};
+    var bottomY = staff === "b" ? GS.bassBottom : GS.trebleBottom;
+    var ref = staff === "b" ? GS.bassRef : GS.trebleRef;
+    var step = gsDia(note) - ref, y = bottomY - 6 * step, v;
+    if (step <= -2) {
+      for (v = -2; v >= step; v -= 2) { gsLedger(svg, x, bottomY - 6 * v); }
+    } else if (step >= 10) {
+      for (v = 10; v <= step; v += 2) { gsLedger(svg, x, bottomY - 6 * v); }
+    }
+    if (opt.sig) {
+      var alt = gsAlt(note);
+      if (alt !== (opt.sig[GS_LETTERS.indexOf(note.charAt(0))] || 0)) {
+        svg.appendChild(el("text", {
+          x: (opt.accX === undefined ? x : opt.accX) - 17, y: y, "class": "accidental"
+        }, ACC_GLYPH[String(alt)]));
+      }
+    }
+    svg.appendChild(el("text", {
+      x: x, y: y, "class": "notehead" + (opt.lit ? " lit-" + opt.lit : "")
+    }, opt.head || "\uE0A2"));
+    return y;
+  }
+
+  function gsLedger(svg, x, y) {
+    svg.appendChild(el("line", {
+      x1: x - 7, y1: y, x2: x + 27, y2: y, "class": "ledger"
+    }));
+  }
+
   /* ---------- depth of analysis example ---------- */
 
   (function depthExample() {
     var svg = document.getElementById("depth-example");
-    var LETTERS = "CDEFGAB";
-    function dia(n) {
-      return parseInt(n.slice(1), 10) * 7 + LETTERS.indexOf(n.charAt(0));
-    }
-    var TREBLE_BOTTOM = dia("E4"), BASS_BOTTOM = dia("G2");
-
     var XS = [100, 190, 280, 370, 460, 550];
     var BASS = ["C3", "B2", "C3", "F3", "G3", "C3"];
     var UPPER = [
@@ -2676,39 +2748,11 @@
     ];
     var LEVEL1 = ["I", "V6", "I", "ii6", "V7", "I"];
 
-    var trebleTop = 66, trebleBottom = trebleTop + 48;
-    var bassTop = 178, bassBottom = bassTop + 48;
-
-    function staffLines(topY) {
-      for (var L = 0; L < 5; L++) {
-        svg.appendChild(el("line", {
-          x1: 10, y1: topY + 12 * L, x2: 619, y2: topY + 12 * L, "class": "staff-line"
-        }));
-      }
-    }
-    staffLines(trebleTop);
-    staffLines(bassTop);
-    svg.appendChild(el("text", { x: 18, y: trebleBottom - 12, "class": "clef" }, "\uE050"));
-    svg.appendChild(el("text", { x: 18, y: bassBottom - 36, "class": "clef" }, "\uE062"));
-    svg.appendChild(el("line", {
-      x1: 10, y1: trebleTop, x2: 10, y2: bassBottom, "class": "staff-line"
-    }));
-
-    function drawNote(x, n, bottomY, bottom) {
-      var step = dia(n) - bottom, y = bottomY - 6 * step;
-      if (step <= -2) {
-        for (var v = -2; v >= step; v -= 2) {
-          svg.appendChild(el("line", {
-            x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v, "class": "ledger"
-          }));
-        }
-      }
-      svg.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
-    }
+    grandStaff(svg, 619);
 
     XS.forEach(function (x, i) {
-      UPPER[i].forEach(function (n) { drawNote(x, n, trebleBottom, TREBLE_BOTTOM); });
-      drawNote(x, BASS[i], bassBottom, BASS_BOTTOM);
+      UPPER[i].forEach(function (n) { gsNote(svg, x, n, "t"); });
+      gsNote(svg, x, BASS[i], "b");
       svg.appendChild(el("text", { x: x + 10, y: 272, "class": "lvl1" }, LEVEL1[i]));
     });
 
@@ -2730,21 +2774,6 @@
 
   (function minorDepth() {
     var svg = document.getElementById("minor-depth");
-    var LETTERS = "CDEFGAB";
-    function parseN(n) {
-      var m = /^([A-G])([#b]?)(\d)$/.exec(n);
-      return {
-        letter: LETTERS.indexOf(m[1]),
-        alt: m[2] === "#" ? 1 : (m[2] === "b" ? -1 : 0),
-        octave: parseInt(m[3], 10)
-      };
-    }
-    function dia(n) { var q = parseN(n); return q.octave * 7 + q.letter; }
-    var TREBLE_BOTTOM = dia("E4"), BASS_BOTTOM = dia("G2");
-    var SIG = {}; [FLAT_ORDER[0], FLAT_ORDER[1], FLAT_ORDER[2]].forEach(function (l) {
-      SIG[l] = -1;
-    });
-
     var XS = [];
     for (var i = 0; i < 11; i++) { XS.push(110 + 96 * i); }
 
@@ -2759,58 +2788,11 @@
                   "iv", "ii\u00B06", "Cad6/4", "V7", "i"];
     var LEVEL1_FLAT = [false, false, false, true, true, true, false, false, false, false, false];
 
-    var trebleTop = 66, trebleBottom = trebleTop + 48;
-    var bassTop = 178, bassBottom = bassTop + 48;
-
-    function staffLines(topY) {
-      for (var L = 0; L < 5; L++) {
-        svg.appendChild(el("line", {
-          x1: 10, y1: topY + 12 * L, x2: 1120, y2: topY + 12 * L, "class": "staff-line"
-        }));
-      }
-    }
-    staffLines(trebleTop);
-    staffLines(bassTop);
-    svg.appendChild(el("text", { x: 18, y: trebleBottom - 12, "class": "clef" }, "\uE050"));
-    svg.appendChild(el("text", { x: 18, y: bassBottom - 36, "class": "clef" }, "\uE062"));
-    svg.appendChild(el("line", {
-      x1: 10, y1: trebleTop, x2: 10, y2: bassBottom, "class": "staff-line"
-    }));
-    for (var b = 0; b < 3; b++) {
-      svg.appendChild(el("text", {
-        x: 46 + 13 * b, y: trebleBottom - 6 * FLAT_STEPS[b], "class": "keysig"
-      }, KEYSIG_GLYPH.flat));
-      svg.appendChild(el("text", {
-        x: 46 + 13 * b, y: bassBottom - 6 * (FLAT_STEPS[b] - 2), "class": "keysig"
-      }, KEYSIG_GLYPH.flat));
-    }
-
-    function drawNote(x, n, bottomY, bottom, accX) {
-      var q = parseN(n), step = dia(n) - bottom, y = bottomY - 6 * step;
-      if (step <= -2) {
-        for (var v = -2; v >= step; v -= 2) {
-          svg.appendChild(el("line", {
-            x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v, "class": "ledger"
-          }));
-        }
-      } else if (step >= 10) {
-        for (var w = 10; w <= step; w += 2) {
-          svg.appendChild(el("line", {
-            x1: x - 7, y1: bottomY - 6 * w, x2: x + 27, y2: bottomY - 6 * w, "class": "ledger"
-          }));
-        }
-      }
-      if (q.alt !== (SIG[q.letter] || 0)) {
-        svg.appendChild(el("text", {
-          x: accX - 17, y: y, "class": "accidental"
-        }, ACC_GLYPH[String(q.alt)]));
-      }
-      svg.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
-    }
+    var sig = grandStaff(svg, 1120, 3);
 
     XS.forEach(function (x, i) {
-      UPPER[i].forEach(function (n) { drawNote(x, n, trebleBottom, TREBLE_BOTTOM, x); });
-      drawNote(x, BASS[i], bassBottom, BASS_BOTTOM, x);
+      UPPER[i].forEach(function (n) { gsNote(svg, x, n, "t", { sig: sig }); });
+      gsNote(svg, x, BASS[i], "b", { sig: sig });
 
       var t = el("text", { x: x + 10, y: 272, "class": "lvl1" });
       if (LEVEL1_FLAT[i] && LEVEL1[i].charAt(0) === "\u266D") {
@@ -2846,55 +2828,18 @@
 
   (function cad64() {
     var svg = document.getElementById("cad64");
-    var LETTERS = "CDEFGAB";
-    function dia(n) {
-      return parseInt(n.slice(1), 10) * 7 + LETTERS.indexOf(n.charAt(0));
-    }
-    var TREBLE_BOTTOM = dia("E4"), BASS_BOTTOM = dia("G2");
-    var trebleTop = 66, trebleBottom = trebleTop + 48;
-    var bassTop = 178, bassBottom = bassTop + 48;
     var XS = [110, 218, 326];
-
     var BASS = ["G3", "G3", "C3"];
     var UPPER = [["E4", "G4", "C5"], ["D4", "G4", "B4"], ["E4", "G4", "C5"]];
     /* the sixth and its fifth, the fourth and its third */
     var LIT = [{ "E4": "a", "C5": "b" }, { "D4": "a", "B4": "b" }, {}];
     var ROMAN = ["Cad6/4", "V", "I"];
 
-    function staffLines(topY) {
-      for (var L = 0; L < 5; L++) {
-        svg.appendChild(el("line", {
-          x1: 10, y1: topY + 12 * L, x2: 410, y2: topY + 12 * L, "class": "staff-line"
-        }));
-      }
-    }
-    staffLines(trebleTop);
-    staffLines(bassTop);
-    svg.appendChild(el("text", { x: 18, y: trebleBottom - 12, "class": "clef" }, "\uE050"));
-    svg.appendChild(el("text", { x: 18, y: bassBottom - 36, "class": "clef" }, "\uE062"));
-    svg.appendChild(el("line", {
-      x1: 10, y1: trebleTop, x2: 10, y2: bassBottom, "class": "staff-line"
-    }));
-
-    function drawNote(x, n, bottomY, bottom, lit) {
-      var step = dia(n) - bottom, y = bottomY - 6 * step, v;
-      if (step <= -2) {
-        for (v = -2; v >= step; v -= 2) {
-          svg.appendChild(el("line", {
-            x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v, "class": "ledger"
-          }));
-        }
-      }
-      svg.appendChild(el("text", {
-        x: x, y: y, "class": "notehead" + (lit ? " lit-" + lit : "")
-      }, "\uE0A2"));
-    }
+    grandStaff(svg, 410);
 
     XS.forEach(function (x, i) {
-      UPPER[i].forEach(function (n) {
-        drawNote(x, n, trebleBottom, TREBLE_BOTTOM, LIT[i][n]);
-      });
-      drawNote(x, BASS[i], bassBottom, BASS_BOTTOM, null);
+      UPPER[i].forEach(function (n) { gsNote(svg, x, n, "t", { lit: LIT[i][n] }); });
+      gsNote(svg, x, BASS[i], "b");
       svg.appendChild(el("text", { x: x + 10, y: 304, "class": "lvl1" }, ROMAN[i]));
     });
 
@@ -2915,9 +2860,8 @@
         "class": "arrowhead-fill " + cls
       }));
     }
-    /* C5 to B4, and E4 to D4 */
-    resolve(trebleBottom - 6 * 5, trebleBottom - 6 * 4, "b");
-    resolve(trebleBottom - 6 * 0, trebleBottom - 6 * -1, "a");
+    resolve(gsY("C5", "t"), gsY("B4", "t"), "b");
+    resolve(gsY("E4", "t"), gsY("D4", "t"), "a");
 
     /* figures under the bass, one row per strand */
     [{ y: 252, cls: "a", from: "6", to: "5" },
@@ -2938,83 +2882,15 @@
   /* ---------- cadence types ---------- */
 
   (function cadences() {
-    var LETTERS = "CDEFGAB";
-    function parseN(n) {
-      var m = /^([A-G])([#b]?)(\d)$/.exec(n);
-      return {
-        letter: LETTERS.indexOf(m[1]),
-        alt: m[2] === "#" ? 1 : (m[2] === "b" ? -1 : 0),
-        octave: parseInt(m[3], 10)
-      };
-    }
-    function dia(n) { var q = parseN(n); return q.octave * 7 + q.letter; }
-    var TREBLE_BOTTOM = dia("E4"), BASS_BOTTOM = dia("G2");
-
-    var STAFF_RIGHT = 514;
-    var trebleTop = 66, trebleBottom = trebleTop + 48;
-    var bassTop = 178, bassBottom = bassTop + 48;
-
     function draw(cfg) {
       var svg = document.getElementById(cfg.id);
-      var flats = cfg.flats || 0;
-      var sig = {};
-      for (var f = 0; f < flats; f++) { sig[FLAT_ORDER[f]] = -1; }
-
       var XS = [];
       for (var i = 0; i < cfg.bass.length; i++) { XS.push(110 + 108 * i); }
-
-      function staffLines(topY) {
-        for (var L = 0; L < 5; L++) {
-          svg.appendChild(el("line", {
-            x1: 10, y1: topY + 12 * L, x2: XS[XS.length - 1] + 80, y2: topY + 12 * L,
-            "class": "staff-line"
-          }));
-        }
-      }
-      staffLines(trebleTop);
-      staffLines(bassTop);
-      svg.appendChild(el("text", { x: 18, y: trebleBottom - 12, "class": "clef" }, "\uE050"));
-      svg.appendChild(el("text", { x: 18, y: bassBottom - 36, "class": "clef" }, "\uE062"));
-      svg.appendChild(el("line", {
-        x1: 10, y1: trebleTop, x2: 10, y2: bassBottom, "class": "staff-line"
-      }));
-      for (var b = 0; b < flats; b++) {
-        svg.appendChild(el("text", {
-          x: 46 + 13 * b, y: trebleBottom - 6 * FLAT_STEPS[b], "class": "keysig"
-        }, KEYSIG_GLYPH.flat));
-        svg.appendChild(el("text", {
-          x: 46 + 13 * b, y: bassBottom - 6 * (FLAT_STEPS[b] - 2), "class": "keysig"
-        }, KEYSIG_GLYPH.flat));
-      }
-
-      function drawNote(x, n, bottomY, bottom) {
-        var q = parseN(n), step = dia(n) - bottom, y = bottomY - 6 * step;
-        if (step <= -2) {
-          for (var v = -2; v >= step; v -= 2) {
-            svg.appendChild(el("line", {
-              x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v,
-              "class": "ledger"
-            }));
-          }
-        } else if (step >= 10) {
-          for (var w = 10; w <= step; w += 2) {
-            svg.appendChild(el("line", {
-              x1: x - 7, y1: bottomY - 6 * w, x2: x + 27, y2: bottomY - 6 * w,
-              "class": "ledger"
-            }));
-          }
-        }
-        if (q.alt !== (sig[q.letter] || 0)) {
-          svg.appendChild(el("text", {
-            x: x - 17, y: y, "class": "accidental"
-          }, ACC_GLYPH[String(q.alt)]));
-        }
-        svg.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
-      }
+      var sig = grandStaff(svg, XS[XS.length - 1] + 80, cfg.flats);
 
       XS.forEach(function (x, i) {
-        cfg.upper[i].forEach(function (n) { drawNote(x, n, trebleBottom, TREBLE_BOTTOM); });
-        drawNote(x, cfg.bass[i], bassBottom, BASS_BOTTOM);
+        cfg.upper[i].forEach(function (n) { gsNote(svg, x, n, "t", { sig: sig }); });
+        gsNote(svg, x, cfg.bass[i], "b", { sig: sig });
         svg.appendChild(el("text", { x: x + 10, y: 272, "class": "lvl1" }, cfg.roman[i]));
       });
 
@@ -3090,12 +2966,6 @@
 
   (function seqPhrase() {
     var svg = document.getElementById("seq-phrase");
-    var LETTERS = "CDEFGAB";
-    function dia(n) {
-      return parseInt(n.slice(1), 10) * 7 + LETTERS.indexOf(n.charAt(0));
-    }
-    var TREBLE_BOTTOM = dia("E4"), BASS_BOTTOM = dia("G2");
-
     var XS = [];
     for (var i = 0; i < 8; i++) { XS.push(110 + 130 * i); }
 
@@ -3107,45 +2977,11 @@
     ];
     var LEVEL1 = ["I seq.", "V", "ii", "vi", "iii", "ii6", "V7", "I"];
 
-    var trebleTop = 66, trebleBottom = trebleTop + 48;
-    var bassTop = 178, bassBottom = bassTop + 48;
-
-    function staffLines(topY) {
-      for (var L = 0; L < 5; L++) {
-        svg.appendChild(el("line", {
-          x1: 10, y1: topY + 12 * L, x2: 1070, y2: topY + 12 * L, "class": "staff-line"
-        }));
-      }
-    }
-    staffLines(trebleTop);
-    staffLines(bassTop);
-    svg.appendChild(el("text", { x: 18, y: trebleBottom - 12, "class": "clef" }, "\uE050"));
-    svg.appendChild(el("text", { x: 18, y: bassBottom - 36, "class": "clef" }, "\uE062"));
-    svg.appendChild(el("line", {
-      x1: 10, y1: trebleTop, x2: 10, y2: bassBottom, "class": "staff-line"
-    }));
-
-    function drawNote(x, n, bottomY, bottom) {
-      var step = dia(n) - bottom, y = bottomY - 6 * step, v;
-      if (step <= -2) {
-        for (v = -2; v >= step; v -= 2) {
-          svg.appendChild(el("line", {
-            x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v, "class": "ledger"
-          }));
-        }
-      } else if (step >= 10) {
-        for (v = 10; v <= step; v += 2) {
-          svg.appendChild(el("line", {
-            x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v, "class": "ledger"
-          }));
-        }
-      }
-      svg.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
-    }
+    grandStaff(svg, 1070);
 
     XS.forEach(function (x, i) {
-      UPPER[i].forEach(function (n) { drawNote(x, n, trebleBottom, TREBLE_BOTTOM); });
-      drawNote(x, BASS[i], bassBottom, BASS_BOTTOM);
+      UPPER[i].forEach(function (n) { gsNote(svg, x, n, "t"); });
+      gsNote(svg, x, BASS[i], "b");
       svg.appendChild(el("text", { x: x + 10, y: 272, "class": "lvl1" }, LEVEL1[i]));
     });
 
@@ -3174,74 +3010,43 @@
   /* ---------- nonchord tones ---------- */
 
   (function nonchord() {
-    var LETTERS = "CDEFGAB";
-    function dia(n) {
-      return parseInt(n.slice(1), 10) * 7 + LETTERS.indexOf(n.charAt(0));
-    }
-    var TREBLE_BOTTOM = dia("E4"), BASS_BOTTOM = dia("G2");
-    var trebleTop = 66, trebleBottom = trebleTop + 48;
-    var bassTop = 178, bassBottom = bassTop + 48;
     var BEAT = [88, 138, 188, 238];
-    var BARLINE = 276, STAFF_RIGHT = 306;
+    var BARLINE = 276;
     var HEAD = { w: "\uE0A2", h: "\uE0A3", q: "\uE0A4" };
     var HEAD_W = 14, STEM = 42;
 
     function draw(cfg) {
       var svg = document.getElementById(cfg.id);
-
-      function staffLines(topY) {
-        for (var L = 0; L < 5; L++) {
-          svg.appendChild(el("line", {
-            x1: 10, y1: topY + 12 * L, x2: BARLINE, y2: topY + 12 * L,
-            "class": "staff-line"
-          }));
-        }
-      }
-      staffLines(trebleTop);
-      staffLines(bassTop);
-      svg.appendChild(el("text", { x: 18, y: trebleBottom - 12, "class": "clef" }, "\uE050"));
-      svg.appendChild(el("text", { x: 18, y: bassBottom - 36, "class": "clef" }, "\uE062"));
-      [[trebleBottom, 78], [bassBottom, 190]].forEach(function (pair) {
+      grandStaff(svg, BARLINE);
+      [[GS.trebleBottom, 78], [GS.bassBottom, 190]].forEach(function (pair) {
         svg.appendChild(el("text", { x: 48, y: pair[1], "class": "clef" }, "\uE084"));
         svg.appendChild(el("text", { x: 48, y: pair[1] + 24, "class": "clef" }, "\uE084"));
       });
-      [10, BARLINE].forEach(function (x) {
+      svg.appendChild(el("line", {
+        x1: BARLINE, y1: GS.trebleTop, x2: BARLINE, y2: GS.bassBottom, "class": "staff-line"
+      }));
+
+      /* one rhythmic event: notes, duration, staff, stem direction */
+      cfg.events.forEach(function (ev) {
+        var x = BEAT[ev.beat];
+        var ys = ev.notes.map(function (n) {
+          return gsNote(svg, x, n, ev.staff, {
+            head: HEAD[ev.dur], lit: ev.lit === n ? "a" : null
+          });
+        });
+        if (ev.dur === "w") { return; }
+        var top = Math.min.apply(null, ys), bot = Math.max.apply(null, ys);
+        var up = ev.stem === "up";
         svg.appendChild(el("line", {
-          x1: x, y1: trebleTop, x2: x, y2: bassBottom, "class": "staff-line"
+          x1: up ? x + HEAD_W : x, y1: up ? bot : top,
+          x2: up ? x + HEAD_W : x, y2: up ? top - STEM : bot + STEM,
+          "class": "stem"
         }));
       });
 
-      function yOf(note, staff) {
-        var bottomY = staff === "t" ? trebleBottom : bassBottom;
-        var bottom = staff === "t" ? TREBLE_BOTTOM : BASS_BOTTOM;
-        return bottomY - 6 * (dia(note) - bottom);
-      }
-
-      /* one rhythmic event: notes, duration, staff, stem direction */
-      function event(ev) {
-        var x = BEAT[ev.beat], ys = ev.notes.map(function (n) { return yOf(n, ev.staff); });
-        var top = Math.min.apply(null, ys), bot = Math.max.apply(null, ys);
-        ev.notes.forEach(function (n, k) {
-          svg.appendChild(el("text", {
-            x: x, y: ys[k],
-            "class": "notehead" + (ev.lit === n ? " lit-a" : "")
-          }, HEAD[ev.dur]));
-        });
-        if (ev.dur !== "w") {
-          var up = ev.stem === "up";
-          svg.appendChild(el("line", {
-            x1: up ? x + HEAD_W : x, y1: up ? bot : top,
-            x2: up ? x + HEAD_W : x, y2: up ? top - STEM : bot + STEM,
-            "class": "stem"
-          }));
-        }
-      }
-
-      cfg.events.forEach(event);
-
       if (cfg.tie) {
         var x1 = BEAT[cfg.tie[0]] + 4, x2 = BEAT[cfg.tie[1]] + 10;
-        var ty = yOf(cfg.tie[2], "t") - 11;
+        var ty = gsY(cfg.tie[2], "t") - 11;
         svg.appendChild(el("path", {
           d: "M " + x1 + " " + ty + " Q " + ((x1 + x2) / 2) + " " + (ty - 12) +
              " " + x2 + " " + ty,
@@ -3267,11 +3072,11 @@
           var box;
           try { box = r.node.getBBox(); } catch (err) { return; }
           if (!box || !box.width) { return; }
-          var x1 = box.x + box.width + 7;
-          var x2 = (k + 1 < romans.length ? BEAT[romans[k + 1].beat] - 2 : BARLINE - 4);
-          if (x2 - x1 < 14) { return; }
+          var bx1 = box.x + box.width + 7;
+          var bx2 = (k + 1 < romans.length ? BEAT[romans[k + 1].beat] - 2 : BARLINE - 4);
+          if (bx2 - bx1 < 14) { return; }
           svg.appendChild(el("line", {
-            x1: x1, y1: 291, x2: x2, y2: 291, "class": "harm-line"
+            x1: bx1, y1: 291, x2: bx2, y2: 291, "class": "harm-line"
           }));
         });
       }
@@ -3362,14 +3167,6 @@
   /* ---------- diatonic sequences ---------- */
 
   (function sequences() {
-    var LETTERS = "CDEFGAB";
-    function dia(n) {
-      return parseInt(n.slice(1), 10) * 7 + LETTERS.indexOf(n.charAt(0));
-    }
-    var TREBLE_BOTTOM = dia("E4"), BASS_BOTTOM = dia("G2");
-    var trebleTop = 66, trebleBottom = trebleTop + 48;
-    var bassTop = 178, bassBottom = bassTop + 48;
-
     var SEQ_X0 = 80, SEQ_STEP = 56;
 
     function draw(cfg) {
@@ -3377,49 +3174,13 @@
       var n = cfg.bass.length;
       var XS = [];
       for (var i = 0; i < n; i++) { XS.push(SEQ_X0 + SEQ_STEP * i); }
-      var right = XS[n - 1] + 80;
-
-      function staffLines(topY) {
-        for (var L = 0; L < 5; L++) {
-          svg.appendChild(el("line", {
-            x1: 10, y1: topY + 12 * L, x2: right, y2: topY + 12 * L,
-            "class": "staff-line"
-          }));
-        }
-      }
-      staffLines(trebleTop);
-      staffLines(bassTop);
-      svg.appendChild(el("text", { x: 18, y: trebleBottom - 12, "class": "clef" }, "\uE050"));
-      svg.appendChild(el("text", { x: 18, y: bassBottom - 36, "class": "clef" }, "\uE062"));
-      svg.appendChild(el("line", {
-        x1: 10, y1: trebleTop, x2: 10, y2: bassBottom, "class": "staff-line"
-      }));
-
-      function drawNote(x, note, bottomY, bottom) {
-        var step = dia(note) - bottom, y = bottomY - 6 * step, v;
-        if (step <= -2) {
-          for (v = -2; v >= step; v -= 2) {
-            svg.appendChild(el("line", {
-              x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v,
-              "class": "ledger"
-            }));
-          }
-        } else if (step >= 10) {
-          for (v = 10; v <= step; v += 2) {
-            svg.appendChild(el("line", {
-              x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v,
-              "class": "ledger"
-            }));
-          }
-        }
-        svg.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
-      }
+      grandStaff(svg, XS[n - 1] + 80);
 
       XS.forEach(function (x, i) {
-        drawNote(x, cfg.sop[i], trebleBottom, TREBLE_BOTTOM);
-        drawNote(x, cfg.alto[i], trebleBottom, TREBLE_BOTTOM);
-        drawNote(x, cfg.tenor[i], bassBottom, BASS_BOTTOM);
-        drawNote(x, cfg.bass[i], bassBottom, BASS_BOTTOM);
+        gsNote(svg, x, cfg.sop[i], "t");
+        gsNote(svg, x, cfg.alto[i], "t");
+        gsNote(svg, x, cfg.tenor[i], "b");
+        gsNote(svg, x, cfg.bass[i], "b");
         svg.appendChild(el("text", {
           x: x + 10, y: 272, "class": "lvl1"
         }, cfg.roman[i] + (i === 0 ? " seq." : "")));
