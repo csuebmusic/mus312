@@ -49,19 +49,19 @@ Staff geometry: spaces of 12px, bottom line E4 at y = 118, pitch positions at 6p
 
 ## figure size
 
-Every figure renders at 0.75: one authored unit is 0.75 CSS pixels, so a 48px Bravura glyph draws at 36px and staff spaces at 9px.
+Staff notation renders at 0.75, so a 48px Bravura glyph draws at 36px and staff spaces at 9px. Diagrams that carry no staff (clock faces, stacking recipes, function and prolongation maps) render at 1.
 
-A figure's `viewBox` is therefore sized from the panel that holds it, not from its content. Panel inner widths, and the `viewBox` width each takes:
+A figure's `viewBox` is sized from the panel that holds it divided by its scale, not from its content. Panel inner widths:
 
-| panel | inner | viewBox width |
-|---|---|---|
-| full width | 1200 | 1600 |
-| wide column of `.panels.uneven`, `.panel.centered.wide` | 667 | 889 |
-| half of `.panels`, `.panel.centered` | 556 | 741 |
-| narrow column of `.panels.uneven` | 445 | 593 |
-| `.panels.three` | 341 | 455 |
+| panel | inner |
+|---|---|
+| full width | 1200 |
+| wide column of `.panels.uneven`, `.panel.centered.wide` | 667 |
+| half of `.panels`, `.panel.centered` | 556 |
+| narrow column of `.panels.uneven` | 445 |
+| `.panels.three` | 341 |
 
-The drawing keeps its own coordinates and is centred by a negative `viewBox` origin: `viewBox="-DX 0 W H"` where DX is half the difference between the new width and the drawing's own. Empty space either side is expected.
+The drawing keeps its own coordinates and is centred by a negative `viewBox` origin: `viewBox="-DX minY W H"` where DX is half the difference between W and the drawing's own width. Empty space either side is expected. Where a drawing is wider than its panel allows, the `viewBox` takes the drawing's own width and the figure renders at whatever scale that gives.
 
 ## spacing
 
