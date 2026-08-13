@@ -47,6 +47,12 @@ Staves stack at 170px per row. Row labels sit at the left, above the staff.
 
 Staff geometry: spaces of 12px, bottom line E4 at y = 118, pitch positions at 6px per scale step. Ledger lines are drawn at even step positions beyond the staff.
 
+## figure size
+
+Notation renders at one size across a page. A figure's `viewBox` width is set from the panel that holds it, not from its content: 1130 in a full-width panel, 524 in a half-width panel or `.panel.centered`, 322 in a third-width panel, 629 in `.panel.centered.wide`.
+
+Content is laid out left to right from the clef at a fixed spacing, and the staff runs to the edge of the box. A figure with fewer events leaves empty staff rather than spreading to fill the width.
+
 ## spacing
 
 One unit is `--step`, 0.5rem. The vertical scale, in units:
