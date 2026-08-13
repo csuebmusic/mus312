@@ -63,6 +63,14 @@ A figure's `viewBox` is sized from the panel that holds it divided by its scale,
 
 The drawing keeps its own coordinates and is centred by a negative `viewBox` origin: `viewBox="-DX minY W H"` where DX is half the difference between W and the drawing's own width. Empty space either side is expected. Where a drawing is wider than its panel allows, the `viewBox` takes the drawing's own width and the figure renders at whatever scale that gives.
 
+## drawing
+
+Grand-staff figures use the shared module in `tools/harmony-review.html`: `grandStaff(svg, right, flats)` draws both staves, both clefs, the opening barline, and a flat key signature, returning the signature as a map; `gsNote(svg, x, note, staff, opt)` draws one notehead with its ledger lines, taking `sig`, `accX`, `lit`, and `head`; `gsY(note, staff)` returns a vertical position. Staff is `"t"` or `"b"`. Do not write a second copy of this.
+
+A staff ends 70 units past the last glyph, or at the closing barline where a figure is a measure.
+
+Single-staff figures in part 1 keep their own geometry.
+
 ## spacing
 
 One unit is `--step`, 0.5rem. The vertical scale, in units:
