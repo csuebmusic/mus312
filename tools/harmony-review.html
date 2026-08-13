@@ -1147,10 +1147,10 @@
     <h2 id="sec-quality">quality informs function</h2>
     <p class="full">A major in C major is not a diatonic triad. Name the quality first when you meet a triad from outside the key. A major triad can be three things: a I chord, a IV chord, or a V chord. <strong>Quality narrows down the functional options.</strong></p>
 
-    <p class="full">Then look to the next chord. Here it is D, and taking D as the target puts A on its 5̂. A major triad on 5̂ can only be a dominant, so the A chord is V/ii.</p>
+    <p class="full">Then look to the next chord. Here it is D minor, and taking D as the target puts A on its 5̂. A major triad on 5̂ can only be a dominant, so the A chord is V/ii. Tonicizing ii leaves the syntax around it alone: the phrase still runs tonic, pre-dominant, dominant, tonic.</p>
 
-    <section class="panel centered">
-      <svg id="applied-read" viewBox="-198 24 741 300" role="img" aria-label="An A major triad followed by a D minor triad on a treble staff, the A triad labelled with its three possible readings, one in A, four in E, and five in D, with five in D marked and the pair labelled V of ii moving to ii"></svg>
+    <section class="panel centered wide">
+      <svg id="applied-read" viewBox="-84 14 889 372" role="img" aria-label="A five-chord progression in C major on a grand staff, tonic, the applied dominant of two, supertonic, dominant, tonic, with a curved arrow from V of ii to ii and the three possible readings of the A major triad listed beneath it"></svg>
     </section>
   </section>
 
@@ -3463,9 +3463,9 @@
       });
     }
 
-    function targetMark(g, x) {
-      g.appendChild(el("circle", { cx: x + 10, cy: RING_Y, r: 6.5, "class": "target-ring" }));
-      g.appendChild(el("circle", { cx: x + 10, cy: RING_Y, r: 2, "class": "target-dot" }));
+    function targetMark(g, x, cy) {
+      g.appendChild(el("circle", { cx: x + 10, cy: cy, r: 6.5, "class": "target-ring" }));
+      g.appendChild(el("circle", { cx: x + 10, cy: cy, r: 2, "class": "target-dot" }));
     }
 
     /* a curve from under one roman numeral up into the next */
@@ -3517,7 +3517,7 @@
 
         chord(g, xa, pr.app);
         chord(g, xt, pr.tgt);
-        targetMark(g, xt);
+        targetMark(g, xt, RING_Y);
 
         g.appendChild(el("text", { x: xa + 10, y: SYM_Y, "class": "chordsym" }, pr.aSym));
         g.appendChild(el("text", { x: xt + 10, y: SYM_Y, "class": "chordsym" }, pr.tSym));
@@ -3537,30 +3537,39 @@
       });
     })();
 
-    /* ---- reading an A major triad in C major ---- */
+    /* ---- reading an A major triad inside a progression ---- */
 
-    (function reading() {
+    (function progression() {
       var svg = document.getElementById("applied-read");
-      var xa = 104, xt = 254;
-      staff(svg, xt + 90);
+      var XS = [], i;
+      for (i = 0; i < 5; i++) { XS.push(110 + 130 * i); }
 
-      chord(svg, xa, ["A4", "C#5", "E5"]);
-      chord(svg, xt, ["D4", "F4", "A4"]);
-      targetMark(svg, xt);
+      var BASS  = ["C3", "A2", "D3", "G3", "C3"];
+      var UPPER = [
+        ["G3", "E4", "C5"], ["A3", "E4", "C#5"], ["A3", "F4", "D5"],
+        ["B3", "G4", "D5"], ["C4", "E4", "C5"]
+      ];
+      var RN   = ["I", "V/ii", "ii", "V", "I"];
+      var SYM  = ["C", "A", "d-", "G", "C"];
 
-      svg.appendChild(el("text", { x: xa + 10, y: SYM_Y, "class": "chordsym" }, "A"));
-      svg.appendChild(el("text", { x: xt + 10, y: SYM_Y, "class": "chordsym" }, "d-"));
+      var sig = grandStaff(svg, XS[4] + 90);
+      var SYM_ROW = 54, RING_CY = 26, RN_ROW = 272;
 
-      [["I in A", false], ["IV in E", false], ["V in D", true]].forEach(function (c, i) {
-        svg.appendChild(el("text", {
-          x: xa + 10, y: TOP + 104 + 24 * i, "class": "cand" + (c[1] ? " on" : "")
-        }, c[0]));
+      XS.forEach(function (x, k) {
+        UPPER[k].forEach(function (n) { gsNote(svg, x, n, "t", { sig: sig }); });
+        gsNote(svg, x, BASS[k], "b", { sig: sig });
+        svg.appendChild(el("text", { x: x + 10, y: SYM_ROW, "class": "chordsym" }, SYM[k]));
+        svg.appendChild(el("text", { x: x + 10, y: RN_ROW, "class": "lvl1" }, RN[k]));
       });
 
-      var RN2 = TOP + 196;
-      svg.appendChild(el("text", { x: xa + 10, y: RN2, "class": "roman" }, "V/ii"));
-      svg.appendChild(el("text", { x: xt + 10, y: RN2, "class": "roman" }, "ii"));
-      arrow(svg, xa + 10, xt + 10, RN2);
+      targetMark(svg, XS[2], RING_CY);
+      arrow(svg, XS[1] + 10, XS[2] + 10, RN_ROW);
+
+      [["I in A", false], ["IV in E", false], ["V in D", true]].forEach(function (c, k) {
+        svg.appendChild(el("text", {
+          x: XS[1] + 10, y: 320 + 24 * k, "class": "cand" + (c[1] ? " on" : "")
+        }, c[0]));
+      });
     })();
   })();
 
