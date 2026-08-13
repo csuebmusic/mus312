@@ -2786,25 +2786,46 @@
   /* ---------- contents: mark the section in view ---------- */
 
   (function contents() {
-    if (!window.IntersectionObserver) { return; }
     var links = {};
     Array.prototype.forEach.call(
       document.querySelectorAll(".toc a"),
-      function (a) { links[a.getAttribute("href").slice(1)] = a; }
+      function (a) {
+        var id = a.getAttribute("href").slice(1);
+        if (document.getElementById(id)) { links[id] = a; }
+      }
     );
-    var targets = Object.keys(links)
-      .map(function (id) { return document.getElementById(id); })
-      .filter(Boolean);
-    var seen = {};
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { seen[e.target.id] = e.isIntersecting; });
-      var current = null;
-      targets.forEach(function (t) { if (seen[t.id]) { current = current || t.id; } });
-      Object.keys(links).forEach(function (id) {
+
+    /* document order, so a heading inside a section wins over the section */
+    var order = Array.prototype.filter.call(
+      document.querySelectorAll("[id]"),
+      function (n) { return Object.prototype.hasOwnProperty.call(links, n.id); }
+    ).map(function (n) { return n.id; });
+    if (!order.length) { return; }
+
+    var queued = false;
+
+    function mark() {
+      queued = false;
+      var line = window.innerHeight * 0.25, current = order[0];
+      order.forEach(function (id) {
+        if (document.getElementById(id).getBoundingClientRect().top <= line) {
+          current = id;
+        }
+      });
+      order.forEach(function (id) {
         links[id].classList.toggle("here", id === current);
       });
-    }, { rootMargin: "-10% 0px -70% 0px" });
-    targets.forEach(function (t) { io.observe(t); });
+    }
+
+    function queue() {
+      if (queued) { return; }
+      queued = true;
+      if (window.requestAnimationFrame) { window.requestAnimationFrame(mark); } else { mark(); }
+    }
+
+    window.addEventListener("scroll", queue, { passive: true });
+    window.addEventListener("resize", queue);
+    mark();
   })();
 
   /* ---------- grand staff ---------- */
