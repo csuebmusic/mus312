@@ -360,6 +360,24 @@
   .fig-dash.a { stroke: var(--accent); }
   .fig-dash.b { stroke: var(--accent-2); }
 
+  .target-ring { fill: none; stroke: var(--accent); stroke-width: 1.25; }
+  .target-dot { fill: var(--accent); }
+  .app-arrow { fill: none; stroke: var(--ink); stroke-width: 1.25; }
+  .app-head { fill: var(--ink); }
+  .cand {
+    font-family: var(--font-body);
+    font-size: 15px;
+    fill: var(--muted);
+    text-anchor: middle;
+  }
+  .cand.on { fill: var(--accent); font-weight: 600; }
+  .pair .hit { fill: transparent; cursor: pointer; }
+  .pair.lit .notehead, .pair.lit .accidental { fill: var(--accent); }
+  .pair.lit .roman { fill: var(--accent); }
+  .pair.lit .chordsym { fill: var(--accent); }
+  .pair.lit .app-arrow { stroke: var(--accent); }
+  .pair.lit .app-head { fill: var(--accent); }
+
   .pro-box {
     fill: none;
     stroke: var(--ink);
@@ -524,6 +542,9 @@
     <li><a href="#sec-cadences">cadences</a></li>
     <li><a href="#sec-sequences">diatonic sequences</a></li>
     <li><a href="#sec-nct">nonchord tones</a></li>
+    <li class="toc-part"><a href="#part-3">part 3, chromatic harmony</a></li>
+    <li><a href="#sec-applied">applied chords</a></li>
+    <li><a href="#sec-quality">quality informs function</a></li>
   </ul>
 </nav>
 
@@ -1102,6 +1123,35 @@
     </div>
 
     <p class="full">The four suspension figures are 9–8, 7–6, and 4–3 in an upper voice, and 2–3 in the bass. What separates a suspension from an accented passing tone is the preparation: the suspended note is already sounding, as a chord tone, before it turns into a dissonance.</p>
+  </section>
+
+  <hr class="rule">
+
+  <p class="eyebrow">mus 312 &middot; harmony review</p>
+  <h1 id="part-3">part 3, chromatic harmony</h1>
+
+  <section class="scale" id="sec-applied">
+    <h2>applied chords (secondary dominants)</h2>
+    <p class="full">Any triad in the key can be treated for a moment as a tonic and given a dominant of its own. That dominant is an <strong>applied chord</strong>, also called a <strong>secondary dominant</strong>. Its roman numeral names the chord and the chord it points to at once: V/ii is read five of two.</p>
+
+    <p class="full">A chord takes an applied dominant when it is stable, which for triads means major or minor. In C major that leaves ii, iii, IV, V, and vi. The dominant of I is V, already in the key. The triad on 7̂ is diminished, and no dominant points to it.</p>
+
+    <p class="howto">Hover an applied dominant to follow it into its target.</p>
+
+    <section class="panel">
+      <svg id="applied-major" viewBox="-186 24 1600 210" role="group" aria-label="Five applied dominants in C major on a treble staff, each a root-position major triad followed by the diatonic triad it tonicizes, with a curved arrow from each applied roman numeral to its target"></svg>
+    </section>
+
+    <p class="full">Each applied dominant is a major triad a fifth above its target, spelled with whatever accidental that requires: C♯ in the dominant of ii, D♯ and F♯ in the dominant of iii, F♯ in the dominant of V, G♯ in the dominant of vi. The dominant of IV takes none. Written as a triad it is C major, the tonic itself, and the seventh, B♭, is what separates them.</p>
+
+    <h2 id="sec-quality">quality informs function</h2>
+    <p class="full">A major in C major is not a diatonic triad. Name the quality first when you meet a triad from outside the key. A major triad can be three things: a I chord, a IV chord, or a V chord. <strong>Quality narrows down the functional options.</strong></p>
+
+    <p class="full">Then look to the next chord. Here it is D, and taking D as the target puts A on its 5̂. A major triad on 5̂ can only be a dominant, so the A chord is V/ii.</p>
+
+    <section class="panel centered">
+      <svg id="applied-read" viewBox="-198 24 741 300" role="img" aria-label="An A major triad followed by a D minor triad on a treble staff, the A triad labelled with its three possible readings, one in A, four in E, and five in D, with five in D marked and the pair labelled V of ii moving to ii"></svg>
+    </section>
   </section>
 
   <footer>
@@ -3357,6 +3407,161 @@
       sop:   ["E4", "G4", "B4", "D5"],
       roman: ["I", "iii", "V", "vii\u00B0"]
     });
+  })();
+
+  /* ---------- applied chords ---------- */
+
+  (function appliedChords() {
+    var LET = "CDEFGAB";
+    var NOTE = /^([A-G])([#b]?)(\d)$/;
+
+    function stepOf(n) {
+      var m = NOTE.exec(n);
+      return LET.indexOf(m[1]) + 7 * (parseInt(m[3], 10) - 4) - 2;
+    }
+    function altOf(n) {
+      var m = NOTE.exec(n);
+      return m[2] === "#" ? 1 : (m[2] === "b" ? -1 : 0);
+    }
+
+    var TOP = ROW_TOP;
+    var SYM_Y = TOP - 20, RING_Y = TOP - 44, RN_Y = TOP + 108;
+
+    function staff(svg, right) {
+      for (var L = 0; L < 5; L++) {
+        svg.appendChild(el("line", {
+          x1: 10, y1: TOP + 12 * L, x2: right, y2: TOP + 12 * L, "class": "staff-line"
+        }));
+      }
+      svg.appendChild(el("text", { x: 18, y: noteY(2, 0), "class": "clef" }, "\uE050"));
+    }
+
+    function chord(g, x, notes) {
+      var accCount = 0;
+      notes.slice().reverse().forEach(function (n) {
+        var s = stepOf(n), a = altOf(n), y = noteY(s, 0), v;
+        if (s <= -2) {
+          for (v = -2; v >= s; v -= 2) {
+            g.appendChild(el("line", {
+              x1: x - 7, y1: noteY(v, 0), x2: x + 27, y2: noteY(v, 0), "class": "ledger"
+            }));
+          }
+        } else if (s >= 10) {
+          for (v = 10; v <= s; v += 2) {
+            g.appendChild(el("line", {
+              x1: x - 7, y1: noteY(v, 0), x2: x + 27, y2: noteY(v, 0), "class": "ledger"
+            }));
+          }
+        }
+        if (a !== 0) {
+          g.appendChild(el("text", {
+            x: x - 17 - 13 * accCount, y: y, "class": "accidental"
+          }, ACC_GLYPH[String(a)]));
+          accCount += 1;
+        }
+        g.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
+      });
+    }
+
+    function targetMark(g, x) {
+      g.appendChild(el("circle", { cx: x + 10, cy: RING_Y, r: 6.5, "class": "target-ring" }));
+      g.appendChild(el("circle", { cx: x + 10, cy: RING_Y, r: 2, "class": "target-dot" }));
+    }
+
+    /* a curve from under one roman numeral up into the next */
+    function arrow(g, x0, x1, baseY) {
+      var sx = x0, sy = baseY + 10;
+      var ex = x1 - 4, ey = baseY + 5;
+      var cx = x0 + (x1 - x0) * 0.6, cy = baseY + 34;
+      g.appendChild(el("path", {
+        d: "M" + sx + " " + sy + " Q" + cx + " " + cy + " " + ex + " " + ey,
+        "class": "app-arrow"
+      }));
+      var dx = ex - cx, dy = ey - cy, len = Math.sqrt(dx * dx + dy * dy);
+      dx /= len; dy /= len;
+      var nx = -dy, ny = dx, L = 9, W = 3.4;
+      g.appendChild(el("path", {
+        d: "M" + ex + " " + ey +
+           " L" + (ex - L * dx + W * nx) + " " + (ey - L * dy + W * ny) +
+           " L" + (ex - L * dx - W * nx) + " " + (ey - L * dy - W * ny) + " z",
+        "class": "app-head"
+      }));
+    }
+
+    /* ---- the five applied dominants of C major ---- */
+
+    var PAIRS = [
+      { app: ["A4", "C#5", "E5"],  aRn: "V/ii",  aSym: "A",
+        tgt: ["D4", "F4", "A4"],   tRn: "ii",    tSym: "d-", word: "A major to D minor" },
+      { app: ["B4", "D#5", "F#5"], aRn: "V/iii", aSym: "B",
+        tgt: ["E4", "G4", "B4"],   tRn: "iii",   tSym: "e-", word: "B major to E minor" },
+      { app: ["C4", "E4", "G4"],   aRn: "V/IV",  aSym: "C",
+        tgt: ["F4", "A4", "C5"],   tRn: "IV",    tSym: "F",  word: "C major to F major" },
+      { app: ["D4", "F#4", "A4"],  aRn: "V/V",   aSym: "D",
+        tgt: ["G4", "B4", "D5"],   tRn: "V",     tSym: "G",  word: "D major to G major" },
+      { app: ["E4", "G#4", "B4"],  aRn: "V/vi",  aSym: "E",
+        tgt: ["A4", "C5", "E5"],   tRn: "vi",    tSym: "a-", word: "E major to A minor" }
+    ];
+
+    (function chart() {
+      var svg = document.getElementById("applied-major");
+      var X0 = 104, PITCH = 240, GAP = 74;
+      staff(svg, X0 + PITCH * (PAIRS.length - 1) + GAP + 90);
+
+      PAIRS.forEach(function (pr, i) {
+        var xa = X0 + PITCH * i, xt = xa + GAP;
+        var g = el("g", {
+          "class": "pair", tabindex: "0", role: "img",
+          "aria-label": pr.aRn + " to " + pr.tRn + ", " + pr.word
+        });
+
+        chord(g, xa, pr.app);
+        chord(g, xt, pr.tgt);
+        targetMark(g, xt);
+
+        g.appendChild(el("text", { x: xa + 10, y: SYM_Y, "class": "chordsym" }, pr.aSym));
+        g.appendChild(el("text", { x: xt + 10, y: SYM_Y, "class": "chordsym" }, pr.tSym));
+        g.appendChild(el("text", { x: xa + 10, y: RN_Y, "class": "roman" }, pr.aRn));
+        g.appendChild(el("text", { x: xt + 10, y: RN_Y, "class": "roman" }, pr.tRn));
+        arrow(g, xa + 10, xt + 10, RN_Y);
+
+        g.appendChild(el("rect", {
+          x: xa - 36, y: RING_Y - 12, width: GAP + 74, height: 200, "class": "hit"
+        }));
+
+        svg.appendChild(g);
+        g.addEventListener("mouseenter", function () { this.classList.add("lit"); });
+        g.addEventListener("mouseleave", function () { this.classList.remove("lit"); });
+        g.addEventListener("focus", function () { this.classList.add("lit"); });
+        g.addEventListener("blur", function () { this.classList.remove("lit"); });
+      });
+    })();
+
+    /* ---- reading an A major triad in C major ---- */
+
+    (function reading() {
+      var svg = document.getElementById("applied-read");
+      var xa = 104, xt = 254;
+      staff(svg, xt + 90);
+
+      chord(svg, xa, ["A4", "C#5", "E5"]);
+      chord(svg, xt, ["D4", "F4", "A4"]);
+      targetMark(svg, xt);
+
+      svg.appendChild(el("text", { x: xa + 10, y: SYM_Y, "class": "chordsym" }, "A"));
+      svg.appendChild(el("text", { x: xt + 10, y: SYM_Y, "class": "chordsym" }, "d-"));
+
+      [["I in A", false], ["IV in E", false], ["V in D", true]].forEach(function (c, i) {
+        svg.appendChild(el("text", {
+          x: xa + 10, y: TOP + 104 + 24 * i, "class": "cand" + (c[1] ? " on" : "")
+        }, c[0]));
+      });
+
+      var RN2 = TOP + 196;
+      svg.appendChild(el("text", { x: xa + 10, y: RN2, "class": "roman" }, "V/ii"));
+      svg.appendChild(el("text", { x: xt + 10, y: RN2, "class": "roman" }, "ii"));
+      arrow(svg, xa + 10, xt + 10, RN2);
+    })();
   })();
 
 })();
