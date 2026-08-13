@@ -2977,13 +2977,15 @@
         }, cfg.roman[i] + (i === 0 ? " seq." : "")));
       });
 
-      /* bracket the two-chord model */
-      var b1 = XS[0] - 6, b2 = XS[1] + 26, by = 288;
-      svg.appendChild(el("path", {
-        d: "M " + b1 + " " + (by - 7) + " L " + b1 + " " + by +
-           " L " + b2 + " " + by + " L " + b2 + " " + (by - 7),
-        "class": "cad-bracket"
-      }));
+      /* bracket each two-chord unit */
+      for (var m = 0; m + 1 < n; m += 2) {
+        var b1 = XS[m] - 6, b2 = XS[m + 1] + 26, by = 288;
+        svg.appendChild(el("path", {
+          d: "M " + b1 + " " + (by - 7) + " L " + b1 + " " + by +
+             " L " + b2 + " " + by + " L " + b2 + " " + (by - 7),
+          "class": "cad-bracket"
+        }));
+      }
     }
 
     draw({
