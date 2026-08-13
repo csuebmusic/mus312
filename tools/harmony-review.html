@@ -3259,10 +3259,11 @@
       var romans = (cfg.roman || []).map(function (r) {
         var node = el("text", { x: BEAT[r[0]] + 7, y: 296, "class": "lvl1" }, r[1]);
         svg.appendChild(node);
-        return { beat: r[0], node: node };
+        return { beat: r[0], node: node, held: r[2] === true };
       });
       function carry() {
         romans.forEach(function (r, k) {
+          if (!r.held) { return; }
           var box = r.node.getBBox();
           var x1 = box.x + box.width + 7;
           var x2 = (k + 1 < romans.length ? BEAT[romans[k + 1].beat] - 2 : BARLINE - 4);
@@ -3290,7 +3291,7 @@
         { beat: 2, staff: "t", dur: "h", notes: ["C5"], stem: "down" }
       ],
       tags: [[1, "P"]],
-      roman: [[0, "I"]]
+      roman: [[0, "I", true]]
     });
 
     draw({
@@ -3302,7 +3303,7 @@
         { beat: 3, staff: "t", dur: "q", notes: ["C5"], stem: "down" }
       ],
       tags: [[2, "APT"]],
-      roman: [[0, "I"]]
+      roman: [[0, "I", true]]
     });
 
     draw({
@@ -3314,7 +3315,7 @@
         { beat: 2, staff: "t", dur: "h", notes: ["C5"], stem: "down" }
       ],
       tags: [[1, "N"]],
-      roman: [[0, "I"]]
+      roman: [[0, "I", true]]
     });
 
     draw({
@@ -3328,7 +3329,7 @@
       ],
       tie: [0, 2, "C5"],
       tags: [[2, "4"], [3, "3"]],
-      roman: [[0, "I"], [2, "V"]]
+      roman: [[0, "I"], [2, "V", true]]
     });
 
     draw({
@@ -3341,7 +3342,7 @@
         { beat: 2, staff: "t", dur: "h", notes: ["C5"], stem: "down" }
       ],
       tags: [[1, "ANT"]],
-      roman: [[0, "V7"], [2, "I"]]
+      roman: [[0, "V7", true], [2, "I"]]
     });
 
     draw({
