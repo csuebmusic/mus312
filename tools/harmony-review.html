@@ -284,6 +284,11 @@
   .lvl2-line { stroke: var(--accent); stroke-width: 1.25; fill: none; }
   .cad-bracket { stroke: var(--ink); stroke-width: 1; fill: none; }
 
+  .arrow.a { stroke: var(--accent); }
+  .arrow.b { stroke: var(--accent-2); }
+  .arrowhead-fill.a { fill: var(--accent); }
+  .arrowhead-fill.b { fill: var(--accent-2); }
+
   .lit-a { fill: var(--accent); }
   .lit-b { fill: var(--accent-2); }
   .fig-a { fill: var(--accent); }
@@ -2881,6 +2886,27 @@
       drawNote(x, BASS[i], bassBottom, BASS_BOTTOM, null);
       svg.appendChild(el("text", { x: x + 10, y: 304, "class": "lvl1" }, ROMAN[i]));
     });
+
+    /* each strand's resolution */
+    function resolve(y1, y2, cls) {
+      var x1 = XS[0] + 28, x2 = XS[1] + 6;
+      svg.appendChild(el("line", {
+        x1: x1, y1: y1, x2: x2, y2: y2, "class": "arrow " + cls
+      }));
+      var a = Math.atan2(y2 - y1, x2 - x1), h = 9, w = 4;
+      var pts = [
+        [x2, y2],
+        [x2 - h * Math.cos(a) + w * Math.sin(a), y2 - h * Math.sin(a) - w * Math.cos(a)],
+        [x2 - h * Math.cos(a) - w * Math.sin(a), y2 - h * Math.sin(a) + w * Math.cos(a)]
+      ];
+      svg.appendChild(el("polygon", {
+        points: pts.map(function (q) { return q[0].toFixed(1) + "," + q[1].toFixed(1); }).join(" "),
+        "class": "arrowhead-fill " + cls
+      }));
+    }
+    /* C5 to B4, and E4 to D4 */
+    resolve(trebleBottom - 6 * 5, trebleBottom - 6 * 4, "b");
+    resolve(trebleBottom - 6 * 0, trebleBottom - 6 * -1, "a");
 
     /* figures under the bass, one row per strand */
     [{ y: 252, cls: "a", from: "6", to: "5" },
