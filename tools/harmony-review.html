@@ -282,6 +282,7 @@
     text-anchor: middle;
   }
   .lvl2-line { stroke: var(--accent); stroke-width: 1.25; fill: none; }
+  .cad-bracket { stroke: var(--ink); stroke-width: 1; fill: none; }
 
   .pro-box {
     fill: none;
@@ -854,6 +855,56 @@
     </section>
 
     <p class="full">Eleven chords, four functions. The second level records where the phrase moves, and the first level records what it moves through.</p>
+
+    <h2>cadences</h2>
+    <p class="full">A cadence is the point where a phrase closes. The type is set by what the dominant resolves to and by where the soprano lands. The dominant of a cadence arrives in root position and holds that position through the resolution.</p>
+
+    <p class="full">Each example is a complete cadential progression: an initial tonic, a pre-dominant, the dominant, and whatever the dominant goes to. The bracket marks the extent of the progression, following Caplin's annotation. A progression that lacks the initial tonic or the pre-dominant is incomplete and still cadences.</p>
+
+    <div class="panels">
+      <section class="panel">
+        <h3>perfect authentic cadence</h3>
+        <svg id="cad-pac" viewBox="0 0 524 330" role="img" aria-label="Four chords in C major, tonic, first-inversion supertonic, dominant seventh, tonic, closing with the soprano on scale degree 1"></svg>
+      </section>
+      <section class="panel">
+        <h3>imperfect authentic cadence</h3>
+        <svg id="cad-iac" viewBox="0 0 524 330" role="img" aria-label="The same progression in C major closing with the soprano on scale degree 3"></svg>
+      </section>
+    </div>
+
+    <p class="full">Both close V7 to I with both chords in root position. The soprano decides which one it is: 1̂ on the final tonic makes the cadence perfect, 3̂ or 5̂ makes it imperfect. The perfect authentic cadence is the only close strong enough to end a theme, and everything else leaves the phrase open in some degree.</p>
+
+    <div class="panels">
+      <section class="panel">
+        <h3>half cadence</h3>
+        <svg id="cad-hc" viewBox="0 0 524 330" role="img" aria-label="Three chords in C major ending on a root-position dominant triad"></svg>
+      </section>
+      <section class="panel">
+        <h3>phrygian half cadence</h3>
+        <svg id="cad-phrygian" viewBox="0 0 524 330" role="img" aria-label="Three chords in C minor, tonic, first-inversion subdominant, dominant, with the bass descending from flat 6 to 5"></svg>
+      </section>
+    </div>
+
+    <p class="full">A half cadence stops on the dominant. The chord is a triad: adding the seventh turns it into a dominant that owes a resolution, and the phrase no longer sounds poised on an arrival. The phrygian half cadence is the minor-mode version, named for the semitone descent ♭6̂ to 5̂ in the bass, with iv6 as the pre-dominant and 4̂ rising to 5̂ above it.</p>
+
+    <div class="panels">
+      <section class="panel">
+        <h3>deceptive cadence</h3>
+        <svg id="cad-dc" viewBox="0 0 524 330" role="img" aria-label="Four chords in C major where the dominant seventh resolves to vi instead of the tonic"></svg>
+      </section>
+      <section class="panel">
+        <h3>plagal motion</h3>
+        <svg id="cad-plagal" viewBox="0 0 524 330" role="img" aria-label="A perfect authentic cadence in C major followed by a subdominant returning to the tonic"></svg>
+      </section>
+    </div>
+
+    <p class="full">A deceptive cadence sets up an authentic close and substitutes another chord for the final tonic, most often vi. The bass rises 5̂ to 6̂ where it was expected to fall to 1̂. The phrase stays open and the cadence usually comes around again.</p>
+
+    <p class="full">The plagal IV to I arrives after a cadence has already closed the phrase. It extends the final tonic rather than producing it. The bracket covers V7 to I and stops there.</p>
+
+    <div class="callout">
+      <p>Caplin separates the cadential progression from the cadence. The progression is a harmonic pattern, and the cadence is the formal event that ends a theme, which he takes up alongside theme types. He counts no plagal cadence at all in this repertoire.</p>
+    </div>
   </section>
 
   <footer>
@@ -2668,6 +2719,157 @@
           }));
         }
       });
+  })();
+
+  /* ---------- cadence types ---------- */
+
+  (function cadences() {
+    var LETTERS = "CDEFGAB";
+    function parseN(n) {
+      var m = /^([A-G])([#b]?)(\d)$/.exec(n);
+      return {
+        letter: LETTERS.indexOf(m[1]),
+        alt: m[2] === "#" ? 1 : (m[2] === "b" ? -1 : 0),
+        octave: parseInt(m[3], 10)
+      };
+    }
+    function dia(n) { var q = parseN(n); return q.octave * 7 + q.letter; }
+    var TREBLE_BOTTOM = dia("E4"), BASS_BOTTOM = dia("G2");
+
+    var STAFF_RIGHT = 514;
+    var trebleTop = 66, trebleBottom = trebleTop + 48;
+    var bassTop = 178, bassBottom = bassTop + 48;
+
+    function draw(cfg) {
+      var svg = document.getElementById(cfg.id);
+      var flats = cfg.flats || 0;
+      var sig = {};
+      for (var f = 0; f < flats; f++) { sig[FLAT_ORDER[f]] = -1; }
+
+      var XS = [];
+      for (var i = 0; i < cfg.bass.length; i++) { XS.push(110 + 108 * i); }
+
+      function staffLines(topY) {
+        for (var L = 0; L < 5; L++) {
+          svg.appendChild(el("line", {
+            x1: 10, y1: topY + 12 * L, x2: STAFF_RIGHT, y2: topY + 12 * L,
+            "class": "staff-line"
+          }));
+        }
+      }
+      staffLines(trebleTop);
+      staffLines(bassTop);
+      svg.appendChild(el("text", { x: 18, y: trebleBottom - 12, "class": "clef" }, "\uE050"));
+      svg.appendChild(el("text", { x: 18, y: bassBottom - 36, "class": "clef" }, "\uE062"));
+      svg.appendChild(el("line", {
+        x1: 10, y1: trebleTop, x2: 10, y2: bassBottom, "class": "staff-line"
+      }));
+      for (var b = 0; b < flats; b++) {
+        svg.appendChild(el("text", {
+          x: 46 + 13 * b, y: trebleBottom - 6 * FLAT_STEPS[b], "class": "keysig"
+        }, KEYSIG_GLYPH.flat));
+        svg.appendChild(el("text", {
+          x: 46 + 13 * b, y: bassBottom - 6 * (FLAT_STEPS[b] - 2), "class": "keysig"
+        }, KEYSIG_GLYPH.flat));
+      }
+
+      function drawNote(x, n, bottomY, bottom) {
+        var q = parseN(n), step = dia(n) - bottom, y = bottomY - 6 * step;
+        if (step <= -2) {
+          for (var v = -2; v >= step; v -= 2) {
+            svg.appendChild(el("line", {
+              x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v,
+              "class": "ledger"
+            }));
+          }
+        } else if (step >= 10) {
+          for (var w = 10; w <= step; w += 2) {
+            svg.appendChild(el("line", {
+              x1: x - 7, y1: bottomY - 6 * w, x2: x + 27, y2: bottomY - 6 * w,
+              "class": "ledger"
+            }));
+          }
+        }
+        if (q.alt !== (sig[q.letter] || 0)) {
+          svg.appendChild(el("text", {
+            x: x - 17, y: y, "class": "accidental"
+          }, ACC_GLYPH[String(q.alt)]));
+        }
+        svg.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
+      }
+
+      XS.forEach(function (x, i) {
+        cfg.upper[i].forEach(function (n) { drawNote(x, n, trebleBottom, TREBLE_BOTTOM); });
+        drawNote(x, cfg.bass[i], bassBottom, BASS_BOTTOM);
+        svg.appendChild(el("text", { x: x + 10, y: 272, "class": "lvl1" }, cfg.roman[i]));
+      });
+
+      /* the cadential bracket, one span per marked progression */
+      cfg.marks.forEach(function (m) {
+        var x1 = XS[m.from] - 6, x2 = XS[m.to] + 26, y = 290;
+        svg.appendChild(el("path", {
+          d: "M " + x1 + " " + (y - 7) + " L " + x1 + " " + y +
+             " L " + x2 + " " + y + " L " + x2 + " " + (y - 7),
+          "class": "cad-bracket"
+        }));
+        svg.appendChild(el("text", {
+          x: (x1 + x2) / 2, y: y + 22, "class": "lvl2"
+        }, m.label));
+      });
+    }
+
+    draw({
+      id: "cad-pac",
+      bass: ["C3", "F3", "G3", "C3"],
+      upper: [["E4", "G4", "C5"], ["D4", "F4", "A4"],
+              ["D4", "F4", "B4"], ["C4", "E4", "C5"]],
+      roman: ["I", "ii6", "V7", "I"],
+      marks: [{ from: 0, to: 3, label: "PAC" }]
+    });
+
+    draw({
+      id: "cad-iac",
+      bass: ["C3", "F3", "G3", "C3"],
+      upper: [["E4", "G4", "C5"], ["F4", "A4", "D5"],
+              ["F4", "B4", "D5"], ["E4", "G4", "E5"]],
+      roman: ["I", "ii6", "V7", "I"],
+      marks: [{ from: 0, to: 3, label: "IAC" }]
+    });
+
+    draw({
+      id: "cad-hc",
+      bass: ["C3", "F3", "G3"],
+      upper: [["E4", "G4", "C5"], ["D4", "F4", "A4"], ["D4", "G4", "B4"]],
+      roman: ["I", "ii6", "V"],
+      marks: [{ from: 0, to: 2, label: "HC" }]
+    });
+
+    draw({
+      id: "cad-phrygian",
+      flats: 3,
+      bass: ["C3", "Ab3", "G3"],
+      upper: [["Eb4", "G4", "C5"], ["C4", "F4", "C5"], ["D4", "G4", "B4"]],
+      roman: ["i", "iv6", "V"],
+      marks: [{ from: 0, to: 2, label: "phrygian HC" }]
+    });
+
+    draw({
+      id: "cad-dc",
+      bass: ["C3", "F3", "G3", "A3"],
+      upper: [["E4", "G4", "C5"], ["D4", "F4", "A4"],
+              ["D4", "F4", "B4"], ["C4", "E4", "C5"]],
+      roman: ["I", "ii6", "V7", "vi"],
+      marks: [{ from: 0, to: 3, label: "DC" }]
+    });
+
+    draw({
+      id: "cad-plagal",
+      bass: ["G3", "C3", "F3", "C3"],
+      upper: [["D4", "F4", "B4"], ["C4", "E4", "C5"],
+              ["C4", "F4", "A4"], ["C4", "E4", "C5"]],
+      roman: ["V7", "I", "IV", "I"],
+      marks: [{ from: 0, to: 1, label: "PAC" }, { from: 2, to: 3, label: "plagal" }]
+    });
   })();
 
 })();
