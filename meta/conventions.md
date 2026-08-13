@@ -8,6 +8,18 @@ Harmonic function follows Laitz: four functions, tonic, mediant, pre-dominant, d
 
 Elsewhere formal terminology follows Caplin.
 
+## prose
+
+Student-facing prose carries what a reader cannot get from the figure beside it.
+
+A figure takes a caption above it naming what it is. Nothing after a figure recounts it: no counting its chords or functions, no restating its labels, no walking through what the annotation already shows.
+
+Prose does not describe the rendering: how many voices, which staff a voice sits on, why a bracket starts or stops where it does, why a chord is written in one inversion rather than another.
+
+No hedged asides on choices made in an example ("the simplest choice", "not always the best one"), and no reassurance that something is allowed.
+
+Interaction instructions appear once, at the top of the page.
+
 ## labels
 
 Roman numerals take the jazz flatted-degree convention: ♭3̂, ♭III.
