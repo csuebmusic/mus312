@@ -1139,7 +1139,7 @@
     <p class="howto">Hover an applied dominant to follow it into its target.</p>
 
     <section class="panel">
-      <svg id="applied-major" viewBox="-186 24 1600 210" role="group" aria-label="Five applied dominants in C major on a treble staff, each a root-position major triad followed by the diatonic triad it tonicizes, with a curved arrow from each applied roman numeral to its target"></svg>
+      <svg id="applied-major" viewBox="-186 24 1600 180" role="group" aria-label="Five applied dominants in C major on a treble staff, each a root-position major triad followed by the diatonic triad it tonicizes, with a curved arrow from each applied roman numeral to its target"></svg>
     </section>
 
     <p class="full">Each applied dominant is a major triad a fifth above its target, spelled with whatever accidental that requires: C♯ in the dominant of ii, D♯ and F♯ in the dominant of iii, F♯ in the dominant of V, G♯ in the dominant of vi. The dominant of IV has no accidental.</p>
@@ -3468,11 +3468,11 @@
       g.appendChild(el("circle", { cx: x + 10, cy: cy, r: 2, "class": "target-dot" }));
     }
 
-    /* a curve from under one roman numeral up into the next */
+    /* a curve rising from one roman numeral and falling into the next */
     function arrow(g, x0, x1, baseY) {
-      var sx = x0, sy = baseY + 10;
-      var ex = x1 - 4, ey = baseY + 5;
-      var cx = x0 + (x1 - x0) * 0.6, cy = baseY + 34;
+      var sx = x0, sy = baseY - 18;
+      var ex = x1 - 4, ey = baseY - 15;
+      var cx = x0 + (x1 - x0) * 0.6, cy = baseY - 40;
       g.appendChild(el("path", {
         d: "M" + sx + " " + sy + " Q" + cx + " " + cy + " " + ex + " " + ey,
         "class": "app-arrow"
@@ -3526,7 +3526,7 @@
         arrow(g, xa + 10, xt + 10, RN_Y);
 
         g.appendChild(el("rect", {
-          x: xa - 36, y: RING_Y - 12, width: GAP + 74, height: 200, "class": "hit"
+          x: xa - 36, y: RING_Y - 12, width: GAP + 74, height: 176, "class": "hit"
         }));
 
         svg.appendChild(g);
