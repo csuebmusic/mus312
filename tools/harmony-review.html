@@ -973,6 +973,43 @@
     <section class="panel">
       <svg id="seq-phrase" viewBox="0 0 1130 350" role="img" aria-label="An eight-chord phrase in C major on a grand staff, an ascending-fifths sequence from tonic to mediant followed by a cadential progression, with roman numerals and a second level of analysis"></svg>
     </section>
+
+    <h2>nonchord tones</h2>
+    <p class="full">Not every note belongs to the chord under it. A phrase carries structural harmonies, prolongational harmonies, and above both a surface of notes that are neither: they pass between chord tones, lean on them, hold over from the chord before, or arrive ahead of the chord they belong to. Analysis names the harmony first and accounts for these separately.</p>
+
+    <div class="panels">
+      <section class="panel">
+        <h3>passing tone</h3>
+        <p>Fills the step between two chord tones a third apart. The D in the bass belongs to nothing above it.</p>
+        <svg id="nct-p" viewBox="0 0 524 320" role="img" aria-label="Three chords in C major, the bass rising C, D, E, with the D a passing tone between the root-position and first-inversion tonic"></svg>
+      </section>
+      <section class="panel">
+        <h3>neighbor tone</h3>
+        <p>Steps away from a chord tone and back to it. The harmony does not change under it.</p>
+        <svg id="nct-n" viewBox="0 0 524 320" role="img" aria-label="Three chords in C major over a held tonic, the soprano moving C, D, C with the D an upper neighbor"></svg>
+      </section>
+    </div>
+
+    <div class="panels">
+      <section class="panel">
+        <h3>suspension</h3>
+        <p>A note held past its chord into the next one, where it is a dissonance, and then resolved down by step. It runs in three stages: preparation, suspension, resolution. The figures name the interval it holds and the interval it falls to.</p>
+        <svg id="nct-s" viewBox="0 0 524 320" role="img" aria-label="Three chords in C major, a four-three suspension over the dominant, the C held from the tonic and falling to B"></svg>
+      </section>
+      <section class="panel">
+        <h3>anticipation</h3>
+        <p>The mirror of the suspension. A note of the coming chord arrives early and sounds against the chord still in force. Common at a cadence, where the tonic is already expected.</p>
+        <svg id="nct-a" viewBox="0 0 524 320" role="img" aria-label="Three chords in C major, the soprano reaching C over the dominant seventh before the tonic arrives"></svg>
+      </section>
+    </div>
+
+    <section class="panel centered">
+      <h3>pedal</h3>
+      <p>A single pitch sustained while the harmonies above it change, almost always 1̂ or 5̂ in the bass. The chords over it are subordinate to the note holding underneath, and Caplin annotates the prolonged harmony with ped.</p>
+      <svg id="nct-ped" viewBox="0 0 524 320" role="img" aria-label="Three chords in C major over a sustained tonic bass, tonic then dominant then tonic"></svg>
+    </section>
+
+    <p class="full">The four suspension figures are 9–8, 7–6, and 4–3 in an upper voice, and 2–3 in the bass. A suspension is dissonant on a strong beat and resolves on a weak one, which sets it apart from a passing or neighbor tone: those fall on weak beats and lean on nothing.</p>
   </section>
 
   <footer>
@@ -3094,6 +3131,117 @@
           x1: XS[sp[0]] + 24, y1: y2 - 5, x2: XS[sp[1]] + 22, y2: y2 - 5, "class": "lvl2-line"
         }));
       }
+    });
+  })();
+
+  /* ---------- nonchord tones ---------- */
+
+  (function nonchord() {
+    var LETTERS = "CDEFGAB";
+    function dia(n) {
+      return parseInt(n.slice(1), 10) * 7 + LETTERS.indexOf(n.charAt(0));
+    }
+    var TREBLE_BOTTOM = dia("E4"), BASS_BOTTOM = dia("G2");
+    var trebleTop = 66, trebleBottom = trebleTop + 48;
+    var bassTop = 178, bassBottom = bassTop + 48;
+    var XS = [110, 218, 326];
+
+    function draw(cfg) {
+      var svg = document.getElementById(cfg.id);
+
+      function staffLines(topY) {
+        for (var L = 0; L < 5; L++) {
+          svg.appendChild(el("line", {
+            x1: 10, y1: topY + 12 * L, x2: 514, y2: topY + 12 * L, "class": "staff-line"
+          }));
+        }
+      }
+      staffLines(trebleTop);
+      staffLines(bassTop);
+      svg.appendChild(el("text", { x: 18, y: trebleBottom - 12, "class": "clef" }, "\uE050"));
+      svg.appendChild(el("text", { x: 18, y: bassBottom - 36, "class": "clef" }, "\uE062"));
+      svg.appendChild(el("line", {
+        x1: 10, y1: trebleTop, x2: 10, y2: bassBottom, "class": "staff-line"
+      }));
+
+      function drawNote(x, n, bottomY, bottom, lit) {
+        var step = dia(n) - bottom, y = bottomY - 6 * step, v;
+        if (step <= -2) {
+          for (v = -2; v >= step; v -= 2) {
+            svg.appendChild(el("line", {
+              x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v, "class": "ledger"
+            }));
+          }
+        }
+        svg.appendChild(el("text", {
+          x: x, y: y, "class": "notehead" + (lit ? " lit-a" : "")
+        }, "\uE0A2"));
+      }
+
+      XS.forEach(function (x, i) {
+        cfg.upper[i].forEach(function (n) {
+          drawNote(x, n, trebleBottom, TREBLE_BOTTOM, cfg.lit[i] === n);
+        });
+        drawNote(x, cfg.bass[i], bassBottom, BASS_BOTTOM, cfg.lit[i] === cfg.bass[i]);
+        if (cfg.roman[i]) {
+          svg.appendChild(el("text", { x: x + 10, y: 296, "class": "lvl1" }, cfg.roman[i]));
+        }
+        if (cfg.tag[i]) {
+          svg.appendChild(el("text", { x: x + 10, y: 262, "class": "lvl2" }, cfg.tag[i]));
+        }
+      });
+
+      if (cfg.pedLine) {
+        svg.appendChild(el("line", {
+          x1: XS[0] + 30, y1: 214, x2: XS[2] - 4, y2: 214, "class": "lvl2-line"
+        }));
+      }
+    }
+
+    draw({
+      id: "nct-p",
+      bass:  ["C3", "D3", "E3"],
+      upper: [["E4", "G4", "C5"], ["E4", "G4", "C5"], ["E4", "G4", "C5"]],
+      lit:   [null, "D3", null],
+      roman: ["I", "", "I6"],
+      tag:   ["", "P", ""]
+    });
+
+    draw({
+      id: "nct-n",
+      bass:  ["C3", "C3", "C3"],
+      upper: [["E4", "G4", "C5"], ["E4", "G4", "D5"], ["E4", "G4", "C5"]],
+      lit:   [null, "D5", null],
+      roman: ["I", "", "I"],
+      tag:   ["", "N", ""]
+    });
+
+    draw({
+      id: "nct-s",
+      bass:  ["C3", "G3", "G3"],
+      upper: [["E4", "G4", "C5"], ["D4", "G4", "C5"], ["D4", "G4", "B4"]],
+      lit:   [null, "C5", null],
+      roman: ["I", "V", ""],
+      tag:   ["prep", "4", "3"]
+    });
+
+    draw({
+      id: "nct-a",
+      bass:  ["G3", "G3", "C3"],
+      upper: [["D4", "F4", "B4"], ["D4", "F4", "C5"], ["C4", "E4", "C5"]],
+      lit:   [null, "C5", null],
+      roman: ["V7", "", "I"],
+      tag:   ["", "ANT", ""]
+    });
+
+    draw({
+      id: "nct-ped",
+      bass:  ["C3", "C3", "C3"],
+      upper: [["E4", "G4", "C5"], ["D4", "G4", "B4"], ["E4", "G4", "C5"]],
+      lit:   ["C3", "C3", "C3"],
+      roman: ["I ped.", "(V)", "I"],
+      tag:   ["", "", ""],
+      pedLine: true
     });
   })();
 
