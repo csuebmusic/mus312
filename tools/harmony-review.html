@@ -284,30 +284,6 @@
   .lvl2-line { stroke: var(--accent); stroke-width: 1.25; fill: none; }
   .cad-bracket { stroke: var(--ink); stroke-width: 1; fill: none; }
 
-  .ring { fill: none; stroke: var(--rule); stroke-width: 1; }
-  .key-maj, .key-min {
-    font-family: var(--font-body);
-    text-anchor: middle;
-    fill: var(--ink);
-  }
-  .key-maj { font-size: 21px; font-weight: 600; }
-  .key-min { font-size: 18px; }
-  .key-maj.lit, .key-min.lit { fill: var(--accent); }
-  .key-sig {
-    font-family: var(--font-data);
-    font-size: 13px;
-    text-anchor: middle;
-    fill: var(--muted);
-  }
-  .key-note {
-    font-family: var(--font-data);
-    font-size: 12px;
-    text-anchor: middle;
-    fill: var(--muted);
-  }
-  .key-mark { fill: var(--accent-wash); stroke: var(--accent-edge); stroke-width: 1; }
-  .key-mark.home { stroke: var(--accent); stroke-width: 1.5; }
-
   .lit-a { fill: var(--accent); }
   .lit-b { fill: var(--accent-2); }
   .fig-a { fill: var(--accent); }
@@ -564,15 +540,6 @@
   <hr class="rule">
 
   <section class="scale" id="sec-intervals">
-    <h2>key relationships</h2>
-    <p class="full">Keys are related by how many accidentals separate them. Two keys sharing a signature are relative, and the minor tonic sits a minor third below the major: C major and A minor. Two keys sharing a tonic are parallel, and their signatures differ by three accidentals: C major and C minor.</p>
-
-    <p class="full">The five keys closely related to any major key are the ones whose signatures differ from it by no more than one accidental. For C major they are G major and F major, its neighbors on the circle, and the relative minors of all three: A minor, E minor, and D minor. These are the keys a classical piece modulates to.</p>
-
-    <section class="panel centered wide">
-      <svg id="key-circle" viewBox="0 0 520 520" role="img" aria-label="The circle of fifths with major keys on the outer ring and their relative minors inside, C major and its five closely related keys marked"></svg>
-    </section>
-
     <h2>interval names</h2>
     <p class="full">Each row pairs an interval with its inversion. The numbers sum to 9, the semitones to 12. The two halves meet at the tritone, 6 semitones either way, spelled augmented fourth as C–F♯ and diminished fifth as C–G♭.</p>
     <div class="table-wrap">
@@ -1512,61 +1479,6 @@
     ],
     ghost: [0, 2, 3, 5, 7, 8, 10]
   });
-
-  /* ---------- circle of fifths ---------- */
-
-  (function keyCircle() {
-    var svg = document.getElementById("key-circle");
-    var CX = 260, CY = 262;
-    var R_MAJ = 208, R_SIG = 172, R_MIN = 132;
-
-    var MAJ = ["C", "G", "D", "A", "E", "B", "F\u266F", "D\u266D",
-               "A\u266D", "E\u266D", "B\u266D", "F"];
-    var MIN = ["a", "e", "b", "f\u266F", "c\u266F", "g\u266F", "d\u266F",
-               "b\u266D", "f", "c", "g", "d"];
-    var SIG = ["", "1\u266F", "2\u266F", "3\u266F", "4\u266F", "5\u266F",
-               "6\u266F", "5\u266D", "4\u266D", "3\u266D", "2\u266D", "1\u266D"];
-    /* C major and the five keys within one accidental of it */
-    var NEAR = { 0: "home", 1: "near", 11: "near" };
-    var NEAR_MIN = { 0: "near", 1: "near", 11: "near" };
-
-    function ang(i) { return (-90 + 30 * i) * Math.PI / 180; }
-    function px(i, r) { return CX + r * Math.cos(ang(i)); }
-    function py(i, r) { return CY + r * Math.sin(ang(i)); }
-
-    [R_MAJ + 26, R_MIN + 24].forEach(function (r) {
-      svg.appendChild(el("circle", {
-        cx: CX, cy: CY, r: r, "class": "ring"
-      }));
-    });
-
-    for (var i = 0; i < 12; i++) {
-      var lit = NEAR[i], litm = NEAR_MIN[i];
-      if (lit) {
-        svg.appendChild(el("circle", {
-          cx: px(i, R_MAJ), cy: py(i, R_MAJ) - 6, r: 22,
-          "class": lit === "home" ? "key-mark home" : "key-mark"
-        }));
-      }
-      if (litm) {
-        svg.appendChild(el("circle", {
-          cx: px(i, R_MIN), cy: py(i, R_MIN) - 6, r: 20, "class": "key-mark"
-        }));
-      }
-      svg.appendChild(el("text", {
-        x: px(i, R_MAJ), y: py(i, R_MAJ), "class": "key-maj" + (lit ? " lit" : "")
-      }, MAJ[i]));
-      svg.appendChild(el("text", {
-        x: px(i, R_SIG), y: py(i, R_SIG), "class": "key-sig"
-      }, SIG[i]));
-      svg.appendChild(el("text", {
-        x: px(i, R_MIN), y: py(i, R_MIN), "class": "key-min" + (litm ? " lit" : "")
-      }, MIN[i]));
-    }
-
-    svg.appendChild(el("text", { x: CX, y: CY - 8, "class": "key-note" }, "major"));
-    svg.appendChild(el("text", { x: CX, y: CY + 12, "class": "key-note" }, "minor inside"));
-  })();
 
   /* ---------- diatonic triads ---------- */
 
