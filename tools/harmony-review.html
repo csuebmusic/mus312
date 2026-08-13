@@ -909,12 +909,12 @@
       <section class="panel">
         <h3>descending fifths (−5/+4)</h3>
         <p>The most common of the six. vii° stands in root position with its root doubled: inside the sequence it passes rather than functioning as a dominant.</p>
-        <svg id="seq-desc5" viewBox="0 0 740 296" role="img" aria-label="Eight chords in C major whose roots fall a fifth and rise a fourth, from tonic through the circle back to tonic"></svg>
+        <svg id="seq-desc5" viewBox="0 0 740 296" role="img" aria-label="Seven chords in C major whose roots fall a fifth and rise a fourth, from tonic to dominant"></svg>
       </section>
       <section class="panel">
         <h3>descending thirds (−4/+2), the Pachelbel</h3>
         <p>Each pair of chords drops the underlying harmony by a third, and the soprano descends the scale against it. Also called the descending 5–6.</p>
-        <svg id="seq-desc3" viewBox="0 0 740 296" role="img" aria-label="Eight chords in C major whose roots fall a fourth and rise a second, producing a descent by thirds"></svg>
+        <svg id="seq-desc3" viewBox="0 0 740 296" role="img" aria-label="Six chords in C major whose roots fall a fourth and rise a second, producing a descent by thirds"></svg>
       </section>
     </div>
 
@@ -2976,24 +2976,32 @@
           x: x + 10, y: 272, "class": "lvl1"
         }, cfg.roman[i] + (i === 0 ? " seq." : "")));
       });
+
+      /* bracket the two-chord model */
+      var b1 = XS[0] - 6, b2 = XS[1] + 26, by = 288;
+      svg.appendChild(el("path", {
+        d: "M " + b1 + " " + (by - 7) + " L " + b1 + " " + by +
+           " L " + b2 + " " + by + " L " + b2 + " " + (by - 7),
+        "class": "cad-bracket"
+      }));
     }
 
     draw({
       id: "seq-desc5", width: 740, last: 690,
-      bass:  ["C3", "F3", "B2", "E3", "A2", "D3", "G2", "C3"],
-      tenor: ["G3", "A3", "D4", "B3", "C4", "A3", "B3", "C4"],
-      alto:  ["E4", "F4", "F4", "G4", "E4", "F4", "D4", "E4"],
-      sop:   ["C5", "C5", "B4", "B4", "A4", "A4", "G4", "G4"],
-      roman: ["I", "IV", "vii\u00B0", "iii", "vi", "ii", "V", "I"]
+      bass:  ["C3", "F2", "B2", "E2", "A2", "D2", "G2"],
+      tenor: ["G3", "A3", "D4", "B3", "C4", "A3", "B3"],
+      alto:  ["E4", "F4", "F4", "G4", "E4", "F4", "D4"],
+      sop:   ["C5", "C5", "B4", "B4", "A4", "A4", "G4"],
+      roman: ["I", "IV", "vii\u00B0", "iii", "vi", "ii", "V"]
     });
 
     draw({
       id: "seq-desc3", width: 740, last: 690,
-      bass:  ["C3", "G2", "A2", "E3", "F3", "C3", "D3", "G2"],
-      tenor: ["C4", "B3", "A3", "G3", "C4", "C4", "A3", "B3"],
-      alto:  ["G4", "G4", "E4", "G4", "F4", "E4", "D4", "D4"],
-      sop:   ["E5", "D5", "C5", "B4", "A4", "G4", "F4", "D5"],
-      roman: ["I", "V", "vi", "iii", "IV", "I", "ii", "V"]
+      bass:  ["C3", "G2", "A2", "E2", "F2", "C2"],
+      tenor: ["C4", "B3", "A3", "G3", "F3", "E3"],
+      alto:  ["G4", "G4", "E4", "E4", "C4", "C4"],
+      sop:   ["E5", "D5", "C5", "B4", "A4", "G4"],
+      roman: ["I", "V", "vi", "iii", "IV", "I"]
     });
 
     draw({
