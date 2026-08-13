@@ -106,6 +106,14 @@ A panel that stands alone rather than in a grid takes `.panel.centered`, which c
 
 Drawings render at the scale their box gives them, so a drawing sized for a gridded panel doubles in a full-width one. Cap the box, not the drawing.
 
+## contents index
+
+A long page carries `nav.toc` as the first child of `.page`, ahead of `.wrap`. Every `h1` and `h2` takes an id and appears in it.
+
+At 96rem and wider the index is a sticky 13rem column beside the content; below that it sits above the content in three columns, one column under 48rem. The content column stays 78rem at every width, so figure sizes hold.
+
+The section in view is marked with `.here`, set by an `IntersectionObserver` that degrades to no marking where the API is missing.
+
 ## interaction
 
 Every control is a real `button` with `aria-pressed` where it toggles. Hit targets are transparent shapes over the drawing rather than the drawn marks themselves.

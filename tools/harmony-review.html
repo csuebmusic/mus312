@@ -188,6 +188,61 @@
   .triad.lit .degree { fill: var(--accent); }
   .triad.lit .caret { stroke: var(--accent); }
   .triad.lit .degree-acc { fill: var(--accent); }
+
+  .page { max-width: 94rem; margin: 0 auto; }
+
+  .toc { font-family: var(--font-data); font-size: 13px; line-height: 1.5; }
+  .toc-head {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 calc(var(--step) * 1.5);
+    max-width: none;
+  }
+  .toc ul { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 0 0 calc(var(--step) * 0.5); }
+  .toc a {
+    color: var(--muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    padding-left: calc(var(--step) * 1.25);
+    display: block;
+  }
+  .toc a:hover { color: var(--ink); }
+  .toc a.here { color: var(--accent); border-left-color: var(--accent); }
+  .toc a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .toc-part { margin-top: calc(var(--step) * 2); }
+  .toc-part a { color: var(--ink); font-weight: 500; }
+
+  @media (min-width: 96rem) {
+    .page {
+      display: grid;
+      grid-template-columns: 13rem 1fr;
+      gap: calc(var(--step) * 6);
+      align-items: start;
+    }
+    .toc {
+      position: sticky;
+      top: calc(var(--step) * 4);
+      max-height: calc(100vh - var(--step) * 8);
+      overflow-y: auto;
+    }
+  }
+
+  @media (max-width: 95.99rem) {
+    .toc {
+      margin: 0 auto calc(var(--step) * 6);
+      max-width: 78rem;
+      columns: 3;
+      column-gap: calc(var(--step) * 4);
+    }
+    .toc-head { columns: 1; }
+    .toc-part { break-before: column; }
+  }
+
+  @media (max-width: 48rem) { .toc { columns: 1; } }
+
   .panels.uneven { grid-template-columns: 1.45fr 1fr; }
   .panels.three { grid-template-columns: 1fr 1fr 1fr; }
   .panel h3 { margin-bottom: calc(var(--step) * 2); }
@@ -445,10 +500,37 @@
 </style>
 </head>
 <body>
+<div class="page">
+<nav class="toc" aria-label="Contents">
+  <p class="toc-head">contents</p>
+  <ul>
+    <li class="toc-part"><a href="#part-1">counting in semitones</a></li>
+    <li><a href="#sec-major">major</a></li>
+    <li><a href="#sec-natural">natural minor</a></li>
+    <li><a href="#sec-harmonic">harmonic minor</a></li>
+    <li><a href="#sec-melodic">melodic minor</a></li>
+    <li><a href="#sec-intervals">interval names</a></li>
+    <li><a href="#sec-triads">diatonic triads</a></li>
+    <li><a href="#sec-minor-triads">diatonic triads in minor</a></li>
+    <li><a href="#sec-builder">chord builder</a></li>
+    <li><a href="#sec-figured">figured bass</a></li>
+    <li><a href="#sec-inversions">inversions</a></li>
+    <li class="toc-part"><a href="#part-2">progressions and functions</a></li>
+    <li><a href="#sec-syntax">tonal syntax</a></li>
+    <li><a href="#sec-fn-triads">the seven triads by function</a></li>
+    <li><a href="#sec-master">the master function chart</a></li>
+    <li><a href="#sec-prolong">structural and prolongational</a></li>
+    <li><a href="#sec-cad64">the cadential six-four</a></li>
+    <li><a href="#sec-cadences">cadences</a></li>
+    <li><a href="#sec-sequences">diatonic sequences</a></li>
+    <li><a href="#sec-nct">nonchord tones</a></li>
+  </ul>
+</nav>
+
 <div class="wrap">
 
   <p class="eyebrow">mus 312 &middot; harmony review &middot; part 1</p>
-  <h1>counting in semitones: scales and chord construction</h1>
+  <h1 id="part-1">counting in semitones: scales and chord construction</h1>
 
   <p class="lede full">A pitch on the staff carries register and spelling. The same pitch on the clock carries distance. Scale degrees run above the staff, pitch classes around the clock.</p>
 
@@ -801,7 +883,7 @@
   <hr class="rule">
 
   <p class="eyebrow">mus 312 &middot; harmony review &middot; part 2</p>
-  <h1>harmonic progressions and functions</h1>
+  <h1 id="part-2">harmonic progressions and functions</h1>
 
   <section class="scale" id="sec-syntax">
     <h2>tonal syntax</h2>
@@ -820,7 +902,7 @@
       <svg id="syntax-map" viewBox="-60 0 1200 250" role="img" aria-label="Three boxes in a row, tonic then pre-dominant then dominant, with arrows between them and a curved arrow returning from the dominant to a separate tonic box"></svg>
     </section>
 
-    <h2>the seven triads by function</h2>
+    <h2 id="sec-fn-triads">the seven triads by function</h2>
     <p class="full">The diatonic triads and common seventh chords of C major, each written in the inversion in which it most often appears in tonal music: ii and vii° in first inversion, V with its seventh, and optional sevenths on ii, IV, and vii°. The seventh on vii°6 makes it half-diminished. The brackets group them by function, which cuts across the scale rather than running along it.</p>
 
     <section class="panel centered wide">
@@ -835,7 +917,7 @@
 
     <p class="full">Two chords here stand outside the four functions. The minor v lacks a leading tone and works as a passing or voice-leading chord, harmonizing ♭7̂ in a bass that descends from the tonic. ♭VII most often acts as the dominant of ♭III and is labelled V/♭III when it does.</p>
 
-    <h2>the master function chart</h2>
+    <h2 id="sec-master">the master function chart</h2>
     <p class="full">Every chord from the two charts above, sorted by function. Left of each divider is the major mode, right of it the minor. Each row runs through the options on one root. Where a seventh chord takes all three inversions, the row says so rather than listing them.</p>
 
     <section class="panel">
@@ -844,7 +926,7 @@
 
 
 
-    <h2>structural and prolongational harmonies</h2>
+    <h2 id="sec-prolong">structural and prolongational harmonies</h2>
     <p class="full">A structural harmony moves the syntax from one function to the next. A prolongational harmony extends the function already in force without moving it. Both belong to the same phrase, and most phrases have more of the second kind than the first.</p>
 
     <p class="full">Prolongational chords usually fall on weak beats and usually appear in inversion. Second-level analysis labels them by what they do rather than by their root: N for neighbor, P for passing, CL for chordal leap, arp for arpeggiation. Structural chords keep their roman numerals. Root-position V7 is structural and signals a cadence, while its inversions prolong.</p>
@@ -869,7 +951,7 @@
       <svg id="minor-depth" viewBox="-235 0 1600 350" role="img" aria-label="An eleven-chord phrase in C minor on a grand staff with roman numerals beneath and a second level of analysis showing four functions"></svg>
     </section>
 
-    <h2>the cadential six-four</h2>
+    <h2 id="sec-cad64">the cadential six-four</h2>
     <p class="full">The dominant of a cadence often arrives carrying two dissonances above its bass. A sixth and a fourth above 5̂ fall by step to a fifth and a third, and only then is the dominant triad sounding.</p>
 
     <section class="panel centered">
@@ -880,7 +962,7 @@
       <p>Caplin writes this as one harmony, a root-position dominant with the embellishment in parentheses: V(6-4 5-3). Labels on this page follow Laitz.</p>
     </div>
 
-    <h2>cadences</h2>
+    <h2 id="sec-cadences">cadences</h2>
     <p class="full">Each example is a complete cadential progression: an initial tonic, a pre-dominant, the dominant, and whatever the dominant goes to. The bracket marks the cadence itself.</p>
 
     <div class="panels">
@@ -928,7 +1010,7 @@
       <p>Caplin separates the cadential progression from the cadence. The progression is a harmonic pattern, and the cadence is the formal event that ends a theme, which he takes up alongside theme types. He counts no plagal cadence at all in this repertoire.</p>
     </div>
 
-    <h2>diatonic sequences</h2>
+    <h2 id="sec-sequences">diatonic sequences</h2>
     <p class="full">A sequence repeats a pattern of root motion. Six patterns are available: fifths, thirds, and seconds, each ascending and descending. Caplin names each by the interval between adjacent roots. Laitz names it by the two-chord unit instead, so a descending fifth answered by an ascending fourth is (−5/+4).</p>
 
     <div class="panels">
@@ -980,7 +1062,7 @@
       <svg id="seq-phrase" viewBox="-260 0 1600 350" role="img" aria-label="An eight-chord phrase in C major on a grand staff, an ascending-fifths sequence from tonic to mediant followed by a cadential progression, with roman numerals and a second level of analysis"></svg>
     </section>
 
-    <h2>nonchord tones</h2>
+    <h2 id="sec-nct">nonchord tones</h2>
     <p class="full">Not every note belongs to the chord under it. A phrase carries structural harmonies, prolongational harmonies, and above both a surface of notes that are neither: they pass between chord tones, lean on them, hold over from the chord before, or arrive ahead of the chord they belong to. Analysis names the harmony first and accounts for these separately.</p>
 
     <div class="panels three">
@@ -1026,6 +1108,7 @@
     <p>Notation set in Bravura, Steinberg Media Technologies. Text set in IBM Plex. Both under the SIL Open Font License.</p>
   </footer>
 
+</div>
 </div>
 
 <script>
@@ -2648,6 +2731,30 @@
       d: "M620 " + (MID - 10) + " C 645 22, 668 22, 684 " + (MID - 10),
       "class": "fn-curve", "marker-end": "url(#prolong-head)"
     }));
+  })();
+
+  /* ---------- contents: mark the section in view ---------- */
+
+  (function contents() {
+    if (!window.IntersectionObserver) { return; }
+    var links = {};
+    Array.prototype.forEach.call(
+      document.querySelectorAll(".toc a"),
+      function (a) { links[a.getAttribute("href").slice(1)] = a; }
+    );
+    var targets = Object.keys(links)
+      .map(function (id) { return document.getElementById(id); })
+      .filter(Boolean);
+    var seen = {};
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { seen[e.target.id] = e.isIntersecting; });
+      var current = null;
+      targets.forEach(function (t) { if (seen[t.id]) { current = current || t.id; } });
+      Object.keys(links).forEach(function (id) {
+        links[id].classList.toggle("here", id === current);
+      });
+    }, { rootMargin: "-10% 0px -70% 0px" });
+    targets.forEach(function (t) { io.observe(t); });
   })();
 
   /* ---------- grand staff ---------- */
