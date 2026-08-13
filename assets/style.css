@@ -44,6 +44,7 @@
   --accent: #e2560d;
   --accent-wash: rgba(226, 86, 13, 0.10);
   --accent-edge: rgba(226, 86, 13, 0.38);
+  --accent-2: #1f5fa8;
 
   --font-body: "Plex Sans", system-ui, sans-serif;
   --font-data: "Plex Mono", ui-monospace, monospace;

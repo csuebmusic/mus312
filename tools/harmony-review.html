@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>harmony review 1: counting in semitones, scales and chord construction</title>
-<link rel="stylesheet" href="../assets/style.css?v=7">
+<link rel="stylesheet" href="../assets/style.css?v=8">
 <style>
   /* vertical rhythm: spacing is carried by margin-top inside a section,
      so adjacent margins never compete */
@@ -283,6 +283,15 @@
   }
   .lvl2-line { stroke: var(--accent); stroke-width: 1.25; fill: none; }
   .cad-bracket { stroke: var(--ink); stroke-width: 1; fill: none; }
+
+  .lit-a { fill: var(--accent); }
+  .lit-b { fill: var(--accent-2); }
+  .fig-a { fill: var(--accent); }
+  .fig-b { fill: var(--accent-2); }
+  .fig-a, .fig-b { font-family: var(--font-data); font-size: 15px; text-anchor: middle; }
+  .fig-dash { stroke-width: 1; fill: none; }
+  .fig-dash.a { stroke: var(--accent); }
+  .fig-dash.b { stroke: var(--accent-2); }
 
   .pro-box {
     fill: none;
@@ -853,6 +862,17 @@
     <section class="panel">
       <svg id="minor-depth" viewBox="0 0 1130 350" role="img" aria-label="An eleven-chord phrase in C minor on a grand staff with roman numerals beneath and a second level of analysis showing four functions"></svg>
     </section>
+
+    <h2>the cadential six-four</h2>
+    <p class="full">The dominant of a cadence often arrives carrying two dissonances above its bass. A sixth and a fourth above 5̂ fall by step to a fifth and a third, and only then is the dominant triad sounding. The first chord spells a tonic in second inversion and none of it is tonic: the bass is 5̂, the two upper notes are leaning tones, and the whole gesture belongs to the dominant.</p>
+
+    <section class="panel centered">
+      <svg id="cad64" viewBox="0 0 524 330" role="img" aria-label="Three chords in C major over a held dominant bass, the sixth falling to the fifth and the fourth falling to the third, then resolving to the tonic"></svg>
+    </section>
+
+    <div class="callout">
+      <p>Caplin writes this as one harmony, a root-position dominant with the embellishment in parentheses: V(6-4 5-3). Labels on this page follow Laitz.</p>
+    </div>
 
     <h2>cadences</h2>
     <p class="full">Each example is a complete cadential progression: an initial tonic, a pre-dominant, the dominant, and whatever the dominant goes to. The bracket marks the cadence itself.</p>
@@ -2767,6 +2787,78 @@
           }));
         }
       });
+  })();
+
+  /* ---------- the cadential six-four ---------- */
+
+  (function cad64() {
+    var svg = document.getElementById("cad64");
+    var LETTERS = "CDEFGAB";
+    function dia(n) {
+      return parseInt(n.slice(1), 10) * 7 + LETTERS.indexOf(n.charAt(0));
+    }
+    var TREBLE_BOTTOM = dia("E4"), BASS_BOTTOM = dia("G2");
+    var trebleTop = 66, trebleBottom = trebleTop + 48;
+    var bassTop = 178, bassBottom = bassTop + 48;
+    var XS = [110, 218, 326];
+
+    var BASS = ["G3", "G3", "C3"];
+    var UPPER = [["E4", "G4", "C5"], ["D4", "G4", "B4"], ["E4", "G4", "C5"]];
+    /* the sixth and its fifth, the fourth and its third */
+    var LIT = [{ "E4": "a", "C5": "b" }, { "D4": "a", "B4": "b" }, {}];
+    var ROMAN = ["Cad6/4", "V", "I"];
+
+    function staffLines(topY) {
+      for (var L = 0; L < 5; L++) {
+        svg.appendChild(el("line", {
+          x1: 10, y1: topY + 12 * L, x2: 514, y2: topY + 12 * L, "class": "staff-line"
+        }));
+      }
+    }
+    staffLines(trebleTop);
+    staffLines(bassTop);
+    svg.appendChild(el("text", { x: 18, y: trebleBottom - 12, "class": "clef" }, "\uE050"));
+    svg.appendChild(el("text", { x: 18, y: bassBottom - 36, "class": "clef" }, "\uE062"));
+    svg.appendChild(el("line", {
+      x1: 10, y1: trebleTop, x2: 10, y2: bassBottom, "class": "staff-line"
+    }));
+
+    function drawNote(x, n, bottomY, bottom, lit) {
+      var step = dia(n) - bottom, y = bottomY - 6 * step, v;
+      if (step <= -2) {
+        for (v = -2; v >= step; v -= 2) {
+          svg.appendChild(el("line", {
+            x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v, "class": "ledger"
+          }));
+        }
+      }
+      svg.appendChild(el("text", {
+        x: x, y: y, "class": "notehead" + (lit ? " lit-" + lit : "")
+      }, "\uE0A2"));
+    }
+
+    XS.forEach(function (x, i) {
+      UPPER[i].forEach(function (n) {
+        drawNote(x, n, trebleBottom, TREBLE_BOTTOM, LIT[i][n]);
+      });
+      drawNote(x, BASS[i], bassBottom, BASS_BOTTOM, null);
+      svg.appendChild(el("text", { x: x + 10, y: 304, "class": "lvl1" }, ROMAN[i]));
+    });
+
+    /* figures under the bass, one row per strand */
+    [{ y: 252, cls: "a", from: "6", to: "5" },
+     { y: 274, cls: "b", from: "4", to: "3" }].forEach(function (row) {
+      svg.appendChild(el("text", {
+        x: XS[0] + 10, y: row.y, "class": "fig-" + row.cls
+      }, row.from));
+      svg.appendChild(el("text", {
+        x: XS[1] + 10, y: row.y, "class": "fig-" + row.cls
+      }, row.to));
+      svg.appendChild(el("line", {
+        x1: XS[0] + 22, y1: row.y - 4, x2: XS[1] - 2, y2: row.y - 4,
+        "class": "fig-dash " + row.cls
+      }));
+    });
   })();
 
   /* ---------- cadence types ---------- */

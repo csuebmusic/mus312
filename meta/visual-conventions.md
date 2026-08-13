@@ -13,6 +13,7 @@ White ground, black line, one accent. The accent marks what is live: highlights,
 | `--accent` | `#e2560d` | highlight, active state, the thing under discussion |
 | `--accent-wash` | `rgba(226, 86, 13, 0.10)` | fills under the accent |
 | `--accent-edge` | `rgba(226, 86, 13, 0.38)` | outlines on washed fills |
+| `--accent-2` | `#1f5fa8` | a second strand, where two things move at once and must be told apart |
 
 Colors are addressed through these variables. Component CSS carries no hex values.
 
