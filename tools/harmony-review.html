@@ -378,6 +378,26 @@
   .pair.lit .app-arrow { stroke: var(--accent); }
   .pair.lit .app-head { fill: var(--accent); }
 
+  .fn-fn {
+    font-family: var(--font-body);
+    font-size: 19px;
+    fill: var(--ink);
+    text-anchor: middle;
+  }
+  .fn-sub {
+    font-family: var(--font-data);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    fill: var(--ink);
+    text-anchor: middle;
+  }
+  .lvl-emb {
+    font-family: var(--font-data);
+    font-size: 12px;
+    fill: var(--muted);
+    text-anchor: middle;
+  }
+
   .pro-box {
     fill: none;
     stroke: var(--ink);
@@ -545,6 +565,7 @@
     <li class="toc-part"><a href="#part-3">part 3, chromatic harmony</a></li>
     <li><a href="#sec-applied">applied chords</a></li>
     <li><a href="#sec-quality">quality informs function</a></li>
+    <li><a href="#sec-embedded">function and applied chords</a></li>
   </ul>
 </nav>
 
@@ -1151,6 +1172,26 @@
 
     <section class="panel centered wide">
       <svg id="applied-read" viewBox="-84 14 889 372" role="img" aria-label="A five-chord progression in C major on a grand staff, tonic, the applied dominant of two, supertonic, dominant, tonic, with a curved arrow from V of ii to ii and the three possible readings of the A major triad listed beneath it"></svg>
+    </section>
+
+    <h2 id="sec-embedded">function and applied chords</h2>
+    <p class="full">Each of the four functions occupies a space in the phrase, and a space can hold a phrase model of its own. Applied dominants open it: a chord that has been given a dominant can be approached the way a tonic is approached. A tonicization carried by more than one applied chord is an <strong>extended tonicization</strong>, and the chords it governs form an embedded phrase module.</p>
+
+    <div class="panels">
+      <section class="panel">
+        <svg id="embed-plain" viewBox="0 18 741 108" role="img" aria-label="Four boxes in a row labelled T, M, PD, and D, holding I, vi, IV, and V"></svg>
+      </section>
+      <section class="panel">
+        <svg id="embed-nested" viewBox="0 18 741 108" role="img" aria-label="The same four boxes, with the dominant box widened to hold four smaller boxes of its own labelled T, M, PD, and D"></svg>
+      </section>
+    </div>
+
+    <p class="full">The dominant space takes the expansion most often, and the most common embedded module is the jazz ii–V–I. In C major that is ii/V and V7/V arriving on V, three chords that together fill the dominant space of the phrase.</p>
+
+    <p class="full">The bracket groups the applied pair, the arrow marks the chord they point to, and the row beneath reads the module in its own key. Heard, the module leans toward G without cadencing there: the arrival on V is a dominant, not a tonic.</p>
+
+    <section class="panel">
+      <svg id="embed-phrase" viewBox="-375 40 1600 350" role="img" aria-label="A six-chord progression in C major on a grand staff, tonic, subdominant, then ii of V and V seven of V bracketed together and arrowed to V, then tonic, read beneath as pre-dominant, dominant, tonic within the key of the dominant, and beneath that as tonic, pre-dominant, dominant, tonic in C major"></svg>
     </section>
   </section>
 
@@ -2914,6 +2955,33 @@
     }));
   }
 
+  /* ---------- tonicization marks ---------- */
+
+  function targetMark(g, x, cy) {
+    g.appendChild(el("circle", { cx: x + 10, cy: cy, r: 6.5, "class": "target-ring" }));
+    g.appendChild(el("circle", { cx: x + 10, cy: cy, r: 2, "class": "target-dot" }));
+  }
+
+  /* a curve rising from one roman numeral and falling into the next */
+  function arrow(g, x0, x1, baseY) {
+    var sx = x0, sy = baseY - 18;
+    var ex = x1 - 4, ey = baseY - 15;
+    var cx = x0 + (x1 - x0) * 0.6, cy = baseY - 40;
+    g.appendChild(el("path", {
+      d: "M" + sx + " " + sy + " Q" + cx + " " + cy + " " + ex + " " + ey,
+      "class": "app-arrow"
+    }));
+    var dx = ex - cx, dy = ey - cy, len = Math.sqrt(dx * dx + dy * dy);
+    dx /= len; dy /= len;
+    var nx = -dy, ny = dx, L = 9, W = 3.4;
+    g.appendChild(el("path", {
+      d: "M" + ex + " " + ey +
+         " L" + (ex - L * dx + W * nx) + " " + (ey - L * dy + W * ny) +
+         " L" + (ex - L * dx - W * nx) + " " + (ey - L * dy - W * ny) + " z",
+      "class": "app-head"
+    }));
+  }
+
   /* ---------- depth of analysis example ---------- */
 
   (function depthExample() {
@@ -3484,31 +3552,6 @@
       });
     }
 
-    function targetMark(g, x, cy) {
-      g.appendChild(el("circle", { cx: x + 10, cy: cy, r: 6.5, "class": "target-ring" }));
-      g.appendChild(el("circle", { cx: x + 10, cy: cy, r: 2, "class": "target-dot" }));
-    }
-
-    /* a curve rising from one roman numeral and falling into the next */
-    function arrow(g, x0, x1, baseY) {
-      var sx = x0, sy = baseY - 18;
-      var ex = x1 - 4, ey = baseY - 15;
-      var cx = x0 + (x1 - x0) * 0.6, cy = baseY - 40;
-      g.appendChild(el("path", {
-        d: "M" + sx + " " + sy + " Q" + cx + " " + cy + " " + ex + " " + ey,
-        "class": "app-arrow"
-      }));
-      var dx = ex - cx, dy = ey - cy, len = Math.sqrt(dx * dx + dy * dy);
-      dx /= len; dy /= len;
-      var nx = -dy, ny = dx, L = 9, W = 3.4;
-      g.appendChild(el("path", {
-        d: "M" + ex + " " + ey +
-           " L" + (ex - L * dx + W * nx) + " " + (ey - L * dy + W * ny) +
-           " L" + (ex - L * dx - W * nx) + " " + (ey - L * dy - W * ny) + " z",
-        "class": "app-head"
-      }));
-    }
-
     /* ---- the five applied dominants of C major ---- */
 
     var PAIRS = [
@@ -3590,6 +3633,108 @@
         svg.appendChild(el("text", {
           x: XS[1] + 10, y: 320 + 24 * k, "class": "cand" + (c[1] ? " on" : "")
         }, c[0]));
+      });
+    })();
+  })();
+
+  /* ---------- embedded phrase modules ---------- */
+
+  (function embedded() {
+
+    /* the four function spaces, with the dominant optionally widened
+       to hold a phrase model of its own */
+    function boxes(id, nested) {
+      var svg = document.getElementById(id);
+      var W = 108, H = 62, GAP = 16, D_W = nested ? 250 : W, TOP = 46;
+      var LABEL = ["T", "M", "PD", "D"];
+      var HOLD = ["I", "vi", "IV", "V"];
+      var total = W * 3 + D_W + GAP * 3;
+      var x = Math.round((741 - total) / 2);
+
+      LABEL.forEach(function (fn, i) {
+        var w = i === 3 ? D_W : W;
+        svg.appendChild(el("rect", {
+          x: x, y: TOP, width: w, height: H, "class": "fn-box"
+        }));
+        svg.appendChild(el("text", {
+          x: x + w / 2, y: TOP - 10, "class": "fn-title"
+        }, fn));
+
+        if (i === 3 && nested) {
+          var sw = 50, sg = 7, sh = 30;
+          var span = sw * 4 + sg * 3;
+          var sx = x + (w - span) / 2, sy = TOP + (H - sh) / 2;
+          LABEL.forEach(function (sub, k) {
+            var bx = sx + (sw + sg) * k;
+            svg.appendChild(el("rect", {
+              x: bx, y: sy, width: sw, height: sh, "class": "fn-box"
+            }));
+            svg.appendChild(el("text", {
+              x: bx + sw / 2, y: sy + sh / 2 + 4, "class": "fn-sub"
+            }, sub));
+          });
+        } else {
+          svg.appendChild(el("text", {
+            x: x + w / 2, y: TOP + H / 2 + 7, "class": "fn-fn"
+          }, HOLD[i]));
+        }
+        x += w + GAP;
+      });
+    }
+
+    boxes("embed-plain", false);
+    boxes("embed-nested", true);
+
+    /* ---- a phrase whose dominant is filled by an applied ii and V ---- */
+
+    (function phrase() {
+      var svg = document.getElementById("embed-phrase");
+      var XS = [], i;
+      for (i = 0; i < 6; i++) { XS.push(110 + 130 * i); }
+
+      var BASS  = ["C3", "F3", "A3", "D3", "G3", "C3"];
+      var UPPER = [
+        ["C4", "G4", "E5"], ["C4", "A4", "C5"], ["C4", "E4", "C5"],
+        ["D4", "F#4", "C5"], ["D4", "G4", "B4"], ["E4", "G4", "C5"]
+      ];
+      var RN = ["I", "IV", "ii/V", "V7/V", "V", "I"];
+
+      var sig = grandStaff(svg, XS[5] + 90);
+      var RN_ROW = 272, BR_Y = 296, EMB_ROW = 324, LVL2 = 360;
+
+      XS.forEach(function (x, k) {
+        UPPER[k].forEach(function (n) { gsNote(svg, x, n, "t", { sig: sig }); });
+        gsNote(svg, x, BASS[k], "b", { sig: sig });
+        svg.appendChild(el("text", { x: x + 10, y: RN_ROW, "class": "lvl1" }, RN[k]));
+      });
+
+      /* the applied pair, and where it points */
+      var b1 = XS[2] - 12, b2 = XS[3] + 32;
+      svg.appendChild(el("path", {
+        d: "M " + b1 + " " + (BR_Y - 7) + " L " + b1 + " " + BR_Y +
+           " L " + b2 + " " + BR_Y + " L " + b2 + " " + (BR_Y - 7),
+        "class": "cad-bracket"
+      }));
+      arrow(svg, XS[3] + 10, XS[4] + 10, RN_ROW);
+
+      /* the module read in the key of the dominant */
+      [[2, "PD"], [3, "D"], [4, "T"]].forEach(function (e) {
+        svg.appendChild(el("text", {
+          x: XS[e[0]] + 10, y: EMB_ROW, "class": "lvl-emb"
+        }, e[1]));
+      });
+
+      /* the phrase read in C major */
+      [[0, 0, "T"], [1, 1, "PD"], [2, 4, "D"], [5, 5, "T"]].forEach(function (sp) {
+        svg.appendChild(el("text", {
+          x: XS[sp[0]] + 10, y: LVL2, "class": "lvl2"
+        }, sp[2]));
+        if (sp[1] > sp[0]) {
+          svg.appendChild(el("line", {
+            x1: XS[sp[0]] + 24, y1: LVL2 - 5, x2: XS[sp[1]] + 22, y2: LVL2 - 5,
+            "class": "lvl2-line"
+          }));
+        }
       });
     })();
   })();
