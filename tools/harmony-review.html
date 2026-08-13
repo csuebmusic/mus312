@@ -3264,7 +3264,9 @@
       function carry() {
         romans.forEach(function (r, k) {
           if (!r.held) { return; }
-          var box = r.node.getBBox();
+          var box;
+          try { box = r.node.getBBox(); } catch (err) { return; }
+          if (!box || !box.width) { return; }
           var x1 = box.x + box.width + 7;
           var x2 = (k + 1 < romans.length ? BEAT[romans[k + 1].beat] - 2 : BARLINE - 4);
           if (x2 - x1 < 14) { return; }
