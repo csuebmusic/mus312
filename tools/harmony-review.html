@@ -2889,7 +2889,7 @@
 
     /* each strand's resolution */
     function resolve(y1, y2, cls) {
-      var x1 = XS[0] + 28, x2 = XS[1] + 6;
+      var x1 = XS[0] + 28, x2 = XS[1] - 8;
       svg.appendChild(el("line", {
         x1: x1, y1: y1, x2: x2, y2: y2, "class": "arrow " + cls
       }));
