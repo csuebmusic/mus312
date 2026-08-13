@@ -49,9 +49,19 @@ Staff geometry: spaces of 12px, bottom line E4 at y = 118, pitch positions at 6p
 
 ## figure size
 
-Notation renders at one size across a page. A figure's `viewBox` width is set from the panel that holds it, not from its content: 1130 in a full-width panel, 524 in a half-width panel or `.panel.centered`, 322 in a third-width panel, 629 in `.panel.centered.wide`.
+Every figure renders at 0.75: one authored unit is 0.75 CSS pixels, so a 48px Bravura glyph draws at 36px and staff spaces at 9px.
 
-Content is laid out left to right from the clef at a fixed spacing, and the staff runs to the edge of the box. A figure with fewer events leaves empty staff rather than spreading to fill the width.
+A figure's `viewBox` is therefore sized from the panel that holds it, not from its content. Panel inner widths, and the `viewBox` width each takes:
+
+| panel | inner | viewBox width |
+|---|---|---|
+| full width | 1200 | 1600 |
+| wide column of `.panels.uneven`, `.panel.centered.wide` | 667 | 889 |
+| half of `.panels`, `.panel.centered` | 556 | 741 |
+| narrow column of `.panels.uneven` | 445 | 593 |
+| `.panels.three` | 341 | 455 |
+
+The drawing keeps its own coordinates and is centred by a negative `viewBox` origin: `viewBox="-DX 0 W H"` where DX is half the difference between the new width and the drawing's own. Empty space either side is expected.
 
 ## spacing
 
