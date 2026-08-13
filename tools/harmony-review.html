@@ -948,13 +948,13 @@
 
     <p class="full">A sequence opens ground between the structural harmonies, carrying the music away from a key or back toward one while committing to nothing along the way, which is why the classical style puts them where instability is wanted: transitions, developments, and the stretch between one cadence and the next. When the sequence stops, the chord it lands on takes up a function again and the syntax resumes.</p>
 
-    <p class="full">The tonic prolonged by an ascending-fifths sequence that departs and returns, then a cadential progression closing with a perfect authentic cadence.</p>
+    <p class="full">The tonic carried to the mediant by an ascending-fifths sequence, then a cadential progression closing with a perfect authentic cadence.</p>
 
     <section class="panel">
-      <svg id="seq-phrase" viewBox="0 0 1130 350" role="img" aria-label="An eleven-chord phrase in C major on a grand staff, an ascending-fifths sequence from tonic back to tonic followed by a cadential progression, with roman numerals and a second level of analysis"></svg>
+      <svg id="seq-phrase" viewBox="0 0 1130 350" role="img" aria-label="An eight-chord phrase in C major on a grand staff, an ascending-fifths sequence from tonic to mediant followed by a cadential progression, with roman numerals and a second level of analysis"></svg>
     </section>
 
-    <p class="full">Eight chords under one tonic. The sequence leaves the tonic on the second chord and does not return to a chord with a function until the eighth, so the second level carries T across all of them. The pre-dominant is the first harmony after the sequence stops.</p>
+    <p class="full">The sequence runs from the tonic to iii and stops there. Its interior chords carry no function of their own, so the second level holds T until the mediant arrives. Eight chords, five functions: T, M, PD, D, T.</p>
   </section>
 
   <footer>
@@ -2933,17 +2933,15 @@
     var TREBLE_BOTTOM = dia("E4"), BASS_BOTTOM = dia("G2");
 
     var XS = [];
-    for (var i = 0; i < 11; i++) { XS.push(110 + 96 * i); }
+    for (var i = 0; i < 8; i++) { XS.push(110 + 130 * i); }
 
-    var BASS = ["C3", "G3", "D3", "A3", "E3", "B3", "F3", "C4", "F3", "G3", "C3"];
+    var BASS = ["C3", "G3", "D3", "A3", "E3", "F3", "G3", "C3"];
     var UPPER = [
       ["G4", "C5", "E5"], ["G4", "B4", "D5"], ["F4", "A4", "D5"],
-      ["E4", "A4", "C5"], ["E4", "G4", "B4"], ["D4", "F4", "B4"],
-      ["F4", "A4", "C5"], ["E4", "G4", "C5"], ["D4", "F4", "A4"],
-      ["D4", "F4", "B4"], ["C4", "E4", "C5"]
+      ["E4", "A4", "C5"], ["E4", "G4", "B4"], ["D4", "A4", "D5"],
+      ["D4", "F4", "B4"], ["E4", "G4", "C5"]
     ];
-    var LEVEL1 = ["I seq.", "V", "ii", "vi", "iii", "vii\u00B0", "IV", "I",
-                  "ii6", "V7", "I"];
+    var LEVEL1 = ["I seq.", "V", "ii", "vi", "iii", "ii6", "V7", "I"];
 
     var trebleTop = 66, trebleBottom = trebleTop + 48;
     var bassTop = 178, bassBottom = bassTop + 48;
@@ -2988,7 +2986,7 @@
     });
 
     /* the cadential progression */
-    var b1 = XS[8] - 6, b2 = XS[10] + 26, by = 290;
+    var b1 = XS[6] - 6, b2 = XS[7] + 26, by = 290;
     svg.appendChild(el("path", {
       d: "M " + b1 + " " + (by - 7) + " L " + b1 + " " + by +
          " L " + b2 + " " + by + " L " + b2 + " " + (by - 7),
@@ -2997,7 +2995,7 @@
 
     /* second level */
     var y2 = 326;
-    [[0, 7, "T"], [8, 8, "PD"], [9, 9, "D"], [10, 10, "T"]].forEach(function (sp) {
+    [[0, 3, "T"], [4, 4, "M"], [5, 5, "PD"], [6, 6, "D"], [7, 7, "T"]].forEach(function (sp) {
       svg.appendChild(el("text", {
         x: XS[sp[0]] + 10, y: y2, "class": "lvl2"
       }, sp[2]));
