@@ -1184,10 +1184,10 @@
 
     <div class="panels">
       <section class="panel">
-        <svg id="embed-plain" viewBox="0 18 741 108" role="img" aria-label="Four boxes in a row labelled T, M, PD, and D, holding I, vi, IV, and V"></svg>
+        <svg id="embed-plain" viewBox="0 18 556 108" role="img" aria-label="Four boxes in a row labelled T, M, PD, and D, holding I, vi, IV, and V"></svg>
       </section>
       <section class="panel">
-        <svg id="embed-nested" viewBox="0 18 741 108" role="img" aria-label="The same four boxes, with the dominant box widened to hold four smaller boxes of its own labelled T, M, PD, and D"></svg>
+        <svg id="embed-nested" viewBox="0 18 556 108" role="img" aria-label="The same four boxes, with the dominant box widened to hold four smaller boxes of its own labelled T, M, PD, and D"></svg>
       </section>
     </div>
 
@@ -4020,11 +4020,11 @@
        to hold a phrase model of its own */
     function boxes(id, nested) {
       var svg = document.getElementById(id);
-      var W = 108, H = 62, GAP = 16, D_W = nested ? 250 : W, BOX_TOP = 46;
+      var W = 108, H = 62, GAP = 16, D_W = nested ? 176 : W, BOX_TOP = 46;
       var LABEL = ["T", "M", "PD", "D"];
       var HOLD = ["I", "vi", "IV", "V"];
       var total = W * 3 + D_W + GAP * 3;
-      var x = Math.round((741 - total) / 2);
+      var x = Math.round((556 - total) / 2);
 
       LABEL.forEach(function (fn, i) {
         var w = i === 3 ? D_W : W;
@@ -4036,7 +4036,7 @@
         }, fn));
 
         if (i === 3 && nested) {
-          var sw = 50, sg = 7, sh = 30;
+          var sw = 36, sg = 5, sh = 30;
           var span = sw * 4 + sg * 3;
           var sx = x + (w - span) / 2, sy = BOX_TOP + (H - sh) / 2;
           LABEL.forEach(function (sub, k) {
