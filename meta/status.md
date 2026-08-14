@@ -10,7 +10,7 @@ Part 1, counting in semitones: the four scale types on linked staff and clock, i
 
 Part 2, harmonic progressions and functions: tonal syntax, the seven triads by function in major and minor, the diatonic function chart, structural and prolongational diatonic harmony with two worked phrases, the cadential six-four, six cadence types, the six diatonic sequences with a worked phrase.
 
-Part 3, chromatic harmony: applied chords, the five applied dominants of C major as root-position triads; quality informs function, reading an A major triad inside a progression; function and applied chords, embedded phrase models and extended tonicization with the jazz ii–V–I filling the dominant space, and the diatonic function chart and prolongation map redrawn with a mediant column and applied dominants in the mediant, pre-dominant, and dominant.
+Part 3, chromatic harmony: applied chords, the five applied dominants of C major as root-position triads; quality informs function, reading an A major triad inside a progression; function and applied chords, embedded phrase models and extended tonicization with the jazz ii–V–I filling the dominant space, and the prolongation map redrawn with a mediant column and applied dominants listed in the mediant, pre-dominant, and dominant.
 
 ## next
 
