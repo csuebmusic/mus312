@@ -1353,6 +1353,40 @@
   var LETTER = ["C", "D", "E", "F", "G", "A", "B"];
   var NATURAL_PC = [0, 2, 4, 5, 7, 9, 11];
 
+  /* ---------- note names ---------- */
+
+  var NOTE_RE = /^([A-G])([#b]?)(\d)$/;
+
+  /* diatonic index: octave times seven plus letter, so a difference of one
+     is one staff step whatever the accidentals */
+  function noteDia(n) {
+    var m = NOTE_RE.exec(n);
+    return parseInt(m[3], 10) * 7 + LETTER.indexOf(m[1]);
+  }
+  function noteAlt(n) {
+    var m = NOTE_RE.exec(n);
+    return m[2] === "#" ? 1 : (m[2] === "b" ? -1 : 0);
+  }
+
+  /* ledger lines for a notehead at a step beyond either edge of a staff,
+     measured from the y of its bottom line */
+  function ledgers(target, x, step, bottomY) {
+    var v;
+    if (step <= -2) {
+      for (v = -2; v >= step; v -= 2) {
+        target.appendChild(el("line", {
+          x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v, "class": "ledger"
+        }));
+      }
+    } else if (step >= 10) {
+      for (v = 10; v <= step; v += 2) {
+        target.appendChild(el("line", {
+          x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v, "class": "ledger"
+        }));
+      }
+    }
+  }
+
   /* tonic letter index and key signature, for major and for minor */
   var MAJOR_KEYS = [
     { name: "C",       letter: 0, count: 0, kind: null },
@@ -1483,7 +1517,7 @@
 
   function buildSection(cfg) {
     var root = document.getElementById(cfg.id);
-    var staff = root.querySelector(".staff");
+    var staffEl = root.querySelector(".staff");
     var clock = root.querySelector(".clock");
     var reset = root.querySelector(".reset");
     var readout = root.querySelector(".readout");
@@ -1515,19 +1549,19 @@
       var ks = keySigMap(key);
 
       for (var L = 0; L < 5; L++) {
-        staff.appendChild(el("line", {
+        staffEl.appendChild(el("line", {
           x1: 10, y1: top + 12 * L, x2: 520, y2: top + 12 * L, "class": "staff-line"
         }));
       }
-      staff.appendChild(el("text", { x: 18, y: noteY(2, r), "class": "clef" }, "\uE050"));
+      staffEl.appendChild(el("text", { x: 18, y: noteY(2, r), "class": "clef" }, "\uE050"));
 
       if (label) {
-        staff.appendChild(el("text", { x: 10, y: top - 62, "class": "row-label" }, label));
+        staffEl.appendChild(el("text", { x: 10, y: top - 62, "class": "row-label" }, label));
       }
 
       var steps = key.kind === "flat" ? FLAT_STEPS : SHARP_STEPS;
       for (var a = 0; a < key.count; a++) {
-        staff.appendChild(el("text", {
+        staffEl.appendChild(el("text", {
           x: 60 + 11 * a, y: noteY(steps[a], r), "class": "keysig"
         }, KEYSIG_GLYPH[key.kind]));
       }
@@ -1550,19 +1584,7 @@
                         ", " + n.name + ", pitch class " + n.pc
         });
 
-        if (n.step <= -2) {
-          for (var v = -2; v >= n.step; v -= 2) {
-            g.appendChild(el("line", {
-              x1: x - 7, y1: noteY(v, r), x2: x + 27, y2: noteY(v, r), "class": "ledger"
-            }));
-          }
-        } else if (n.step >= 10) {
-          for (var w = 10; w <= n.step; w += 2) {
-            g.appendChild(el("line", {
-              x1: x - 7, y1: noteY(w, r), x2: x + 27, y2: noteY(w, r), "class": "ledger"
-            }));
-          }
-        }
+        ledgers(g, x, n.step, noteY(0, r));
 
         if (showAcc) {
           g.appendChild(el("text", {
@@ -1582,7 +1604,7 @@
           x: x - (showAcc ? 20 : 9), y: y - 17,
           width: (showAcc ? 49 : 38), height: 34, "class": "note-hit"
         }));
-        staff.appendChild(g);
+        staffEl.appendChild(g);
         staffNotes.push({ g: g, pc: n.pc });
       });
 
@@ -1590,19 +1612,19 @@
         var xa = x0 + gap * s + 10, xb = x0 + gap * (s + 1) + 10;
         var half = Math.abs(row[s + 1][0] - row[s][0]);
         var cls = half === 2 ? "" : " odd";
-        staff.appendChild(el("path", {
+        staffEl.appendChild(el("path", {
           d: "M" + xa + " " + (top + 88) + " L" + xa + " " + (top + 93) +
              " L" + xb + " " + (top + 93) + " L" + xb + " " + (top + 88),
           "class": "step-brace" + cls
         }));
-        staff.appendChild(el("text", {
+        staffEl.appendChild(el("text", {
           x: (xa + xb) / 2, y: top + 110, "class": "step-num" + cls
         }, String(half)));
       }
     }
 
     function drawStaff(tonic) {
-      while (staff.firstChild) { staff.removeChild(staff.firstChild); }
+      while (staffEl.firstChild) { staffEl.removeChild(staffEl.firstChild); }
       staffNotes = [];
       var key = KEYS[tonic];
       var ks = keySigMap(key);
@@ -1853,19 +1875,7 @@
       var accCount = 0;
       members.slice().reverse().forEach(function (m) {
         var y = noteY(m.step, 0);
-        if (m.step <= -2) {
-          for (var v = -2; v >= m.step; v -= 2) {
-            g.appendChild(el("line", {
-              x1: x - 7, y1: noteY(v, 0), x2: x + 27, y2: noteY(v, 0), "class": "ledger"
-            }));
-          }
-        } else if (m.step >= 10) {
-          for (var w = 10; w <= m.step; w += 2) {
-            g.appendChild(el("line", {
-              x1: x - 7, y1: noteY(w, 0), x2: x + 27, y2: noteY(w, 0), "class": "ledger"
-            }));
-          }
-        }
+        ledgers(g, x, m.step, noteY(0, 0));
         if (m.alt !== (ks[m.letterIndex] || 0)) {
           g.appendChild(el("text", {
             x: x - 17 - 13 * accCount, y: y, "class": "accidental"
@@ -1984,8 +1994,8 @@
       { steps: [4, 4, 3], abbr: "+M7",     name: "augmented major seventh",   sym: "+M7",     upper: true  }
     ];
 
-    var rootIndex = 0, chord = TRIADS[2];
-    var staff = document.getElementById("builder-staff");
+    var rootIndex = 0, picked = TRIADS[2];
+    var staffEl = document.getElementById("builder-staff");
     var nameEl = document.getElementById("builder-name");
     var factsEl = document.getElementById("builder-facts");
     var groups = [];
@@ -2013,65 +2023,53 @@
     }
 
     function drawChord() {
-      while (staff.firstChild) { staff.removeChild(staff.firstChild); }
+      while (staffEl.firstChild) { staffEl.removeChild(staffEl.firstChild); }
       var top = ROW_TOP, x = 130;
 
       for (var L = 0; L < 5; L++) {
-        staff.appendChild(el("line", {
+        staffEl.appendChild(el("line", {
           x1: 10, y1: top + 12 * L, x2: 250, y2: top + 12 * L, "class": "staff-line"
         }));
       }
-      staff.appendChild(el("text", { x: 18, y: noteY(2, 0), "class": "clef" }, "\uE050"));
+      staffEl.appendChild(el("text", { x: 18, y: noteY(2, 0), "class": "clef" }, "\uE050"));
 
-      var notes = spell(chord), accCount = 0;
+      var notes = spell(picked), accCount = 0;
       notes.slice().reverse().forEach(function (n) {
         var y = noteY(n.step, 0);
-        if (n.step <= -2) {
-          for (var v = -2; v >= n.step; v -= 2) {
-            staff.appendChild(el("line", {
-              x1: x - 7, y1: noteY(v, 0), x2: x + 27, y2: noteY(v, 0), "class": "ledger"
-            }));
-          }
-        } else if (n.step >= 10) {
-          for (var w = 10; w <= n.step; w += 2) {
-            staff.appendChild(el("line", {
-              x1: x - 7, y1: noteY(w, 0), x2: x + 27, y2: noteY(w, 0), "class": "ledger"
-            }));
-          }
-        }
+        ledgers(staffEl, x, n.step, noteY(0, 0));
         if (n.alt !== 0) {
-          staff.appendChild(el("text", {
+          staffEl.appendChild(el("text", {
             x: x - 17 - 13 * accCount, y: y, "class": "accidental"
           }, ACC_GLYPH[String(n.alt)]));
           accCount += 1;
         }
-        staff.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
+        staffEl.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
       });
 
-      for (var i = 0; i < chord.steps.length; i++) {
+      for (var i = 0; i < picked.steps.length; i++) {
         var yA = noteY(notes[i].step, 0), yB = noteY(notes[i + 1].step, 0);
-        staff.appendChild(el("path", {
+        staffEl.appendChild(el("path", {
           d: "M" + 171 + " " + yA + " L" + 176 + " " + yA +
              " L" + 176 + " " + yB + " L" + 171 + " " + yB, "class": "bracket"
         }));
-        staff.appendChild(el("text", {
+        staffEl.appendChild(el("text", {
           x: 189, y: (yA + yB) / 2, "class": "span-num"
-        }, String(chord.steps[i])));
+        }, String(picked.steps[i])));
       }
 
       var root = ROOTS[rootIndex];
-      var symbolRoot = chord.upper
+      var symbolRoot = picked.upper
         ? notes[0].name
         : notes[0].name.charAt(0).toLowerCase() + notes[0].name.slice(1);
-      staff.setAttribute("aria-label",
-        root.name + " " + chord.name + ", " + notes.map(function (n) { return n.name; }).join(" "));
-      nameEl.textContent = root.name + " " + chord.name;
+      staffEl.setAttribute("aria-label",
+        root.name + " " + picked.name + ", " + notes.map(function (n) { return n.name; }).join(" "));
+      nameEl.textContent = root.name + " " + picked.name;
       while (factsEl.firstChild) { factsEl.removeChild(factsEl.firstChild); }
       [
         ["pitches", notes.map(function (n) { return n.name; }).join(" ")],
-        ["symbol", symbolRoot + chord.sym],
-        ["quality", chord.abbr],
-        ["stack", chord.steps.join(" + ") + " = " + offsets(chord).pop()]
+        ["symbol", symbolRoot + picked.sym],
+        ["quality", picked.abbr],
+        ["stack", picked.steps.join(" + ") + " = " + offsets(picked).pop()]
       ].forEach(function (pair) {
         var dt = document.createElement("dt");
         dt.textContent = pair[0];
@@ -2127,8 +2125,8 @@
         groups.push({ g: g, type: type });
 
         function choose() {
-          chord = type;
-          groups.forEach(function (o) { o.g.classList.toggle("sel", o.type === chord); });
+          picked = type;
+          groups.forEach(function (o) { o.g.classList.toggle("sel", o.type === picked); });
           drawChord();
         }
         g.addEventListener("click", choose);
@@ -2159,27 +2157,14 @@
       pick.appendChild(b);
     });
 
-    groups.forEach(function (o) { o.g.classList.toggle("sel", o.type === chord); });
+    groups.forEach(function (o) { o.g.classList.toggle("sel", o.type === picked); });
     drawChord();
   })();
 
   /* ---------- figured bass ---------- */
 
   (function figuredBass() {
-    var NOTE_LETTERS = "CDEFGAB";
-    function parseNote(n) {
-      var m = /^([A-G])([#b]?)(\d)$/.exec(n);
-      return {
-        letter: NOTE_LETTERS.indexOf(m[1]),
-        alt: m[2] === "#" ? 1 : (m[2] === "b" ? -1 : 0),
-        octave: parseInt(m[3], 10)
-      };
-    }
-    function dia(n) {
-      var q = parseNote(n);
-      return q.octave * 7 + q.letter;
-    }
-    var TREBLE_BOTTOM = dia("E4"), BASS_BOTTOM = dia("G2");
+    var TREBLE_BOTTOM = noteDia("E4"), BASS_BOTTOM = noteDia("G2");
 
     var XS = [130, 216, 302, 388];
     var DEGREES = [1, 4, 5, 1];
@@ -2202,27 +2187,15 @@
     }
 
     function drawNote(svg, x, note, bottomY, bottom, cls) {
-      var step = dia(note) - bottom;
+      var step = noteDia(note) - bottom;
       var y = bottomY - 6 * step;
-      if (step <= -2) {
-        for (var v = -2; v >= step; v -= 2) {
-          svg.appendChild(el("line", {
-            x1: x - 7, y1: bottomY - 6 * v, x2: x + 27, y2: bottomY - 6 * v, "class": "ledger"
-          }));
-        }
-      } else if (step >= 10) {
-        for (var w = 10; w <= step; w += 2) {
-          svg.appendChild(el("line", {
-            x1: x - 7, y1: bottomY - 6 * w, x2: x + 27, y2: bottomY - 6 * w, "class": "ledger"
-          }));
-        }
-      }
-      var q = parseNote(note);
+      ledgers(svg, x, step, bottomY);
+      var alt = noteAlt(note);
       var mark = cls ? " " + cls : "";
-      if (q.alt !== 0) {
+      if (alt !== 0) {
         svg.appendChild(el("text", {
           x: x - 17, y: y, "class": "accidental" + mark
-        }, ACC_GLYPH[String(q.alt)]));
+        }, ACC_GLYPH[String(alt)]));
       }
       svg.appendChild(el("text", { x: x, y: y, "class": "notehead" + mark }, "\uE0A2"));
       return { x: x, y: y };
@@ -2278,10 +2251,10 @@
       XS.forEach(function (x, i) {
         /* two chord tones a second apart cannot share a column: the lower
            one is displaced to the left of the other */
-        var sorted = upper[i].slice().sort(function (a, b) { return dia(a) - dia(b); });
+        var sorted = upper[i].slice().sort(function (a, b) { return noteDia(a) - noteDia(b); });
         var offset = {};
         for (var k = sorted.length - 1; k > 0; k--) {
-          if (dia(sorted[k]) - dia(sorted[k - 1]) === 1 && !offset[sorted[k]]) {
+          if (noteDia(sorted[k]) - noteDia(sorted[k - 1]) === 1 && !offset[sorted[k]]) {
             offset[sorted[k - 1]] = -20;
           }
         }
@@ -2372,11 +2345,7 @@
         stack: [[6, false], [4, true], [2, true]] }
     ];
 
-    var LETTERS = "CDEFGAB";
-    function dia(n) {
-      return parseInt(n.slice(1), 10) * 7 + LETTERS.indexOf(n.charAt(0));
-    }
-    var BOTTOM = dia("E4");
+    var BOTTOM = noteDia("E4");
 
     function draw(id, items, roman, xs) {
       var svg = document.getElementById(id);
@@ -2395,31 +2364,19 @@
       items.forEach(function (item, i) {
         var x = xs[i];
 
-        var sorted = item.notes.slice().sort(function (a, b) { return dia(a) - dia(b); });
+        var sorted = item.notes.slice().sort(function (a, b) { return noteDia(a) - noteDia(b); });
         var offset = {};
         for (var k = sorted.length - 1; k > 0; k--) {
-          if (dia(sorted[k]) - dia(sorted[k - 1]) === 1 && !offset[sorted[k]]) {
+          if (noteDia(sorted[k]) - noteDia(sorted[k - 1]) === 1 && !offset[sorted[k]]) {
             offset[sorted[k - 1]] = -20;
           }
         }
 
         sorted.forEach(function (n, idx) {
-          var step = dia(n) - BOTTOM;
+          var step = noteDia(n) - BOTTOM;
           var nx = x + (offset[n] || 0);
           var y = bottom - 6 * step;
-          if (step <= -2) {
-            for (var v = -2; v >= step; v -= 2) {
-              svg.appendChild(el("line", {
-                x1: nx - 7, y1: bottom - 6 * v, x2: nx + 27, y2: bottom - 6 * v, "class": "ledger"
-              }));
-            }
-          } else if (step >= 10) {
-            for (var w = 10; w <= step; w += 2) {
-              svg.appendChild(el("line", {
-                x1: nx - 7, y1: bottom - 6 * w, x2: nx + 27, y2: bottom - 6 * w, "class": "ledger"
-              }));
-            }
-          }
+          ledgers(svg, nx, step, bottom);
           svg.appendChild(el("text", {
             x: nx, y: y, "class": "notehead" + (idx === 0 ? " sensitive" : "")
           }, "\uE0A2"));
@@ -2540,18 +2497,8 @@
   /* ---------- triads by function, major and minor ---------- */
 
   (function functionCharts() {
-    var LETTERS = "CDEFGAB";
-    function parse(n) {
-      var m = /^([A-G])([#b]?)(\d)$/.exec(n);
-      return {
-        letter: LETTERS.indexOf(m[1]),
-        alt: m[2] === "#" ? 1 : (m[2] === "b" ? -1 : 0),
-        octave: parseInt(m[3], 10)
-      };
-    }
-    function dia(n) { var q = parse(n); return q.octave * 7 + q.letter; }
-    var BOTTOM = dia("E4"), TOP = 60, BASE = TOP + 48;
-    function noteY(n) { return BASE - 6 * (dia(n) - BOTTOM); }
+    var BOTTOM = noteDia("E4"), TOP = 60, BASE = TOP + 48;
+    function yOf(n) { return BASE - 6 * (noteDia(n) - BOTTOM); }
 
     function chart(cfg) {
       var svg = document.getElementById(cfg.id);
@@ -2573,19 +2520,13 @@
       }
 
       function drawNote(x, n, cls, accX) {
-        var q = parse(n), step = dia(n) - BOTTOM, y = noteY(n);
-        if (step <= -2) {
-          for (var v = -2; v >= step; v -= 2) {
-            svg.appendChild(el("line", {
-              x1: x - 7, y1: BASE - 6 * v, x2: x + 27, y2: BASE - 6 * v, "class": "ledger"
-            }));
-          }
-        }
-        if (q.alt !== (sig[q.letter] || 0)) {
+        var alt = noteAlt(n), step = noteDia(n) - BOTTOM, y = yOf(n);
+        ledgers(svg, x, step, BASE);
+        if (alt !== (sig[LETTER.indexOf(n.charAt(0))] || 0)) {
           svg.appendChild(el("text", {
             x: (accX === undefined ? x : accX) - 17, y: y,
             "class": "accidental" + (cls ? " " + cls : "")
-          }, ACC_GLYPH[String(q.alt)]));
+          }, ACC_GLYPH[String(alt)]));
         }
         svg.appendChild(el("text", {
           x: x, y: y, "class": "notehead" + (cls ? " " + cls : "")
@@ -2595,10 +2536,10 @@
 
       cfg.chords.forEach(function (c) {
         var all = c.notes.concat(c.option ? [c.option] : []);
-        all.sort(function (p, q) { return dia(p) - dia(q); });
+        all.sort(function (p, q) { return noteDia(p) - noteDia(q); });
         var shift = {};
         for (var k = all.length - 1; k > 0; k--) {
-          if (dia(all[k]) - dia(all[k - 1]) === 1 && !shift[all[k]]) {
+          if (noteDia(all[k]) - noteDia(all[k - 1]) === 1 && !shift[all[k]]) {
             shift[all[k - 1]] = -20;
             shift[all[k]] = 3;
           }
@@ -2641,7 +2582,7 @@
 
       function topOf(i) {
         var c = cfg.chords[i];
-        return Math.min.apply(null, c.notes.concat(c.option ? [c.option] : []).map(noteY));
+        return Math.min.apply(null, c.notes.concat(c.option ? [c.option] : []).map(yOf));
       }
 
       cfg.groups.forEach(function (g) {
@@ -2725,13 +2666,13 @@
     /* a row is one numeral and the figures available to it;
        an empty figure list means the plain triad */
     var BOXES = [
-      { x: 20, lw: 52, rw: 52, title: "TONIC",
+      { lw: 52, rw: 52, title: "TONIC",
         major: [{ n: "I" }],
         minor: [{ n: "i" }] },
-      { x: 164, lw: 62, rw: 62, title: "MEDIANT",
+      { lw: 62, rw: 62, title: "MEDIANT",
         major: [{ n: "iii" }, { n: "vi" }],
         minor: [{ n: "III", flat: true }, { n: "VI", flat: true }] },
-      { x: 328, lw: 78, rw: 88, cw: 110, title: "PRE-DOMINANT",
+      { lw: 78, rw: 88, cw: 110, title: "PRE-DOMINANT",
         chrom: [
           { n: "It+6", figs: [[], { label: "Fr+6" }] },
           { n: "Ger+6", figs: [[], { label: "N6" }] }
@@ -2741,7 +2682,7 @@
           { n: "ii\u00B0", figs: [["6"], { n: "ii\u00F8", f: ["6", "5"] }] },
           { n: "iv" }
         ] },
-      { x: 534, lw: 106, rw: 136, title: "DOMINANT",
+      { lw: 106, rw: 136, title: "DOMINANT",
         major: [
           { n: "V", figs: [[], { label: "V7 + inv" }] },
           { n: "vii\u00B0", figs: [["6"], { n: "vii\u00F8", f: ["6", "5"] }] }
@@ -2750,7 +2691,7 @@
           { n: "V", figs: [[], { label: "V7 + inv" }] },
           { n: "vii\u00B0", figs: [["6"], { label: "vii\u00B07 + inv" }] }
         ] },
-      { x: 846, lw: 52, rw: 52, title: "TONIC",
+      { lw: 52, rw: 52, title: "TONIC",
         major: [{ n: "I" }],
         minor: [{ n: "i" }] }
     ];
@@ -2830,7 +2771,7 @@
       }, b.title));
 
       var cx = b.x;
-      b.cols.forEach(function (c, k) {
+      b.cols.forEach(function (c) {
         c.x = cx;
         cx += c.w;
       });
@@ -3057,22 +2998,10 @@
 
   /* ---------- grand staff ---------- */
 
-  var GS_LETTERS = "CDEFGAB";
-  var GS_NOTE = /^([A-G])([#b]?)(\d)$/;
-
-  function gsDia(n) {
-    var m = GS_NOTE.exec(n);
-    return parseInt(m[3], 10) * 7 + GS_LETTERS.indexOf(m[1]);
-  }
-  function gsAlt(n) {
-    var m = GS_NOTE.exec(n);
-    return m[2] === "#" ? 1 : (m[2] === "b" ? -1 : 0);
-  }
-
   var GS = {
     trebleTop: 66, trebleBottom: 114,
     bassTop: 178, bassBottom: 226,
-    trebleRef: gsDia("E4"), bassRef: gsDia("G2")
+    trebleRef: noteDia("E4"), bassRef: noteDia("G2")
   };
 
   /* Both staves, both clefs, the opening barline, and a flat key signature.
@@ -3103,27 +3032,23 @@
     return sig;
   }
 
-  function gsY(note, staff) {
-    var bottomY = staff === "b" ? GS.bassBottom : GS.trebleBottom;
-    var ref = staff === "b" ? GS.bassRef : GS.trebleRef;
-    return bottomY - 6 * (gsDia(note) - ref);
+  function gsY(note, which) {
+    var bottomY = which === "b" ? GS.bassBottom : GS.trebleBottom;
+    var ref = which === "b" ? GS.bassRef : GS.trebleRef;
+    return bottomY - 6 * (noteDia(note) - ref);
   }
 
   /* One notehead with its ledger lines, and its accidental where a key
      signature is given and does not already supply it. */
-  function gsNote(svg, x, note, staff, opt) {
+  function gsNote(svg, x, note, which, opt) {
     opt = opt || {};
-    var bottomY = staff === "b" ? GS.bassBottom : GS.trebleBottom;
-    var ref = staff === "b" ? GS.bassRef : GS.trebleRef;
-    var step = gsDia(note) - ref, y = bottomY - 6 * step, v;
-    if (step <= -2) {
-      for (v = -2; v >= step; v -= 2) { gsLedger(svg, x, bottomY - 6 * v); }
-    } else if (step >= 10) {
-      for (v = 10; v <= step; v += 2) { gsLedger(svg, x, bottomY - 6 * v); }
-    }
+    var bottomY = which === "b" ? GS.bassBottom : GS.trebleBottom;
+    var ref = which === "b" ? GS.bassRef : GS.trebleRef;
+    var step = noteDia(note) - ref, y = bottomY - 6 * step;
+    ledgers(svg, x, step, bottomY);
     if (opt.sig) {
-      var alt = gsAlt(note);
-      if (alt !== (opt.sig[GS_LETTERS.indexOf(note.charAt(0))] || 0)) {
+      var alt = noteAlt(note);
+      if (alt !== (opt.sig[LETTER.indexOf(note.charAt(0))] || 0)) {
         svg.appendChild(el("text", {
           x: (opt.accX === undefined ? x : opt.accX) - 17, y: y,
           "class": "accidental" + (opt.lit ? " lit-" + opt.lit : "")
@@ -3136,28 +3061,13 @@
     return y;
   }
 
-  function gsLedger(svg, x, y) {
-    svg.appendChild(el("line", {
-      x1: x - 7, y1: y, x2: x + 27, y2: y, "class": "ledger"
-    }));
-  }
-
   /* ---------- single-staff chords ---------- */
 
-  var LET = "CDEFGAB";
-  var NOTE = /^([A-G])([#b]?)(\d)$/;
-
-  function stepOf(n) {
-    var m = NOTE.exec(n);
-    return LET.indexOf(m[1]) + 7 * (parseInt(m[3], 10) - 4) - 2;
-  }
-  function altOf(n) {
-    var m = NOTE.exec(n);
-    return m[2] === "#" ? 1 : (m[2] === "b" ? -1 : 0);
-  }
+  /* the single staff sits where row 0 of a part 1 figure sits */
+  function stepOf(n) { return noteDia(n) - GS.trebleRef; }
 
   var TOP = ROW_TOP;
-  var SYM_Y = TOP - 20, RING_Y = TOP - 44, RN_Y = TOP + 108;
+  var RN_Y = TOP + 108;
 
   function staff(svg, right) {
     for (var L = 0; L < 5; L++) {
@@ -3174,7 +3084,7 @@
 
     /* a second is written with the upper notehead shifted right */
     var set = notes.map(function (n) {
-      return { n: n, s: stepOf(n), a: altOf(n), dx: 0 };
+      return { n: n, s: stepOf(n), a: noteAlt(n), dx: 0 };
     }).sort(function (u, v) { return u.s - v.s; });
     for (var i = 1; i < set.length; i++) {
       if (set[i].s - set[i - 1].s === 1 && set[i - 1].dx === 0) { set[i].dx = 13; }
@@ -3186,20 +3096,8 @@
 
     var accCount = 0;
     set.slice().reverse().forEach(function (p) {
-      var y = noteY(p.s, 0), v, nx = x + p.dx;
-      if (p.s <= -2) {
-        for (v = -2; v >= p.s; v -= 2) {
-          g.appendChild(el("line", {
-            x1: nx - 7, y1: noteY(v, 0), x2: nx + 27, y2: noteY(v, 0), "class": "ledger"
-          }));
-        }
-      } else if (p.s >= 10) {
-        for (v = 10; v <= p.s; v += 2) {
-          g.appendChild(el("line", {
-            x1: nx - 7, y1: noteY(v, 0), x2: nx + 27, y2: noteY(v, 0), "class": "ledger"
-          }));
-        }
-      }
+      var y = noteY(p.s, 0), nx = x + p.dx;
+      ledgers(g, nx, p.s, noteY(0, 0));
       if (p.a !== 0) {
         g.appendChild(el("text", {
           x: x - 17 - 13 * accCount, y: y, "class": "accidental" + tint(p.n)
@@ -4121,7 +4019,7 @@
        to hold a phrase model of its own */
     function boxes(id, nested) {
       var svg = document.getElementById(id);
-      var W = 108, H = 62, GAP = 16, D_W = nested ? 250 : W, TOP = 46;
+      var W = 108, H = 62, GAP = 16, D_W = nested ? 250 : W, BOX_TOP = 46;
       var LABEL = ["T", "M", "PD", "D"];
       var HOLD = ["I", "vi", "IV", "V"];
       var total = W * 3 + D_W + GAP * 3;
@@ -4130,16 +4028,16 @@
       LABEL.forEach(function (fn, i) {
         var w = i === 3 ? D_W : W;
         svg.appendChild(el("rect", {
-          x: x, y: TOP, width: w, height: H, "class": "fn-box"
+          x: x, y: BOX_TOP, width: w, height: H, "class": "fn-box"
         }));
         svg.appendChild(el("text", {
-          x: x + w / 2, y: TOP - 10, "class": "fn-title"
+          x: x + w / 2, y: BOX_TOP - 10, "class": "fn-title"
         }, fn));
 
         if (i === 3 && nested) {
           var sw = 50, sg = 7, sh = 30;
           var span = sw * 4 + sg * 3;
-          var sx = x + (w - span) / 2, sy = TOP + (H - sh) / 2;
+          var sx = x + (w - span) / 2, sy = BOX_TOP + (H - sh) / 2;
           LABEL.forEach(function (sub, k) {
             var bx = sx + (sw + sg) * k;
             svg.appendChild(el("rect", {
@@ -4151,7 +4049,7 @@
           });
         } else {
           svg.appendChild(el("text", {
-            x: x + w / 2, y: TOP + H / 2 + 7, "class": "fn-fn"
+            x: x + w / 2, y: BOX_TOP + H / 2 + 7, "class": "fn-fn"
           }, HOLD[i]));
         }
         x += w + GAP;
