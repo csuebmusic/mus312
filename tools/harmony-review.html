@@ -398,6 +398,13 @@
     text-anchor: middle;
   }
 
+  .fn-applied {
+    font-family: var(--font-data);
+    font-size: 10px;
+    fill: var(--ink);
+    text-anchor: middle;
+  }
+
   .pro-box {
     fill: none;
     stroke: var(--ink);
@@ -1197,6 +1204,16 @@
 
     <section class="panel">
       <svg id="embed-phrase" viewBox="-375 40 1600 350" role="img" aria-label="A six-chord progression in C major on a grand staff, tonic, subdominant, then ii of V and V seven of V bracketed together and arrowed to V, then tonic, read beneath as pre-dominant, dominant, tonic within the key of the dominant, and beneath that as tonic, pre-dominant, dominant, tonic in C major"></svg>
+    </section>
+
+    <p class="full">An applied dominant belongs to the function of the chord it points at: V/vi and V/iii to the mediant, V/ii and V/IV to the pre-dominant, V/V to the dominant.</p>
+
+    <section class="panel">
+      <svg id="master-fn-applied" viewBox="-120 0 1200 260" role="img" aria-label="The master function chart with applied dominants listed as an option in the mediant, pre-dominant, and dominant boxes"></svg>
+    </section>
+
+    <section class="panel">
+      <svg id="prolong-map-applied" viewBox="-75 0 1200 350" role="img" aria-label="Tonic, mediant, pre-dominant, and dominant in a row with a curved return to the tonic, each with a dotted box below listing its standard prolongations, the last three including an applied dominant"></svg>
     </section>
 
     <p class="full">The <a href="#sec-voice-leading">voice leading rules</a> do not change here. Chromatic harmony puts more sensitive tones on the page, and each one still resolves: raised notes up, lowered notes down, and never doubled. In the phrase above, F♯ (leading tone of the applied dominant) rises to G (its target) and the chordal seventh C resolves down to B.</p>
@@ -2594,10 +2611,12 @@
 
   /* ---------- master function chart ---------- */
 
-  (function masterChart() {
-    var svg = document.getElementById("master-fn");
-    var TOP = 72, H = 112, MID = TOP + H / 2;
+  function masterChart(id, opts) {
+    opts = opts || {};
+    var svg = document.getElementById(id);
+    var TOP = 72, H = opts.applied ? 132 : 112, MID = TOP + H / 2;
     var ROW1 = TOP + 46, ROW2 = TOP + 82, MODE_Y = TOP + 22;
+    var DIV_BOT = TOP + H - (opts.applied ? 32 : 6), APP_Y = TOP + H - 14;
 
     /* a row is one numeral and the figures available to it;
        an empty figure list means the plain triad */
@@ -2605,16 +2624,16 @@
       { x: 20, lw: 52, rw: 52, title: "TONIC",
         major: [{ n: "I" }],
         minor: [{ n: "i" }] },
-      { x: 164, lw: 62, rw: 62, title: "MEDIANT",
+      { x: 164, lw: 62, rw: 62, title: "MEDIANT", applied: true,
         major: [{ n: "iii" }, { n: "vi" }],
         minor: [{ n: "III", flat: true }, { n: "VI", flat: true }] },
-      { x: 328, lw: 78, rw: 88, title: "PRE-DOMINANT",
+      { x: 328, lw: 78, rw: 88, title: "PRE-DOMINANT", applied: true,
         major: [{ n: "ii", figs: [["6"], ["6", "5"]] }, { n: "IV", figs: [[], ["7"]] }],
         minor: [
           { n: "ii\u00B0", figs: [["6"], { n: "ii\u00F8", f: ["6", "5"] }] },
           { n: "iv" }
         ] },
-      { x: 534, lw: 106, rw: 136, title: "DOMINANT",
+      { x: 534, lw: 106, rw: 136, title: "DOMINANT", applied: true,
         major: [
           { n: "V", figs: [[], { label: "V7 + inv" }] },
           { n: "vii\u00B0", figs: [["6"], { n: "vii\u00F8", f: ["6", "5"] }] }
@@ -2689,8 +2708,13 @@
         x: b.x + w / 2, y: TOP - 16, "class": "fn-title"
       }, b.title));
       svg.appendChild(el("line", {
-        x1: b.x + b.lw, y1: TOP + 6, x2: b.x + b.lw, y2: TOP + H - 6, "class": "fn-div"
+        x1: b.x + b.lw, y1: TOP + 6, x2: b.x + b.lw, y2: DIV_BOT, "class": "fn-div"
       }));
+      if (opts.applied && b.applied) {
+        svg.appendChild(el("text", {
+          x: b.x + w / 2, y: APP_Y, "class": "fn-applied"
+        }, "applied dominants"));
+      }
       svg.appendChild(el("text", {
         x: b.x + b.lw / 2, y: MODE_Y, "class": "fn-mode"
       }, "MAJOR"));
@@ -2720,7 +2744,7 @@
 
     var defs = el("defs", {});
     var marker = el("marker", {
-      id: "master-head", markerWidth: 12, markerHeight: 12, refX: 10, refY: 6,
+      id: id + "-head", markerWidth: 12, markerHeight: 12, refX: 10, refY: 6,
       orient: "auto", markerUnits: "userSpaceOnUse"
     });
     marker.appendChild(el("path", { d: "M0,0 L12,6 L0,12 z", "class": "fn-arrow" }));
@@ -2729,14 +2753,18 @@
 
     svg.appendChild(el("path", {
       d: "M786 " + (MID - 12) + " C 804 34, 824 34, 840 " + (MID - 12),
-      "class": "fn-curve", "marker-end": "url(#master-head)"
+      "class": "fn-curve", "marker-end": "url(#" + id + "-head)"
     }));
-  })();
+  }
+
+  masterChart("master-fn");
+  masterChart("master-fn-applied", { applied: true });
 
   /* ---------- prolongation map ---------- */
 
-  (function prolongMap() {
-    var svg = document.getElementById("prolong-map");
+  function prolongMap(id, opts) {
+    opts = opts || {};
+    var svg = document.getElementById(id);
     var BOX_TOP = 60, BOX_H = 64, MID = BOX_TOP + BOX_H / 2;
     var DOT_TOP = 152, ROW0 = 200, ROW = 23, PAD = 95;
 
@@ -2749,18 +2777,33 @@
         ["I \u2013 IV6 \u2013 I6", "arp"],
         ["I \u2013 IV6/4 \u2013 I", "ped"]
       ] },
-      { cx: 330, title: "PRE-DOMINANT", pats: [
+      { cx: 330, title: "MEDIANT", mediant: true, pats: [
+        ["vi \u2013 vi6", "CL"],
+        ["V/vi \u2013 vi", "app"]
+      ] },
+      { cx: 550, title: "PRE-DOMINANT", pats: [
         ["ii \u2013 ii6", "CL"],
         ["IV \u2013 ii6", "5\u20136"],
         ["ii \u2013 I6 \u2013 ii6", "P"],
-        ["IV6 \u2013 I6/4 \u2013 ii6", "P"]
+        ["IV6 \u2013 I6/4 \u2013 ii6", "P"],
+        ["V/ii \u2013 ii", "app"]
       ] },
-      { cx: 550, title: "DOMINANT", pats: [
+      { cx: 770, title: "DOMINANT", pats: [
         ["V \u2013 V6", "CL"],
         ["V \u2013 IV6 \u2013 V6", "P"],
-        ["Cad6/4 \u2013 V", "cad"]
+        ["Cad6/4 \u2013 V", "cad"],
+        ["V/V \u2013 V", "app"]
       ] }
     ];
+
+    if (!opts.applied) {
+      COLS = COLS.filter(function (c) { return !c.mediant; })
+        .map(function (c, i) {
+          return { cx: 110 + 220 * i, title: c.title, pats: c.pats.filter(
+            function (pt) { return pt[1] !== "app"; }) };
+        });
+    }
+    var LAST = COLS[COLS.length - 1].cx + 200;
 
     COLS.forEach(function (c) {
       var w = 120, x = c.cx - w / 2;
@@ -2806,12 +2849,13 @@
       }));
     }
 
-    blockArrow(180, 262);
-    blockArrow(400, 482);
+    COLS.forEach(function (c, i) {
+      if (i) { blockArrow(COLS[i - 1].cx + 70, c.cx - 68); }
+    });
 
     var defs = el("defs", {});
     var marker = el("marker", {
-      id: "prolong-head", markerWidth: 12, markerHeight: 12, refX: 10, refY: 6,
+      id: id + "-head", markerWidth: 12, markerHeight: 12, refX: 10, refY: 6,
       orient: "auto", markerUnits: "userSpaceOnUse"
     });
     marker.appendChild(el("path", { d: "M0,0 L12,6 L0,12 z", "class": "fn-arrow" }));
@@ -2819,17 +2863,22 @@
     svg.appendChild(defs);
 
     svg.appendChild(el("rect", {
-      x: 690, y: BOX_TOP, width: 120, height: BOX_H, "class": "fn-box"
+      x: LAST - 60, y: BOX_TOP, width: 120, height: BOX_H, "class": "fn-box"
     }));
     svg.appendChild(el("text", {
-      x: 750, y: BOX_TOP + 38, "class": "fn-title"
+      x: LAST, y: BOX_TOP + 38, "class": "fn-title"
     }, "TONIC"));
 
+    var c0 = COLS[COLS.length - 1].cx + 70, c1 = LAST - 66;
     svg.appendChild(el("path", {
-      d: "M620 " + (MID - 10) + " C 645 22, 668 22, 684 " + (MID - 10),
-      "class": "fn-curve", "marker-end": "url(#prolong-head)"
+      d: "M" + c0 + " " + (MID - 10) + " C " + (c0 + 25) + " 22, " +
+         (c1 - 16) + " 22, " + c1 + " " + (MID - 10),
+      "class": "fn-curve", "marker-end": "url(#" + id + "-head)"
     }));
-  })();
+  }
+
+  prolongMap("prolong-map");
+  prolongMap("prolong-map-applied", { applied: true });
 
   /* ---------- contents: mark the section in view ---------- */
 
