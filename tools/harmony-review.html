@@ -1275,9 +1275,54 @@
     </section>
 
     <h2 id="sec-quality">quality informs function</h2>
+    <p class="full">Analysis can be daunting. With the proper methodology you can tackle any passage. In tonal music the quality of a chord, what it is, always informs its function. When you have function you have syntax, and with syntax you can predict where the music is going. Tonal music is a predictable motion of stable musical energy becoming unstable and needing to resolve.</p>
 
     <section class="panel">
-      <svg id="applied-read" viewBox="-240 44 1600 196" role="img" aria-label="An eight-chord progression in C major on a grand staff in four voices, with no analysis given"></svg>
+      <svg id="read-1" viewBox="-240 44 1600 196" role="img" aria-label="An eight-chord progression in C major on a grand staff in four voices, with no analysis given"></svg>
+    </section>
+
+    <p class="full">The first step is to find the quality of every chord: major triads, minor triads, and what kind of sevenths. Knowing your chords is essential here, and the sooner it is internalized the better.</p>
+
+    <section class="panel">
+      <svg id="read-2" viewBox="-240 14 1600 226" role="img" aria-label="The same progression with a chord symbol above each chord, and a question mark above the sixth"></svg>
+    </section>
+
+    <p class="full">One chord does not make sense under the usual chord-finding techniques: it does not stack in thirds. When that happens, check first for a chromatic pre-dominant. That check needs scale degrees rather than qualities of thirds.</p>
+
+    <section class="panel">
+      <svg id="read-3" viewBox="-240 14 1600 226" role="img" aria-label="The same progression with the scale degrees of the sixth chord given in place of the question mark"></svg>
+    </section>
+
+    <p class="full">Against the chromatic pre-dominant list above, this is a French augmented sixth. It can only take pre-dominant function, so the dominant should come next. Look ahead: it is a G7. A dominant seventh can only take dominant function, and the cadential motion of the passage is settled.</p>
+
+    <section class="panel">
+      <svg id="read-4" viewBox="-240 14 1600 316" role="img" aria-label="The same progression with roman numerals under the French sixth, the dominant seventh, and the closing tonic, and a cadence bracket across them"></svg>
+    </section>
+
+    <p class="full">The last chord is the same as the first, so the key is C major, and that settles most of what remains. Work through them in order. The second chord is an A major triad, which is not diatonic to C, so leave it. The third is a D minor triad, diatonic, ii. The fourth is C major again, and the bass says first inversion, I6. The fifth is that same D minor with F in the bass, ii6.</p>
+
+    <section class="panel">
+      <svg id="read-5" viewBox="-240 14 1600 316" role="img" aria-label="The same progression with roman numerals added under every diatonic chord"></svg>
+    </section>
+
+    <p class="full">Only the A major triad is left. Quality informs function, so ask what an A major triad can be.</p>
+
+    <ul class="full">
+      <li>a I chord in A major, which is no help in the middle of a C major passage</li>
+      <li>a IV chord in E major, no help for the same reason</li>
+      <li>a V chord in D, major or minor, which fits</li>
+    </ul>
+
+    <p class="full">A V belongs to something, and that something, the target, comes right after it. The next chord is the D minor already labelled ii. That is V/ii.</p>
+
+    <section class="panel">
+      <svg id="read-6" viewBox="-240 14 1600 316" role="img" aria-label="The same progression with V of ii under the A major triad and a curved arrow to the ii that follows"></svg>
+    </section>
+
+    <p class="full">What is left is the second level: which chords are structural and which are prolongational.</p>
+
+    <section class="panel">
+      <svg id="read-7" viewBox="-240 14 1600 360" role="img" aria-label="The same progression with a second level of analysis, tonic, then a pre-dominant running from V of ii through the French sixth, then dominant and tonic"></svg>
     </section>
   </section>
 
@@ -3984,7 +4029,6 @@
     /* ---- reading an A major triad inside a progression ---- */
 
     (function progression() {
-      var svg = document.getElementById("applied-read");
       var XS = [], i;
       for (i = 0; i < 8; i++) { XS.push(110 + 130 * i); }
 
@@ -3997,14 +4041,76 @@
       /* the upper note of a second is written to the right of the lower */
       var SHIFT = [{}, {}, {}, {}, {}, { "D5": 1 }, { "G5": 1 }, {}];
 
-      var sig = grandStaff(svg, XS[7] + 90);
+      var SYM_ROW = 36, RN_ROW = 272, BR_Y = 292, LVL2 = 336;
 
-      XS.forEach(function (x, k) {
-        UPPER[k].forEach(function (n) {
-          gsNote(svg, x + (SHIFT[k][n] ? 13 : 0), n, "t",
-                 SHIFT[k][n] ? { sig: sig, accX: x } : { sig: sig });
+      function draw(id, o) {
+        var svg = document.getElementById(id);
+        var sig = grandStaff(svg, XS[7] + 90);
+
+        XS.forEach(function (x, k) {
+          UPPER[k].forEach(function (n) {
+            gsNote(svg, x + (SHIFT[k][n] ? 13 : 0), n, "t",
+                   SHIFT[k][n] ? { sig: sig, accX: x } : { sig: sig });
+          });
+          gsNote(svg, x, BASS[k], "b", { sig: sig });
+          if (o.sym && o.sym[k]) {
+            svg.appendChild(el("text", {
+              x: x + 10, y: SYM_ROW, "class": "chordsym"
+            }, o.sym[k]));
+          }
+          if (o.rn && o.rn[k]) {
+            svg.appendChild(el("text", {
+              x: x + 10, y: RN_ROW, "class": "lvl1"
+            }, o.rn[k]));
+          }
         });
-        gsNote(svg, x, BASS[k], "b", { sig: sig });
+
+        if (o.cad) {
+          var x1 = XS[o.cad.from] - 6, x2 = XS[o.cad.to] + 26;
+          svg.appendChild(el("path", {
+            d: "M " + x1 + " " + (BR_Y - 7) + " L " + x1 + " " + BR_Y +
+               " L " + x2 + " " + BR_Y + " L " + x2 + " " + (BR_Y - 7),
+            "class": "cad-bracket"
+          }));
+          svg.appendChild(el("text", {
+            x: (x1 + x2) / 2, y: BR_Y + 22, "class": "lvl2"
+          }, o.cad.label));
+        }
+
+        if (o.applied) { arrow(svg, XS[1] + 10, XS[2] + 10, RN_ROW); }
+
+        (o.lvl2 || []).forEach(function (sp) {
+          svg.appendChild(el("text", {
+            x: XS[sp[0]] + 10, y: LVL2, "class": "lvl2"
+          }, sp[2]));
+          if (sp[1] > sp[0]) {
+            svg.appendChild(el("line", {
+              x1: XS[sp[0]] + 24, y1: LVL2 - 5, x2: XS[sp[1]] + 22, y2: LVL2 - 5,
+              "class": "lvl2-line"
+            }));
+          }
+        });
+      }
+
+      var QUAL = ["C", "A", "d-", "C/E", "d-/F", "?", "G7", "C"];
+      var DEGS = QUAL.slice();
+      DEGS[5] = "\u266D6\u0302 1\u0302 2\u0302 \u266F4\u0302";
+
+      var RN_CAD = { 5: "Fr+6", 6: "V7", 7: "I" };
+      var RN_DIA = { 0: "I", 2: "ii", 3: "I6", 4: "ii6", 5: "Fr+6", 6: "V7", 7: "I" };
+      var RN_ALL = { 0: "I", 1: "V/ii", 2: "ii", 3: "I6", 4: "ii6",
+                     5: "Fr+6", 6: "V7", 7: "I" };
+      var CAD = { from: 5, to: 7, label: "IAC" };
+
+      draw("read-1", {});
+      draw("read-2", { sym: QUAL });
+      draw("read-3", { sym: DEGS });
+      draw("read-4", { sym: DEGS, rn: RN_CAD, cad: CAD });
+      draw("read-5", { sym: DEGS, rn: RN_DIA, cad: CAD });
+      draw("read-6", { sym: DEGS, rn: RN_ALL, cad: CAD, applied: true });
+      draw("read-7", {
+        sym: DEGS, rn: RN_ALL, cad: CAD, applied: true,
+        lvl2: [[0, 0, "T"], [1, 5, "PD"], [6, 6, "D"], [7, 7, "T"]]
       });
     })();
   })();
