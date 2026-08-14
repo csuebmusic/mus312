@@ -363,13 +363,6 @@
   .notehead.hot, .accidental.hot { fill: var(--accent); }
   .res-line { fill: none; stroke: var(--accent); stroke-width: 1; }
   .res-head { fill: var(--accent); }
-  .recipe {
-    font-family: var(--font-data);
-    font-size: 11px;
-    fill: var(--muted);
-    text-anchor: middle;
-  }
-
   .target-ring { fill: none; stroke: var(--accent); stroke-width: 1.25; }
   .target-dot { fill: var(--accent); }
   .app-arrow { fill: none; stroke: var(--ink); stroke-width: 1.25; }
@@ -1224,7 +1217,7 @@
     </ul>
 
     <section class="panel">
-      <svg id="degree-seven" viewBox="-186 50 1600 180" role="img" aria-label="Four chords built on scale degree seven with their interval recipes, the diminished triad and half-diminished seventh in C major and the altered diminished triad and fully diminished seventh in A minor, each with its sensitive tones marked and resolved into the tonic triad"></svg>
+      <svg id="degree-seven" viewBox="-186 50 1600 156" role="img" aria-label="Four chords built on scale degree seven the diminished triad and half-diminished seventh in C major and the altered diminished triad and fully diminished seventh in A minor, each with its sensitive tones marked and resolved into the tonic triad"></svg>
     </section>
 
     <p class="full">Each of these chords contains the tritone between 7̂ and 4̂. Both tones resolve: 7̂ up to 1̂, 4̂ down to 3̂. The sevenths add 6̂, resolving down to 5̂. 2̂ is free.</p>
@@ -3700,22 +3693,21 @@
     (function degreeSeven() {
       var svg = document.getElementById("degree-seven");
       var X0 = 104, PITCH = 320, GAP = 74;
-      var RECIPE_Y = TOP + 134;
 
       var SEVEN = [
-        { rn: "C: vii\u00B06", tRn: "I", recipe: "minor minor",
-          ch: ["D4", "B4", "F5"], tgt: ["C5", "E5", "G5"],
-          res: [["B4", "C5"], ["F5", "E5"]],
+        { rn: "C: vii\u00B06", tRn: "I",
+          ch: ["D4", "F4", "B4"], tgt: ["C4", "E4", "C5"],
+          res: [["B4", "C5"], ["F4", "E4"]],
           word: "in C major, the diminished triad on seven in first inversion resolving to the tonic" },
-        { rn: "vii\u00F87", tRn: "I", recipe: "minor minor major",
+        { rn: "vii\u00F87", tRn: "I",
           ch: ["B4", "D5", "F5", "A5"], tgt: ["C5", "E5", "G5"],
           res: [["B4", "C5"], ["F5", "E5"], ["A5", "G5"]],
           word: "in C major, the half-diminished seventh on seven resolving to the tonic" },
-        { rn: "a: vii\u00B06", tRn: "i", recipe: "minor minor",
-          ch: ["B3", "G#4", "D5"], tgt: ["A4", "C5", "E5"],
-          res: [["G#4", "A4"], ["D5", "C5"]],
+        { rn: "a: vii\u00B06", tRn: "i",
+          ch: ["B3", "D4", "G#4"], tgt: ["A3", "C4", "A4"],
+          res: [["G#4", "A4"], ["D4", "C4"]],
           word: "in A minor, the diminished triad on the raised seven in first inversion resolving to the tonic" },
-        { rn: "vii\u00B07", tRn: "i", recipe: "minor minor minor",
+        { rn: "vii\u00B07", tRn: "i",
           ch: ["G#4", "B4", "D5", "F5"], tgt: ["A4", "C5", "E5"],
           res: [["G#4", "A4"], ["D5", "C5"], ["F5", "E5"]],
           word: "in A minor, the fully diminished seventh on the raised seven resolving to the tonic" }
@@ -3755,9 +3747,6 @@
 
         g.appendChild(el("text", { x: xc + 10, y: RN_Y, "class": "roman" }, e.rn));
         g.appendChild(el("text", { x: xt + 10, y: RN_Y, "class": "roman" }, e.tRn));
-        g.appendChild(el("text", {
-          x: xc + GAP / 2 + 10, y: RECIPE_Y, "class": "recipe"
-        }, e.recipe));
 
         svg.appendChild(g);
       });
