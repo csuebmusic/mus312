@@ -10,7 +10,7 @@ Part 1, counting in semitones: the four scale types on linked staff and clock, i
 
 Part 2, harmonic progressions and functions: tonal syntax, the seven triads by function in major and minor, the diatonic function chart, structural and prolongational diatonic harmony with two worked phrases, the cadential six-four, six cadence types, the six diatonic sequences with a worked phrase.
 
-Part 3, chromatic harmony: applied dominant chords, the five applied dominants of C major as root-position triads; quality informs function, reading an A major triad inside a progression; function and applied chords, embedded phrase models and extended tonicization with the jazz ii–V–I filling the dominant space, and the prolongation map redrawn with a mediant column and applied dominants listed in the mediant, pre-dominant, and dominant; applied leading-tone chords, the five fully diminished sevenths of C major.
+Part 3, chromatic harmony: applied dominant chords, the five applied dominants of C major as root-position triads; quality informs function, reading an A major triad inside a progression; function and applied chords, embedded phrase models and extended tonicization with the jazz ii–V–I filling the dominant space, and the prolongation map redrawn with a mediant column and applied dominants listed in the mediant, pre-dominant, and dominant; applied leading-tone chords, the four chords built on 7̂ in major and minor with their sensitive tones resolved, then the five fully diminished sevenths of C major.
 
 ## next
 
@@ -18,7 +18,7 @@ Part 3 continues: modulation and closely related keys, Laitz 148–152; modal mi
 
 Skipped: the chromatic sequences, Laitz 144–147, and the sequence as a modulating device, 153–155.
 
-Open: whether part 3 stays in `tools/harmony-review.html` or becomes a second file. The file is 3,813 lines.
+Open: whether part 3 stays in `tools/harmony-review.html` or becomes a second file. The file is  lines.
 
 Key relationships, relative and parallel keys and the circle of fifths, belongs at the head of part 3.
 
