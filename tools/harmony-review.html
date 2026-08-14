@@ -565,8 +565,8 @@
     <li class="toc-part"><a href="#part-2">part 2, progressions and functions</a></li>
     <li><a href="#sec-syntax">tonal syntax</a></li>
     <li><a href="#sec-fn-triads">the seven triads by function</a></li>
-    <li><a href="#sec-master">the master function chart</a></li>
-    <li><a href="#sec-prolong">structural and prolongational</a></li>
+    <li><a href="#sec-master">the diatonic function chart</a></li>
+    <li><a href="#sec-prolong">structural and prolongational diatonic</a></li>
     <li><a href="#sec-cad64">the cadential six-four</a></li>
     <li><a href="#sec-cadences">cadences</a></li>
     <li><a href="#sec-sequences">diatonic sequences</a></li>
@@ -1012,7 +1012,7 @@
 
     <p class="full">Two chords here stand outside the four functions. The minor v lacks a leading tone and works as a passing or voice-leading chord, harmonizing ♭7̂ in a bass that descends from the tonic. ♭VII most often acts as the dominant of ♭III and is labelled V/♭III when it does.</p>
 
-    <h2 id="sec-master">the master function chart</h2>
+    <h2 id="sec-master">the diatonic function chart</h2>
     <p class="full">Every chord from the two charts above, sorted by function. Left of each divider is the major mode, right of it the minor. Each row runs through the options on one root. Where a seventh chord takes all three inversions, the row says so rather than listing them.</p>
 
     <section class="panel">
@@ -1021,7 +1021,7 @@
 
 
 
-    <h2 id="sec-prolong">structural and prolongational harmonies</h2>
+    <h2 id="sec-prolong">structural and prolongational diatonic harmonies</h2>
     <p class="full">A structural harmony moves the syntax from one function to the next. A prolongational harmony extends the function already in force without moving it. Both belong to the same phrase, and most phrases have more of the second kind than the first.</p>
 
     <p class="full">Prolongational chords usually fall on weak beats and usually appear in inversion. Second-level analysis labels them by what they do rather than by their root: N for neighbor, P for passing, CL for chordal leap, arp for arpeggiation. Structural chords keep their roman numerals. Root-position V7 is structural and signals a cadence, while its inversions prolong.</p>
@@ -1209,7 +1209,7 @@
     <p class="full">An applied dominant belongs to the function of the chord it points at: V/vi and V/iii to the mediant, V/ii and V/IV to the pre-dominant, V/V to the dominant.</p>
 
     <section class="panel">
-      <svg id="master-fn-applied" viewBox="-120 0 1200 260" role="img" aria-label="The master function chart with applied dominants listed as an option in the mediant, pre-dominant, and dominant boxes"></svg>
+      <svg id="master-fn-applied" viewBox="-120 0 1200 260" role="img" aria-label="The diatonic function chart with applied dominants listed as an option in the mediant, pre-dominant, and dominant boxes"></svg>
     </section>
 
     <section class="panel">
@@ -2609,7 +2609,7 @@
     });
   })();
 
-  /* ---------- master function chart ---------- */
+  /* ---------- diatonic function chart ---------- */
 
   function masterChart(id, opts) {
     opts = opts || {};

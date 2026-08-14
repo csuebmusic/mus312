@@ -10,7 +10,7 @@ Live links, for Canvas.
 
 **harmony review**
 https://csuebmusic.github.io/mus312/tools/harmony-review.html
-Part 1, counting in semitones: the four scale types, interval names, diatonic triads, chord construction, figured bass, inversions. Part 2, harmonic progressions and functions: tonal syntax, the seven triads by function in major and minor, structural and prolongational harmony. Part 3, chromatic harmony: applied chords.
+Part 1, counting in semitones: the four scale types, interval names, diatonic triads, chord construction, figured bass, inversions. Part 2, harmonic progressions and functions: tonal syntax, the seven triads by function in major and minor, structural and prolongational diatonic harmony. Part 3, chromatic harmony: applied chords.
 
 ## texts
 
