@@ -566,6 +566,7 @@
     <li class="toc-part"><a href="#part-3">part 3, chromatic harmony</a></li>
     <li><a href="#sec-applied">applied chords</a></li>
     <li><a href="#sec-quality">quality informs function</a></li>
+    <li><a href="#sec-leading">applied leading-tone chords</a></li>
     <li><a href="#sec-embedded">function and applied chords</a></li>
   </ul>
 </nav>
@@ -1178,6 +1179,17 @@
     <section class="panel centered wide">
       <svg id="applied-read" viewBox="-84 14 889 372" role="img" aria-label="A five-chord progression in C major on a grand staff, tonic, the applied dominant of two, supertonic, dominant, tonic, with a curved arrow from V of ii to ii and the three possible readings of the A major triad listed beneath it"></svg>
     </section>
+
+    <h2 id="sec-leading">applied leading-tone chords</h2>
+    <p class="full">vii° carries dominant function alongside V, and it can be applied the same way. The root of an applied leading-tone chord is the semitone below the root of its target.</p>
+
+    <section class="panel">
+      <svg id="applied-lt" viewBox="-186 24 1600 180" role="img" aria-label="Five applied leading-tone chords in C major on a treble staff, each a root-position fully diminished seventh followed by the diatonic triad it tonicizes, with a curved arrow from each roman numeral to its target"></svg>
+    </section>
+
+    <p class="full">These are fully diminished, three minor thirds stacked on the leading tone of the target. The seventh of each is ♭6̂ in the target key, diatonic where the target is minor and borrowed where it is major. A half-diminished seventh serves a major target too, and appears less often.</p>
+
+    <p class="full">Both tendency tones carry over from the applied dominant. The leading tone rises to the root of the target and the seventh falls. Neither is doubled.</p>
 
     <h2 id="sec-embedded">function and applied chords</h2>
     <p class="full">Each of the four functions occupies a space in the phrase, and a space can hold a phrase model of its own. A tonicization carried by more than one applied chord is an <strong>extended tonicization</strong>, and the chords it governs form an <strong>embedded phrase model</strong>.</p>
@@ -3602,12 +3614,30 @@
         tgt: ["A4", "C5", "E5"],   tRn: "vi",    tSym: "a-", word: "E major to A minor" }
     ];
 
-    (function chart() {
-      var svg = document.getElementById("applied-major");
-      var X0 = 104, PITCH = 240, GAP = 74;
-      staff(svg, X0 + PITCH * (PAIRS.length - 1) + GAP + 90);
+    var LEADING = [
+      { app: ["C#4", "E4", "G4", "Bb4"],   aRn: "vii\u00B07/ii",  aSym: "c\u266F\u00B07",
+        tgt: ["D4", "F4", "A4"],  tRn: "ii",  tSym: "d-",
+        word: "C sharp fully diminished seventh to D minor" },
+      { app: ["D#4", "F#4", "A4", "C5"],   aRn: "vii\u00B07/iii", aSym: "d\u266F\u00B07",
+        tgt: ["E4", "G4", "B4"],  tRn: "iii", tSym: "e-",
+        word: "D sharp fully diminished seventh to E minor" },
+      { app: ["E4", "G4", "Bb4", "Db5"],   aRn: "vii\u00B07/IV",  aSym: "e\u00B07",
+        tgt: ["F4", "A4", "C5"],  tRn: "IV",  tSym: "F",
+        word: "E fully diminished seventh to F major" },
+      { app: ["F#4", "A4", "C5", "Eb5"],   aRn: "vii\u00B07/V",   aSym: "f\u266F\u00B07",
+        tgt: ["G4", "B4", "D5"],  tRn: "V",   tSym: "G",
+        word: "F sharp fully diminished seventh to G major" },
+      { app: ["G#4", "B4", "D5", "F5"],    aRn: "vii\u00B07/vi",  aSym: "g\u266F\u00B07",
+        tgt: ["A4", "C5", "E5"],  tRn: "vi",  tSym: "a-",
+        word: "G sharp fully diminished seventh to A minor" }
+    ];
 
-      PAIRS.forEach(function (pr, i) {
+    function chart(id, pairs) {
+      var svg = document.getElementById(id);
+      var X0 = 104, PITCH = 240, GAP = 74;
+      staff(svg, X0 + PITCH * (pairs.length - 1) + GAP + 90);
+
+      pairs.forEach(function (pr, i) {
         var xa = X0 + PITCH * i, xt = xa + GAP;
         var g = el("g", {
           "class": "pair", tabindex: "0", role: "img",
@@ -3634,7 +3664,10 @@
         g.addEventListener("focus", function () { this.classList.add("lit"); });
         g.addEventListener("blur", function () { this.classList.remove("lit"); });
       });
-    })();
+    }
+
+    chart("applied-major", PAIRS);
+    chart("applied-lt", LEADING);
 
     /* ---- reading an A major triad inside a progression ---- */
 
