@@ -554,6 +554,7 @@
     <li><a href="#sec-figured">figured bass</a></li>
     <li><a href="#sec-voice-leading">basic voice leading rules</a></li>
     <li><a href="#sec-inversions">inversions</a></li>
+    <li><a href="#sec-nct">nonchord tones</a></li>
     <li class="toc-part"><a href="#part-2">part 2, progressions and functions</a></li>
     <li><a href="#sec-syntax">tonal syntax</a></li>
     <li><a href="#sec-fn-triads">the seven triads by function</a></li>
@@ -562,7 +563,6 @@
     <li><a href="#sec-cad64">the cadential six-four</a></li>
     <li><a href="#sec-cadences">cadences</a></li>
     <li><a href="#sec-sequences">diatonic sequences</a></li>
-    <li><a href="#sec-nct">nonchord tones</a></li>
     <li class="toc-part"><a href="#part-3">part 3, chromatic harmony</a></li>
     <li><a href="#sec-applied">applied chords</a></li>
     <li><a href="#sec-quality">quality informs function</a></li>
@@ -925,6 +925,51 @@
 
   <hr class="rule">
 
+  <section class="scale" id="sec-nct">
+    <h2>nonchord tones</h2>
+    <p class="full">Not every note belongs to the chord under it. Above the harmony runs a surface of notes that pass between chord tones, lean on them, hold over from the chord before, or arrive ahead of the chord they belong to. Analysis names the harmony first and accounts for these separately.</p>
+
+    <div class="panels three">
+      <section class="panel">
+        <h3>passing tone</h3>
+        <p>Fills the step between two chord tones a third apart, on a weak beat, while the harmony holds.</p>
+        <svg id="nct-p" viewBox="-84 0 455 320" role="img" aria-label="A measure in C major over a held tonic, the melody falling E, D, C in quarter notes with the D a passing tone on the second beat"></svg>
+      </section>
+      <section class="panel">
+        <h3>anticipation</h3>
+        <p>The mirror of the suspension. A note of the coming chord arrives early and sounds against the chord still in force. Common at a cadence.</p>
+        <svg id="nct-a" viewBox="-84 0 455 320" role="img" aria-label="A measure in C major, the melody reaching C on a weak beat while the dominant seventh still sounds, then holding through the tonic"></svg>
+      </section>
+      <section class="panel">
+        <h3>neighbor tone</h3>
+        <p>Steps away from a chord tone and back to it. The harmony does not change under it.</p>
+        <svg id="nct-n" viewBox="-84 0 455 320" role="img" aria-label="A measure in C major over a held tonic, the melody moving C, D, C in quarter notes with the D an upper neighbor"></svg>
+      </section>
+    </div>
+
+    <div class="panels three">
+      <section class="panel">
+        <h3>suspension</h3>
+        <p>A note held past its chord into the next one, where it is a dissonance, and then resolved down by step. It runs in three stages: preparation, suspension, resolution.</p>
+        <svg id="nct-s" viewBox="-84 0 455 320" role="img" aria-label="A measure in C major, the C prepared over the tonic, tied across to the dominant where it is a four, and resolving to the three"></svg>
+      </section>
+      <section class="panel">
+        <h3>accented passing tone</h3>
+        <p>The same three notes with the dissonance moved onto the beat and the chord tone after it. A suspension without the preparation.</p>
+        <svg id="nct-ap" viewBox="-84 0 455 320" role="img" aria-label="A measure in C major over a held tonic, E held for two beats then D on the third beat as an accented passing tone falling to C"></svg>
+      </section>
+      <section class="panel">
+        <h3>pedal</h3>
+        <p>A single pitch sustained while the harmonies above it change, almost always 1̂ or 5̂ in the bass. Caplin marks it with ped.</p>
+        <svg id="nct-ped" viewBox="-84 0 455 320" role="img" aria-label="A measure in C major, a whole note in the bass under tonic, dominant, and tonic chords above it"></svg>
+      </section>
+    </div>
+
+    <p class="full">The four suspension figures are 9–8, 7–6, and 4–3 in an upper voice, and 2–3 in the bass. What separates a suspension from an accented passing tone is the preparation: the suspended note is already sounding, as a chord tone, before it turns into a dissonance.</p>
+  </section>
+
+  <hr class="rule">
+
   <p class="eyebrow">mus 312 &middot; harmony review</p>
   <h1 id="part-2">part 2, harmonic progressions and functions</h1>
 
@@ -1104,47 +1149,6 @@
     <section class="panel">
       <svg id="seq-phrase" viewBox="-260 0 1600 350" role="img" aria-label="An eight-chord phrase in C major on a grand staff, an ascending-fifths sequence from tonic to mediant followed by a cadential progression, with roman numerals and a second level of analysis"></svg>
     </section>
-
-    <h2 id="sec-nct">nonchord tones</h2>
-    <p class="full">Not every note belongs to the chord under it. A phrase carries structural harmonies, prolongational harmonies, and above both a surface of notes that are neither: they pass between chord tones, lean on them, hold over from the chord before, or arrive ahead of the chord they belong to. Analysis names the harmony first and accounts for these separately.</p>
-
-    <div class="panels three">
-      <section class="panel">
-        <h3>passing tone</h3>
-        <p>Fills the step between two chord tones a third apart, on a weak beat, while the harmony holds.</p>
-        <svg id="nct-p" viewBox="-84 0 455 320" role="img" aria-label="A measure in C major over a held tonic, the melody falling E, D, C in quarter notes with the D a passing tone on the second beat"></svg>
-      </section>
-      <section class="panel">
-        <h3>anticipation</h3>
-        <p>The mirror of the suspension. A note of the coming chord arrives early and sounds against the chord still in force. Common at a cadence.</p>
-        <svg id="nct-a" viewBox="-84 0 455 320" role="img" aria-label="A measure in C major, the melody reaching C on a weak beat while the dominant seventh still sounds, then holding through the tonic"></svg>
-      </section>
-      <section class="panel">
-        <h3>neighbor tone</h3>
-        <p>Steps away from a chord tone and back to it. The harmony does not change under it.</p>
-        <svg id="nct-n" viewBox="-84 0 455 320" role="img" aria-label="A measure in C major over a held tonic, the melody moving C, D, C in quarter notes with the D an upper neighbor"></svg>
-      </section>
-    </div>
-
-    <div class="panels three">
-      <section class="panel">
-        <h3>suspension</h3>
-        <p>A note held past its chord into the next one, where it is a dissonance, and then resolved down by step. It runs in three stages: preparation, suspension, resolution.</p>
-        <svg id="nct-s" viewBox="-84 0 455 320" role="img" aria-label="A measure in C major, the C prepared over the tonic, tied across to the dominant where it is a four, and resolving to the three"></svg>
-      </section>
-      <section class="panel">
-        <h3>accented passing tone</h3>
-        <p>The same three notes with the dissonance moved onto the beat and the chord tone after it. A suspension without the preparation.</p>
-        <svg id="nct-ap" viewBox="-84 0 455 320" role="img" aria-label="A measure in C major over a held tonic, E held for two beats then D on the third beat as an accented passing tone falling to C"></svg>
-      </section>
-      <section class="panel">
-        <h3>pedal</h3>
-        <p>A single pitch sustained while the harmonies above it change, almost always 1̂ or 5̂ in the bass. Caplin annotates the prolonged harmony with ped.</p>
-        <svg id="nct-ped" viewBox="-84 0 455 320" role="img" aria-label="A measure in C major, a whole note in the bass under tonic, dominant, and tonic chords above it"></svg>
-      </section>
-    </div>
-
-    <p class="full">The four suspension figures are 9–8, 7–6, and 4–3 in an upper voice, and 2–3 in the bass. What separates a suspension from an accented passing tone is the preparation: the suspended note is already sounding, as a chord tone, before it turns into a dissonance.</p>
   </section>
 
   <hr class="rule">
