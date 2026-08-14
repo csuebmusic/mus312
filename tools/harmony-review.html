@@ -361,6 +361,13 @@
   .fig-dash.b { stroke: var(--accent-2); }
 
   .notehead.hot, .accidental.hot { fill: var(--accent); }
+  .notehead.cool, .accidental.cool { fill: var(--accent-2); }
+  .fig-note {
+    font-family: var(--font-data);
+    font-size: 11px;
+    fill: var(--muted);
+    text-anchor: middle;
+  }
   .res-line { fill: none; stroke: var(--accent); stroke-width: 1; }
   .res-head { fill: var(--accent); }
   .target-ring { fill: none; stroke: var(--accent); stroke-width: 1.25; }
@@ -571,6 +578,7 @@
     <li><a href="#sec-quality">quality informs function</a></li>
     <li><a href="#sec-embedded">function and applied chords</a></li>
     <li><a href="#sec-leading">applied leading-tone chords</a></li>
+    <li><a href="#sec-chrom-pd">chromatic pre-dominants</a></li>
   </ul>
 </nav>
 
@@ -1227,6 +1235,32 @@
     <section class="panel">
       <svg id="applied-lt" viewBox="-186 24 1600 180" role="img" aria-label="Five applied leading-tone chords in C major on a treble staff, each a root-position diminished seventh followed by the diatonic triad it tonicizes, with a curved arrow from each roman numeral to its target"></svg>
     </section>
+
+    <h2 id="sec-chrom-pd">chromatic pre-dominants</h2>
+    <p class="full">A <strong>chromatic pre-dominant</strong> takes pre-dominant function with one or more altered scale degrees. The augmented sixth of the name is the interval between ♭6̂ and ♯4̂, and it opens outward to the octave on 5̂.</p>
+
+    <ul class="full">
+      <li>Neapolitan sixth, N6: ♭2̂ 4̂ ♭6̂, with 4̂ in the bass</li>
+      <li>Italian augmented sixth, It+6: ♭6̂ 1̂ ♯4̂, with 1̂ doubled</li>
+      <li>French augmented sixth, Fr+6: ♭6̂ 1̂ 2̂ ♯4̂</li>
+      <li>German augmented sixth, Ger+6: ♭6̂ 1̂ ♭3̂ ♯4̂</li>
+    </ul>
+
+    <section class="panel">
+      <svg id="master-fn-chromatic" viewBox="-60 0 1200 240" role="img" aria-label="The diatonic function chart with a third section in the pre-dominant box holding the Italian, French, and German augmented sixths and the Neapolitan sixth"></svg>
+    </section>
+
+    <div class="panels three">
+      <section class="panel">
+        <svg id="aug-it" viewBox="-70 40 455 210" role="img" aria-label="The Italian augmented sixth, A flat, C, F sharp, C, resolving outward to the dominant"></svg>
+      </section>
+      <section class="panel">
+        <svg id="aug-fr" viewBox="-70 40 455 210" role="img" aria-label="The French augmented sixth, A flat, D, F sharp, C, resolving outward to the dominant"></svg>
+      </section>
+      <section class="panel">
+        <svg id="aug-ger" viewBox="-16 40 455 210" role="img" aria-label="The German augmented sixth, A flat, E flat, F sharp, C, resolving through a cadential six-four to the dominant"></svg>
+      </section>
+    </div>
   </section>
 
   <footer>
@@ -2621,8 +2655,9 @@
 
   /* ---------- diatonic function chart ---------- */
 
-  (function masterChart() {
-    var svg = document.getElementById("master-fn");
+  function masterChart(id, opts) {
+    opts = opts || {};
+    var svg = document.getElementById(id);
     var TOP = 72, H = 112, MID = TOP + H / 2;
     var ROW1 = TOP + 46, ROW2 = TOP + 82, MODE_Y = TOP + 22;
 
@@ -2635,7 +2670,11 @@
       { x: 164, lw: 62, rw: 62, title: "MEDIANT",
         major: [{ n: "iii" }, { n: "vi" }],
         minor: [{ n: "III", flat: true }, { n: "VI", flat: true }] },
-      { x: 328, lw: 78, rw: 88, title: "PRE-DOMINANT",
+      { x: 328, lw: 78, rw: 88, cw: 110, title: "PRE-DOMINANT",
+        chrom: [
+          { n: "It+6", figs: [[], { label: "Fr+6" }] },
+          { n: "Ger+6", figs: [[], { label: "N6" }] }
+        ],
         major: [{ n: "ii", figs: [["6"], ["6", "5"]] }, { n: "IV", figs: [[], ["7"]] }],
         minor: [
           { n: "ii\u00B0", figs: [["6"], { n: "ii\u00F8", f: ["6", "5"] }] },
@@ -2707,26 +2746,48 @@
       });
     }
 
-    BOXES.forEach(function (b) {
-      var w = b.lw + b.rw;
-      svg.appendChild(el("rect", {
-        x: b.x, y: TOP, width: w, height: H, "class": "fn-box"
-      }));
-      svg.appendChild(el("text", {
-        x: b.x + w / 2, y: TOP - 16, "class": "fn-title"
-      }, b.title));
-      svg.appendChild(el("line", {
-        x1: b.x + b.lw, y1: TOP + 6, x2: b.x + b.lw, y2: TOP + H - 6, "class": "fn-div"
-      }));
-      svg.appendChild(el("text", {
-        x: b.x + b.lw / 2, y: MODE_Y, "class": "fn-mode"
-      }, "MAJOR"));
-      svg.appendChild(el("text", {
-        x: b.x + b.lw + b.rw / 2, y: MODE_Y, "class": "fn-mode"
-      }, "MINOR"));
+    var run = 20;
+    BOXES.forEach(function (b, i) {
+      b.cols = [
+        { w: b.lw, mode: "MAJOR", rows: b.major },
+        { w: b.rw, mode: "MINOR", rows: b.minor }
+      ];
+      if (opts.chromatic && b.chrom) {
+        b.cols.push({ w: b.cw, mode: "CHROMATIC", rows: b.chrom });
+      }
+      b.w = b.cols.reduce(function (t, c) { return t + c.w; }, 0);
+      b.x = run;
+      run += b.w + (i === BOXES.length - 2 ? 70 : 40);
+    });
 
-      b.major.forEach(function (r, i) { row(b.x + 10, i ? ROW2 : ROW1, r); });
-      b.minor.forEach(function (r, i) { row(b.x + b.lw + 10, i ? ROW2 : ROW1, r); });
+    BOXES.forEach(function (b) {
+      svg.appendChild(el("rect", {
+        x: b.x, y: TOP, width: b.w, height: H, "class": "fn-box"
+      }));
+      svg.appendChild(el("text", {
+        x: b.x + b.w / 2, y: TOP - 16, "class": "fn-title"
+      }, b.title));
+
+      var cx = b.x;
+      b.cols.forEach(function (c, k) {
+        c.x = cx;
+        cx += c.w;
+      });
+      b.cols.forEach(function (c, k) {
+        if (k) {
+          svg.appendChild(el("line", {
+            x1: c.x, y1: TOP + 6, x2: c.x, y2: TOP + H - 6, "class": "fn-div"
+          }));
+        }
+      });
+      b.cols.forEach(function (c) {
+        svg.appendChild(el("text", {
+          x: c.x + c.w / 2, y: MODE_Y, "class": "fn-mode"
+        }, c.mode));
+      });
+      b.cols.forEach(function (c) {
+        c.rows.forEach(function (r, i) { row(c.x + 10, i ? ROW2 : ROW1, r); });
+      });
     });
 
     function blockArrow(x1, x2) {
@@ -2741,24 +2802,32 @@
       }));
     }
 
-    blockArrow(134, 160);
-    blockArrow(298, 324);
-    blockArrow(504, 530);
+    BOXES.forEach(function (b, i) {
+      if (i && i < BOXES.length - 1) {
+        blockArrow(BOXES[i - 1].x + BOXES[i - 1].w + 10, b.x - 4);
+      }
+    });
 
     var defs = el("defs", {});
     var marker = el("marker", {
-      id: "master-head", markerWidth: 12, markerHeight: 12, refX: 10, refY: 6,
+      id: id + "-head", markerWidth: 12, markerHeight: 12, refX: 10, refY: 6,
       orient: "auto", markerUnits: "userSpaceOnUse"
     });
     marker.appendChild(el("path", { d: "M0,0 L12,6 L0,12 z", "class": "fn-arrow" }));
     defs.appendChild(marker);
     svg.appendChild(defs);
 
+    var last = BOXES[BOXES.length - 1], pen = BOXES[BOXES.length - 2];
+    var q0 = pen.x + pen.w + 10, q1 = last.x - 6;
     svg.appendChild(el("path", {
-      d: "M786 " + (MID - 12) + " C 804 34, 824 34, 840 " + (MID - 12),
-      "class": "fn-curve", "marker-end": "url(#master-head)"
+      d: "M" + q0 + " " + (MID - 12) + " C " + (q0 + 18) + " 34, " +
+         (q1 - 16) + " 34, " + q1 + " " + (MID - 12),
+      "class": "fn-curve", "marker-end": "url(#" + id + "-head)"
     }));
-  })();
+  }
+
+  masterChart("master-fn");
+  masterChart("master-fn-chromatic", { chromatic: true });
 
   /* ---------- prolongation map ---------- */
 
@@ -3037,40 +3106,49 @@
     svg.appendChild(el("text", { x: 18, y: noteY(2, 0), "class": "clef" }, "\uE050"));
   }
 
-  function chord(g, x, notes, hot) {
-    var accCount = 0;
+  function chord(g, x, notes, hot, cool) {
     hot = hot || [];
-    notes.slice().reverse().forEach(function (n) {
-      var s = stepOf(n), a = altOf(n), y = noteY(s, 0), v;
-      if (s <= -2) {
-        for (v = -2; v >= s; v -= 2) {
+    cool = cool || [];
+
+    /* a second is written with the upper notehead shifted right */
+    var set = notes.map(function (n) {
+      return { n: n, s: stepOf(n), a: altOf(n), dx: 0 };
+    }).sort(function (u, v) { return u.s - v.s; });
+    for (var i = 1; i < set.length; i++) {
+      if (set[i].s - set[i - 1].s === 1 && set[i - 1].dx === 0) { set[i].dx = 13; }
+    }
+
+    function tint(n) {
+      return hot.indexOf(n) >= 0 ? " hot" : (cool.indexOf(n) >= 0 ? " cool" : "");
+    }
+
+    var accCount = 0;
+    set.slice().reverse().forEach(function (p) {
+      var y = noteY(p.s, 0), v, nx = x + p.dx;
+      if (p.s <= -2) {
+        for (v = -2; v >= p.s; v -= 2) {
           g.appendChild(el("line", {
-            x1: x - 7, y1: noteY(v, 0), x2: x + 27, y2: noteY(v, 0), "class": "ledger"
+            x1: nx - 7, y1: noteY(v, 0), x2: nx + 27, y2: noteY(v, 0), "class": "ledger"
           }));
         }
-      } else if (s >= 10) {
-        for (v = 10; v <= s; v += 2) {
+      } else if (p.s >= 10) {
+        for (v = 10; v <= p.s; v += 2) {
           g.appendChild(el("line", {
-            x1: x - 7, y1: noteY(v, 0), x2: x + 27, y2: noteY(v, 0), "class": "ledger"
+            x1: nx - 7, y1: noteY(v, 0), x2: nx + 27, y2: noteY(v, 0), "class": "ledger"
           }));
         }
       }
-      if (a !== 0) {
+      if (p.a !== 0) {
         g.appendChild(el("text", {
-          x: x - 17 - 13 * accCount, y: y,
-          "class": "accidental" + (hot.indexOf(n) < 0 ? "" : " hot")
-        }, ACC_GLYPH[String(a)]));
+          x: x - 17 - 13 * accCount, y: y, "class": "accidental" + tint(p.n)
+        }, ACC_GLYPH[String(p.a)]));
         accCount += 1;
       }
       g.appendChild(el("text", {
-        x: x, y: y, "class": "notehead" + (hot.indexOf(n) < 0 ? "" : " hot")
+        x: nx, y: y, "class": "notehead" + tint(p.n)
       }, "\uE0A2"));
     });
   }
-
-  /* ---- the five applied dominants of C major ---- */
-
-  /* ---------- tonicization marks ---------- */
 
   function targetMark(g, x, cy) {
     g.appendChild(el("circle", { cx: x + 10, cy: cy, r: 6.5, "class": "target-ring" }));
@@ -3683,6 +3761,41 @@
 
     chart("applied-major", PAIRS);
     chart("applied-lt", LEADING);
+
+    /* ---- the three augmented sixths ---- */
+
+    (function augmentedSixths() {
+      var HOT = ["Ab4", "F#5"];
+      var V = ["G4", "D5", "G5", "B5"];
+
+      function draw(id, chords, romans, note) {
+        var svg = document.getElementById(id);
+        var X0 = 104, PITCH = 110;
+        staff(svg, X0 + PITCH * (chords.length - 1) + 90);
+        chords.forEach(function (c, i) {
+          var x = X0 + PITCH * i;
+          chord(svg, x, c, HOT, id === "aug-ger" ? ["Eb5"] : []);
+          svg.appendChild(el("text", {
+            x: x + 10, y: RN_Y, "class": "roman"
+          }, romans[i]));
+        });
+        if (note) {
+          var mid = X0 + PITCH * (chords.length - 1) / 2 + 10;
+          note.forEach(function (line, i) {
+            svg.appendChild(el("text", {
+              x: mid, y: RN_Y + 26 + 18 * i, "class": "fig-note"
+            }, line));
+          });
+        }
+      }
+
+      draw("aug-it", [["Ab4", "C5", "F#5", "C6"], V], ["It+6", "V"]);
+      draw("aug-fr", [["Ab4", "D5", "F#5", "C6"], V], ["Fr+6", "V"]);
+      draw("aug-ger",
+        [["Ab4", "Eb5", "F#5", "C6"], ["G4", "Eb5", "G5", "C6"], V],
+        ["Ger+6", "Cad6/4", "V"],
+        ["Ger+6 goes through Cad6/4.", "Straight to V gives parallel fifths."]);
+    })();
 
     /* ---- what sits on 7 in each mode, and what has to move ---- */
 
