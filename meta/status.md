@@ -10,7 +10,7 @@ Part 1, counting in semitones: the four scale types on linked staff and clock, i
 
 Part 2, harmonic progressions and functions: tonal syntax, the seven triads by function in major and minor, the diatonic function chart, structural and prolongational diatonic harmony with two worked phrases, the cadential six-four, six cadence types, the six diatonic sequences with a worked phrase.
 
-Part 3, chromatic harmony: applied dominant chords, the five applied dominants of C major in four voices; function and applied chords, embedded phrase models and extended tonicization with the jazz ii–V–I filling the dominant space, and the prolongation map redrawn with a mediant column and applied chords listed in the mediant, pre-dominant, and dominant; applied leading-tone chords, the four chords built on 7̂ in major and minor with their sensitive tones resolved, then the five applied leading-tone chords of C major in four voices; chromatic pre-dominants, the diatonic function chart with a chromatic section in the pre-dominant box, the three augmented sixths on single staves with their resolutions, the Neapolitan sixth in four voices with its voice leading marked; quality informs function, reading an A major triad inside a progression.
+Part 3, chromatic harmony: applied dominant chords, the five applied dominants of C major in four voices; function and applied chords, embedded phrase models and extended tonicization with the jazz ii–V–I filling the dominant space, and the prolongation map redrawn with a mediant column and applied chords listed in the mediant, pre-dominant, and dominant; applied leading-tone chords, the four chords built on 7̂ in major and minor with their sensitive tones resolved, then the five applied leading-tone chords of C major in four voices; chromatic pre-dominants, the diatonic function chart with a chromatic section in the pre-dominant box, the three augmented sixths on single staves with their resolutions, the Neapolitan sixth in four voices with its voice leading marked; quality informs function, an eight-chord progression labelled with chord symbols only. Its prose is pending.
 
 ## next
 
@@ -18,7 +18,7 @@ Part 3 continues: modulation and closely related keys, Laitz 148–152; modal mi
 
 Skipped: the chromatic sequences, Laitz 144–147, and the sequence as a modulating device, 153–155.
 
-Open: whether part 3 stays in `tools/harmony-review.html` or becomes a second file. The file is 4,125 lines.
+Open: whether part 3 stays in `tools/harmony-review.html` or becomes a second file. The file is 4,120 lines.
 
 Key relationships, relative and parallel keys and the circle of fifths, belongs at the head of part 3.
 
