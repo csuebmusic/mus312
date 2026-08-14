@@ -37,15 +37,15 @@ Scale degrees are a Plex Mono digit with the caret drawn as an SVG path above it
 
 Codepoints in use: `U+E050` G clef, `U+E0A2` whole notehead, `U+E260` flat, `U+E261` natural, `U+E262` sharp, `U+E263` double sharp, `U+E264` double flat.
 
-Key signatures are drawn from the accidental orders (F C G D A E B, B E A D G C F) at fixed staff positions, 13px apart, starting at x = 66. Notes start at x = 74 + 13 per accidental, spaced 48px apart, or 54px where any note in the figure takes an accidental.
+Key signatures are drawn from the accidental orders (F C G D A E B, B E A D G C F) at fixed staff positions. A scale figure sets them 11px apart from x = 60 and starts its notes at x = 68 + 11 per accidental, spaced 48px apart, or 50px where any note in the figure takes an accidental. A triad figure sets them 13px apart from x = 66 and starts at x = 104 + 13 per accidental, spaced 64px apart. The grand staff sets them 13px apart from x = 46.
 
 A note's accidental is the difference between its pitch class and the natural pitch class of its letter, drawn whenever that differs from the key signature. Double sharps and double flats come out of this rule and are drawn. The difference is taken with a positive modulo so it lands in the range -2 to 2.
 
 Scale degrees are measured against the major scale on the same tonic: a degree a semitone lower takes a flat, and a roman numeral takes the accidental of its root. Accidentals inside degree labels and numerals are drawn from Bravura, which maps U+266D and U+266F; neither Plex face does. A Bravura accidental sits centered on its staff line rather than on a text baseline, so it is raised by about 0.22em when set in text.
 
-Staves stack at 170px per row. Row labels sit at the left, above the staff.
+Staves stack at 215px per row. Row labels sit at the left, above the staff.
 
-Staff geometry: spaces of 12px, bottom line E4 at y = 118, pitch positions at 6px per scale step. Ledger lines are drawn at even step positions beyond the staff.
+Staff geometry: spaces of 12px, bottom line E4 at y = 128 in row 0, pitch positions at 6px per scale step. On the grand staff the treble bottom line sits at y = 114 and the bass bottom line at y = 226. Ledger lines run from x − 7 to x + 27 at even step positions beyond either edge.
 
 ## figure size
 
@@ -61,11 +61,15 @@ A figure's `viewBox` is sized from the panel that holds it divided by its scale,
 | narrow column of `.panels.uneven` | 445 |
 | `.panels.three` | 341 |
 
+Advance widths used to place a label beside a numeral are read from the shipped woff2, not estimated.
+
 The drawing keeps its own coordinates and is centred by a negative `viewBox` origin: `viewBox="-DX minY W H"` where DX is half the difference between W and the drawing's own width. Empty space either side is expected. Where a drawing is wider than its panel allows, the `viewBox` takes the drawing's own width and the figure renders at whatever scale that gives.
 
 ## drawing
 
-Grand-staff figures use the shared module in `tools/harmony-review.html`: `grandStaff(svg, right, flats)` draws both staves, both clefs, the opening barline, and a flat key signature, returning the signature as a map; `gsNote(svg, x, note, staff, opt)` draws one notehead with its ledger lines, taking `sig`, `accX`, `lit`, and `head`; `gsY(note, staff)` returns a vertical position. Staff is `"t"` or `"b"`. Do not write a second copy of this.
+A note name is `C4`, `F#3`, `Eb5`. `noteDia` turns one into a diatonic index, `noteAlt` into an alteration of -1, 0, or 1, and `ledgers(target, x, step, bottomY)` draws the ledger lines for a step beyond either edge of a staff. Every figure uses these.
+
+Grand-staff figures use the shared module in `tools/harmony-review.html`: `grandStaff(svg, right, flats)` draws both staves, both clefs, the opening barline, and a flat key signature, returning the signature as a map; `gsNote(svg, x, note, which, opt)` draws one notehead with its ledger lines, taking `sig`, `accX`, `lit`, and `head`; `gsY(note, which)` returns a vertical position. `which` is `"t"` or `"b"`. Do not write a second copy of this.
 
 A staff ends 70 units past the last glyph, or at the closing barline where a figure is a measure.
 
@@ -112,7 +116,7 @@ A long page carries `nav.toc` as the first child of `.page`, ahead of `.wrap`. E
 
 At 96rem and wider the index is a sticky 13rem column beside the content; below that it sits above the content in three columns, one column under 48rem. The content column stays 78rem at every width, so figure sizes hold.
 
-The section in view is marked with `.here`, set by an `IntersectionObserver` that degrades to no marking where the API is missing.
+The section in view is marked with `.here`: the entry whose target last crossed a line a quarter of the way down the viewport, recomputed on scroll and resize through `requestAnimationFrame`.
 
 ## interaction
 
