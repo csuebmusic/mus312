@@ -1217,7 +1217,7 @@
     </section>
 
     <h2 id="sec-leading">applied leading-tone chords (chords built on the leading tone, scale degree 7)</h2>
-    <p class="full">A diminished triad stacks two minor thirds. A half-diminished seventh adds a major third above them, a fully diminished seventh another minor third.</p>
+    <p class="full">A diminished triad stacks two minor thirds. A half-diminished seventh adds a major third above them, a fully diminished seventh another minor third. On 7̂ these are the diatonic chords of each mode. Major gives the diminished triad and the half-diminished seventh. Minor, with 7̂ raised, gives the diminished triad and the fully diminished seventh.</p>
 
     <section class="panel">
       <svg id="degree-seven" viewBox="-186 50 1600 180" role="img" aria-label="Four chords built on scale degree seven with their interval recipes, the diminished triad and half-diminished seventh in C major and the altered diminished triad and fully diminished seventh in A minor, each with its sensitive tones marked and resolved into the tonic triad"></svg>
@@ -3718,6 +3718,11 @@
       ];
 
       staff(svg, X0 + PITCH * (SEVEN.length - 1) + GAP + 90);
+
+      /* the key changes between the second chord and the third */
+      svg.appendChild(el("line", {
+        x1: 616, y1: TOP, x2: 616, y2: TOP + 48, "class": "staff-line"
+      }));
 
       SEVEN.forEach(function (e, i) {
         var xc = X0 + PITCH * i, xt = xc + GAP;
