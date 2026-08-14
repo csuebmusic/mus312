@@ -1277,7 +1277,7 @@
     <h2 id="sec-quality">quality informs function</h2>
 
     <section class="panel">
-      <svg id="applied-read" viewBox="-240 14 1600 226" role="img" aria-label="An eight-chord progression in C major on a grand staff in four voices, labelled with chord symbols only"></svg>
+      <svg id="applied-read" viewBox="-240 44 1600 196" role="img" aria-label="An eight-chord progression in C major on a grand staff in four voices, with no analysis given"></svg>
     </section>
   </section>
 
@@ -3994,12 +3994,10 @@
         ["G4", "C5", "G5"], ["A4", "D5", "F5"], ["C5", "D5", "F#5"],
         ["B4", "F5", "G5"], ["C5", "E5", "G5"]
       ];
-      var SYM = ["C", "A", "d-", "C/E", "d-/F", "A\u266D7\u266D5", "G7", "C"];
       /* the upper note of a second is written to the right of the lower */
       var SHIFT = [{}, {}, {}, {}, {}, { "D5": 1 }, { "G5": 1 }, {}];
 
       var sig = grandStaff(svg, XS[7] + 90);
-      var SYM_ROW = 36;
 
       XS.forEach(function (x, k) {
         UPPER[k].forEach(function (n) {
@@ -4007,7 +4005,6 @@
                  SHIFT[k][n] ? { sig: sig, accX: x } : { sig: sig });
         });
         gsNote(svg, x, BASS[k], "b", { sig: sig });
-        svg.appendChild(el("text", { x: x + 10, y: SYM_ROW, "class": "chordsym" }, SYM[k]));
       });
     })();
   })();
