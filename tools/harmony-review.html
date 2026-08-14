@@ -362,6 +362,10 @@
 
   .notehead.hot, .accidental.hot { fill: var(--accent); }
   .notehead.cool, .accidental.cool { fill: var(--accent-2); }
+  .accidental.lit-a { fill: var(--accent); }
+  .accidental.lit-b { fill: var(--accent-2); }
+  .hold-b { fill: none; stroke: var(--accent-2); stroke-width: 1.4; }
+  .leap-arrow { fill: none; stroke: var(--accent); stroke-width: 1.25; stroke-dasharray: 3 3; }
   .fig-note {
     font-family: var(--font-data);
     font-size: 11px;
@@ -1261,6 +1265,20 @@
         <svg id="aug-ger" viewBox="-16 40 455 210" role="img" aria-label="The German augmented sixth, A flat, E flat, F sharp, C, resolving through a cadential six-four to the dominant"></svg>
       </section>
     </div>
+
+    <h3>the Neapolitan sixth</h3>
+    <ul class="full">
+      <li>4̂ sits in the bass and is doubled</li>
+      <li>the bass rises to 5̂, and the doubled 4̂ stays where it is to become the seventh of V7</li>
+      <li>♭2̂, in whatever voice it falls, leaps down to 7̂</li>
+      <li>♭6̂, in whatever voice it falls, resolves down to 5̂</li>
+    </ul>
+
+    <p class="full">The V7 that results has no fifth, which is fine.</p>
+
+    <section class="panel centered">
+      <svg id="neapolitan" viewBox="-196 40 741 252" role="img" aria-label="The Neapolitan sixth in C minor in four voices resolving to an incomplete dominant seventh, with the bass rising to five, the doubled fourth degree held as the seventh, flat six falling to five, and flat two leaping down to the leading tone"></svg>
+    </section>
   </section>
 
   <footer>
@@ -3064,7 +3082,8 @@
       var alt = gsAlt(note);
       if (alt !== (opt.sig[GS_LETTERS.indexOf(note.charAt(0))] || 0)) {
         svg.appendChild(el("text", {
-          x: (opt.accX === undefined ? x : opt.accX) - 17, y: y, "class": "accidental"
+          x: (opt.accX === undefined ? x : opt.accX) - 17, y: y,
+          "class": "accidental" + (opt.lit ? " lit-" + opt.lit : "")
         }, ACC_GLYPH[String(alt)]));
       }
     }
@@ -3855,6 +3874,59 @@
           { gap: 1, cls: "a", from: "4", to: "3" }
         ],
         ["Ger+6 goes through Cad6/4.", "Straight to V gives parallel fifths."]);
+    })();
+
+    /* ---- the Neapolitan sixth and where each voice goes ---- */
+
+    (function neapolitan() {
+      var svg = document.getElementById("neapolitan");
+      var x0 = 110, x1 = 250;
+      var sig = grandStaff(svg, x1 + 90);
+
+      /* soprano, alto, tenor, bass */
+      gsNote(svg, x0, "Db5", "t", { sig: sig, lit: "a" });
+      gsNote(svg, x0, "Ab4", "t", { sig: sig, lit: "a" });
+      gsNote(svg, x0, "F4", "t", { sig: sig, lit: "b" });
+      gsNote(svg, x0, "F3", "b", { sig: sig, lit: "b" });
+
+      gsNote(svg, x1, "B4", "t", { sig: sig, lit: "a" });
+      /* the fifth and the seventh land a second apart */
+      gsNote(svg, x1 + 13, "G4", "t", { sig: sig, lit: "a", accX: x1 });
+      gsNote(svg, x1, "F4", "t", { sig: sig, lit: "b" });
+      gsNote(svg, x1, "G3", "b", { sig: sig, lit: "b" });
+
+      var yDb = gsY("D5", "t"), yB = gsY("B4", "t");
+      var yAb = gsY("A4", "t"), yG4 = gsY("G4", "t");
+      var yF4 = gsY("F4", "t"), yF3 = gsY("F3", "b"), yG3 = gsY("G3", "b");
+
+      resolveArrow(svg, x0 + 24, yF3, x1 - 5, yG3, "b");
+      resolveArrow(svg, x0 + 24, yAb, x1 + 8, yG4, "a");
+
+      /* the doubled fourth degree stays put */
+      svg.appendChild(el("path", {
+        d: "M" + (x0 + 22) + " " + (yF4 + 8) + " Q" + ((x0 + x1) / 2 + 10) + " " +
+           (yF4 + 22) + " " + (x1 - 2) + " " + (yF4 + 8),
+        "class": "hold-b"
+      }));
+
+      /* flat two leaps, so its arrow leaves the staff */
+      var lx = x0 + 24, ly = yDb, rx = x1 - 5, ry = yB, cx = (lx + rx) / 2, cy = 24;
+      svg.appendChild(el("path", {
+        d: "M" + lx + " " + ly + " Q" + cx + " " + cy + " " + rx + " " + ry,
+        "class": "leap-arrow"
+      }));
+      var dx = rx - cx, dy = ry - cy, L = Math.sqrt(dx * dx + dy * dy);
+      dx /= L; dy /= L;
+      var nx = -dy, ny = dx, HL = 8, HW = 3.1;
+      svg.appendChild(el("path", {
+        d: "M" + rx + " " + ry +
+           " L" + (rx - HL * dx + HW * nx) + " " + (ry - HL * dy + HW * ny) +
+           " L" + (rx - HL * dx - HW * nx) + " " + (ry - HL * dy - HW * ny) + " z",
+        "class": "res-head"
+      }));
+
+      svg.appendChild(el("text", { x: x0 + 10, y: 272, "class": "lvl1" }, "N6"));
+      svg.appendChild(el("text", { x: x1 + 10, y: 272, "class": "lvl1" }, "V7"));
     })();
 
     /* ---- what sits on 7 in each mode, and what has to move ---- */
