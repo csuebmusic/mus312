@@ -3150,6 +3150,22 @@
     });
   }
 
+  /* a straight arrow from one notehead to the note it resolves to */
+  function resolveArrow(g, x0, y0, x1, y1, cls) {
+    var line = cls ? "arrow " + cls : "res-line";
+    var head = cls ? "arrowhead-fill " + cls : "res-head";
+    g.appendChild(el("line", { x1: x0, y1: y0, x2: x1, y2: y1, "class": line }));
+    var dx = x1 - x0, dy = y1 - y0, L = Math.sqrt(dx * dx + dy * dy);
+    dx /= L; dy /= L;
+    var nx = -dy, ny = dx, HL = 7, HW = 2.8;
+    g.appendChild(el("path", {
+      d: "M" + x1 + " " + y1 +
+         " L" + (x1 - HL * dx + HW * nx) + " " + (y1 - HL * dy + HW * ny) +
+         " L" + (x1 - HL * dx - HW * nx) + " " + (y1 - HL * dy - HW * ny) + " z",
+      "class": head
+    }));
+  }
+
   function targetMark(g, x, cy) {
     g.appendChild(el("circle", { cx: x + 10, cy: cy, r: 6.5, "class": "target-ring" }));
     g.appendChild(el("circle", { cx: x + 10, cy: cy, r: 2, "class": "target-dot" }));
@@ -3767,33 +3783,68 @@
     (function augmentedSixths() {
       var HOT = ["Ab4", "F#5"];
       var V = ["G4", "D5", "G5", "B5"];
+      var CAD = ["G4", "Eb5", "G5", "C6"];
+      var X0 = 104, PITCH = 110;
 
-      function draw(id, chords, romans, note) {
+      function y(n) { return noteY(stepOf(n), 0); }
+
+      function draw(id, chords, romans, cool, moves, figs, note) {
         var svg = document.getElementById(id);
-        var X0 = 104, PITCH = 110;
         staff(svg, X0 + PITCH * (chords.length - 1) + 90);
+
         chords.forEach(function (c, i) {
           var x = X0 + PITCH * i;
-          chord(svg, x, c, HOT, id === "aug-ger" ? ["Eb5"] : []);
-          svg.appendChild(el("text", {
-            x: x + 10, y: RN_Y, "class": "roman"
-          }, romans[i]));
+          chord(svg, x, c, HOT, cool);
+          svg.appendChild(el("text", { x: x + 10, y: RN_Y, "class": "roman" }, romans[i]));
         });
-        if (note) {
-          var mid = X0 + PITCH * (chords.length - 1) / 2 + 10;
-          note.forEach(function (line, i) {
-            svg.appendChild(el("text", {
-              x: mid, y: RN_Y + 26 + 18 * i, "class": "fig-note"
-            }, line));
-          });
-        }
+
+        /* one arrow per voice that has somewhere it must go */
+        moves.forEach(function (m) {
+          var xa = X0 + PITCH * m.gap + 24 + (m.shift ? 13 : 0);
+          var xb = X0 + PITCH * (m.gap + 1) - 5;
+          resolveArrow(svg, xa, y(m.from), xb, y(m.to), m.cls);
+        });
+
+        /* the figures over the bass of the six-four */
+        (figs || []).forEach(function (f, i) {
+          var xa = X0 + PITCH * f.gap + 10, xb = X0 + PITCH * (f.gap + 1) + 10;
+          var fy = 146 + 20 * i;
+          svg.appendChild(el("text", { x: xa, y: fy, "class": "fig-" + f.cls }, f.from));
+          svg.appendChild(el("text", { x: xb, y: fy, "class": "fig-" + f.cls }, f.to));
+          svg.appendChild(el("line", {
+            x1: xa + 12, y1: fy - 4, x2: xb - 12, y2: fy - 4, "class": "fig-dash " + f.cls
+          }));
+        });
+
+        (note || []).forEach(function (line, i) {
+          svg.appendChild(el("text", {
+            x: X0 + PITCH * (chords.length - 1) / 2 + 10, y: RN_Y + 26 + 18 * i,
+            "class": "fig-note"
+          }, line));
+        });
       }
 
-      draw("aug-it", [["Ab4", "C5", "F#5", "C6"], V], ["It+6", "V"]);
-      draw("aug-fr", [["Ab4", "D5", "F#5", "C6"], V], ["Fr+6", "V"]);
+      var OPEN = [
+        { gap: 0, from: "Ab4", to: "G4" },
+        { gap: 0, from: "F#5", to: "G5" }
+      ];
+
+      draw("aug-it", [["Ab4", "C5", "F#5", "C6"], V], ["It+6", "V"], [], OPEN);
+      draw("aug-fr", [["Ab4", "D5", "F#5", "C6"], V], ["Fr+6", "V"], [], OPEN);
       draw("aug-ger",
-        [["Ab4", "Eb5", "F#5", "C6"], ["G4", "Eb5", "G5", "C6"], V],
+        [["Ab4", "Eb5", "F#5", "C6"], CAD, V],
         ["Ger+6", "Cad6/4", "V"],
+        ["Eb5"],
+        [
+          { gap: 0, from: "Ab4", to: "G4" },
+          { gap: 0, from: "F#5", to: "G5", shift: true },
+          { gap: 1, from: "Eb5", to: "D5", cls: "b" },
+          { gap: 1, from: "C6", to: "B5", cls: "a" }
+        ],
+        [
+          { gap: 1, cls: "b", from: "6", to: "5" },
+          { gap: 1, cls: "a", from: "4", to: "3" }
+        ],
         ["Ger+6 goes through Cad6/4.", "Straight to V gives parallel fifths."]);
     })();
 
@@ -3838,20 +3889,8 @@
         chord(g, xt, e.tgt);
 
         e.res.forEach(function (r) {
-          var y0 = noteY(stepOf(r[0]), 0), y1 = noteY(stepOf(r[1]), 0);
-          var ax = xc + 24, bx = xt - 5;
-          g.appendChild(el("line", {
-            x1: ax, y1: y0, x2: bx, y2: y1, "class": "res-line"
-          }));
-          var dx = bx - ax, dy = y1 - y0, L = Math.sqrt(dx * dx + dy * dy);
-          dx /= L; dy /= L;
-          var nx = -dy, ny = dx, HL = 7, HW = 2.8;
-          g.appendChild(el("path", {
-            d: "M" + bx + " " + y1 +
-               " L" + (bx - HL * dx + HW * nx) + " " + (y1 - HL * dy + HW * ny) +
-               " L" + (bx - HL * dx - HW * nx) + " " + (y1 - HL * dy - HW * ny) + " z",
-            "class": "res-head"
-          }));
+          resolveArrow(g, xc + 24, noteY(stepOf(r[0]), 0),
+                          xt - 5, noteY(stepOf(r[1]), 0));
         });
 
         g.appendChild(el("text", { x: xc + 10, y: RN_Y, "class": "roman" }, e.rn));
