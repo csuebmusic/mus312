@@ -1227,7 +1227,7 @@
       <svg id="degree-seven" viewBox="-186 50 1600 180" role="img" aria-label="Four chords built on scale degree seven with their interval recipes, the diminished triad and half-diminished seventh in C major and the altered diminished triad and fully diminished seventh in A minor, each with its sensitive tones marked and resolved into the tonic triad"></svg>
     </section>
 
-    <p class="full">Every one of these carries the tritone 7̂ against 4̂, and both of its tones are sensitive: 7̂ rises to 1̂ and 4̂ falls to 3̂. The seventh adds a third, 6̂ falling to 5̂. Only 2̂ is free to go where the voice leading wants it.</p>
+    <p class="full">Each of these chords contains the tritone between 7̂ and 4̂. Both tones resolve: 7̂ up to 1̂, 4̂ down to 3̂. The sevenths add 6̂, resolving down to 5̂. 2̂ is free.</p>
 
     <p class="full">vii° carries dominant function alongside V, and it can be applied the same way. The root of an applied leading-tone chord is the semitone below the root of its target.</p>
 
@@ -3703,18 +3703,18 @@
       var RECIPE_Y = TOP + 134;
 
       var SEVEN = [
-        { rn: "C: vii\u00B0", tRn: "I", recipe: "minor minor",
-          ch: ["B4", "D5", "F5"], tgt: ["C5", "E5", "G5"],
+        { rn: "C: vii\u00B06", tRn: "I", recipe: "minor minor",
+          ch: ["D4", "B4", "F5"], tgt: ["C5", "E5", "G5"],
           res: [["B4", "C5"], ["F5", "E5"]],
-          word: "in C major, the diminished triad on seven resolving to the tonic" },
+          word: "in C major, the diminished triad on seven in first inversion resolving to the tonic" },
         { rn: "vii\u00F87", tRn: "I", recipe: "minor minor major",
           ch: ["B4", "D5", "F5", "A5"], tgt: ["C5", "E5", "G5"],
           res: [["B4", "C5"], ["F5", "E5"], ["A5", "G5"]],
           word: "in C major, the half-diminished seventh on seven resolving to the tonic" },
-        { rn: "a: vii\u00B0", tRn: "i", recipe: "minor minor",
-          ch: ["G#4", "B4", "D5"], tgt: ["A4", "C5", "E5"],
+        { rn: "a: vii\u00B06", tRn: "i", recipe: "minor minor",
+          ch: ["B3", "G#4", "D5"], tgt: ["A4", "C5", "E5"],
           res: [["G#4", "A4"], ["D5", "C5"]],
-          word: "in A minor, the diminished triad on the raised seven resolving to the tonic" },
+          word: "in A minor, the diminished triad on the raised seven in first inversion resolving to the tonic" },
         { rn: "vii\u00B07", tRn: "i", recipe: "minor minor minor",
           ch: ["G#4", "B4", "D5", "F5"], tgt: ["A4", "C5", "E5"],
           res: [["G#4", "A4"], ["D5", "C5"], ["F5", "E5"]],
