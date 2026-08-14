@@ -10,7 +10,17 @@ Elsewhere formal terminology follows Caplin.
 
 ## prose
 
-Student-facing prose follows the style rules in the profile and project instructions. Read them before drafting.
+Student-facing prose follows the style rules in the profile and project instructions. Read them before drafting. These hold in addition.
+
+One point per sentence. Cut elaboration that follows a stated point unless it carries a fact the point does not.
+
+Cut any sentence that restates a definition already given, however it is rephrased.
+
+Prose says what the figure cannot show. Do not narrate a figure part by part or gloss what each mark means.
+
+No three-part parallel summaries. Split a sentence built as "the X does A, the Y does B, and the Z does C" into separate sentences, or cut it.
+
+Use the plain verb. A verb stretched to fit the sentence means the sentence is wrong.
 
 ## labels
 
@@ -37,6 +47,8 @@ Extract the `<script>` block and run `node --check`.
 Render the page in jsdom and confirm every SVG has children and the console is clean. Click every button and confirm the same. For a transposable figure, click through all twelve tonics and confirm no glyph passes the end of its staff.
 
 When changing how a figure is drawn, snapshot the rendered SVG of every figure first and diff after. A refactor that changes no output produces an empty diff.
+
+Reread every student-facing sentence against the prose rules and cut what does not inform. This runs on the draft, before the commit.
 
 ## repository
 
