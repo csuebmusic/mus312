@@ -1401,11 +1401,22 @@
     </ul>
 
     <h2 id="sec-mod-destab">destabilizing the tonic</h2>
-    <p class="full">A single chromatic tone can take the stability out of the tonic without leaving the key. Adding ♭7̂ to the tonic triad makes a dominant seventh of IV, and the chord that was the point of arrival becomes a chord with somewhere it has to go.</p>
+    <p class="full">There are a few ways to take the stability out of the tonic without actually leaving the key. A seventh added to the tonic triad turns it into the dominant of IV. A borrowed ♭3̂ turns it minor and opens the flat side. A tonic that only ever shows up in inversion, passed through on the way somewhere else, stops being a point of arrival at all.</p>
 
-    <section class="panel centered">
-      <svg id="mod-destab" viewBox="-190 24 741 190" role="img" aria-label="The C major triad labelled I, then the same triad with a B flat added labelled V7 of IV, with an arrow from C down to B flat"></svg>
-    </section>
+    <div class="panels three">
+      <section class="panel">
+        <h3>adding ♭7̂</h3>
+        <svg id="mod-destab-7" viewBox="-28 20 455 256" role="img" aria-label="The C major triad, then the same chord with B flat in place of the fifth as the dominant seventh of four, resolving to F major"></svg>
+      </section>
+      <section class="panel">
+        <h3>borrowing from minor</h3>
+        <svg id="mod-destab-mix" viewBox="-28 20 455 256" role="img" aria-label="The C major triad, then C minor with a borrowed E flat, then A flat major as flat six"></svg>
+      </section>
+      <section class="panel">
+        <h3>passing through the tonic</h3>
+        <svg id="mod-destab-pass" viewBox="-28 20 455 256" role="img" aria-label="The C major triad in root position, a dominant seventh in second inversion, and the tonic in first inversion, over a bass rising by step from C to D to E"></svg>
+      </section>
+    </div>
 
     <h2 id="sec-mod-pivot">the pivot chord</h2>
     <p class="full">A pivot chord belongs to both keys at once. Approached as a chord in the old key and left as a chord in the new one, it changes the syntax under the music without changing the sound.</p>
@@ -4398,26 +4409,98 @@
 
   (function modulation() {
 
-    /* the tonic triad and the same triad with a seventh */
+    /* three ways the tonic stops being a place of arrival */
     (function destabilize() {
-      var svg = document.getElementById("mod-destab");
-      if (!svg) { return; }
-      var X0 = 120, PITCH = 150;
-      staff(svg, X0 + PITCH + 90);
+      var X0 = 90, PITCH = 110, SYM_ROW = 36, RN_ROW = 258;
 
-      [
-        { notes: ["E4", "G4", "C5"], sym: "C", rn: "I" },
-        { notes: ["E4", "G4", "Bb4"], sym: "C7", rn: "V7/IV", hot: ["Bb4"] }
-      ].forEach(function (c, i) {
-        var x = X0 + PITCH * i;
-        chord(svg, x, c.notes, c.hot || []);
-        svg.appendChild(el("text", { x: x + 10, y: 46, "class": "chordsym" }, c.sym));
-        svg.appendChild(el("text", { x: x + 10, y: RN_Y, "class": "roman" }, c.rn));
+      function label(svg, x, y, str) {
+        var t = el("text", { x: x, y: y, "class": "lvl1" });
+        if (str.charAt(0) === "\u266D") {
+          t.appendChild(el("tspan", { "class": "acc-inline", dy: "-3.5" }, "\u266D"));
+          t.appendChild(el("tspan", { dy: "3.5" }, str.slice(1)));
+        } else {
+          t.textContent = str;
+        }
+        svg.appendChild(t);
+      }
+
+      function draw(cfg) {
+        var svg = document.getElementById(cfg.id);
+        if (!svg) { return; }
+        var sig = grandStaff(svg, X0 + PITCH * 2 + 80);
+
+        cfg.upper.forEach(function (notes, i) {
+          var x = X0 + PITCH * i;
+
+          /* the upper note of a second is written to the right of the lower */
+          var sorted = notes.slice().sort(function (a, b) { return noteDia(a) - noteDia(b); });
+          var shift = {};
+          for (var k = sorted.length - 1; k > 0; k--) {
+            if (noteDia(sorted[k]) - noteDia(sorted[k - 1]) === 1 && !shift[sorted[k]]) {
+              shift[sorted[k - 1]] = 0;
+              shift[sorted[k]] = 13;
+            }
+          }
+
+          notes.forEach(function (n) {
+            gsNote(svg, x + (shift[n] || 0), n, "t", {
+              sig: sig, accX: x,
+              lit: cfg.lit && cfg.lit[i] === n ? "a" : null
+            });
+          });
+          gsNote(svg, x, cfg.bass[i], "b", { sig: sig });
+          svg.appendChild(el("text", {
+            x: x + 10, y: SYM_ROW, "class": "chordsym"
+          }, cfg.sym[i]));
+          label(svg, x + 10, RN_ROW, cfg.rn[i]);
+        });
+
+        /* each arrow stops short of any accidental in the chord it points at */
+        (cfg.moves || []).forEach(function (m) {
+          var side = m.staff || "t";
+          resolveArrow(svg,
+            X0 + PITCH * m.gap + 24, gsY(m.from, side),
+            X0 + PITCH * (m.gap + 1) - (m.acc ? 26 : 5), gsY(m.to, side));
+        });
+      }
+
+      draw({
+        id: "mod-destab-7",
+        bass: ["C3", "C3", "F3"],
+        upper: [["E4", "G4", "C5"], ["E4", "Bb4", "C5"], ["F4", "A4", "C5"]],
+        sym: ["C", "C7", "F"],
+        rn: ["I", "V7/IV", "IV"],
+        lit: [null, "Bb4", null],
+        moves: [
+          { gap: 0, from: "G4", to: "Bb4", acc: true },
+          { gap: 1, from: "Bb4", to: "A4" }
+        ]
       });
 
-      /* stops short of the flat rather than running under it */
-      resolveArrow(svg, X0 + 24, noteY(stepOf("C5"), 0),
-                        X0 + PITCH - 26, noteY(stepOf("Bb4"), 0));
+      draw({
+        id: "mod-destab-mix",
+        bass: ["C3", "C3", "Ab2"],
+        upper: [["E4", "G4", "C5"], ["Eb4", "G4", "C5"], ["Eb4", "Ab4", "C5"]],
+        sym: ["C", "Cm", "Ab"],
+        rn: ["I", "i", "\u266DVI"],
+        lit: [null, "Eb4", null],
+        moves: [
+          { gap: 0, from: "E4", to: "Eb4", acc: true },
+          { gap: 1, from: "G4", to: "Ab4", acc: true }
+        ]
+      });
+
+      draw({
+        id: "mod-destab-pass",
+        bass: ["C3", "D3", "E3"],
+        upper: [["E4", "G4", "C5"], ["F4", "G4", "B4"], ["E4", "G4", "C5"]],
+        sym: ["C", "G7/D", "C/E"],
+        rn: ["I", "V4/3", "I6"],
+        moves: [
+          { gap: 0, from: "C3", to: "D3", staff: "b" },
+          { gap: 1, from: "D3", to: "E3", staff: "b" }
+        ]
+      });
     })();
 
     /* one chord read in two keys at once */
