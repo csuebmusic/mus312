@@ -482,6 +482,12 @@
     text-anchor: middle;
   }
 
+  .fn-note {
+    font-family: var(--font-body);
+    font-size: 12px;
+    fill: var(--muted);
+  }
+
   .fn-or {
     font-family: var(--font-data);
     font-size: 10px;
@@ -1289,7 +1295,7 @@
     <p class="full">Chromatic harmony expands steadily across the repertoire this course covers. In Haydn and Mozart mixture is local color inside a firmly diatonic frame. Schubert saturates major-mode pieces with the parallel minor far enough that the twenty-four keys start to behave like twelve major-minor keys. By the end of the nineteenth century the chromatic chords in a passage can outnumber the diatonic ones. The chart maps the tonal system, not any one period of it.</p>
 
     <section class="panel">
-      <svg id="master-fn-all" viewBox="-68 0 1200 430" role="img" aria-label="The function chart with every chord, tonic, mediant, pre-dominant, dominant, and tonic in a row, each box split into major and minor, the pre-dominant box carrying a third section with the Italian, French, and German augmented sixths and the Neapolitan sixth, and beneath each box a dotted panel listing the harmonies that prolong that function"></svg>
+      <svg id="master-fn-all" viewBox="-68 0 1200 460" role="img" aria-label="The function chart with every chord, tonic, mediant, pre-dominant, dominant, and tonic in a row, each box split into major and minor, the pre-dominant box carrying a third section with the Italian, French, and German augmented sixths and the Neapolitan sixth, and beneath each box a dotted panel listing the harmonies that prolong that function"></svg>
     </section>
 
     <div class="controls">
@@ -1297,7 +1303,7 @@
       <p class="readout" id="chart-png-note"></p>
     </div>
 
-    <p class="full">A chord borrowed from the parallel mode sits in the other column of the same box, and the function of that box is the function it keeps. The panel under each box holds what prolongs that function: the inversions, the passing and neighboring chords, and the applied chords pointing into it. Those patterns are written in major. Minor takes the same shapes with its own qualities.</p>
+    <p class="full">A chord borrowed from the parallel mode sits in the other column of the same box, and the function of that box is the function it keeps. The panel under each box holds the common ways that function is prolonged: the inversions, the passing and neighboring chords, and the applied chords pointing into it. Any motion among the chords of a box prolongs its function, listed there or not. The patterns are written in major. Minor takes the same shapes with its own qualities.</p>
 
     <h2 id="sec-quality">quality informs function: a guided analysis</h2>
     <p class="full">Analysis can be daunting, but with the proper methodology you can tackle any passage. The main thing to remember: in tonal music, the quality of a chord (what it is) will always inform its function. And when you have function, you have syntax, and with syntax you will always be able to predict where the music is going. Tonal music <em>is</em> a predictable motion of stable musical energy becoming unstable and needing to resolve.</p>
@@ -2903,6 +2909,16 @@
          (q1 - 16) + " 34, " + q1 + " " + (MID - 12),
       "class": "fn-curve", "marker-end": "url(#" + id + "-head)"
     }));
+
+    if (opts.prolong) {
+      var deep = BOXES.reduce(function (m, b) {
+        return b.pro && b.pro.length > m ? b.pro.length : m;
+      }, 0);
+      svg.appendChild(el("text", {
+        x: 4, y: ROW0 + PRO_ROW * (deep - 1) + 50, "class": "fn-note"
+      }, "Any motion among the chords in a box prolongs that function. " +
+         "These are the common patterns."));
+    }
   }
 
   masterChart("master-fn");
