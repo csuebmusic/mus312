@@ -482,6 +482,13 @@
     text-anchor: middle;
   }
 
+  .fn-app {
+    font-family: var(--font-data);
+    font-size: 12px;
+    fill: var(--ink);
+    text-anchor: middle;
+  }
+
   .fn-or {
     font-family: var(--font-data);
     font-size: 10px;
@@ -575,6 +582,7 @@
     <li><a href="#sec-embedded">function and applied chords</a></li>
     <li><a href="#sec-leading">applied leading-tone chords</a></li>
     <li><a href="#sec-chrom-pd">chromatic pre-dominants</a></li>
+    <li><a href="#sec-master-chart">master function chart</a></li>
     <li><a href="#sec-quality">quality informs function: a guided analysis</a></li>
   </ul>
 </nav>
@@ -1241,10 +1249,6 @@
       <li>Neapolitan sixth, N6: ♭2̂ 4̂ ♭6̂, with 4̂ in the bass</li>
     </ul>
 
-    <section class="panel">
-      <svg id="master-fn-chromatic" viewBox="-60 0 1200 240" role="img" aria-label="The diatonic function chart with a third section in the pre-dominant box holding the Italian, French, and German augmented sixths and the Neapolitan sixth"></svg>
-    </section>
-
     <h3>the augmented sixths</h3>
     <ul class="full">
       <li>♭6̂ is in the bass and resolves down to 5̂</li>
@@ -1279,6 +1283,27 @@
     <section class="panel centered">
       <svg id="neapolitan" viewBox="-196 40 741 252" role="img" aria-label="The Neapolitan sixth in C in four voices resolving to an incomplete dominant seventh, with the bass rising to five, the doubled fourth degree held as the seventh, flat six falling to five, and flat two leaping down to the leading tone"></svg>
     </section>
+
+    <h2 id="sec-master-chart">master function chart</h2>
+    <p class="full">Two processes account for chromaticism in tonal music. Tonicization works through dominant function: a chromatic tone acts as a leading tone into the chord that follows. <strong>Modal mixture</strong> works mostly through pre-dominant function: a chord borrows a pitch from the parallel mode, and the borrowed tone keeps its scale-degree function in altered form.</p>
+
+    <p class="full">Borrowing runs both ways, and minor into major is far the more common: the minor mode already carries two forms of 6̂ and 7̂, while the major mode has no altered 3̂, 6̂, or 7̂ of its own. ♭6̂ is the degree most often involved. It drives by half step to 5̂, it colors every pre-dominant, and it leaves the home key standing where ♭3̂ would put the mode of the whole piece in question.</p>
+
+    <p class="full"><strong>Melodic mixture</strong> changes a chord's quality and leaves its root: ii becomes ii°, ii7 becomes iiø7, IV becomes iv. <strong>Harmonic mixture</strong> changes the root itself: ♭VI, ♭III. Either takes the label it would carry in the parallel minor, and neither changes the chord's function.</p>
+
+    <ul class="full">
+      <li>double a chromatically altered tone only where it is the root of its chord, as in ♭VI</li>
+      <li>approach and leave an altered tone by step, keeping the chromatic line in one voice</li>
+      <li>once ♭VI, iv, or ii° has entered, hold the mixture until the dominant arrives: a diatonic 6̂ before then makes a cross relation and breaks the drive to 5̂</li>
+    </ul>
+
+    <p class="full">Chromatic harmony expands steadily across the repertoire this course covers. In Haydn and Mozart mixture is local color inside a firmly diatonic frame. Schubert saturates major-mode pieces with the parallel minor far enough that the twenty-four keys start to behave like twelve major-minor keys. By the end of the nineteenth century the chromatic chords in a passage can outnumber the diatonic ones. The chart maps the tonal system, not any one period of it.</p>
+
+    <section class="panel">
+      <svg id="master-fn-all" viewBox="-60 0 1200 280" role="img" aria-label="The function chart with every chord, tonic, mediant, pre-dominant, dominant, and tonic, each box split into major and minor, the pre-dominant box carrying a third section with the Italian, French, and German augmented sixths and the Neapolitan sixth, and a band across the foot of the mediant, pre-dominant, and dominant boxes holding their applied chords"></svg>
+    </section>
+
+    <p class="full">A chord borrowed from the parallel mode sits in the other column of the same box, and the function of that box is the function it keeps. The band below each divider holds the applied chords pointing into that function, written in major. In minor they point at the minor-mode targets: V/♭III and V/♭VI in the mediant, V/iv in the pre-dominant. Every applied dominant in the band has a leading-tone counterpart built a semitone below the same target.</p>
 
     <h2 id="sec-quality">quality informs function: a guided analysis</h2>
     <p class="full">Analysis can be daunting, but with the proper methodology you can tackle any passage. The main thing to remember: in tonal music, the quality of a chord (what it is) will always inform its function. And when you have function, you have syntax, and with syntax you will always be able to predict where the music is going. Tonal music <em>is</em> a predictable motion of stable musical energy becoming unstable and needing to resolve.</p>
@@ -2666,8 +2691,10 @@
   function masterChart(id, opts) {
     opts = opts || {};
     var svg = document.getElementById(id);
-    var TOP = 72, H = 112, MID = TOP + H / 2;
+    var TOP = 72, MID = TOP + 56;
+    var H = opts.applied ? 152 : 112;
     var ROW1 = TOP + 46, ROW2 = TOP + 82, MODE_Y = TOP + 22;
+    var BAND = TOP + 116, APP_Y = TOP + 140;
 
     /* a row is one numeral and the figures available to it;
        an empty figure list means the plain triad */
@@ -2675,10 +2702,10 @@
       { lw: 52, rw: 52, title: "TONIC",
         major: [{ n: "I" }],
         minor: [{ n: "i" }] },
-      { lw: 62, rw: 62, title: "MEDIANT",
+      { lw: 62, rw: 62, title: "MEDIANT", app: "V/iii  V/vi",
         major: [{ n: "iii" }, { n: "vi" }],
         minor: [{ n: "III", flat: true }, { n: "VI", flat: true }] },
-      { lw: 78, rw: 88, cw: 110, title: "PRE-DOMINANT",
+      { lw: 78, rw: 88, cw: 110, title: "PRE-DOMINANT", app: "V/ii  V/IV",
         chrom: [
           { n: "It+6", figs: [[], { label: "Fr+6" }] },
           { n: "Ger+6", figs: [[], { label: "N6" }] }
@@ -2688,7 +2715,7 @@
           { n: "ii\u00B0", figs: [["6"], { n: "ii\u00F8", f: ["6", "5"] }] },
           { n: "iv" }
         ] },
-      { lw: 106, rw: 136, title: "DOMINANT",
+      { lw: 106, rw: 136, title: "DOMINANT", app: "V/V",
         major: [
           { n: "V", figs: [[], { label: "V7 + inv" }] },
           { n: "vii\u00B0", figs: [["6"], { n: "vii\u00F8", f: ["6", "5"] }] }
@@ -2797,7 +2824,22 @@
       b.cols.forEach(function (c) {
         c.rows.forEach(function (r, i) { row(c.x + 10, i ? ROW2 : ROW1, r); });
       });
+
+      if (opts.applied) {
+        svg.appendChild(el("line", {
+          x1: b.x, y1: BAND, x2: b.x + b.w, y2: BAND, "class": "fn-div"
+        }));
+        if (b.app) {
+          svg.appendChild(el("text", {
+            x: b.x + b.w / 2, y: APP_Y, "class": "fn-app"
+          }, b.app));
+        }
+      }
     });
+
+    if (opts.applied) {
+      svg.appendChild(el("text", { x: 14, y: APP_Y, "class": "pro-tag" }, "APPLIED"));
+    }
 
     function blockArrow(x1, x2) {
       var y = MID, s = 5, hw = 22, hh = 13;
@@ -2836,7 +2878,7 @@
   }
 
   masterChart("master-fn");
-  masterChart("master-fn-chromatic", { chromatic: true });
+  masterChart("master-fn-all", { chromatic: true, applied: true });
 
   /* ---------- prolongation map ---------- */
 
