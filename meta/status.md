@@ -18,13 +18,15 @@ Part 3 continues: modulation and closely related keys, Laitz 148–152; chromati
 
 Skipped: the chromatic sequences, Laitz 144–147, and the sequence as a modulating device, 153–155.
 
-Open: whether part 3 stays in `tools/harmony-review.html` or becomes a second file. The file is 4,176 lines.
+Open: whether part 3 stays in `tools/harmony-review.html` or becomes a second file. The file is 4,319 lines.
 
 Key relationships, relative and parallel keys and the circle of fifths, belongs at the head of part 3.
 
 Caplin's guide to harmonic annotation, pages 24 and 25, has no legend anywhere in the tool. It runs to eleven entries. Three collide with conventions already set on the page: Caplin's uppercase numerals irrespective of quality, his three functions, and his n and p labels without CL and arp.
 
 The prolongation panels in the master function and prolongation chart list applied chords. Mixture harmonies have no place on them yet.
+
+The chart is the only figure with a download button. Nothing verifies the raster in a browser.
 
 Scale-degree names beyond mediant and leading tone are never given.
 
