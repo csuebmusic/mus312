@@ -18,7 +18,7 @@ Part 3 continues: modulation and closely related keys, Laitz 148–152; chromati
 
 Skipped: the chromatic sequences, Laitz 144–147, and the sequence as a modulating device, 153–155.
 
-Open: whether part 3 stays in `tools/harmony-review.html` or becomes a second file. The file is 4,319 lines.
+Open: whether part 3 stays in `tools/harmony-review.html` or becomes a second file. The file is 4,335 lines.
 
 Key relationships, relative and parallel keys and the circle of fifths, belongs at the head of part 3.
 
