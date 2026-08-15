@@ -494,6 +494,14 @@
   .cont-head { fill: var(--ink); }
   .star { fill: var(--accent); }
 
+  .grid-key {
+    font-family: var(--font-data);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    fill: var(--muted);
+    text-anchor: end;
+  }
+
   .fn-note {
     font-family: var(--font-body);
     font-size: 12px;
@@ -601,6 +609,8 @@
     <li><a href="#sec-mod-stages">the three stages of modulation</a></li>
     <li><a href="#sec-mod-destab">destabilizing the tonic</a></li>
     <li><a href="#sec-mod-pivot">the pivot chord</a></li>
+    <li><a href="#sec-mod-related">closely related keys</a></li>
+    <li><a href="#sec-mod-chromatic">chromatic modulation</a></li>
   </ul>
 </nav>
 
@@ -1422,6 +1432,33 @@
     <p class="full">A pivot chord belongs to both keys at once. We approach it as a chord in the old key and leave it as a chord in the new one, meaning the sound itself never actually changes: what changes is the syntax underneath it. To find one, start at the end: locate the authentic cadence in the new key, bracket just the V and the I, and work backwards from there until you reach a chord that makes sense in both keys. Not every modulation uses a pivot, but it is a very common technique.</p>
 
     <p class="full">The submediant is the common pivot in a move to the dominant: vi6 at home is ii6 in the key of V, and the pre-dominant it becomes leads straight to the cadence that confirms the new tonic. A six-four is never a pivot. It is unstable in both keys.</p>
+
+    <h2 id="sec-mod-related">closely related keys</h2>
+    <p class="full">The closely related keys of a home key are the ones built on its own consonant triads. For C major those are D minor (ii), E minor (iii), F major (IV), G major (V), and A minor (vi). Each of them differs from C major by a single accidental, which puts their key signatures next to each other on the circle of fifths. Major keys most often modulate to V, vi, and iii. Minor keys most often modulate to III, v, and VI.</p>
+
+    <p class="full">Because the two keys share almost all of their material, the pivot can be a plain diatonic chord. Writing out the roman numerals of both keys under the same chords and reading down the columns is the fastest way to find one: wherever the chord is the same in both keys, you have a candidate, and the best candidates are the ones that become a pre-dominant in the new key.</p>
+
+    <section class="panel">
+      <svg id="mod-related" viewBox="12 14 1200 180" role="img" aria-label="The seven triads of C major with their roman numerals, and beneath them the roman numerals the same seven letters take in G major, with the four chords common to both keys boxed"></svg>
+    </section>
+
+    <h2 id="sec-mod-chromatic">chromatic modulation</h2>
+    <p class="full">A chromatic modulation goes to a key that is not closely related, and the diatonic method runs out. C major and A♭ major, the key of ♭VI, have no triad in common at all.</p>
+
+    <p class="full">Mixture supplies the pivot. Once C major is allowed to borrow from C minor, four chords turn up in both keys.</p>
+
+    <ul class="full">
+      <li>C minor: i at home, iii in A♭</li>
+      <li>E♭ major: ♭III at home, V in A♭</li>
+      <li>F minor: iv at home, vi in A♭</li>
+      <li>A♭ major: ♭VI at home, I in A♭</li>
+    </ul>
+
+    <section class="panel">
+      <svg id="mod-chromatic" viewBox="12 14 1200 250" role="img" aria-label="Three rows of seven triads, C major, C minor, and A flat major, with the four chords shared between C minor and A flat major marked"></svg>
+    </section>
+
+    <p class="full">A chromatic pivot is always a mixture chord, so mixture turning up in a nineteenth-century passage is often the first sign that a chromatic modulation is coming. Once it does, do not hurry to the cadence: expand the pre-dominant, or use an embedded phrase model, and give the ear time to settle into the new key.</p>
 
     <section class="panel">
       <svg id="mod-pivot" viewBox="-157 20 1600 320" role="img" aria-label="Eight chords in keyboard style modulating from C major to G major, tonic, a passing dominant seventh in second inversion, tonic in first inversion, submediant, submediant in first inversion boxed and read again as two six of five, then four of five marked with an asterisk, five seven of five, and an arrival on five boxed as five equals one, with the last two chords bracketed as a perfect authentic cadence in G and an arrow showing the music continues"></svg>
@@ -4501,6 +4538,80 @@
           { gap: 1, from: "D3", to: "E3", staff: "b" }
         ]
       });
+    })();
+
+    /* the triads of two or three keys, read down the columns */
+    (function keyGrids() {
+      var X0 = 120, COL = 150, TOP = 30, ROW_H = 70;
+
+      function grid(id, rows, marks) {
+        var svg = document.getElementById(id);
+        if (!svg) { return; }
+
+        (marks || []).forEach(function (i) {
+          svg.appendChild(el("rect", {
+            x: X0 + COL * i + 10, y: TOP + 4,
+            width: COL - 20, height: ROW_H * rows.length - 14,
+            "class": "pivot-box"
+          }));
+        });
+
+        rows.forEach(function (row, r) {
+          var top = TOP + ROW_H * r;
+          svg.appendChild(el("text", { x: 104, y: top + 40, "class": "grid-key" }, row.label));
+
+          row.cells.forEach(function (c, i) {
+            var cx = X0 + COL * i + COL / 2;
+            var hit = c.lit || (marks || []).indexOf(i) >= 0;
+            svg.appendChild(el("text", {
+              x: cx, y: top + 22, "class": "chordsym" + (hit ? " lit-a" : "")
+            }, c.sym));
+            var t = el("text", {
+              x: cx, y: top + 48, "class": "lvl1" + (hit ? " lit-a" : "")
+            });
+            if (c.flat) {
+              t.appendChild(el("tspan", { "class": "acc-inline", dy: "-3.5" }, "\u266D"));
+              t.appendChild(el("tspan", { dy: "3.5" }, c.rn));
+            } else {
+              t.textContent = c.rn;
+            }
+            svg.appendChild(t);
+          });
+        });
+      }
+
+      function cells(pairs) {
+        return pairs.map(function (p) {
+          var f = p[2] || "";
+          return { sym: p[0], rn: p[1], flat: f.indexOf("b") >= 0, lit: f.indexOf("lit") >= 0 };
+        });
+      }
+
+      grid("mod-related", [
+        { label: "C major", cells: cells([
+          ["C", "I"], ["Dm", "ii"], ["Em", "iii"], ["F", "IV"],
+          ["G", "V"], ["Am", "vi"], ["B\u00B0", "vii\u00B0"]
+        ]) },
+        { label: "G major", cells: cells([
+          ["C", "IV"], ["D", "V"], ["Em", "vi"], ["F#\u00B0", "vii\u00B0"],
+          ["G", "I"], ["Am", "ii"], ["Bm", "iii"]
+        ]) }
+      ], [0, 2, 4, 5]);
+
+      grid("mod-chromatic", [
+        { label: "C major", cells: cells([
+          ["C", "I"], ["Dm", "ii"], ["Em", "iii"], ["F", "IV"],
+          ["G", "V"], ["Am", "vi"], ["B\u00B0", "vii\u00B0"]
+        ]) },
+        { label: "C minor", cells: cells([
+          ["Cm", "i", "lit"], ["D\u00B0", "ii\u00B0"], ["Eb", "III", "b lit"],
+          ["Fm", "iv", "lit"], ["Gm", "v"], ["Ab", "VI", "b lit"], ["Bb", "VII", "b"]
+        ]) },
+        { label: "Ab major", cells: cells([
+          ["Ab", "I", "lit"], ["Bbm", "ii"], ["Cm", "iii", "lit"], ["Db", "IV"],
+          ["Eb", "V", "lit"], ["Fm", "vi", "lit"], ["G\u00B0", "vii\u00B0"]
+        ]) }
+      ]);
     })();
 
     /* one chord read in two keys at once */
