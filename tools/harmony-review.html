@@ -482,6 +482,18 @@
     text-anchor: middle;
   }
 
+  .pivot-ring { fill: none; stroke: var(--accent-2); stroke-width: 1.5; }
+  .pivot-alt {
+    font-family: var(--font-body);
+    font-size: 15px;
+    fill: var(--accent-2);
+    text-anchor: middle;
+  }
+  .key-box { fill: none; stroke: var(--ink); stroke-width: 1; }
+  .cont-line { stroke: var(--ink); stroke-width: 1.5; fill: none; }
+  .cont-head { fill: var(--ink); }
+  .star { fill: var(--accent); }
+
   .fn-note {
     font-family: var(--font-body);
     font-size: 12px;
@@ -583,6 +595,12 @@
     <li><a href="#sec-chrom-pd">chromatic pre-dominants</a></li>
     <li><a href="#sec-master-chart">master function and prolongation chart</a></li>
     <li><a href="#sec-quality">quality informs function: a guided analysis</a></li>
+    <li class="toc-part"><a href="#part-4">part 4, modulation</a></li>
+    <li><a href="#sec-mod-three">tonicization, extended tonicization, and modulation</a></li>
+    <li><a href="#sec-mod-history">modulation as a classical development</a></li>
+    <li><a href="#sec-mod-stages">the three stages</a></li>
+    <li><a href="#sec-mod-destab">destabilizing the tonic</a></li>
+    <li><a href="#sec-mod-pivot">the pivot chord</a></li>
   </ul>
 </nav>
 
@@ -1352,6 +1370,54 @@
 
     <section class="panel">
       <svg id="read-7" viewBox="-240 14 1600 360" role="img" aria-label="The same progression with a second level of analysis, tonic, then a pre-dominant running from V of ii through the French sixth, then dominant and tonic"></svg>
+    </section>
+  </section>
+
+  <hr class="rule">
+
+  <p class="eyebrow">mus 312 &middot; harmony review</p>
+  <h1 id="part-4">part 4, modulation</h1>
+
+  <section class="scale" id="sec-modulation">
+    <h2 id="sec-mod-three">tonicization, extended tonicization, and modulation</h2>
+    <p class="full">All three treat a chord other than the tonic as a tonic. They differ in how long the treatment lasts and in what it costs the home key.</p>
+
+    <ul class="full">
+      <li><strong>Tonicization</strong> gives a target chord a dominant of its own and moves on. It lasts a beat or a measure, and the tonicized chord keeps its function in the home key.</li>
+      <li><strong>Extended tonicization</strong> gives the target more than an applied chord: a pre-dominant of its own, a cadential six-four, a phrase model embedded inside the larger one. The target is held longer and heard more strongly, and the home key still governs.</li>
+      <li><strong>Modulation</strong> goes past both. The new target stops behaving as a chord in the home key and becomes a tonic in its own right, held long enough and confirmed strongly enough to rival the key it came from.</li>
+    </ul>
+
+    <p class="full">The line between an extended tonicization and a modulation is not sharp. The test is the cadence: a modulation closes with an authentic cadence in the new key, and what follows goes on treating that key as home.</p>
+
+    <h2 id="sec-mod-history">modulation as a classical development</h2>
+    <p class="full">Large-scale modulation inside a single movement belongs to the classical style. Baroque music changes key constantly, and the motion runs on tonicization and extended tonicization: in Bach one area gives way to the next, and a key that is reached is a station in a continuous harmonic flow rather than a rival to the one just left.</p>
+
+    <p class="full">The classical style gives the second key weight of its own. It is prepared, confirmed by cadence, and then inhabited, long enough that the movement carries two tonics and has to reconcile them. Sonata form is built on that opposition.</p>
+
+    <h2 id="sec-mod-stages">the three stages</h2>
+    <p class="full">A new tonic has to be established, and establishing one takes time.</p>
+
+    <ul class="full">
+      <li>The original tonic is destabilized and stops sounding like a stable point of arrival.</li>
+      <li>The new target is tonicized, often at length, and the tonicization is confirmed by an authentic cadence in the new key.</li>
+      <li>The new target stays, goes on behaving as a tonic, and is the new I.</li>
+    </ul>
+
+    <h2 id="sec-mod-destab">destabilizing the tonic</h2>
+    <p class="full">A single chromatic tone can take the stability out of the tonic without leaving the key. Adding ♭7̂ to the tonic triad makes a dominant seventh of IV, and the chord that was the point of arrival becomes a chord with somewhere it has to go.</p>
+
+    <section class="panel centered">
+      <svg id="mod-destab" viewBox="-190 24 741 190" role="img" aria-label="The C major triad labelled I, then the same triad with a B flat added labelled V7 of IV, with an arrow from C down to B flat"></svg>
+    </section>
+
+    <h2 id="sec-mod-pivot">the pivot chord</h2>
+    <p class="full">A pivot chord belongs to both keys at once. Approached as a chord in the old key and left as a chord in the new one, it changes the syntax under the music without changing the sound.</p>
+
+    <p class="full">The submediant is the common pivot in a move to the dominant: vi6 at home is ii6 in the key of V, and the pre-dominant it becomes leads straight to the cadence that confirms the new tonic. A six-four is never a pivot. It is unstable in both keys.</p>
+
+    <section class="panel">
+      <svg id="mod-pivot" viewBox="-235 20 1600 330" role="img" aria-label="Seven chords in keyboard style modulating from C major to G major, tonic, tonic in first inversion, submediant, submediant in first inversion ringed and read again as two six of five, then four of five marked with an asterisk, five seven of five, and an arrival on five boxed as five equals one, with an arrow showing the music continues"></svg>
     </section>
   </section>
 
@@ -4331,6 +4397,111 @@
         }
       });
     })();
+
+  /* ---------- modulation ---------- */
+
+  (function modulation() {
+
+    /* the tonic triad and the same triad with a seventh */
+    (function destabilize() {
+      var svg = document.getElementById("mod-destab");
+      if (!svg) { return; }
+      var X0 = 120, PITCH = 150;
+      staff(svg, X0 + PITCH + 90);
+
+      [
+        { notes: ["E4", "G4", "C5"], sym: "C", rn: "I" },
+        { notes: ["E4", "G4", "Bb4"], sym: "C7", rn: "V7/IV", hot: ["Bb4"] }
+      ].forEach(function (c, i) {
+        var x = X0 + PITCH * i;
+        chord(svg, x, c.notes, c.hot || []);
+        svg.appendChild(el("text", { x: x + 10, y: 46, "class": "chordsym" }, c.sym));
+        svg.appendChild(el("text", { x: x + 10, y: RN_Y, "class": "roman" }, c.rn));
+      });
+
+      /* stops short of the flat rather than running under it */
+      resolveArrow(svg, X0 + 24, noteY(stepOf("C5"), 0),
+                        X0 + PITCH - 26, noteY(stepOf("Bb4"), 0));
+    })();
+
+    /* one chord read in two keys at once */
+    (function pivot() {
+      var svg = document.getElementById("mod-pivot");
+      if (!svg) { return; }
+
+      var XS = [], i;
+      for (i = 0; i < 7; i++) { XS.push(130 + 150 * i); }
+
+      var BASS  = ["C3", "E3", "A2", "C3", "C3", "D3", "G3"];
+      var UPPER = [
+        ["E4", "G4", "C5"], ["E4", "G4", "C5"], ["E4", "A4", "C5"],
+        ["E4", "A4", "C5"], ["E4", "G4", "C5"], ["D4", "F#4", "C5"],
+        ["D4", "G4", "B4"]
+      ];
+      var SYM = ["C", "C/E", "Am", "Am/C", "C", "D7", "G"];
+      var RN  = ["I", "I6", "vi", "vi6", "IV/V", "V7/V", ""];
+
+      var PIVOT = 3, TURN = 4, LAST = 6;
+      var SYM_ROW = 36, RN_ROW = 262, ALT_ROW = 292, NOTE_ROW = 328;
+
+      var sig = grandStaff(svg, XS[LAST] + 96);
+
+      XS.forEach(function (x, k) {
+        var lit = k === TURN ? { sig: sig, lit: "a" } : { sig: sig };
+        UPPER[k].forEach(function (n) { gsNote(svg, x, n, "t", lit); });
+        gsNote(svg, x, BASS[k], "b", lit);
+        svg.appendChild(el("text", {
+          x: x + 10, y: SYM_ROW, "class": "chordsym" + (k === TURN ? " lit-a" : "")
+        }, SYM[k]));
+        if (RN[k]) {
+          svg.appendChild(el("text", { x: x + 10, y: RN_ROW, "class": "lvl1" }, RN[k]));
+        }
+      });
+
+      /* the pivot, ringed and read again in the key it is turning toward */
+      var ringY = (gsY(UPPER[PIVOT][2], "t") + gsY(UPPER[PIVOT][0], "t")) / 2;
+      svg.appendChild(el("ellipse", {
+        cx: XS[PIVOT] + 10, cy: ringY, rx: 34,
+        ry: (gsY(UPPER[PIVOT][0], "t") - gsY(UPPER[PIVOT][2], "t")) / 2 + 16,
+        "class": "pivot-ring"
+      }));
+      svg.appendChild(el("text", {
+        x: XS[PIVOT] + 10, y: ALT_ROW, "class": "pivot-alt"
+      }, "ii6/V"));
+
+      /* the asterisk on the chord whose function has changed under it */
+      svg.appendChild(el("text", {
+        x: XS[TURN] + 38, y: SYM_ROW, "class": "chordsym star"
+      }, "*"));
+
+      /* the arrival, named in both keys */
+      var bx = XS[LAST] + 10, bw = 48, bh = 26;
+      svg.appendChild(el("rect", {
+        x: bx - bw / 2, y: RN_ROW - 18, width: bw, height: bh, "class": "key-box"
+      }));
+      svg.appendChild(el("text", { x: bx, y: RN_ROW, "class": "lvl1" }, "V = I"));
+
+      /* no closing barline: the music keeps going */
+      var ax = XS[LAST] + 52, ay = (GS.trebleBottom + GS.bassTop) / 2;
+      svg.appendChild(el("line", {
+        x1: ax, y1: ay, x2: ax + 34, y2: ay, "class": "cont-line"
+      }));
+      svg.appendChild(el("path", {
+        d: "M" + (ax + 44) + " " + ay + " L" + (ax + 33) + " " + (ay - 5) +
+           " L" + (ax + 33) + " " + (ay + 5) + " z",
+        "class": "cont-head"
+      }));
+
+      [
+        "* The same C major triad, no longer heard as clearly as the tonic.",
+        "Same chord, different functions."
+      ].forEach(function (line, k) {
+        svg.appendChild(el("text", {
+          x: 10, y: NOTE_ROW + 18 * k, "class": "fn-note"
+        }, line));
+      });
+    })();
+  })();
   })();
 
 })();
