@@ -482,13 +482,6 @@
     text-anchor: middle;
   }
 
-  .fn-app {
-    font-family: var(--font-data);
-    font-size: 12px;
-    fill: var(--ink);
-    text-anchor: middle;
-  }
-
   .fn-or {
     font-family: var(--font-data);
     font-size: 10px;
@@ -1213,10 +1206,6 @@
 
     <p class="full">An applied chord belongs to the function of the chord it points at: V/vi and V/iii to the mediant, V/ii and V/IV to the pre-dominant, V/V to the dominant. The <a href="#sec-voice-leading">voice leading rules</a> hold unchanged. Chromatic harmony puts more sensitive tones on the page, and each one still resolves: raised notes up, lowered notes down, never doubled. In the phrase above, F♯ (leading tone of the applied dominant) rises to G (its target) and the chordal seventh C resolves down to B.</p>
 
-    <section class="panel">
-      <svg id="prolong-map-applied" viewBox="-75 0 1200 350" role="img" aria-label="Tonic, mediant, pre-dominant, and dominant in a row with a curved return to the tonic, each with a dotted box below listing its standard prolongations, the last three including applied chords"></svg>
-    </section>
-
     <h2 id="sec-leading">applied leading-tone chords</h2>
     <p class="full">Three chords stand on 7̂:</p>
     <ul class="full">
@@ -1300,10 +1289,10 @@
     <p class="full">Chromatic harmony expands steadily across the repertoire this course covers. In Haydn and Mozart mixture is local color inside a firmly diatonic frame. Schubert saturates major-mode pieces with the parallel minor far enough that the twenty-four keys start to behave like twelve major-minor keys. By the end of the nineteenth century the chromatic chords in a passage can outnumber the diatonic ones. The chart maps the tonal system, not any one period of it.</p>
 
     <section class="panel">
-      <svg id="master-fn-all" viewBox="-60 0 1200 280" role="img" aria-label="The function chart with every chord, tonic, mediant, pre-dominant, dominant, and tonic, each box split into major and minor, the pre-dominant box carrying a third section with the Italian, French, and German augmented sixths and the Neapolitan sixth, and a band across the foot of the mediant, pre-dominant, and dominant boxes holding their applied chords"></svg>
+      <svg id="master-fn-all" viewBox="-68 0 1200 430" role="img" aria-label="The function chart with every chord, tonic, mediant, pre-dominant, dominant, and tonic in a row, each box split into major and minor, the pre-dominant box carrying a third section with the Italian, French, and German augmented sixths and the Neapolitan sixth, and beneath each box a dotted panel listing the harmonies that prolong that function"></svg>
     </section>
 
-    <p class="full">A chord borrowed from the parallel mode sits in the other column of the same box, and the function of that box is the function it keeps. The band below each divider holds the applied chords pointing into that function, written in major. In minor they point at the minor-mode targets: V/♭III and V/♭VI in the mediant, V/iv in the pre-dominant. Every applied dominant in the band has a leading-tone counterpart built a semitone below the same target.</p>
+    <p class="full">A chord borrowed from the parallel mode sits in the other column of the same box, and the function of that box is the function it keeps. The panel under each box holds what prolongs that function: the inversions, the passing and neighboring chords, and the applied chords pointing into it.</p>
 
     <h2 id="sec-quality">quality informs function: a guided analysis</h2>
     <p class="full">Analysis can be daunting, but with the proper methodology you can tackle any passage. The main thing to remember: in tonal music, the quality of a chord (what it is) will always inform its function. And when you have function, you have syntax, and with syntax you will always be able to predict where the music is going. Tonal music <em>is</em> a predictable motion of stable musical energy becoming unstable and needing to resolve.</p>
@@ -2691,21 +2680,41 @@
   function masterChart(id, opts) {
     opts = opts || {};
     var svg = document.getElementById(id);
-    var TOP = 72, MID = TOP + 56;
-    var H = opts.applied ? 152 : 112;
+    var TOP = 72, H = 112, MID = TOP + 56;
     var ROW1 = TOP + 46, ROW2 = TOP + 82, MODE_Y = TOP + 22;
-    var BAND = TOP + 116, APP_Y = TOP + 140;
+
+    /* the prolongation panel hangs below each box, centred on it */
+    var DOT_TOP = TOP + H + 40, ROW0 = DOT_TOP + 48, PRO_ROW = 23, PAD = 68;
 
     /* a row is one numeral and the figures available to it;
        an empty figure list means the plain triad */
     var BOXES = [
       { lw: 52, rw: 52, title: "TONIC",
+        pro: [
+          ["I \u2013 I6", "CL"],
+          ["I \u2013 V6 \u2013 I", "N"],
+          ["I \u2013 vii\u00B06 \u2013 I6", "P"],
+          ["I \u2013 V4/3 \u2013 I6", "P"],
+          ["I \u2013 IV6 \u2013 I6", "arp"],
+          ["I \u2013 IV6/4 \u2013 I", "ped"]
+        ],
         major: [{ n: "I" }],
         minor: [{ n: "i" }] },
-      { lw: 62, rw: 62, title: "MEDIANT", app: "V/iii  V/vi",
+      { lw: 62, rw: 62, title: "MEDIANT",
+        pro: [
+          ["vi \u2013 vi6", "CL"],
+          ["applied chords", "app"]
+        ],
         major: [{ n: "iii" }, { n: "vi" }],
         minor: [{ n: "III", flat: true }, { n: "VI", flat: true }] },
-      { lw: 78, rw: 88, cw: 110, title: "PRE-DOMINANT", app: "V/ii  V/IV",
+      { lw: 78, rw: 88, cw: 110, title: "PRE-DOMINANT",
+        pro: [
+          ["ii \u2013 ii6", "CL"],
+          ["IV \u2013 ii6", "5\u20136"],
+          ["ii \u2013 I6 \u2013 ii6", "P"],
+          ["IV6 \u2013 I6/4 \u2013 ii6", "P"],
+          ["applied chords", "app"]
+        ],
         chrom: [
           { n: "It+6", figs: [[], { label: "Fr+6" }] },
           { n: "Ger+6", figs: [[], { label: "N6" }] }
@@ -2715,7 +2724,13 @@
           { n: "ii\u00B0", figs: [["6"], { n: "ii\u00F8", f: ["6", "5"] }] },
           { n: "iv" }
         ] },
-      { lw: 106, rw: 136, title: "DOMINANT", app: "V/V",
+      { lw: 106, rw: 136, title: "DOMINANT",
+        pro: [
+          ["V \u2013 V6", "CL"],
+          ["V \u2013 IV6 \u2013 V6", "P"],
+          ["Cad6/4 \u2013 V", "cad"],
+          ["applied chords", "app"]
+        ],
         major: [
           { n: "V", figs: [[], { label: "V7 + inv" }] },
           { n: "vii\u00B0", figs: [["6"], { n: "vii\u00F8", f: ["6", "5"] }] }
@@ -2825,20 +2840,28 @@
         c.rows.forEach(function (r, i) { row(c.x + 10, i ? ROW2 : ROW1, r); });
       });
 
-      if (opts.applied) {
-        svg.appendChild(el("line", {
-          x1: b.x, y1: BAND, x2: b.x + b.w, y2: BAND, "class": "fn-div"
-        }));
-        if (b.app) {
-          svg.appendChild(el("text", {
-            x: b.x + b.w / 2, y: APP_Y, "class": "fn-app"
-          }, b.app));
-        }
-      }
+      if (opts.prolong && b.pro) { prolongPanel(svg, b.x + b.w / 2, TOP + H, b.pro); }
     });
 
-    if (opts.applied) {
-      svg.appendChild(el("text", { x: 14, y: APP_Y, "class": "pro-tag" }, "APPLIED"));
+    function prolongPanel(target, cx, boxBottom, pats) {
+      var h = ROW0 - DOT_TOP + PRO_ROW * (pats.length - 1) + 22;
+      target.appendChild(el("line", {
+        x1: cx, y1: boxBottom, x2: cx, y2: DOT_TOP, "class": "pro-box"
+      }));
+      target.appendChild(el("rect", {
+        x: cx - PAD, y: DOT_TOP, width: PAD * 2, height: h, "class": "pro-box"
+      }));
+      target.appendChild(el("text", {
+        x: cx, y: DOT_TOP + 22, "class": "pro-title"
+      }, "PROLONGED BY"));
+      pats.forEach(function (pt, i) {
+        target.appendChild(el("text", {
+          x: cx - PAD + 12, y: ROW0 + PRO_ROW * i, "class": "pro-pat"
+        }, pt[0]));
+        target.appendChild(el("text", {
+          x: cx + PAD - 12, y: ROW0 + PRO_ROW * i, "class": "pro-tag"
+        }, pt[1]));
+      });
     }
 
     function blockArrow(x1, x2) {
@@ -2878,12 +2901,11 @@
   }
 
   masterChart("master-fn");
-  masterChart("master-fn-all", { chromatic: true, applied: true });
+  masterChart("master-fn-all", { chromatic: true, prolong: true });
 
   /* ---------- prolongation map ---------- */
 
-  function prolongMap(id, opts) {
-    opts = opts || {};
+  function prolongMap(id) {
     var svg = document.getElementById(id);
     var BOX_TOP = 60, BOX_H = 64, MID = BOX_TOP + BOX_H / 2;
     var DOT_TOP = 152, ROW0 = 200, ROW = 23, PAD = 95;
@@ -2897,32 +2919,19 @@
         ["I \u2013 IV6 \u2013 I6", "arp"],
         ["I \u2013 IV6/4 \u2013 I", "ped"]
       ] },
-      { cx: 330, title: "MEDIANT", mediant: true, pats: [
-        ["vi \u2013 vi6", "CL"],
-        ["applied chords", "app"]
-      ] },
-      { cx: 550, title: "PRE-DOMINANT", pats: [
+      { cx: 330, title: "PRE-DOMINANT", pats: [
         ["ii \u2013 ii6", "CL"],
         ["IV \u2013 ii6", "5\u20136"],
         ["ii \u2013 I6 \u2013 ii6", "P"],
-        ["IV6 \u2013 I6/4 \u2013 ii6", "P"],
-        ["applied chords", "app"]
+        ["IV6 \u2013 I6/4 \u2013 ii6", "P"]
       ] },
-      { cx: 770, title: "DOMINANT", pats: [
+      { cx: 550, title: "DOMINANT", pats: [
         ["V \u2013 V6", "CL"],
         ["V \u2013 IV6 \u2013 V6", "P"],
-        ["Cad6/4 \u2013 V", "cad"],
-        ["applied chords", "app"]
+        ["Cad6/4 \u2013 V", "cad"]
       ] }
     ];
 
-    if (!opts.applied) {
-      COLS = COLS.filter(function (c) { return !c.mediant; })
-        .map(function (c, i) {
-          return { cx: 110 + 220 * i, title: c.title, pats: c.pats.filter(
-            function (pt) { return pt[1] !== "app"; }) };
-        });
-    }
     var LAST = COLS[COLS.length - 1].cx + 200;
 
     COLS.forEach(function (c) {
@@ -2998,7 +3007,6 @@
   }
 
   prolongMap("prolong-map");
-  prolongMap("prolong-map-applied", { applied: true });
 
   /* ---------- contents: mark the section in view ---------- */
 
