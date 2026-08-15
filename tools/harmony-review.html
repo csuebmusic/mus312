@@ -1419,12 +1419,12 @@
     </div>
 
     <h2 id="sec-mod-pivot">the pivot chord</h2>
-    <p class="full">A pivot chord belongs to both keys at once. Approached as a chord in the old key and left as a chord in the new one, it changes the syntax under the music without changing the sound.</p>
+    <p class="full">A pivot chord belongs to both keys at once. We approach it as a chord in the old key and leave it as a chord in the new one, meaning the sound itself never actually changes: what changes is the syntax underneath it. Nothing on the page announces the switch, which is why finding the pivot is usually the first thing to do when analyzing a modulation.</p>
 
     <p class="full">The submediant is the common pivot in a move to the dominant: vi6 at home is ii6 in the key of V, and the pre-dominant it becomes leads straight to the cadence that confirms the new tonic. A six-four is never a pivot. It is unstable in both keys.</p>
 
     <section class="panel">
-      <svg id="mod-pivot" viewBox="-235 20 1600 330" role="img" aria-label="Seven chords in keyboard style modulating from C major to G major, tonic, tonic in first inversion, submediant, submediant in first inversion ringed and read again as two six of five, then four of five marked with an asterisk, five seven of five, and an arrival on five boxed as five equals one, with an arrow showing the music continues"></svg>
+      <svg id="mod-pivot" viewBox="-235 20 1600 320" role="img" aria-label="Seven chords in keyboard style modulating from C major to G major, tonic, tonic in first inversion, submediant, submediant in first inversion ringed and read again as two six of five, then four of five marked with an asterisk, five seven of five, and an arrival on five boxed as five equals one, with an arrow showing the music continues"></svg>
     </section>
   </section>
 
@@ -4533,24 +4533,25 @@
           x: x + 10, y: SYM_ROW, "class": "chordsym" + (k === TURN ? " lit-a" : "")
         }, SYM[k]));
         if (RN[k]) {
-          svg.appendChild(el("text", { x: x + 10, y: RN_ROW, "class": "lvl1" }, RN[k]));
+          svg.appendChild(el("text", {
+            x: x + 10, y: RN_ROW, "class": "lvl1" + (k === TURN ? " lit-a" : "")
+          }, RN[k]));
         }
       });
 
-      /* the pivot, ringed and read again in the key it is turning toward */
-      var ringY = (gsY(UPPER[PIVOT][2], "t") + gsY(UPPER[PIVOT][0], "t")) / 2;
+      /* the pivot numeral, ringed and read again in the key it is turning toward.
+         vi6 measures 21.5px in the numeral face, so the ring clears it either side */
       svg.appendChild(el("ellipse", {
-        cx: XS[PIVOT] + 10, cy: ringY, rx: 34,
-        ry: (gsY(UPPER[PIVOT][0], "t") - gsY(UPPER[PIVOT][2], "t")) / 2 + 16,
-        "class": "pivot-ring"
+        cx: XS[PIVOT] + 10, cy: RN_ROW - 5, rx: 24, ry: 16, "class": "pivot-ring"
       }));
       svg.appendChild(el("text", {
         x: XS[PIVOT] + 10, y: ALT_ROW, "class": "pivot-alt"
       }, "ii6/V"));
 
-      /* the asterisk on the chord whose function has changed under it */
+      /* the asterisk beside the numeral whose function has changed under it.
+         IV/V measures 32px, centred, so the mark sits clear of its right edge */
       svg.appendChild(el("text", {
-        x: XS[TURN] + 38, y: SYM_ROW, "class": "chordsym star"
+        x: XS[TURN] + 34, y: RN_ROW, "class": "lvl1 star"
       }, "*"));
 
       /* the arrival, named in both keys */
@@ -4571,14 +4572,9 @@
         "class": "cont-head"
       }));
 
-      [
-        "* The same C major triad, no longer heard as clearly as the tonic.",
-        "Same chord, different functions."
-      ].forEach(function (line, k) {
-        svg.appendChild(el("text", {
-          x: 10, y: NOTE_ROW + 18 * k, "class": "fn-note"
-        }, line));
-      });
+      svg.appendChild(el("text", { x: 10, y: NOTE_ROW, "class": "fn-note" },
+        "* The same C major triad, no longer heard as clearly as the tonic. " +
+        "Same chord, different functions."));
     })();
   })();
   })();
