@@ -1292,6 +1292,11 @@
       <svg id="master-fn-all" viewBox="-68 0 1200 430" role="img" aria-label="The function chart with every chord, tonic, mediant, pre-dominant, dominant, and tonic in a row, each box split into major and minor, the pre-dominant box carrying a third section with the Italian, French, and German augmented sixths and the Neapolitan sixth, and beneath each box a dotted panel listing the harmonies that prolong that function"></svg>
     </section>
 
+    <div class="controls">
+      <button id="chart-png" type="button">download chart</button>
+      <p class="readout" id="chart-png-note"></p>
+    </div>
+
     <p class="full">A chord borrowed from the parallel mode sits in the other column of the same box, and the function of that box is the function it keeps. The panel under each box holds what prolongs that function: the inversions, the passing and neighboring chords, and the applied chords pointing into it. Those patterns are written in major. Minor takes the same shapes with its own qualities.</p>
 
     <h2 id="sec-quality">quality informs function: a guided analysis</h2>
@@ -2902,6 +2907,144 @@
 
   masterChart("master-fn");
   masterChart("master-fn-all", { chromatic: true, prolong: true });
+
+  /* ---------- the chart as a file ---------- */
+
+  (function chartDownload() {
+    var btn = document.getElementById("chart-png");
+    var note = document.getElementById("chart-png-note");
+    var svg = document.getElementById("master-fn-all");
+    if (!btn || !svg) { return; }
+    if (!window.fetch || !window.Blob || !window.URL || !window.btoa ||
+        !document.createElement("canvas").getContext) {
+      btn.hidden = true;
+      return;
+    }
+
+    var LABEL = btn.textContent;
+    var NAME = "mus312-function-and-prolongation-chart";
+    var SCALE = 3;
+
+    /* the properties the figure's classes actually set */
+    var PROPS = [
+      "fill", "stroke", "stroke-width", "stroke-dasharray",
+      "font-family", "font-size", "font-weight", "letter-spacing",
+      "text-anchor", "dominant-baseline"
+    ];
+    var FONTS = [
+      ["Plex Sans", "IBMPlexSans-Regular.woff2"],
+      ["Plex Mono", "IBMPlexMono-Regular.woff2"],
+      ["Bravura", "Bravura.woff2"]
+    ];
+
+    var faces = null;
+    var root = window.getComputedStyle(document.documentElement);
+
+    /* a browser substitutes custom properties before returning a computed
+       value; this covers the ones that come back unsubstituted */
+    function resolve(v) {
+      return v.replace(/var\(\s*(--[\w-]+)\s*\)/g, function (whole, name) {
+        return root.getPropertyValue(name).trim() || whole;
+      });
+    }
+
+    function base64(buf) {
+      var bytes = new window.Uint8Array(buf), out = "", i;
+      for (i = 0; i < bytes.length; i++) { out += String.fromCharCode(bytes[i]); }
+      return window.btoa(out);
+    }
+
+    /* the page's own woff2, carried into the file as data urls */
+    function fontFaces() {
+      if (!faces) {
+        faces = window.Promise.all(FONTS.map(function (f) {
+          return window.fetch("../assets/fonts/" + f[1])
+            .then(function (r) { return r.arrayBuffer(); })
+            .then(function (buf) {
+              return "@font-face{font-family:'" + f[0] + "';src:url(data:font/woff2;base64," +
+                     base64(buf) + ") format('woff2');}";
+            });
+        })).then(function (a) { return a.join(""); });
+      }
+      return faces;
+    }
+
+    /* computed styles written onto the copy, so the file needs no
+       stylesheet and no variables */
+    function freeze(from, to) {
+      var cs = window.getComputedStyle(from), i, v;
+      for (i = 0; i < PROPS.length; i++) {
+        v = cs.getPropertyValue(PROPS[i]);
+        if (v && v !== "normal" && v !== "auto") { to.setAttribute(PROPS[i], resolve(v)); }
+      }
+      for (i = 0; i < from.children.length; i++) { freeze(from.children[i], to.children[i]); }
+    }
+
+    function serialize(css) {
+      var box = svg.getAttribute("viewBox").split(/[\s,]+/).map(Number);
+      var copy = svg.cloneNode(true);
+      freeze(svg, copy);
+      copy.setAttribute("width", box[2]);
+      copy.setAttribute("height", box[3]);
+      copy.insertBefore(el("rect", {
+        x: box[0], y: box[1], width: box[2], height: box[3],
+        fill: window.getComputedStyle(document.body).backgroundColor || "#ffffff"
+      }), copy.firstChild);
+      var style = document.createElementNS(SVGNS, "style");
+      style.textContent = css;
+      copy.insertBefore(style, copy.firstChild);
+      return {
+        text: new window.XMLSerializer().serializeToString(copy),
+        w: box[2], h: box[3]
+      };
+    }
+
+    function save(blob, ext) {
+      var a = document.createElement("a");
+      a.href = window.URL.createObjectURL(blob);
+      a.download = NAME + "." + ext;
+      a.click();
+      window.URL.revokeObjectURL(a.href);
+    }
+
+    function reset(msg) {
+      btn.disabled = false;
+      btn.textContent = LABEL;
+      if (note) { note.textContent = msg || ""; }
+    }
+
+    function run() {
+      btn.disabled = true;
+      btn.textContent = "preparing";
+      if (note) { note.textContent = ""; }
+      fontFaces().then(function (css) {
+        var out = serialize(css);
+        var svgBlob = new window.Blob([out.text], { type: "image/svg+xml;charset=utf-8" });
+        var url = window.URL.createObjectURL(svgBlob);
+        var img = new window.Image();
+        img.onload = function () {
+          var canvas = document.createElement("canvas");
+          canvas.width = out.w * SCALE;
+          canvas.height = out.h * SCALE;
+          canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+          window.URL.revokeObjectURL(url);
+          canvas.toBlob(function (png) {
+            if (png) { save(png, "png"); reset(); } else { save(svgBlob, "svg"); reset("saved as svg"); }
+          }, "image/png");
+        };
+        img.onerror = function () {
+          window.URL.revokeObjectURL(url);
+          save(svgBlob, "svg");
+          reset("saved as svg");
+        };
+        img.src = url;
+      })["catch"](function () {
+        reset("the chart could not be saved");
+      });
+    }
+
+    btn.addEventListener("click", run);
+  })();
 
   /* ---------- prolongation map ---------- */
 
