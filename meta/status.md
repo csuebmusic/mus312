@@ -20,7 +20,7 @@ Part 4 is complete.
 
 Skipped: the chromatic sequences, Laitz 144–147, and the sequence as a modulating device, 153–155.
 
-Open: whether parts 3 and 4 stay in `tools/harmony-review.html` or become a second file. The file is 4,708 lines.
+Open: whether parts 3 and 4 stay in `tools/harmony-review.html` or become a second file. The file is 4,705 lines.
 
 Caplin's guide to harmonic annotation, pages 24 and 25, has no legend anywhere in the tool. It runs to eleven entries. Three collide with conventions already set on the page: Caplin's uppercase numerals irrespective of quality, his three functions, and his n and p labels without CL and arp.
 
