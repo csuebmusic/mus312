@@ -1424,7 +1424,7 @@
     <p class="full">The submediant is the common pivot in a move to the dominant: vi6 at home is ii6 in the key of V, and the pre-dominant it becomes leads straight to the cadence that confirms the new tonic. A six-four is never a pivot. It is unstable in both keys.</p>
 
     <section class="panel">
-      <svg id="mod-pivot" viewBox="-235 20 1600 320" role="img" aria-label="Seven chords in keyboard style modulating from C major to G major, tonic, tonic in first inversion, submediant, submediant in first inversion boxed and read again as two six of five, then four of five marked with an asterisk, five seven of five, and an arrival on five boxed as five equals one, with the last two chords bracketed as a perfect authentic cadence in G and an arrow showing the music continues"></svg>
+      <svg id="mod-pivot" viewBox="-157 20 1600 320" role="img" aria-label="Eight chords in keyboard style modulating from C major to G major, tonic, a passing dominant seventh in second inversion, tonic in first inversion, submediant, submediant in first inversion boxed and read again as two six of five, then four of five marked with an asterisk, five seven of five, and an arrival on five boxed as five equals one, with the last two chords bracketed as a perfect authentic cadence in G and an arrow showing the music continues"></svg>
     </section>
   </section>
 
@@ -4509,18 +4509,18 @@
       if (!svg) { return; }
 
       var XS = [], i;
-      for (i = 0; i < 7; i++) { XS.push(130 + 150 * i); }
+      for (i = 0; i < 8; i++) { XS.push(130 + 150 * i); }
 
-      var BASS  = ["C3", "E3", "A2", "C3", "C3", "D3", "G3"];
+      var BASS  = ["C3", "D3", "E3", "A2", "C3", "C3", "D3", "G3"];
       var UPPER = [
-        ["G4", "C5", "E5"], ["G4", "C5", "E5"], ["A4", "C5", "E5"],
-        ["A4", "C5", "E5"], ["G4", "C5", "E5"], ["D4", "C5", "F#5"],
-        ["D4", "B4", "G5"]
+        ["G4", "C5", "E5"], ["G4", "B4", "F5"], ["G4", "C5", "E5"],
+        ["A4", "C5", "E5"], ["A4", "C5", "E5"], ["G4", "C5", "E5"],
+        ["D4", "C5", "F#5"], ["D4", "B4", "G5"]
       ];
-      var SYM = ["C", "C/E", "Am", "Am/C", "C", "D7", "G"];
-      var RN  = ["I", "I6", "vi", "vi6", "IV/V", "V7/V", ""];
+      var SYM = ["C", "G7/D", "C/E", "Am", "Am/C", "C", "D7", "G"];
+      var RN  = ["I", "V4/3", "I6", "vi", "vi6", "IV/V", "V7/V", ""];
 
-      var PIVOT = 3, TURN = 4, LAST = 6;
+      var PIVOT = 4, TURN = 5, LAST = 7;
       var SYM_ROW = 36, RN_ROW = 262, ALT_ROW = 292, BR_Y = 286, NOTE_ROW = 328;
 
       var sig = grandStaff(svg, XS[LAST] + 96);
@@ -4550,7 +4550,7 @@
       }, "ii6/V"));
 
       /* the cadence that confirms the new key, bracketed */
-      var c1 = XS[5] - 6, c2 = XS[6] + 26;
+      var c1 = XS[LAST - 1] - 6, c2 = XS[LAST] + 26;
       svg.appendChild(el("path", {
         d: "M " + c1 + " " + (BR_Y - 7) + " L " + c1 + " " + BR_Y +
            " L " + c2 + " " + BR_Y + " L " + c2 + " " + (BR_Y - 7),
