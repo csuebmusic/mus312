@@ -482,11 +482,11 @@
     text-anchor: middle;
   }
 
-  .pivot-ring { fill: none; stroke: var(--accent-2); stroke-width: 1.5; }
+  .pivot-box { fill: none; stroke: var(--accent); stroke-width: 2; }
   .pivot-alt {
     font-family: var(--font-body);
     font-size: 15px;
-    fill: var(--accent-2);
+    fill: var(--accent);
     text-anchor: middle;
   }
   .key-box { fill: none; stroke: var(--ink); stroke-width: 1; }
@@ -1419,12 +1419,12 @@
     </div>
 
     <h2 id="sec-mod-pivot">the pivot chord</h2>
-    <p class="full">A pivot chord belongs to both keys at once. We approach it as a chord in the old key and leave it as a chord in the new one, meaning the sound itself never actually changes: what changes is the syntax underneath it. Nothing on the page announces the switch, which is why finding the pivot is usually the first thing to do when analyzing a modulation.</p>
+    <p class="full">A pivot chord belongs to both keys at once. We approach it as a chord in the old key and leave it as a chord in the new one, meaning the sound itself never actually changes: what changes is the syntax underneath it. To find one, start at the end: locate the authentic cadence in the new key, bracket just the V and the I, and work backwards from there until you reach a chord that makes sense in both keys. Not every modulation uses a pivot, but it is a very common technique.</p>
 
     <p class="full">The submediant is the common pivot in a move to the dominant: vi6 at home is ii6 in the key of V, and the pre-dominant it becomes leads straight to the cadence that confirms the new tonic. A six-four is never a pivot. It is unstable in both keys.</p>
 
     <section class="panel">
-      <svg id="mod-pivot" viewBox="-235 20 1600 320" role="img" aria-label="Seven chords in keyboard style modulating from C major to G major, tonic, tonic in first inversion, submediant, submediant in first inversion ringed and read again as two six of five, then four of five marked with an asterisk, five seven of five, and an arrival on five boxed as five equals one, with an arrow showing the music continues"></svg>
+      <svg id="mod-pivot" viewBox="-235 20 1600 320" role="img" aria-label="Seven chords in keyboard style modulating from C major to G major, tonic, tonic in first inversion, submediant, submediant in first inversion boxed and read again as two six of five, then four of five marked with an asterisk, five seven of five, and an arrival on five boxed as five equals one, with the last two chords bracketed as a perfect authentic cadence in G and an arrow showing the music continues"></svg>
     </section>
   </section>
 
@@ -4513,15 +4513,15 @@
 
       var BASS  = ["C3", "E3", "A2", "C3", "C3", "D3", "G3"];
       var UPPER = [
-        ["E4", "G4", "C5"], ["E4", "G4", "C5"], ["E4", "A4", "C5"],
-        ["E4", "A4", "C5"], ["E4", "G4", "C5"], ["D4", "F#4", "C5"],
-        ["D4", "G4", "B4"]
+        ["G4", "C5", "E5"], ["G4", "C5", "E5"], ["A4", "C5", "E5"],
+        ["A4", "C5", "E5"], ["G4", "C5", "E5"], ["D4", "C5", "F#5"],
+        ["D4", "B4", "G5"]
       ];
       var SYM = ["C", "C/E", "Am", "Am/C", "C", "D7", "G"];
       var RN  = ["I", "I6", "vi", "vi6", "IV/V", "V7/V", ""];
 
       var PIVOT = 3, TURN = 4, LAST = 6;
-      var SYM_ROW = 36, RN_ROW = 262, ALT_ROW = 292, NOTE_ROW = 328;
+      var SYM_ROW = 36, RN_ROW = 262, ALT_ROW = 292, BR_Y = 286, NOTE_ROW = 328;
 
       var sig = grandStaff(svg, XS[LAST] + 96);
 
@@ -4539,14 +4539,26 @@
         }
       });
 
-      /* the pivot numeral, ringed and read again in the key it is turning toward.
-         vi6 measures 21.5px in the numeral face, so the ring clears it either side */
-      svg.appendChild(el("ellipse", {
-        cx: XS[PIVOT] + 10, cy: RN_ROW - 5, rx: 24, ry: 16, "class": "pivot-ring"
+      /* both readings of the pivot boxed together. ii6/V is the wider of the
+         two at 31.4px, so the box is drawn to clear that */
+      svg.appendChild(el("rect", {
+        x: XS[PIVOT] + 10 - 26, y: RN_ROW - 19, width: 52, height: 56,
+        "class": "pivot-box"
       }));
       svg.appendChild(el("text", {
         x: XS[PIVOT] + 10, y: ALT_ROW, "class": "pivot-alt"
       }, "ii6/V"));
+
+      /* the cadence that confirms the new key, bracketed */
+      var c1 = XS[5] - 6, c2 = XS[6] + 26;
+      svg.appendChild(el("path", {
+        d: "M " + c1 + " " + (BR_Y - 7) + " L " + c1 + " " + BR_Y +
+           " L " + c2 + " " + BR_Y + " L " + c2 + " " + (BR_Y - 7),
+        "class": "cad-bracket"
+      }));
+      svg.appendChild(el("text", {
+        x: (c1 + c2) / 2, y: BR_Y + 22, "class": "lvl2"
+      }, "PAC in G"));
 
       /* the asterisk beside the numeral whose function has changed under it.
          IV/V measures 32px, centred, so the mark sits clear of its right edge */
