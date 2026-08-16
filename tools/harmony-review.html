@@ -1650,6 +1650,39 @@
   }
   var INSET = 6 * Math.PI / 180;
 
+  /* ---------- arrows ---------- */
+
+  /* an arrowhead marker in a figure's own defs, returned as a url() reference */
+  function arrowMarker(target, id, w, refX, cls) {
+    var defs = el("defs", {});
+    var m = el("marker", {
+      id: id, markerWidth: w, markerHeight: w, refX: refX, refY: w / 2,
+      orient: "auto", markerUnits: "userSpaceOnUse"
+    });
+    m.appendChild(el("path", {
+      d: "M0,0 L" + w + "," + (w / 2) + " L0," + w + " z", "class": cls
+    }));
+    defs.appendChild(m);
+    target.appendChild(defs);
+    return "url(#" + id + ")";
+  }
+
+  /* a block arrow running from x1 to x2, centred on y */
+  var ARROW_WIDE = { s: 6, hw: 26, hh: 15 };
+  var ARROW_NARROW = { s: 5, hw: 22, hh: 13 };
+
+  function blockArrow(svg, x1, x2, y, size) {
+    var s = size.s, hw = size.hw, hh = size.hh;
+    svg.appendChild(el("polygon", {
+      points: [
+        x1 + "," + (y - s), (x2 - hw) + "," + (y - s), (x2 - hw) + "," + (y - hh),
+        x2 + "," + y, (x2 - hw) + "," + (y + hh), (x2 - hw) + "," + (y + s),
+        x1 + "," + (y + s)
+      ].join(" "),
+      "class": "fn-arrow"
+    }));
+  }
+
   /* ---------- spelling ---------- */
 
   function keySigMap(key) {
@@ -1806,15 +1839,7 @@
 
     /* ----- clock ----- */
 
-    var defs = el("defs", {});
-    var markerId = "arrowhead-" + cfg.id;
-    var marker = el("marker", {
-      id: markerId, markerWidth: 8, markerHeight: 8, refX: 7, refY: 4,
-      orient: "auto", markerUnits: "userSpaceOnUse"
-    });
-    marker.appendChild(el("path", { d: "M0,0 L8,4 L0,8 z", "class": "arrowhead-fill" }));
-    defs.appendChild(marker);
-    clock.appendChild(defs);
+    var markerRef = arrowMarker(clock, "arrowhead-" + cfg.id, 8, 7, "arrowhead-fill");
     clock.appendChild(el("circle", { cx: CX, cy: CY, r: R_RIM, "class": "rim" }));
 
     for (var pc = 0; pc < 12; pc++) {
@@ -1854,7 +1879,7 @@
       cfg.arrows.forEach(function (a) {
         clock.appendChild(el("path", {
           d: arc(a.from, a.to, R_ARROW, INSET), "class": "arrow",
-          "marker-end": "url(#" + markerId + ")"
+          "marker-end": markerRef
         }));
         var m = (a.from + a.to) / 2;
         clock.appendChild(el("text", {
@@ -1895,7 +1920,7 @@
     if (cfg.gap) {
       layer.appendChild(el("path", {
         d: arc(cfg.gap[0], cfg.gap[1], R_ARROW, INSET), "class": "gap-arc",
-        "marker-end": "url(#" + markerId + ")"
+        "marker-end": markerRef
       }));
       var gm = (cfg.gap[0] + cfg.gap[1]) / 2;
       gapLabel = el("text", {
@@ -2439,14 +2464,7 @@
 
       if (notes && notes.length) {
         var mid = "vlhead-" + id;
-        var defs = el("defs", {});
-        var marker = el("marker", {
-          id: mid, markerWidth: 7, markerHeight: 7, refX: 6, refY: 3.5,
-          orient: "auto", markerUnits: "userSpaceOnUse"
-        });
-        marker.appendChild(el("path", { d: "M0,0 L7,3.5 L0,7 z", "class": "vl-head" }));
-        defs.appendChild(marker);
-        svg.appendChild(defs);
+        arrowMarker(svg, mid, 7, 6, "vl-head");
 
         notes.forEach(function (a) {
           var from = at[a[0] + ":" + a[1]], to = at[a[2] + ":" + a[3]];
@@ -2627,29 +2645,10 @@
       });
     });
 
-    function blockArrow(x1, x2) {
-      var y = MID, s = 6, hw = 26, hh = 15;
-      svg.appendChild(el("polygon", {
-        points: [
-          x1 + "," + (y - s), (x2 - hw) + "," + (y - s), (x2 - hw) + "," + (y - hh),
-          x2 + "," + y, (x2 - hw) + "," + (y + hh), (x2 - hw) + "," + (y + s),
-          x1 + "," + (y + s)
-        ].join(" "),
-        "class": "fn-arrow"
-      }));
-    }
+    blockArrow(svg, 240, 292, MID, ARROW_WIDE);
+    blockArrow(svg, 500, 552, MID, ARROW_WIDE);
 
-    blockArrow(240, 292);
-    blockArrow(500, 552);
-
-    var defs = el("defs", {});
-    var marker = el("marker", {
-      id: "syntax-head", markerWidth: 12, markerHeight: 12, refX: 10, refY: 6,
-      orient: "auto", markerUnits: "userSpaceOnUse"
-    });
-    marker.appendChild(el("path", { d: "M0,0 L12,6 L0,12 z", "class": "fn-arrow" }));
-    defs.appendChild(marker);
-    svg.appendChild(defs);
+    arrowMarker(svg, "syntax-head", 12, 10, "fn-arrow");
 
     svg.appendChild(el("path", {
       d: "M760 " + (MID - 14) + " C 800 30, 840 30, 872 " + (MID - 14),
@@ -3020,32 +3019,13 @@
       });
     }
 
-    function blockArrow(x1, x2) {
-      var y = MID, s = 5, hw = 22, hh = 13;
-      svg.appendChild(el("polygon", {
-        points: [
-          x1 + "," + (y - s), (x2 - hw) + "," + (y - s), (x2 - hw) + "," + (y - hh),
-          x2 + "," + y, (x2 - hw) + "," + (y + hh), (x2 - hw) + "," + (y + s),
-          x1 + "," + (y + s)
-        ].join(" "),
-        "class": "fn-arrow"
-      }));
-    }
-
     BOXES.forEach(function (b, i) {
       if (i && i < BOXES.length - 1) {
-        blockArrow(BOXES[i - 1].x + BOXES[i - 1].w + 10, b.x - 4);
+        blockArrow(svg, BOXES[i - 1].x + BOXES[i - 1].w + 10, b.x - 4, MID, ARROW_NARROW);
       }
     });
 
-    var defs = el("defs", {});
-    var marker = el("marker", {
-      id: id + "-head", markerWidth: 12, markerHeight: 12, refX: 10, refY: 6,
-      orient: "auto", markerUnits: "userSpaceOnUse"
-    });
-    marker.appendChild(el("path", { d: "M0,0 L12,6 L0,12 z", "class": "fn-arrow" }));
-    defs.appendChild(marker);
-    svg.appendChild(defs);
+    arrowMarker(svg, id + "-head", 12, 10, "fn-arrow");
 
     var last = BOXES[BOXES.length - 1], pen = BOXES[BOXES.length - 2];
     var q0 = pen.x + pen.w + 10, q1 = last.x - 6;
@@ -3258,30 +3238,11 @@
       });
     });
 
-    function blockArrow(x1, x2) {
-      var y = MID, s = 5, hw = 22, hh = 13;
-      svg.appendChild(el("polygon", {
-        points: [
-          x1 + "," + (y - s), (x2 - hw) + "," + (y - s), (x2 - hw) + "," + (y - hh),
-          x2 + "," + y, (x2 - hw) + "," + (y + hh), (x2 - hw) + "," + (y + s),
-          x1 + "," + (y + s)
-        ].join(" "),
-        "class": "fn-arrow"
-      }));
-    }
-
     COLS.forEach(function (c, i) {
-      if (i) { blockArrow(COLS[i - 1].cx + 70, c.cx - 68); }
+      if (i) { blockArrow(svg, COLS[i - 1].cx + 70, c.cx - 68, MID, ARROW_NARROW); }
     });
 
-    var defs = el("defs", {});
-    var marker = el("marker", {
-      id: id + "-head", markerWidth: 12, markerHeight: 12, refX: 10, refY: 6,
-      orient: "auto", markerUnits: "userSpaceOnUse"
-    });
-    marker.appendChild(el("path", { d: "M0,0 L12,6 L0,12 z", "class": "fn-arrow" }));
-    defs.appendChild(marker);
-    svg.appendChild(defs);
+    arrowMarker(svg, id + "-head", 12, 10, "fn-arrow");
 
     svg.appendChild(el("rect", {
       x: LAST - 60, y: BOX_TOP, width: 120, height: BOX_H, "class": "fn-box"
