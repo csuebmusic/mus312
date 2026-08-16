@@ -161,8 +161,10 @@
 
     <div class="panels uneven">
       <section class="panel">
+        <p class="field">the chord</p>
         <div class="reading" id="reading"></div>
-        <div class="reading spaced" id="key-reading"></div>
+        <p class="field spaced">in the key</p>
+        <div class="reading" id="key-reading"></div>
       </section>
       <section class="panel">
         <h3>on the clock</h3>
@@ -577,17 +579,20 @@
 
   function drawKeyReading() {
     while (keyReadEl.firstChild) { keyReadEl.removeChild(keyReadEl.firstChild); }
-    if (notes.length < 3) { return; }
+    if (notes.length < 3) {
+      answer(keyReadEl, "enter three or four notes");
+      return;
+    }
 
     var found = stacks();
 
     if (!found.length) {
-      var hit = chromMatch(tonic);
-      if (hit) {
-        answer(keyReadEl, hit.name);
+      var loose = chromMatch(tonic);
+      if (loose) {
+        answer(keyReadEl, "pre-dominant (" + loose.label + ")");
         line(keyReadEl, "in", keyName());
-        line(keyReadEl, "label", hit.label);
-        line(keyReadEl, "function", "pre-dominant, so the dominant comes next");
+        line(keyReadEl, "chord", loose.name);
+        line(keyReadEl, "next", "a pre-dominant is followed by the dominant");
       } else {
         answer(keyReadEl, "no reading in " + keyName());
         line(keyReadEl, "tested", "It+6, Fr+6, Ger+6, N6");
@@ -605,10 +610,10 @@
     function reportDiatonic(source) {
       var minorV = mode === "minor" && deg.degree === 5 && !type.upper;
       var flatVII = mode === "minor" && deg.degree === 7 && deg.alt === -1;
-      answer(keyReadEl, rn);
+      var fn = minorV || flatVII ? "outside the four functions" : FUNCTION[deg.degree - 1];
+      answer(keyReadEl, fn + " (" + rn + ")");
       line(keyReadEl, "in", keyName());
-      line(keyReadEl, "function",
-        minorV || flatVII ? "outside the four functions" : FUNCTION[deg.degree - 1]);
+      if (source) { line(keyReadEl, "source", source); }
       if (minorV) {
         line(keyReadEl, "note",
           "the minor v carries no leading tone, so it passes rather than functions");
@@ -617,13 +622,9 @@
         line(keyReadEl, "note",
           "\u266DVII most often acts as the dominant of \u266DIII, labelled V/\u266DIII");
       }
-      if (source) { line(keyReadEl, "source", source); }
     }
 
-    if (diatonic(tonic, mode)) {
-      reportDiatonic(null);
-      return;
-    }
+    if (diatonic(tonic, mode)) { reportDiatonic(null); return; }
 
     /* borrowed from the parallel mode, before any applied reading */
     var other = mode === "major" ? "minor" : "major";
@@ -652,26 +653,27 @@
         var tn = (DEG_ACC[String(td.alt)] || "") +
                  (tq || td.degree === 4 || td.degree === 5 || td.degree === 1
                    ? UPPER[td.degree - 1] : UPPER[td.degree - 1].toLowerCase());
-        answer(keyReadEl, applied.base + (fig || "") + "/" + tn);
+        answer(keyReadEl,
+          FUNCTION[td.degree - 1] + " (" + applied.base + (fig || "") + "/" + tn + ")");
         line(keyReadEl, "in", keyName());
         line(keyReadEl, "points at", tn + ", " + nameOf(applied.target));
-        line(keyReadEl, "function", FUNCTION[td.degree - 1] + ", taken from its target");
+        line(keyReadEl, "source", "an applied chord takes the function of its target");
         return;
       }
     }
 
     var chrom = chromMatch(tonic);
     if (chrom) {
-      answer(keyReadEl, chrom.name);
+      answer(keyReadEl, "pre-dominant (" + chrom.label + ")");
       line(keyReadEl, "in", keyName());
-      line(keyReadEl, "label", chrom.label);
-      line(keyReadEl, "function", "pre-dominant, so the dominant comes next");
+      line(keyReadEl, "chord", chrom.name);
+      line(keyReadEl, "next", "a pre-dominant is followed by the dominant");
       return;
     }
 
-    answer(keyReadEl, rn + ", outside " + keyName());
-    line(keyReadEl, "in", keyName());
-    line(keyReadEl, "tested", "diatonic, applied, mixture, chromatic pre-dominant");
+    answer(keyReadEl, "no function in " + keyName(), true);
+    line(keyReadEl, "as a numeral", rn);
+    line(keyReadEl, "tested", "diatonic, mixture, applied, chromatic pre-dominant");
   }
 
   /* ---------- controls ---------- */
