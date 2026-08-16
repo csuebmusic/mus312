@@ -392,16 +392,19 @@
 
     var set = notes.map(pcOf).filter(function (v, i, a) { return a.indexOf(v) === i; });
     if (set.length > 1) {
-      var ring = set.slice().sort(function (a, b) { return a - b; });
+      /* the ring climbs from the bass, and the span back to it is not drawn */
+      var bass = pcOf(notes[0]);
+      var ring = set.slice().sort(function (a, b) {
+        return mod12(a - bass) - mod12(b - bass);
+      });
       clockEl.appendChild(el("polygon", {
         points: ring.map(function (p) {
           return px(p, R_SPOKE_OUT) + "," + py(p, R_SPOKE_OUT);
         }).join(" "),
         "class": "chord-shape"
       }));
-      ring.forEach(function (p, i) {
-        var next = ring[(i + 1) % ring.length];
-        var gap = mod12(next - p) || 12;
+      ring.slice(0, -1).forEach(function (p, i) {
+        var gap = mod12(ring[i + 1] - p) || 12;
         clockEl.appendChild(el("path", {
           d: arc(p, p + gap, R_ARROW, INSET), "class": "gap-arc"
         }));
