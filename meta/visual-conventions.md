@@ -85,7 +85,7 @@ Single-staff figures in part 1 keep their own geometry.
 
 Playback reads the staff. `playButtons` walks the page in document order and puts a `button.play` under every figure carrying `text.notehead[data-note]`, labelled from the headings above it, unless the figure takes `data-play="no"`. `figureNotes(svg)` returns one entry per sounding notehead: its onset is `data-beat` where the figure is metered and its column index otherwise, and its length is `data-dur` in beats or one beat. A tied note carries the length of both halves and the note it ties into takes `data-tie`. Noteheads marked `optional` are silent.
 
-A beat is 0.6 seconds where any two notes share an onset, 0.34 seconds for a single line. A note sounds as four sine partials at 1, 2, 3, and 4 times its frequency through an exponential decay, built on the Web Audio API with no library and no sample. The notehead takes `.sounding` while it sounds. One figure plays at a time, and pressing a playing button stops it.
+A beat is 0.85 seconds where any two notes share an onset, 0.48 seconds for a single line. A note sounds as four sine partials at 1, 2, 3, and 4 times its frequency, decaying exponentially over 1.7 times its notated length, so a chord rings into the one after it. Built on the Web Audio API with no library and no sample. The notehead takes `.sounding` while it sounds. One figure plays at a time, and pressing a playing button stops it.
 
 ## spacing
 

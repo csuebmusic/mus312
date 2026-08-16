@@ -3296,7 +3296,7 @@
 
   var PITCH_RE = /^([A-G])(b{1,2}|#{1,2})?(\d)$/;
   var PARTIALS = [[1, 1], [2, 0.4], [3, 0.15], [4, 0.06]];
-  var CHORD_BEAT = 0.6, LINE_BEAT = 0.34;
+  var CHORD_BEAT = 0.85, LINE_BEAT = 0.48, RING = 1.7;
   var CTX = null, current = null;
 
   function context() {
@@ -3402,7 +3402,7 @@
       var hz = pitchHz(n.note);
       var dur = n.beats * beat;
       if (hz) {
-        strike(ctx, hz, start + n.at * beat, dur * 1.2,
+        strike(ctx, hz, start + n.at * beat, dur * RING,
                0.26 / Math.sqrt(voices[n.at]), state.nodes);
       }
       state.timers.push(window.setTimeout(function () {
@@ -3412,9 +3412,9 @@
       state.timers.push(window.setTimeout(function () {
         n.head.classList.remove("sounding");
       }, (n.at + n.beats) * beat * 1000));
-      end = Math.max(end, (n.at + n.beats) * beat);
+      end = Math.max(end, n.at * beat + dur * RING);
     });
-    state.timers.push(window.setTimeout(stopPlaying, end * 1000 + 500));
+    state.timers.push(window.setTimeout(stopPlaying, end * 1000 + 200));
   }
 
   /* A play button under every figure that has pitches on it, labelled from the
