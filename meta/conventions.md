@@ -8,6 +8,12 @@ Harmonic function follows Laitz: four functions, tonic, mediant, pre-dominant, d
 
 Elsewhere formal terminology follows Caplin.
 
+Common modulation targets are given for the classical repertoire: V, vi, and IV from a major key, ♭III and v from a minor one. Laitz lists iii in place of IV.
+
+## drawing
+
+The seconds displacement takes three sizes, by figure family: part 1 moves the lower note 20 left, the function charts move the lower 20 left and the upper 3 right, grand-staff and single-staff figures move the upper 13 right.
+
 ## prose
 
 Student-facing prose follows the style rules in the profile and project instructions. Read them before drafting.
@@ -37,6 +43,8 @@ Extract the `<script>` block and run `node --check`.
 Render the page in jsdom and confirm every SVG has children and the console is clean. Click every button and confirm the same. For a transposable figure, click through all twelve tonics and confirm no glyph passes the end of its staff.
 
 When changing how a figure is drawn, snapshot the rendered SVG of every figure first and diff after. A refactor that changes no output produces an empty diff.
+
+When changing playback, stub `AudioContext`, record every oscillator frequency and start time, and confirm the pitches and onsets of a chordal figure, a metered one, and a transposed one.
 
 ## repository
 
