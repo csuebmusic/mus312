@@ -127,3 +127,5 @@ Focus is visible: a 2px accent outline at 2px offset.
 Prose above and below a panel pair takes `.full`. Prose inside a panel keeps the default measure.
 
 Motion is a single transform or opacity transition, 300ms to 800ms, on a `cubic-bezier(0.4, 0, 0.2, 1)` curve. `prefers-reduced-motion: reduce` collapses all of it.
+
+Headings are lowercased by the stylesheet. Wrap a roman numeral, a pitch letter, or a proper noun in `<span class="caps">` to keep its case.

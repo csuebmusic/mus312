@@ -77,6 +77,8 @@ h1, h2, h3 {
   text-transform: lowercase;
   margin: 0 0 var(--step);
 }
+h1 .caps, h2 .caps, h3 .caps { text-transform: none; }
+
 h1 { font-size: 1.5rem; margin-bottom: calc(var(--step) * 2); }
 h2 { font-size: 1.05rem; }
 h3 { font-size: 0.95rem; }
