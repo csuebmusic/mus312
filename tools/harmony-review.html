@@ -1603,6 +1603,32 @@
   var MEL_UP   = [[0, 0], [2, 1], [3, 2], [5, 3], [7, 4], [9, 5], [11, 6], [12, 7]];
   var MEL_DOWN = [[12, 7], [10, 6], [8, 5], [7, 4], [5, 3], [3, 2], [2, 1], [0, 0]];
 
+  /* A staff ends 70 units past the right edge of its last notehead, or at an
+     explicit point where the figure is a measure. Every figure drawn with the
+     shared module registers here and is closed once all drawing is done. */
+  var NOTE_ADV = 20, STAFF_TAIL = 70;
+  var STAVES = [], ENDED = {};
+
+  function endStaff(svg, right) {
+    if (ENDED[svg.id]) { return; }
+    ENDED[svg.id] = true;
+    if (right === undefined) {
+      var last = 0;
+      Array.prototype.forEach.call(svg.querySelectorAll("text.notehead"), function (t) {
+        var x = parseFloat(t.getAttribute("x"));
+        if (x > last) { last = x; }
+      });
+      right = last + NOTE_ADV + STAFF_TAIL;
+    }
+    Array.prototype.forEach.call(svg.querySelectorAll("line.staff-line"), function (l) {
+      if (l.getAttribute("y1") === l.getAttribute("y2")) { l.setAttribute("x2", right); }
+    });
+  }
+
+  function closeStaves() {
+    STAVES.forEach(function (svg) { endStaff(svg); });
+  }
+
   /* ---------- geometry ---------- */
 
   var SP = 12, ROW_H = 215, ROW_TOP = 80;
@@ -2644,9 +2670,10 @@
         for (var a = 0; a < cfg.flats; a++) { sig[FLAT_ORDER[a]] = -1; }
       }
 
+      STAVES.push(svg);
       for (var L = 0; L < 5; L++) {
         svg.appendChild(el("line", {
-          x1: 10, y1: TOP + 12 * L, x2: cfg.width - 10, y2: TOP + 12 * L, "class": "staff-line"
+          x1: 10, y1: TOP + 12 * L, x2: 10, y2: TOP + 12 * L, "class": "staff-line"
         }));
       }
       svg.appendChild(el("text", { x: 18, y: BASE - 12, "class": "clef" }, "\uE050"));
@@ -3332,11 +3359,12 @@
 
   /* Both staves, both clefs, the opening barline, and a flat key signature.
      Returns the signature as a map from letter index to alteration. */
-  function grandStaff(svg, right, flats) {
+  function grandStaff(svg, flats) {
+    STAVES.push(svg);
     [GS.trebleTop, GS.bassTop].forEach(function (topY) {
       for (var L = 0; L < 5; L++) {
         svg.appendChild(el("line", {
-          x1: 10, y1: topY + 12 * L, x2: right, y2: topY + 12 * L, "class": "staff-line"
+          x1: 10, y1: topY + 12 * L, x2: 10, y2: topY + 12 * L, "class": "staff-line"
         }));
       }
     });
@@ -3395,10 +3423,11 @@
   var TOP = ROW_TOP;
   var RN_Y = TOP + 108;
 
-  function staff(svg, right) {
+  function staff(svg) {
+    STAVES.push(svg);
     for (var L = 0; L < 5; L++) {
       svg.appendChild(el("line", {
-        x1: 10, y1: TOP + 12 * L, x2: right, y2: TOP + 12 * L, "class": "staff-line"
+        x1: 10, y1: TOP + 12 * L, x2: 10, y2: TOP + 12 * L, "class": "staff-line"
       }));
     }
     svg.appendChild(el("text", { x: 18, y: noteY(2, 0), "class": "clef" }, "\uE050"));
@@ -3489,7 +3518,7 @@
     ];
     var LEVEL1 = ["I", "V6", "I", "ii6", "V7", "I"];
 
-    grandStaff(svg, 619);
+    grandStaff(svg);
 
     XS.forEach(function (x, i) {
       UPPER[i].forEach(function (n) { gsNote(svg, x, n, "t"); });
@@ -3529,7 +3558,7 @@
                   "iv", "ii\u00B06", "Cad6/4", "V7", "i"];
     var LEVEL1_FLAT = [false, false, false, true, true, true, false, false, false, false, false];
 
-    var sig = grandStaff(svg, 1120, 3);
+    var sig = grandStaff(svg, 3);
 
     XS.forEach(function (x, i) {
       UPPER[i].forEach(function (n) { gsNote(svg, x, n, "t", { sig: sig }); });
@@ -3576,7 +3605,7 @@
     var LIT = [{ "E4": "a", "C5": "b" }, { "D4": "a", "B4": "b" }, {}];
     var ROMAN = ["Cad6/4", "V", "I"];
 
-    grandStaff(svg, 410);
+    grandStaff(svg);
 
     XS.forEach(function (x, i) {
       UPPER[i].forEach(function (n) { gsNote(svg, x, n, "t", { lit: LIT[i][n] }); });
@@ -3627,7 +3656,7 @@
       var svg = document.getElementById(cfg.id);
       var XS = [];
       for (var i = 0; i < cfg.bass.length; i++) { XS.push(110 + 108 * i); }
-      var sig = grandStaff(svg, XS[XS.length - 1] + 80, cfg.flats);
+      var sig = grandStaff(svg, cfg.flats);
 
       XS.forEach(function (x, i) {
         cfg.upper[i].forEach(function (n) { gsNote(svg, x, n, "t", { sig: sig }); });
@@ -3718,7 +3747,7 @@
     ];
     var LEVEL1 = ["I seq.", "V", "ii", "vi", "iii", "ii6", "V7", "I"];
 
-    grandStaff(svg, 1070);
+    grandStaff(svg);
 
     XS.forEach(function (x, i) {
       UPPER[i].forEach(function (n) { gsNote(svg, x, n, "t"); });
@@ -3758,7 +3787,8 @@
 
     function draw(cfg) {
       var svg = document.getElementById(cfg.id);
-      grandStaff(svg, BARLINE);
+      grandStaff(svg);
+      endStaff(svg, BARLINE);
       [[GS.trebleBottom, 78], [GS.bassBottom, 190]].forEach(function (pair) {
         svg.appendChild(el("text", { x: 48, y: pair[1], "class": "clef" }, "\uE084"));
         svg.appendChild(el("text", { x: 48, y: pair[1] + 24, "class": "clef" }, "\uE084"));
@@ -3915,7 +3945,7 @@
       var n = cfg.bass.length;
       var XS = [];
       for (var i = 0; i < n; i++) { XS.push(SEQ_X0 + SEQ_STEP * i); }
-      grandStaff(svg, XS[n - 1] + 80);
+      grandStaff(svg);
 
       XS.forEach(function (x, i) {
         gsNote(svg, x, cfg.sop[i], "t");
@@ -4037,7 +4067,7 @@
       var svg = document.getElementById(id);
       var X0 = 110, PITCH = 260, GAP = 90;
       var SYM_ROW = 20, RING_CY = -12, RN_ROW = 272;
-      var sig = grandStaff(svg, X0 + PITCH * (pairs.length - 1) + GAP + 90);
+      var sig = grandStaff(svg);
 
       pairs.forEach(function (pr, i) {
         var xa = X0 + PITCH * i, xt = xa + GAP;
@@ -4085,7 +4115,7 @@
 
       function draw(id, chords, romans, cool, moves, figs, note) {
         var svg = document.getElementById(id);
-        staff(svg, X0 + PITCH * (chords.length - 1) + 90);
+        staff(svg);
 
         chords.forEach(function (c, i) {
           var x = X0 + PITCH * i;
@@ -4148,7 +4178,7 @@
     (function neapolitan() {
       var svg = document.getElementById("neapolitan");
       var x0 = 110, x1 = 250;
-      var sig = grandStaff(svg, x1 + 90);
+      var sig = grandStaff(svg);
 
       /* soprano, alto, tenor, bass */
       gsNote(svg, x0, "Db5", "t", { sig: sig, lit: "a" });
@@ -4221,7 +4251,7 @@
           word: "in A minor, the fully diminished seventh on the raised seven resolving to the tonic" }
       ];
 
-      staff(svg, X0 + PITCH * (SEVEN.length - 1) + GAP + 90);
+      staff(svg);
 
       /* the key changes between the second chord and the third */
       svg.appendChild(el("line", {
@@ -4267,7 +4297,7 @@
 
       function draw(id, o) {
         var svg = document.getElementById(id);
-        var sig = grandStaff(svg, XS[7] + 90);
+        var sig = grandStaff(svg);
 
         XS.forEach(function (x, k) {
           UPPER[k].forEach(function (n) {
@@ -4399,7 +4429,7 @@
       ];
       var RN = ["I", "IV", "ii/V", "V7/V", "V", "I"];
 
-      var sig = grandStaff(svg, XS[5] + 90);
+      var sig = grandStaff(svg);
       var RN_ROW = 272, BR_Y = 296, EMB_ROW = 324, LVL2 = 360;
 
       XS.forEach(function (x, k) {
@@ -4460,7 +4490,7 @@
       function draw(cfg) {
         var svg = document.getElementById(cfg.id);
         if (!svg) { return; }
-        var sig = grandStaff(svg, X0 + PITCH * 2 + 80);
+        var sig = grandStaff(svg);
 
         cfg.upper.forEach(function (notes, i) {
           var x = X0 + PITCH * i;
@@ -4645,7 +4675,7 @@
       var PIVOT = 4, TURN = 5, LAST = 7;
       var SYM_ROW = 36, RN_ROW = 262, ALT_ROW = 292, BR_Y = 286, NOTE_ROW = 328;
 
-      var sig = grandStaff(svg, XS[LAST] + 96);
+      var sig = grandStaff(svg);
 
       XS.forEach(function (x, k) {
         var lit = k === TURN ? { sig: sig, lit: "a" } : { sig: sig };
@@ -4712,6 +4742,8 @@
     })();
   })();
   })();
+
+  closeStaves();
 
 })();
 </script>
