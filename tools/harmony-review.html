@@ -61,7 +61,8 @@
   .tonic-mark .caret { stroke: var(--accent); }
   .tonic-mark .degree-acc { fill: var(--accent); }
 
-  .note-hit, .slot-hit { fill: transparent; cursor: pointer; }
+  .note-hit, .slot-hit { fill: transparent; }
+  .slot-hit { cursor: pointer; }
   .note.lit .notehead, .note.lit .accidental { fill: var(--accent); }
   .note.lit .degree { fill: var(--accent); }
   .note.lit .caret { stroke: var(--accent); }
@@ -378,7 +379,7 @@
   .target-dot { fill: var(--accent); }
   .app-arrow { fill: none; stroke: var(--ink); stroke-width: 1.25; }
   .app-head { fill: var(--ink); }
-  .pair .hit { fill: transparent; cursor: pointer; }
+  .pair .hit { fill: transparent; }
   .pair.lit .notehead, .pair.lit .accidental { fill: var(--accent); }
   .pair.lit .lvl1 { fill: var(--accent); }
   .pair.lit .chordsym { fill: var(--accent); }
@@ -3130,7 +3131,8 @@
       copy.setAttribute("height", box[3]);
       copy.insertBefore(el("rect", {
         x: box[0], y: box[1], width: box[2], height: box[3],
-        fill: window.getComputedStyle(document.body).backgroundColor || "#ffffff"
+        fill: window.getComputedStyle(document.body).backgroundColor ||
+              root.getPropertyValue("--paper").trim()
       }), copy.firstChild);
       var style = document.createElementNS(SVGNS, "style");
       style.textContent = css;
