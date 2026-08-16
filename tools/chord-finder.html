@@ -204,6 +204,7 @@
       CX = MUS.CX, CY = MUS.CY,
       R_SPOKE_IN = MUS.R_SPOKE_IN, R_SPOKE_OUT = MUS.R_SPOKE_OUT,
       R_NUM = MUS.R_NUM, R_RIM = MUS.R_RIM, R_NAME = MUS.R_NAME,
+      R_ARROW = MUS.R_ARROW, R_ARROW_LABEL = MUS.R_ARROW_LABEL,
       ang = MUS.ang, px = MUS.px, py = MUS.py, arc = MUS.arc, INSET = MUS.INSET,
       TOP = MUS.TOP,
       staff = MUS.staff,
@@ -402,12 +403,12 @@
         var next = ring[(i + 1) % ring.length];
         var gap = mod12(next - p) || 12;
         clockEl.appendChild(el("path", {
-          d: arc(p, p + gap, R_RIM + 14, INSET), "class": "gap-arc"
+          d: arc(p, p + gap, R_ARROW, INSET), "class": "gap-arc"
         }));
         var mid = p + gap / 2;
         clockEl.appendChild(el("text", {
-          x: CX + (R_RIM + 30) * Math.cos(ang(mid)),
-          y: CY + (R_RIM + 30) * Math.sin(ang(mid)),
+          x: CX + R_ARROW_LABEL * Math.cos(ang(mid)),
+          y: CY + R_ARROW_LABEL * Math.sin(ang(mid)),
           "class": "gap-label"
         }, String(gap)));
       });
