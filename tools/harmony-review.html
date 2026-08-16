@@ -494,6 +494,13 @@
   .cont-head { fill: var(--ink); }
   .star { fill: var(--accent); }
 
+  .mix-box {
+    fill: none;
+    stroke: var(--accent-2);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 3;
+  }
+
   .grid-key {
     font-family: var(--font-data);
     font-size: 12px;
@@ -1453,7 +1460,8 @@
     <p class="full">Keys a third away from the tonic start turning up in Haydn's slow movements (where chromatic exploration had a natural place) around 1790, at first as departures from the norm and later as an ordinary option. Beethoven normalizes them into large-scale modulations that govern larger forms (Sonata, Theme &amp; Variations). ♭VI and ♭III are the chromatic harmonies composers at the cusp of Classicism and Romanticism tonicized most often. By Schubert the parallel modes are mixed freely enough that the twenty-four keys behave more like twelve major-minor keys, and the pivot itself becomes optional. Two keys can be juxtaposed directly, with no shared chord and no preparation, or hinged on a single common tone held across the seam (we call this Direct Modulation).</p>
 
     <section class="panel">
-      <svg id="mod-chromatic" viewBox="12 14 1200 250" role="img" aria-label="Three rows of seven triads, C major, C minor, and A flat major, with the four chords shared between C minor and A flat major marked"></svg>
+      <h3>chromatic pivot chord chart between <span class="caps">I</span> and <span class="caps">♭VI</span></h3>
+      <svg id="mod-chromatic" viewBox="-40 14 1200 250" role="img" aria-label="Three rows of seven triads, C major, C minor, and A flat major, with a curved arrow from the C major row down to the A flat major row, the four chords shared between C minor and A flat major marked, and those four boxed in the C minor row"></svg>
     </section>
 
     <p class="full">A chromatic pivot is always a mixture chord, so mixture turning up in a nineteenth-century passage is often the first sign that a chromatic modulation is coming. Once it does, do not hurry to the cadence: expand the pre-dominant, or use an embedded phrase model, and give the ear time to settle into the new key.</p>
@@ -4539,9 +4547,33 @@
     (function keyGrids() {
       var X0 = 120, COL = 150, TOP = 30, ROW_H = 70;
 
-      function grid(id, rows, marks) {
+      function grid(id, rows, marks, opts) {
         var svg = document.getElementById(id);
         if (!svg) { return; }
+        opts = opts || {};
+
+        /* the borrowed row, boxed apart from the shared-chord marking */
+        if (opts.mix) {
+          opts.mix.cols.forEach(function (i) {
+            svg.appendChild(el("rect", {
+              x: X0 + COL * i + 10, y: TOP + ROW_H * opts.mix.row + 4,
+              width: COL - 20, height: ROW_H - 14, "class": "mix-box"
+            }));
+          });
+        }
+
+        /* the modulation itself, arching past the row it borrows from */
+        if (opts.flow) {
+          var y1 = TOP + 36, y2 = TOP + ROW_H * (rows.length - 1) + 32;
+          svg.appendChild(el("path", {
+            d: "M 34 " + y1 + " Q 0 " + ((y1 + y2) / 2) + " 30 " + y2,
+            "class": "cont-line"
+          }));
+          svg.appendChild(el("path", {
+            d: "M 32 " + (y2 + 11) + " L 24 " + (y2 - 1) + " L 38 " + (y2 - 3) + " z",
+            "class": "cont-head"
+          }));
+        }
 
         (marks || []).forEach(function (i) {
           svg.appendChild(el("rect", {
@@ -4606,7 +4638,7 @@
           ["Ab", "I", "lit"], ["Bbm", "ii"], ["Cm", "iii", "lit"], ["Db", "IV"],
           ["Eb", "V", "lit"], ["Fm", "vi", "lit"], ["G\u00B0", "vii\u00B0"]
         ]) }
-      ]);
+      ], null, { flow: true, mix: { row: 1, cols: [0, 2, 3, 5] } });
     })();
 
     /* one chord read in two keys at once */
