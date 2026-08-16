@@ -69,9 +69,13 @@ The drawing keeps its own coordinates and is centred by a negative `viewBox` ori
 
 A note name is `C4`, `F#3`, `Eb5`. `noteDia` turns one into a diatonic index, `noteAlt` into an alteration of -1, 0, or 1, and `ledgers(target, x, step, bottomY)` draws the ledger lines for a step beyond either edge of a staff. Every figure uses these.
 
-Grand-staff figures use the shared module in `tools/harmony-review.html`: `grandStaff(svg, right, flats)` draws both staves, both clefs, the opening barline, and a flat key signature, returning the signature as a map; `gsNote(svg, x, note, which, opt)` draws one notehead with its ledger lines, taking `sig`, `accX`, `lit`, and `head`; `gsY(note, which)` returns a vertical position. `which` is `"t"` or `"b"`. Do not write a second copy of this.
+Grand-staff figures use the shared module in `tools/harmony-review.html`: `grandStaff(svg, flats)` draws both staves, both clefs, the opening barline, and a flat key signature, returning the signature as a map; `gsNote(svg, x, note, which, opt)` draws one notehead with its ledger lines, taking `sig`, `accX`, `lit`, and `head`; `gsY(note, which)` returns a vertical position. `which` is `"t"` or `"b"`. Single-staff figures outside part 1 use `staff(svg)` and `chord(g, x, notes, hot, cool)`. Do not write a second copy of any of these.
 
-A staff ends 70 units past the last glyph, or at the closing barline where a figure is a measure.
+A staff ends 70 units past the right edge of its last notehead. `grandStaff` and `staff` register their figure; `closeStaves`, called at the end of the script, sets the ends. A figure that is a measure calls `endStaff(svg, x)` with its barline instead.
+
+Two chord tones a second apart are displaced by `secondsShift(notes, low, high)`. It pairs from the top down, leaves a note already displaced where it is, and returns the notes low to high with a map from note name to shift. Part 1 figures pass -20 and 0, the function charts -20 and 3, grand-staff and single-staff figures 0 and 13.
+
+`arrowMarker(target, id, w, refX, cls)` puts an arrowhead marker in a figure's own defs and returns its `url()` reference. `blockArrow(svg, x1, x2, y, size)` draws a function arrow at `ARROW_WIDE` or `ARROW_NARROW`.
 
 Single-staff figures in part 1 keep their own geometry.
 
@@ -97,6 +101,8 @@ Student-facing pages are hand-authored HTML linking `assets/style.css` with a `?
 Pages are self-contained: no build step, no runtime dependency, no external request. SVG is written inline so the variables resolve. Page-specific CSS sits in a `<style>` block in the page and uses the variables above.
 
 Interactive tools live in `tools/`. Each is one file.
+
+A section that carries a transposable figure is found by `data-scale`, not by id. Ids on a section belong to its heading.
 
 A panel that stands alone rather than in a grid takes `.panel.centered`, which caps it at the width of one cell in the two-column grid and centers it:
 

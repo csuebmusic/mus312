@@ -20,7 +20,7 @@ Part 4 is complete.
 
 Skipped: the chromatic sequences, Laitz 144–147, and the sequence as a modulating device, 153–155.
 
-Open: whether parts 3 and 4 stay in `tools/harmony-review.html` or become a second file. The file is 4,705 lines.
+Open: whether parts 3 and 4 stay in `tools/harmony-review.html` or become a second file. The file is 4,694 lines.
 
 Caplin's guide to harmonic annotation, pages 24 and 25, has no legend anywhere in the tool. It runs to eleven entries. Three collide with conventions already set on the page: Caplin's uppercase numerals irrespective of quality, his three functions, and his n and p labels without CL and arp.
 
@@ -29,6 +29,8 @@ The prolongation panels in the master function and prolongation chart list appli
 The chart is the only figure with a download button. Nothing verifies the raster in a browser.
 
 Scale-degree names beyond mediant and leading tone are never given.
+
+The seconds displacement runs in three sizes: part 1 moves the lower note 20 left, the function charts move the lower 20 left and the upper 3 right, and the grand-staff figures move the upper 13 right. Settling on one touches about forty figures.
 
 ## open, from the outline
 
