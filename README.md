@@ -14,7 +14,7 @@ Part 1, counting in semitones: the four scale types on a linked staff and clock,
 
 **chord finder**
 https://csuebmusic.github.io/mus312/tools/chord-finder.html
-Enter up to four notes from the bass up and read what they make: the stack of thirds with the semitone distance between each pair, the quality, the chord symbol, the note in the bass and its figure. Two notes give an interval. A set that will not stack in thirds is measured against a tonic instead, which is how the augmented sixths and the Neapolitan are named.
+Enter up to four notes from the bass up and read what they make: the stack of thirds with the semitone distance between each pair, the quality, the chord symbol, the note in the bass and its figure. Two notes give an interval. Set a tonic and a mode and the same chord comes back as a roman numeral with its function, whether it is diatonic, borrowed from the parallel mode, applied to another degree, or one of the chromatic pre-dominants.
 
 ## texts
 

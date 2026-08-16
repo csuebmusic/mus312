@@ -647,6 +647,7 @@ var MUS = (function () {
     MAJOR_KEYS: MAJOR_KEYS,
     MINOR_KEYS: MINOR_KEYS,
     DEG_WORD: DEG_WORD,
+    DEG_ACC: DEG_ACC,
     mod12: mod12,
     degreeAlt: degreeAlt,
     drawDegree: drawDegree,

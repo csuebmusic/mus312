@@ -60,6 +60,7 @@
   .letters, .accs, .keys { display: flex; flex-wrap: wrap; gap: calc(var(--step) * 0.75); }
   .letters button { min-width: 3.1rem; }
   .accs button, .keys button { min-width: 2.6rem; }
+  .keys.spaced { margin-top: calc(var(--step) * 1.5); }
   .accs button, .stack .acc, .entered .acc { font-family: var(--font-music); }
   button.play { font-size: 0.72rem; padding: calc(var(--step) * 0.7) calc(var(--step) * 1.6); }
 
@@ -126,9 +127,9 @@
   <p class="eyebrow">mus 312 &middot; chord finder</p>
   <h1 id="top">chord finder</h1>
 
-  <p class="lede full">Enter the notes of a chord from the bottom up and read what they make. The chord builder goes from a root and a recipe to a chord. This goes the other way: from notes on a page to a quality, a root, and an inversion.</p>
+  <p class="lede full">Enter the notes of a chord from the bottom up and read what they make. The chord builder goes from a root and a recipe to a chord. This goes the other way: from notes on a page to a quality, a root, an inversion, and, in a key, a roman numeral and a function.</p>
 
-  <p class="howto">Choose an accidental, then a letter, to add a note. Notes go in from the bass up, to a maximum of four. Backspace removes the last one.</p>
+  <p class="howto">Choose an accidental, then a letter, to add a note. Notes go in from the bass up, to a maximum of four. Backspace removes the last one. Set a tonic and a mode to read the chord in a key.</p>
 
   <section class="scale">
 
@@ -146,6 +147,9 @@
           <button type="button" id="back">backspace</button>
           <button type="button" id="clear">clear</button>
         </div>
+        <p class="field spaced">key</p>
+        <div class="keys" id="keys"></div>
+        <div class="keys spaced" id="modes"></div>
       </section>
       <section class="panel">
         <h3>on the staff</h3>
@@ -158,22 +162,13 @@
     <div class="panels uneven">
       <section class="panel">
         <div class="reading" id="reading"></div>
+        <div class="reading spaced" id="key-reading"></div>
       </section>
       <section class="panel">
         <h3>on the clock</h3>
         <svg id="cf-clock" viewBox="0 0 445 445" role="img" aria-label="The twelve pitch classes on a clock face, with the notes entered marked and the semitone distance between adjacent members arced on the rim"></svg>
       </section>
     </div>
-
-    <h2 id="sec-key">against a key</h2>
-
-    <p class="full">A chord that will not stack in thirds is measured against a tonic instead. The chromatic pre-dominants are built from scale degrees, so they need a key before they can be named.</p>
-
-    <section class="panel centered wide">
-      <p class="field">tonic</p>
-      <div class="keys" id="keys"></div>
-      <div class="reading spaced" id="key-reading"></div>
-    </section>
 
   </section>
 
@@ -193,6 +188,9 @@
       NATURAL_PC = MUS.NATURAL_PC,
       NAMES = MUS.NAMES,
       MAJOR_KEYS = MUS.MAJOR_KEYS,
+      MINOR_KEYS = MUS.MINOR_KEYS,
+      DEG_ACC = MUS.DEG_ACC,
+      degreeAlt = MUS.degreeAlt,
       ACC_GLYPH = MUS.ACC_GLYPH,
       ACC_SIGN = MUS.ACC_SIGN,
       mod12 = MUS.mod12,
@@ -215,7 +213,7 @@
   /* ---------- state ---------- */
 
   /* a note is a letter index and an alteration from -2 to 2 */
-  var notes = [], alt = 0, tonic = 0;
+  var notes = [], alt = 0, tonic = 0, mode = "major";
   var MAX = 4;
 
   function pcOf(n) { return mod12(NATURAL_PC[n.li] + n.alt); }
@@ -289,6 +287,55 @@
     else if (off === -2) { quality = perfect ? "doubly diminished" : "diminished"; }
     else { quality = "doubly diminished"; }
     return { text: quality + " " + IV_NAME[number - 1], semis: semis };
+  }
+
+  /* ---------- the chord in a key ---------- */
+
+  /* A roman numeral takes the accidental of its root, measured against the
+     major scale on the same tonic, so the mediant of a minor key is bIII. */
+  var UPPER = ["I", "II", "III", "IV", "V", "VI", "VII"];
+
+  function keyLetter(t) {
+    return (mode === "minor" ? MINOR_KEYS : MAJOR_KEYS)[t].letter;
+  }
+
+  /* the degree a spelled note holds in the key, 1 to 7, with its alteration */
+  function degreeOf(t, n) {
+    var offset = ((n.li - keyLetter(t)) % 7 + 7) % 7;
+    return { degree: offset + 1, alt: degreeAlt(mod12(pcOf(n) - t), offset) };
+  }
+
+  /* Only the diminished, half-diminished, and augmented qualities show on a
+     numeral. The rest are read from the figure and the case. */
+  function numeral(deg, type, fig) {
+    var body = type.upper ? UPPER[deg.degree - 1] : UPPER[deg.degree - 1].toLowerCase();
+    var mark = "";
+    if (type.abbr === "\u00B0" || type.abbr === "\u00B07") { mark = "\u00B0"; }
+    else if (type.abbr === "\u00F87") { mark = "\u00F8"; }
+    else if (type.abbr === "+" || type.abbr === "+M7") { mark = "+"; }
+    return (DEG_ACC[String(deg.alt)] || "") + body + mark + (fig || "");
+  }
+
+  /* function by degree, in the four-function scheme */
+  var FUNCTION = ["tonic", "pre-dominant", "mediant", "pre-dominant",
+                  "dominant", "mediant", "dominant"];
+
+  /* the pitch classes a key admits, minor carrying both sixths and sevenths */
+  function scalePcs(t, m) {
+    var steps = m === "minor" ? [0, 2, 3, 5, 7, 8, 9, 10, 11] : [0, 2, 4, 5, 7, 9, 11];
+    return steps.map(function (v) { return mod12(t + v); });
+  }
+
+  function diatonic(t, m) {
+    var ok = scalePcs(t, m);
+    return notes.every(function (n) { return ok.indexOf(pcOf(n)) >= 0; });
+  }
+
+  /* the note a fifth below, or a semitone above, spelled */
+  function relative(n, letters, semis) {
+    var li = ((n.li + letters) % 7 + 7) % 7;
+    var pc = mod12(pcOf(n) + semis);
+    return { li: li, alt: mod12(pc - NATURAL_PC[li] + 6) - 6 };
   }
 
   /* ---------- chromatic pre-dominants, by scale degree ---------- */
@@ -518,23 +565,113 @@
     line(readEl, "figure", inversion || "root position, 5/3");
   }
 
+  function keyName() {
+    return (mode === "minor" ? MINOR_KEYS : MAJOR_KEYS)[tonic].name + " " + mode;
+  }
+
+  /* a diatonic degree of the key, or null */
+  function degreeIfIn(t, m, n) {
+    var deg = degreeOf(t, n);
+    return scalePcs(t, m).indexOf(pcOf(n)) >= 0 ? deg : null;
+  }
+
   function drawKeyReading() {
     while (keyReadEl.firstChild) { keyReadEl.removeChild(keyReadEl.firstChild); }
-    if (notes.length < 3) {
-      answer(keyReadEl, "enter three or four notes");
+    if (notes.length < 3) { return; }
+
+    var found = stacks();
+
+    if (!found.length) {
+      var hit = chromMatch(tonic);
+      if (hit) {
+        answer(keyReadEl, hit.name);
+        line(keyReadEl, "in", keyName());
+        line(keyReadEl, "label", hit.label);
+        line(keyReadEl, "function", "pre-dominant, so the dominant comes next");
+      } else {
+        answer(keyReadEl, "no reading in " + keyName());
+        line(keyReadEl, "tested", "It+6, Fr+6, Ger+6, N6");
+      }
       return;
     }
-    var hit = chromMatch(tonic);
-    var key = MAJOR_KEYS[tonic].name;
-    if (hit) {
-      answer(keyReadEl, hit.name);
-      line(keyReadEl, "label", hit.label);
-      line(keyReadEl, "in", key + " major or minor");
-      line(keyReadEl, "function", "pre-dominant, so the next chord is the dominant");
-    } else {
-      answer(keyReadEl, "not a chromatic pre-dominant in " + key);
-      line(keyReadEl, "tested", "It+6, Fr+6, Ger+6, N6");
+
+    var s0 = found[0], type = chordType(s0.steps);
+    if (!type) { return; }
+    var root = s0.order[0];
+    var deg = degreeOf(tonic, root);
+    var fig = FIGURE[s0.order.length][(s0.order.length - s0.root) % s0.order.length];
+    var rn = numeral(deg, type, fig);
+
+    function reportDiatonic(source) {
+      var minorV = mode === "minor" && deg.degree === 5 && !type.upper;
+      var flatVII = mode === "minor" && deg.degree === 7 && deg.alt === -1;
+      answer(keyReadEl, rn);
+      line(keyReadEl, "in", keyName());
+      line(keyReadEl, "function",
+        minorV || flatVII ? "outside the four functions" : FUNCTION[deg.degree - 1]);
+      if (minorV) {
+        line(keyReadEl, "note",
+          "the minor v carries no leading tone, so it passes rather than functions");
+      }
+      if (flatVII) {
+        line(keyReadEl, "note",
+          "\u266DVII most often acts as the dominant of \u266DIII, labelled V/\u266DIII");
+      }
+      if (source) { line(keyReadEl, "source", source); }
     }
+
+    if (diatonic(tonic, mode)) {
+      reportDiatonic(null);
+      return;
+    }
+
+    /* borrowed from the parallel mode, before any applied reading */
+    var other = mode === "major" ? "minor" : "major";
+    if (diatonic(tonic, other)) {
+      reportDiatonic("modal mixture, borrowed from the parallel " + other);
+      return;
+    }
+
+    /* an applied chord takes the function of the chord it points at */
+    var applied = null;
+    if (type.abbr === "M" || type.abbr === "Mm7") {
+      applied = { target: relative(root, -4, 5), base: "V" };
+    } else if (type.abbr === "\u00B0" || type.abbr === "\u00B07") {
+      applied = { target: relative(root, 1, 1), base: "vii\u00B0" };
+    } else if (type.abbr === "\u00F87") {
+      applied = { target: relative(root, 1, 1), base: "vii\u00F8" };
+    }
+    if (applied) {
+      var td = degreeIfIn(tonic, mode, applied.target);
+      /* only a major or minor triad can be tonicized */
+      var stable = td && td.degree !== 1 &&
+                   !(mode === "major" && td.degree === 7) &&
+                   !(mode === "minor" && td.degree === 2);
+      if (stable) {
+        var tq = mode === "minor" && (td.degree === 3 || td.degree === 6 || td.degree === 7);
+        var tn = (DEG_ACC[String(td.alt)] || "") +
+                 (tq || td.degree === 4 || td.degree === 5 || td.degree === 1
+                   ? UPPER[td.degree - 1] : UPPER[td.degree - 1].toLowerCase());
+        answer(keyReadEl, applied.base + (fig || "") + "/" + tn);
+        line(keyReadEl, "in", keyName());
+        line(keyReadEl, "points at", tn + ", " + nameOf(applied.target));
+        line(keyReadEl, "function", FUNCTION[td.degree - 1] + ", taken from its target");
+        return;
+      }
+    }
+
+    var chrom = chromMatch(tonic);
+    if (chrom) {
+      answer(keyReadEl, chrom.name);
+      line(keyReadEl, "in", keyName());
+      line(keyReadEl, "label", chrom.label);
+      line(keyReadEl, "function", "pre-dominant, so the dominant comes next");
+      return;
+    }
+
+    answer(keyReadEl, rn + ", outside " + keyName());
+    line(keyReadEl, "in", keyName());
+    line(keyReadEl, "tested", "diatonic, applied, mixture, chromatic pre-dominant");
   }
 
   /* ---------- controls ---------- */
@@ -611,24 +748,57 @@
 
   var keysEl = document.getElementById("keys");
   var keyButtons = [];
-  for (var t = 0; t < 12; t++) {
-    (function (pc) {
-      var b = document.createElement("button");
-      b.type = "button";
-      b.setAttribute("aria-pressed", pc === 0 ? "true" : "false");
-      b.setAttribute("aria-label", "tonic " + MAJOR_KEYS[pc].name);
-      b.appendChild(glyphed(MAJOR_KEYS[pc].name));
-      b.addEventListener("click", function () {
-        tonic = pc;
-        keyButtons.forEach(function (other, k) {
-          other.setAttribute("aria-pressed", k === pc ? "true" : "false");
+  (function () {
+    var pc;
+    for (pc = 0; pc < 12; pc++) {
+      (function (t) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.setAttribute("aria-pressed", t === 0 ? "true" : "false");
+        b.appendChild(glyphed(MAJOR_KEYS[t].name));
+        b.addEventListener("click", function () {
+          tonic = t;
+          keyButtons.forEach(function (other, k) {
+            other.setAttribute("aria-pressed", k === t ? "true" : "false");
+          });
+          labelKeys();
+          drawKeyReading();
         });
-        drawKeyReading();
+        keyButtons.push(b);
+        keysEl.appendChild(b);
+      })(pc);
+    }
+  })();
+
+  var modesEl = document.getElementById("modes");
+  var modeButtons = [];
+  ["major", "minor"].forEach(function (m) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-pressed", m === "major" ? "true" : "false");
+    b.appendChild(document.createTextNode(m));
+    b.addEventListener("click", function () {
+      mode = m;
+      modeButtons.forEach(function (other, k) {
+        other.setAttribute("aria-pressed", ["major", "minor"][k] === mode ? "true" : "false");
       });
-      keyButtons.push(b);
-      keysEl.appendChild(b);
-    })(t);
+      labelKeys();
+      drawKeyReading();
+    });
+    modeButtons.push(b);
+    modesEl.appendChild(b);
+  });
+
+  /* a tonic is spelled as the mode spells it, so pc 3 is E flat either way */
+  function labelKeys() {
+    keyButtons.forEach(function (b, t) {
+      var name = (mode === "minor" ? MINOR_KEYS : MAJOR_KEYS)[t].name;
+      while (b.firstChild) { b.removeChild(b.firstChild); }
+      b.appendChild(glyphed(name));
+      b.setAttribute("aria-label", "tonic " + name + " " + mode);
+    });
   }
+  labelKeys();
 
   var playBar = document.createElement("div");
   var playButton = document.createElement("button");
