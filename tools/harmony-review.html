@@ -2663,7 +2663,7 @@
   /* ---------- triads by function, major and minor ---------- */
 
   (function functionCharts() {
-    var BOTTOM = noteDia("E4"), TOP = 60, BASE = TOP + 48;
+    var BOTTOM = noteDia("E4"), STAFF_TOP = 60, BASE = STAFF_TOP + 48;
     function yOf(n) { return BASE - 6 * (noteDia(n) - BOTTOM); }
 
     function chart(cfg) {
@@ -2676,7 +2676,7 @@
       STAVES.push(svg);
       for (var L = 0; L < 5; L++) {
         svg.appendChild(el("line", {
-          x1: 10, y1: TOP + 12 * L, x2: 10, y2: TOP + 12 * L, "class": "staff-line"
+          x1: 10, y1: STAFF_TOP + 12 * L, x2: 10, y2: STAFF_TOP + 12 * L, "class": "staff-line"
         }));
       }
       svg.appendChild(el("text", { x: 18, y: BASE - 12, "class": "clef" }, "\uE050"));
@@ -2853,11 +2853,11 @@
   function masterChart(id, opts) {
     opts = opts || {};
     var svg = document.getElementById(id);
-    var TOP = 72, H = 112, MID = TOP + 56;
-    var ROW1 = TOP + 46, ROW2 = TOP + 82, MODE_Y = TOP + 22;
+    var BOX_TOP = 72, H = 112, MID = BOX_TOP + 56;
+    var ROW1 = BOX_TOP + 46, ROW2 = BOX_TOP + 82, MODE_Y = BOX_TOP + 22;
 
     /* the prolongation panel hangs below each box, centred on it */
-    var DOT_TOP = TOP + H + 40, ROW0 = DOT_TOP + 48, PRO_ROW = 23, PAD = 68;
+    var DOT_TOP = BOX_TOP + H + 40, ROW0 = DOT_TOP + 48, PRO_ROW = 23, PAD = 68;
 
     /* a row is one numeral and the figures available to it;
        an empty figure list means the plain triad */
@@ -2939,9 +2939,9 @@
     }
 
     function row(x, y, r) {
-      var opts = r.figs || [[]];
+      var figs = r.figs || [[]];
       var cx = x;
-      opts.forEach(function (f) {
+      figs.forEach(function (f) {
         var item = Array.isArray(f) ? { f: f } : f;
         var who = item.n ? { n: item.n, flat: r.flat } : r;
         if (item.label) { who = { n: item.label }; }
@@ -2965,10 +2965,10 @@
 
     BOXES.forEach(function (b) {
       svg.appendChild(el("rect", {
-        x: b.x, y: TOP, width: b.w, height: H, "class": "fn-box"
+        x: b.x, y: BOX_TOP, width: b.w, height: H, "class": "fn-box"
       }));
       svg.appendChild(el("text", {
-        x: b.x + b.w / 2, y: TOP - 16, "class": "fn-title"
+        x: b.x + b.w / 2, y: BOX_TOP - 16, "class": "fn-title"
       }, b.title));
 
       var cx = b.x;
@@ -2979,7 +2979,7 @@
       b.cols.forEach(function (c, k) {
         if (k) {
           svg.appendChild(el("line", {
-            x1: c.x, y1: TOP + 6, x2: c.x, y2: TOP + H - 6, "class": "fn-div"
+            x1: c.x, y1: BOX_TOP + 6, x2: c.x, y2: BOX_TOP + H - 6, "class": "fn-div"
           }));
         }
       });
@@ -2992,7 +2992,7 @@
         c.rows.forEach(function (r, i) { row(c.x + 10, i ? ROW2 : ROW1, r); });
       });
 
-      if (opts.prolong && b.pro) { prolongPanel(svg, b.x + b.w / 2, TOP + H, b.pro); }
+      if (opts.prolong && b.pro) { prolongPanel(svg, b.x + b.w / 2, BOX_TOP + H, b.pro); }
     });
 
     function prolongPanel(target, cx, boxBottom, pats) {
@@ -4509,7 +4509,7 @@
 
     /* the triads of two or three keys, read down the columns */
     (function keyGrids() {
-      var X0 = 120, COL = 150, TOP = 30, ROW_H = 70;
+      var X0 = 120, COL = 150, GRID_TOP = 30, GRID_ROW = 70;
 
       function grid(id, rows, marks, opts) {
         var svg = document.getElementById(id);
@@ -4518,7 +4518,7 @@
 
         /* the modulation itself, arching past the row it borrows from */
         if (opts.flow) {
-          var y1 = TOP + 36, y2 = TOP + ROW_H * (rows.length - 1) + 32;
+          var y1 = GRID_TOP + 36, y2 = GRID_TOP + GRID_ROW * (rows.length - 1) + 32;
           svg.appendChild(el("path", {
             d: "M 34 " + y1 + " Q 0 " + ((y1 + y2) / 2) + " 30 " + y2,
             "class": "cont-line"
@@ -4532,14 +4532,14 @@
         var from = opts.markFrom || 0;
         (marks || []).forEach(function (i) {
           svg.appendChild(el("rect", {
-            x: X0 + COL * i + 10, y: TOP + ROW_H * from + 4,
-            width: COL - 20, height: ROW_H * (rows.length - from) - 14,
+            x: X0 + COL * i + 10, y: GRID_TOP + GRID_ROW * from + 4,
+            width: COL - 20, height: GRID_ROW * (rows.length - from) - 14,
             "class": "pivot-box"
           }));
         });
 
         rows.forEach(function (row, r) {
-          var top = TOP + ROW_H * r;
+          var top = GRID_TOP + GRID_ROW * r;
           svg.appendChild(el("text", { x: 104, y: top + 40, "class": "grid-key" }, row.label));
 
           row.cells.forEach(function (c, i) {
