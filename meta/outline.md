@@ -60,24 +60,6 @@ Sonata-form terminology follows Hepokoski and Darcy. Elsewhere terminology follo
 
 Caplin Part III (chapters 17 through 20): slow-movement forms, minuet/trio, rondo, concerto.
 
-Hepokoski and Darcy chapters 16 through 22: the sonata types, rondos, and the Mozart concerto chapters.
+Hepokoski and Darcy chapter 8, S-complications and the trimodular block (150–179); chapter 12, non-normative openings of the recapitulatory rotation (255–280); chapter 15, the three- and four-movement sonata cycle (318–342); chapters 16 through 22, the sonata types, rondos, and the Mozart concerto chapters.
 
 The catalog description names variation forms, rondo forms, and slow-movement forms. None is covered.
-
-## arithmetic
-
-Chapter 1 spans weeks 1 and 2, three meetings. Chapters 9 and 10 share week 10; chapters 13 and 14 share weeks 13 and 14, three meetings; chapters 15 and 16 share week 16. Everything else is one chapter per week.
-
-Week 4 has one meeting for chapter 3.
-
-Weeks 1 and 2 carry all of the chromatic harmony: 62 pages of Laitz alongside Caplin's chapter 1, across three meetings.
-
-Week 12 is the heaviest sonata week: Caplin's longest chapter and four Hepokoski and Darcy chapters.
-
-## open
-
-- Final exam slot: confirm the university's assigned time for a MW 11:00 class.
-- Assessment is entirely coursework: analyses, problem sets, and the final project. Components and weights to be set.
-- SLO 4 performance component: short recurring play-and-defend segments, or a single graded presentation in the final slot.
-- Repertoire list, work by work, per week.
-- Nineteenth-century repertoire has no week of its own. Options: distribute examples through weeks 11 through 16, or carry it in the final project.
