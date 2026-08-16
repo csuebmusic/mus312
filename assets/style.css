@@ -133,6 +133,29 @@ a { color: var(--accent); text-underline-offset: 2px; }
 
 .panel svg { display: block; width: 100%; height: auto; }
 
+.panels.uneven { grid-template-columns: 1.45fr 1fr; }
+.panels.three { grid-template-columns: 1fr 1fr 1fr; }
+
+.panel h3 { margin-bottom: calc(var(--step) * 2); }
+.panel h3 + h3, .panel svg + h3 { margin-top: calc(var(--step) * 3); }
+
+/* a standalone box takes the width of one cell in the two-column grid */
+.panel.centered {
+  max-width: calc((78rem - var(--step) * 5) / 2);
+  margin-left: auto;
+  margin-right: auto;
+}
+.panel.centered.wide {
+  max-width: calc((78rem - var(--step) * 5) * 1.45 / 2.45);
+}
+
+/* panels stacked inside one cell of a grid */
+.stack {
+  display: grid;
+  gap: calc(var(--step) * 5);
+  align-content: start;
+}
+
 .panel > :last-child { margin-bottom: 0; }
 
 .controls {
@@ -186,7 +209,7 @@ footer {
 footer p { max-width: none; margin: 0; }
 
 @media (max-width: 62rem) {
-  .panels { grid-template-columns: 1fr; }
+  .panels, .panels.uneven, .panels.three { grid-template-columns: 1fr; }
   body { padding: calc(var(--step) * 4) calc(var(--step) * 2.5) calc(var(--step) * 8); }
 }
 

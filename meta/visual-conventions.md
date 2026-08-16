@@ -108,6 +108,8 @@ Student-facing pages are hand-authored HTML linking `assets/style.css` with a `?
 
 Pages are self-contained: no build step, no runtime dependency, no external request. SVG is written inline so the variables resolve. Page-specific CSS sits in a `<style>` block in the page and uses the variables above.
 
+Layout primitives live in `assets/style.css`: `.panels` and its `uneven` and `three` modifiers, `.panel.centered` and `.panel.centered.wide`, and `.stack` for panels stacked inside one grid cell. A page's own `<style>` block carries only what that page draws.
+
 Interactive tools live in `tools/`. Each is one HTML file linking `assets/notation.js`, which carries note spelling, staff and clock geometry, the notehead tag, the chord type tables, the grand staff and single-staff renderers, and playback. A page aliases what it uses at the top of its own IIFE. Anything two tools need goes in the module rather than into a second copy.
 
 A section that carries a transposable figure is found by `data-scale`, not by id. Ids on a section belong to its heading.

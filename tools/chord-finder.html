@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mus 312 &middot; chord finder</title>
-<link rel="stylesheet" href="../assets/style.css?v=8">
+<link rel="stylesheet" href="../assets/style.css?v=9">
 <style>
   section.scale { margin-bottom: 0; }
   section.scale > * { margin-top: calc(var(--step) * 4); margin-bottom: 0; }
@@ -61,7 +61,7 @@
   .letters button { min-width: 3.1rem; }
   .accs button, .keys button { min-width: 2.6rem; }
   .keys.spaced { margin-top: calc(var(--step) * 1.5); }
-  .accs button, .stack .acc, .entered .acc { font-family: var(--font-music); }
+  .accs button, .acc { font-family: var(--font-music); }
   button.play { font-size: 0.72rem; padding: calc(var(--step) * 0.7) calc(var(--step) * 1.6); }
 
   .field {
@@ -116,7 +116,6 @@
     margin: 0 0 calc(var(--step) * 2);
     max-width: none;
   }
-  .reading .answer .acc { font-family: var(--font-music); }
   .reading em { color: var(--muted); font-style: normal; }
   .reading .miss { color: var(--accent); }
 </style>
@@ -151,26 +150,26 @@
         <div class="keys" id="keys"></div>
         <div class="keys spaced" id="modes"></div>
       </section>
-      <section class="panel">
-        <h3>on the staff</h3>
-        <svg id="cf-staff" viewBox="-166 20 593 180" role="img" aria-label="The notes entered, written on a treble staff from the bass up"></svg>
-      </section>
+      <div class="stack">
+        <section class="panel">
+          <h3>on the staff</h3>
+          <svg id="cf-staff" viewBox="-166 20 593 180" role="img" aria-label="The notes entered, written on a treble staff from the bass up"></svg>
+        </section>
+        <section class="panel">
+          <h3>on the clock</h3>
+          <svg id="cf-clock" viewBox="0 0 445 445" role="img" aria-label="The twelve pitch classes on a clock face, with the notes entered marked and the semitone distance between adjacent members arced on the rim"></svg>
+        </section>
+      </div>
     </div>
 
     <h2 id="sec-reading">what they make</h2>
 
-    <div class="panels uneven">
-      <section class="panel">
-        <p class="field">the chord</p>
-        <div class="reading" id="reading"></div>
-        <p class="field spaced">in the key</p>
-        <div class="reading" id="key-reading"></div>
-      </section>
-      <section class="panel">
-        <h3>on the clock</h3>
-        <svg id="cf-clock" viewBox="0 0 445 445" role="img" aria-label="The twelve pitch classes on a clock face, with the notes entered marked and the semitone distance between adjacent members arced on the rim"></svg>
-      </section>
-    </div>
+    <section class="panel centered wide">
+      <p class="field">the chord</p>
+      <div class="reading" id="reading"></div>
+      <p class="field spaced">in the key</p>
+      <div class="reading" id="key-reading"></div>
+    </section>
 
   </section>
 

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mus 312 harmony review</title>
-<link rel="stylesheet" href="../assets/style.css?v=8">
+<link rel="stylesheet" href="../assets/style.css?v=9">
 <style>
   /* vertical rhythm: spacing is carried by margin-top inside a section,
      so adjacent margins never compete */
@@ -244,14 +244,7 @@
 
   @media (max-width: 48rem) { .toc { columns: 1; } }
 
-  .panels.uneven { grid-template-columns: 1.45fr 1fr; }
-  .panels.three { grid-template-columns: 1fr 1fr 1fr; }
-  .panel h3 { margin-bottom: calc(var(--step) * 2); }
-  .panel h3 + h3, .panel svg + h3 { margin-top: calc(var(--step) * 3); }
   svg.aug { max-width: 200px; }
-  @media (max-width: 62rem) {
-    .panels.uneven, .panels.three { grid-template-columns: 1fr; }
-  }
 
   .bar { fill: var(--ink); }
   .bracket { fill: none; stroke: var(--ink); stroke-width: 1; }
@@ -314,15 +307,6 @@
     font-style: italic;
     fill: var(--muted);
     text-anchor: middle;
-  }
-  /* a standalone box takes the width of one cell in the two-column grid */
-  .panel.centered {
-    max-width: calc((78rem - var(--step) * 5) / 2);
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .panel.centered.wide {
-    max-width: calc((78rem - var(--step) * 5) * 1.45 / 2.45);
   }
 
   .fn-box { fill: none; stroke: var(--ink); stroke-width: 1; }
