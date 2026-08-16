@@ -1650,6 +1650,22 @@
   }
   var INSET = 6 * Math.PI / 180;
 
+  /* Two chord tones a second apart cannot share a column. Pairs are taken from
+     the top down, and a note already displaced is left where it is. `low` and
+     `high` are the shifts given to the lower and upper of a pair. Returns the
+     notes low to high with a map from note name to its shift. */
+  function secondsShift(notes, low, high) {
+    var order = notes.slice().sort(function (a, b) { return noteDia(a) - noteDia(b); });
+    var shift = {};
+    for (var k = order.length - 1; k > 0; k--) {
+      if (noteDia(order[k]) - noteDia(order[k - 1]) === 1 && !shift[order[k]]) {
+        if (low) { shift[order[k - 1]] = low; }
+        if (high) { shift[order[k]] = high; }
+      }
+    }
+    return { order: order, shift: shift };
+  }
+
   /* ---------- arrows ---------- */
 
   /* an arrowhead marker in a figure's own defs, returned as a url() reference */
@@ -2437,15 +2453,8 @@
       }));
 
       XS.forEach(function (x, i) {
-        /* two chord tones a second apart cannot share a column: the lower
-           one is displaced to the left of the other */
-        var sorted = upper[i].slice().sort(function (a, b) { return noteDia(a) - noteDia(b); });
-        var offset = {};
-        for (var k = sorted.length - 1; k > 0; k--) {
-          if (noteDia(sorted[k]) - noteDia(sorted[k - 1]) === 1 && !offset[sorted[k]]) {
-            offset[sorted[k - 1]] = -20;
-          }
-        }
+        var col = secondsShift(upper[i], -20, 0);
+        var sorted = col.order, offset = col.shift;
         sorted.forEach(function (n) {
           var key = i + ":" + n;
           at[key] = drawNote(svg, x + (offset[n] || 0), n, trebleBottom, TREBLE_BOTTOM,
@@ -2545,13 +2554,8 @@
       items.forEach(function (item, i) {
         var x = xs[i];
 
-        var sorted = item.notes.slice().sort(function (a, b) { return noteDia(a) - noteDia(b); });
-        var offset = {};
-        for (var k = sorted.length - 1; k > 0; k--) {
-          if (noteDia(sorted[k]) - noteDia(sorted[k - 1]) === 1 && !offset[sorted[k]]) {
-            offset[sorted[k - 1]] = -20;
-          }
-        }
+        var col = secondsShift(item.notes, -20, 0);
+        var sorted = col.order, offset = col.shift;
 
         sorted.forEach(function (n, idx) {
           var step = noteDia(n) - BOTTOM;
@@ -2698,15 +2702,8 @@
       }
 
       cfg.chords.forEach(function (c) {
-        var all = c.notes.concat(c.option ? [c.option] : []);
-        all.sort(function (p, q) { return noteDia(p) - noteDia(q); });
-        var shift = {};
-        for (var k = all.length - 1; k > 0; k--) {
-          if (noteDia(all[k]) - noteDia(all[k - 1]) === 1 && !shift[all[k]]) {
-            shift[all[k - 1]] = -20;
-            shift[all[k]] = 3;
-          }
-        }
+        var col = secondsShift(c.notes.concat(c.option ? [c.option] : []), -20, 3);
+        var all = col.order, shift = col.shift;
 
         var left = Math.min.apply(null, all.map(function (n) {
           return c.x + (shift[n] || 0);
@@ -3394,13 +3391,10 @@
     hot = hot || [];
     cool = cool || [];
 
-    /* a second is written with the upper notehead shifted right */
-    var set = notes.map(function (n) {
-      return { n: n, s: stepOf(n), a: noteAlt(n), dx: 0 };
-    }).sort(function (u, v) { return u.s - v.s; });
-    for (var i = 1; i < set.length; i++) {
-      if (set[i].s - set[i - 1].s === 1 && set[i - 1].dx === 0) { set[i].dx = 13; }
-    }
+    var col = secondsShift(notes, 0, 13);
+    var set = col.order.map(function (n) {
+      return { n: n, s: stepOf(n), a: noteAlt(n), dx: col.shift[n] || 0 };
+    });
 
     function tint(n) {
       return hot.indexOf(n) >= 0 ? " hot" : (cool.indexOf(n) >= 0 ? " cool" : "");
@@ -4247,9 +4241,6 @@
         ["G4", "C5", "G5"], ["A4", "D5", "F5"], ["C5", "D5", "F#5"],
         ["B4", "F5", "G5"], ["C5", "E5", "G5"]
       ];
-      /* the upper note of a second is written to the right of the lower */
-      var SHIFT = [{}, {}, {}, {}, {}, { "D5": 1 }, { "G5": 1 }, {}];
-
       var SYM_ROW = 36, RN_ROW = 272, BR_Y = 292, LVL2 = 336;
 
       function draw(id, o) {
@@ -4257,9 +4248,10 @@
         var sig = grandStaff(svg);
 
         XS.forEach(function (x, k) {
+          var shift = secondsShift(UPPER[k], 0, 13).shift;
           UPPER[k].forEach(function (n) {
-            gsNote(svg, x + (SHIFT[k][n] ? 13 : 0), n, "t",
-                   SHIFT[k][n] ? { sig: sig, accX: x } : { sig: sig });
+            gsNote(svg, x + (shift[n] || 0), n, "t",
+                   shift[n] ? { sig: sig, accX: x } : { sig: sig });
           });
           gsNote(svg, x, BASS[k], "b", { sig: sig });
           if (o.sym && o.sym[k]) {
@@ -4452,15 +4444,7 @@
         cfg.upper.forEach(function (notes, i) {
           var x = X0 + PITCH * i;
 
-          /* the upper note of a second is written to the right of the lower */
-          var sorted = notes.slice().sort(function (a, b) { return noteDia(a) - noteDia(b); });
-          var shift = {};
-          for (var k = sorted.length - 1; k > 0; k--) {
-            if (noteDia(sorted[k]) - noteDia(sorted[k - 1]) === 1 && !shift[sorted[k]]) {
-              shift[sorted[k - 1]] = 0;
-              shift[sorted[k]] = 13;
-            }
-          }
+          var shift = secondsShift(notes, 0, 13).shift;
 
           notes.forEach(function (n) {
             gsNote(svg, x + (shift[n] || 0), n, "t", {
