@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mus 312 &middot; chord finder</title>
+<link rel="stylesheet" href="../assets/style.css?v=8">
+<style>
+  section.scale { margin-bottom: 0; }
+  section.scale > * { margin-top: calc(var(--step) * 4); margin-bottom: 0; }
+  section.scale > h2 { margin-top: calc(var(--step) * 6); }
+  section.scale > h2:first-child { margin-top: 0; }
+  section.scale > h2 + * { margin-top: calc(var(--step) * 3); }
+  section.scale > .controls { margin-top: calc(var(--step) * 3); }
+
+  .staff-line, .ledger { stroke: var(--ink); stroke-width: 1; }
+  .clef, .notehead, .accidental {
+    font-family: var(--font-music);
+    fill: var(--ink);
+    font-size: 48px;
+  }
+  .notehead.sounding, .accidental.sounding { fill: var(--accent); }
+  .notehead.bass, .accidental.bass { fill: var(--accent); }
+
+  .rim { fill: none; stroke: var(--ink); stroke-width: 1; }
+  .spoke { stroke: var(--rule); stroke-width: 1; }
+  .pc-num {
+    font-family: var(--font-data);
+    font-size: 14px;
+    fill: var(--ink);
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+  .pc-name {
+    font-family: var(--font-body);
+    font-size: 13px;
+    fill: var(--muted);
+    text-anchor: middle;
+  }
+  .slot.lit .pc-num { fill: var(--accent); font-weight: 500; }
+  .slot.lit .pc-name { fill: var(--accent); }
+  .slot.lit .spoke { stroke: var(--accent); }
+  .chord-shape { fill: var(--accent-wash); stroke: var(--accent-edge); stroke-width: 1; }
+  .chord-dot { fill: var(--accent); }
+  .gap-arc { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+  .gap-label {
+    font-family: var(--font-data);
+    font-size: 13px;
+    fill: var(--accent);
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+  .hub {
+    font-family: var(--font-data);
+    font-size: 14px;
+    fill: var(--accent);
+    text-anchor: middle;
+  }
+
+  .letters, .accs, .keys { display: flex; flex-wrap: wrap; gap: calc(var(--step) * 0.75); }
+  .letters button { min-width: 3.1rem; }
+  .accs button, .keys button { min-width: 2.6rem; }
+  .accs button, .stack .acc, .entered .acc { font-family: var(--font-music); }
+  button.play { font-size: 0.72rem; padding: calc(var(--step) * 0.7) calc(var(--step) * 1.6); }
+
+  .field {
+    font-family: var(--font-data);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 var(--step);
+    max-width: none;
+  }
+  .field + * { margin-top: 0; }
+  .field.spaced { margin-top: calc(var(--step) * 3); }
+  .lede { margin-bottom: calc(var(--step) * 3); }
+
+  .entered {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--step);
+    align-items: center;
+    min-height: 2.4rem;
+    font-family: var(--font-data);
+    font-size: 0.95rem;
+  }
+  .entered .slotbox {
+    border: var(--line) solid var(--rule);
+    padding: calc(var(--step) * 0.6) calc(var(--step) * 1.2);
+    color: var(--muted);
+  }
+  .entered .slotbox.filled { border-color: var(--ink); color: var(--ink); }
+  .entered .slotbox.bass { border-color: var(--accent); color: var(--accent); }
+
+  .reading { max-width: none; }
+  .reading.spaced { margin-top: calc(var(--step) * 3); }
+  .reading .line {
+    font-family: var(--font-data);
+    font-size: 0.9rem;
+    margin: 0 0 var(--step);
+  }
+  .reading .line:last-child { margin-bottom: 0; }
+  .reading .tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: inline-block;
+    min-width: 8.5rem;
+  }
+  .reading .answer {
+    font-family: var(--font-body);
+    font-size: 1.25rem;
+    margin: 0 0 calc(var(--step) * 2);
+    max-width: none;
+  }
+  .reading .answer .acc { font-family: var(--font-music); }
+  .reading em { color: var(--muted); font-style: normal; }
+  .reading .miss { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">mus 312 &middot; chord finder</p>
+  <h1 id="top">chord finder</h1>
+
+  <p class="lede full">Enter the notes of a chord from the bottom up and read what they make. The chord builder goes from a root and a recipe to a chord. This goes the other way: from notes on a page to a quality, a root, and an inversion.</p>
+
+  <p class="howto">Choose an accidental, then a letter, to add a note. Notes go in from the bass up, to a maximum of four. Backspace removes the last one.</p>
+
+  <section class="scale">
+
+    <h2 id="sec-enter">the notes</h2>
+
+    <div class="panels uneven">
+      <section class="panel">
+        <p class="field">accidental</p>
+        <div class="accs" id="accs"></div>
+        <p class="field spaced">letter</p>
+        <div class="letters" id="letters"></div>
+        <p class="field spaced">entered, bass first</p>
+        <div class="entered" id="entered"></div>
+        <div class="controls">
+          <button type="button" id="back">backspace</button>
+          <button type="button" id="clear">clear</button>
+        </div>
+      </section>
+      <section class="panel">
+        <h3>on the staff</h3>
+        <svg id="cf-staff" viewBox="-166 20 593 180" role="img" aria-label="The notes entered, written on a treble staff from the bass up"></svg>
+      </section>
+    </div>
+
+    <h2 id="sec-reading">what they make</h2>
+
+    <div class="panels uneven">
+      <section class="panel">
+        <div class="reading" id="reading"></div>
+      </section>
+      <section class="panel">
+        <h3>on the clock</h3>
+        <svg id="cf-clock" viewBox="0 0 445 445" role="img" aria-label="The twelve pitch classes on a clock face, with the notes entered marked and the semitone distance between adjacent members arced on the rim"></svg>
+      </section>
+    </div>
+
+    <h2 id="sec-key">against a key</h2>
+
+    <p class="full">A chord that will not stack in thirds is measured against a tonic instead. The chromatic pre-dominants are built from scale degrees, so they need a key before they can be named.</p>
+
+    <section class="panel centered wide">
+      <p class="field">tonic</p>
+      <div class="keys" id="keys"></div>
+      <div class="reading spaced" id="key-reading"></div>
+    </section>
+
+  </section>
+
+  <footer>
+    <p>Notation set in Bravura, Steinberg Media Technologies. Text set in IBM Plex. Both under the SIL Open Font License.</p>
+  </footer>
+
+</div>
+
+<script src="../assets/notation.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var el = MUS.el,
+      LETTER = MUS.LETTER,
+      NATURAL_PC = MUS.NATURAL_PC,
+      NAMES = MUS.NAMES,
+      MAJOR_KEYS = MUS.MAJOR_KEYS,
+      ACC_GLYPH = MUS.ACC_GLYPH,
+      ACC_SIGN = MUS.ACC_SIGN,
+      mod12 = MUS.mod12,
+      noteDia = MUS.noteDia,
+      ledgers = MUS.ledgers,
+      head = MUS.head,
+      noteY = MUS.noteY,
+      chordType = MUS.chordType,
+      CX = MUS.CX, CY = MUS.CY,
+      R_SPOKE_IN = MUS.R_SPOKE_IN, R_SPOKE_OUT = MUS.R_SPOKE_OUT,
+      R_NUM = MUS.R_NUM, R_RIM = MUS.R_RIM, R_NAME = MUS.R_NAME,
+      ang = MUS.ang, px = MUS.px, py = MUS.py, arc = MUS.arc, INSET = MUS.INSET,
+      TOP = MUS.TOP,
+      staff = MUS.staff,
+      endStaff = MUS.endStaff,
+      playFigure = MUS.playFigure,
+      stopPlaying = MUS.stopPlaying;
+
+  /* ---------- state ---------- */
+
+  /* a note is a letter index and an alteration from -2 to 2 */
+  var notes = [], alt = 0, tonic = 0;
+  var MAX = 4;
+
+  function pcOf(n) { return mod12(NATURAL_PC[n.li] + n.alt); }
+  function nameOf(n) { return LETTER[n.li] + ACC_SIGN[String(n.alt)]; }
+
+  /* Notes are entered from the bass up, so each one is placed in the lowest
+     octave that puts it above the one before. */
+  function voiced() {
+    var out = [], prev = null;
+    notes.forEach(function (n) {
+      var dia = 4 * 7 + n.li;
+      if (prev !== null) { while (dia <= prev) { dia += 7; } }
+      prev = dia;
+      out.push({
+        li: n.li, alt: n.alt, dia: dia,
+        octave: Math.floor(dia / 7),
+        pitch: LETTER[n.li] + (n.alt < 0 ? "bb".slice(0, -n.alt) : "##".slice(0, n.alt)) +
+               Math.floor(dia / 7)
+      });
+    });
+    return out;
+  }
+
+  /* ---------- identification ---------- */
+
+  /* Read the set as a stack of thirds from each member in turn. A stack holds
+     when every adjacent pair spans two letters. */
+  function stacks() {
+    var set = notes.slice(), out = [], i;
+    for (i = 0; i < set.length; i++) {
+      var order = set.slice(i).concat(set.slice(0, i));
+      var steps = [], ok = true, run = 0, k;
+      for (k = 1; k < order.length; k++) {
+        var letters = ((order[k].li - order[k - 1].li) % 7 + 7) % 7;
+        var semis = mod12(pcOf(order[k]) - pcOf(order[k - 1]));
+        if (letters !== 2 || (semis !== 3 && semis !== 4)) { ok = false; break; }
+        steps.push(semis);
+        run += semis;
+      }
+      if (ok) { out.push({ root: i, order: order, steps: steps, outer: run }); }
+    }
+    return out;
+  }
+
+  var FIGURE = {
+    3: ["", "6", "6/4"],
+    4: ["7", "6/5", "4/3", "4/2"]
+  };
+  var PLACE = ["root", "third", "fifth", "seventh"];
+
+  /* ---------- interval names, for a pair ---------- */
+
+  var IV_NAME = ["unison", "second", "third", "fourth", "fifth", "sixth", "seventh", "octave"];
+  var PERFECT = { 1: 0, 4: 5, 5: 7, 8: 12 };
+  var IMPERFECT = { 2: 2, 3: 4, 6: 9, 7: 11 };
+
+  function intervalName(a, b) {
+    var letters = ((b.li - a.li) % 7 + 7) % 7;
+    var number = letters + 1;
+    var semis = mod12(pcOf(b) - pcOf(a));
+    if (number === 1 && semis > 6) { number = 8; }
+    var ref = PERFECT[number], perfect = true;
+    if (ref === undefined) { ref = IMPERFECT[number]; perfect = false; }
+    var off = semis - ref;
+    if (number === 8) { off = (semis === 0 ? 0 : semis - 12); }
+    var quality;
+    if (off === 0) { quality = perfect ? "perfect" : "major"; }
+    else if (off === 1) { quality = "augmented"; }
+    else if (off === 2) { quality = "doubly augmented"; }
+    else if (off === -1) { quality = perfect ? "diminished" : "minor"; }
+    else if (off === -2) { quality = perfect ? "doubly diminished" : "diminished"; }
+    else { quality = "doubly diminished"; }
+    return { text: quality + " " + IV_NAME[number - 1], semis: semis };
+  }
+
+  /* ---------- chromatic pre-dominants, by scale degree ---------- */
+
+  /* semitones above the tonic, paired with the letter step they take */
+  var CHROM = [
+    { name: "Italian augmented sixth", label: "It+6",
+      degrees: [[8, 5], [0, 0], [6, 3]] },
+    { name: "French augmented sixth", label: "Fr+6",
+      degrees: [[8, 5], [0, 0], [2, 1], [6, 3]] },
+    { name: "German augmented sixth", label: "Ger+6",
+      degrees: [[8, 5], [0, 0], [3, 2], [6, 3]] },
+    { name: "Neapolitan sixth", label: "N6",
+      degrees: [[1, 1], [5, 3], [8, 5]] }
+  ];
+
+  function spellDegree(t, pair) {
+    var li = (MAJOR_KEYS[t].letter + pair[1]) % 7;
+    var pc = mod12(t + pair[0]);
+    return { li: li, alt: mod12(pc - NATURAL_PC[li] + 6) - 6 };
+  }
+
+  function chromMatch(t) {
+    var have = notes.map(function (n) { return n.li + ":" + n.alt; });
+    var uniq = have.filter(function (v, i) { return have.indexOf(v) === i; }).sort();
+    var found = null;
+    CHROM.forEach(function (c) {
+      if (found) { return; }
+      var want = c.degrees.map(function (p) {
+        var s = spellDegree(t, p);
+        return s.li + ":" + s.alt;
+      }).sort();
+      if (want.join("|") === uniq.join("|")) { found = c; }
+    });
+    return found;
+  }
+
+  /* ---------- the staff ---------- */
+
+  var staffEl = document.getElementById("cf-staff");
+
+  function drawStaff() {
+    while (staffEl.firstChild) { staffEl.removeChild(staffEl.firstChild); }
+    staff(staffEl);
+    var v = voiced(), base = noteDia("E4"), x = 150, accCount = 0;
+    v.slice().reverse().forEach(function (n) {
+      var step = n.dia - base, y = noteY(step, 0);
+      ledgers(staffEl, x, step, noteY(0, 0));
+      if (n.alt !== 0) {
+        staffEl.appendChild(el("text", {
+          x: x - 17 - 13 * accCount, y: y,
+          "class": "accidental" + (n === v[0] ? " bass" : "")
+        }, ACC_GLYPH[String(n.alt)]));
+        accCount += 1;
+      }
+      staffEl.appendChild(head(x, y, "notehead" + (n === v[0] ? " bass" : ""), n.pitch));
+    });
+    endStaff(staffEl, x + 110);
+
+    /* the box holds its width from the panel and its height from the chord,
+       which climbs as far as the notes entered take it */
+    var top = noteY(0, 0), bottom = noteY(0, 0);
+    Array.prototype.forEach.call(staffEl.querySelectorAll("text.notehead"), function (t) {
+      var y = parseFloat(t.getAttribute("y"));
+      if (y < top) { top = y; }
+      if (y > bottom) { bottom = y; }
+    });
+    top = Math.min(top - 40, TOP - 20);
+    bottom = Math.max(bottom + 40, TOP + 68);
+    staffEl.setAttribute("viewBox", "-166 " + top + " 593 " + (bottom - top));
+  }
+
+  /* ---------- the clock ---------- */
+
+  var clockEl = document.getElementById("cf-clock");
+
+  function drawClock() {
+    while (clockEl.firstChild) { clockEl.removeChild(clockEl.firstChild); }
+    clockEl.appendChild(el("circle", { cx: CX, cy: CY, r: R_RIM, "class": "rim" }));
+
+    var lit = {};
+    notes.forEach(function (n) { lit[pcOf(n)] = true; });
+
+    var pc;
+    for (pc = 0; pc < 12; pc++) {
+      var g = el("g", { "class": "slot" + (lit[pc] ? " lit" : "") });
+      g.appendChild(el("line", {
+        x1: px(pc, R_SPOKE_IN), y1: py(pc, R_SPOKE_IN),
+        x2: px(pc, R_SPOKE_OUT), y2: py(pc, R_SPOKE_OUT), "class": "spoke"
+      }));
+      g.appendChild(el("text", { x: px(pc, R_NUM), y: py(pc, R_NUM), "class": "pc-num" }, String(pc)));
+      var t = el("text", { x: px(pc, R_NAME), y: py(pc, R_NAME), "class": "pc-name" });
+      NAMES[pc].forEach(function (nm, k) {
+        t.appendChild(el("tspan", {
+          x: px(pc, R_NAME), dy: k ? "1.15em" : "0.35em"
+        }, nm.replace("#", "\u266F").replace("b", "\u266D")));
+      });
+      g.appendChild(t);
+      clockEl.appendChild(g);
+    }
+
+    var set = notes.map(pcOf).filter(function (v, i, a) { return a.indexOf(v) === i; });
+    if (set.length > 1) {
+      var ring = set.slice().sort(function (a, b) { return a - b; });
+      clockEl.appendChild(el("polygon", {
+        points: ring.map(function (p) {
+          return px(p, R_SPOKE_OUT) + "," + py(p, R_SPOKE_OUT);
+        }).join(" "),
+        "class": "chord-shape"
+      }));
+      ring.forEach(function (p, i) {
+        var next = ring[(i + 1) % ring.length];
+        var gap = mod12(next - p) || 12;
+        clockEl.appendChild(el("path", {
+          d: arc(p, p + gap, R_RIM + 14, INSET), "class": "gap-arc"
+        }));
+        var mid = p + gap / 2;
+        clockEl.appendChild(el("text", {
+          x: CX + (R_RIM + 30) * Math.cos(ang(mid)),
+          y: CY + (R_RIM + 30) * Math.sin(ang(mid)),
+          "class": "gap-label"
+        }, String(gap)));
+      });
+    }
+    set.forEach(function (p) {
+      clockEl.appendChild(el("circle", {
+        cx: px(p, R_SPOKE_OUT), cy: py(p, R_SPOKE_OUT), r: 5, "class": "chord-dot"
+      }));
+    });
+    if (set.length) {
+      clockEl.appendChild(el("text", { x: CX, y: CY, "class": "hub", dy: "0.35em" },
+        set.length + (set.length === 1 ? " pitch class" : " pitch classes")));
+    }
+  }
+
+  /* ---------- the reading ---------- */
+
+  var readEl = document.getElementById("reading");
+  var keyReadEl = document.getElementById("key-reading");
+
+  function glyphed(text) {
+    var out = document.createDocumentFragment();
+    text.split(/(\u266D|\u266F|\u266D\u266D|x)/).forEach(function (part) {
+      if (!part) { return; }
+      if (part === "\u266D" || part === "\u266F" || part === "x") {
+        var s = document.createElement("span");
+        s.className = "acc";
+        s.appendChild(document.createTextNode(part));
+        out.appendChild(s);
+      } else {
+        out.appendChild(document.createTextNode(part));
+      }
+    });
+    return out;
+  }
+
+  function line(target, tag, text) {
+    var p = document.createElement("p");
+    p.className = "line";
+    var s = document.createElement("span");
+    s.className = "tag";
+    s.appendChild(document.createTextNode(tag));
+    p.appendChild(s);
+    p.appendChild(glyphed(text));
+    target.appendChild(p);
+  }
+
+  function answer(target, text, miss) {
+    var p = document.createElement("p");
+    p.className = "answer" + (miss ? " miss" : "");
+    p.appendChild(glyphed(text));
+    target.appendChild(p);
+  }
+
+  function drawReading() {
+    while (readEl.firstChild) { readEl.removeChild(readEl.firstChild); }
+
+    if (!notes.length) {
+      answer(readEl, "nothing entered yet");
+      return;
+    }
+    if (notes.length === 1) {
+      answer(readEl, nameOf(notes[0]));
+      line(readEl, "pitch class", String(pcOf(notes[0])));
+      return;
+    }
+    if (notes.length === 2) {
+      var iv = intervalName(notes[0], notes[1]);
+      answer(readEl, iv.text);
+      line(readEl, "notes", nameOf(notes[0]) + " up to " + nameOf(notes[1]));
+      line(readEl, "semitones", String(iv.semis));
+      return;
+    }
+
+    var found = stacks();
+    if (!found.length) {
+      answer(readEl, "this will not stack in thirds", true);
+      line(readEl, "notes", notes.map(nameOf).join(" "));
+      line(readEl, "pitch classes", notes.map(pcOf).join(" "));
+      var p = document.createElement("p");
+      p.className = "line";
+      p.appendChild(document.createTextNode(
+        "Check the chromatic pre-dominants against a tonic below."));
+      readEl.appendChild(p);
+      return;
+    }
+
+    var s = found[0];
+    var type = chordType(s.steps);
+    var rootName = nameOf(s.order[0]);
+    var bassPlace = PLACE[(s.order.length + 0 - s.root) % s.order.length];
+    var inversion = FIGURE[s.order.length][(s.order.length - s.root) % s.order.length];
+
+    answer(readEl, type
+      ? rootName + " " + type.name
+      : rootName + " with a stack of " + s.steps.join(" and "));
+    line(readEl, "stack of thirds", s.order.map(nameOf).join(" "));
+    line(readEl, "distances", s.steps.join(" + ") + " = " + s.outer + " semitones");
+    if (type) {
+      line(readEl, "chord symbol",
+        (type.upper ? rootName : rootName.charAt(0).toLowerCase() + rootName.slice(1)) + type.sym);
+    }
+    line(readEl, "in the bass", nameOf(notes[0]) + ", the " + bassPlace);
+    line(readEl, "figure", inversion || "root position, 5/3");
+  }
+
+  function drawKeyReading() {
+    while (keyReadEl.firstChild) { keyReadEl.removeChild(keyReadEl.firstChild); }
+    if (notes.length < 3) {
+      answer(keyReadEl, "enter three or four notes");
+      return;
+    }
+    var hit = chromMatch(tonic);
+    var key = MAJOR_KEYS[tonic].name;
+    if (hit) {
+      answer(keyReadEl, hit.name);
+      line(keyReadEl, "label", hit.label);
+      line(keyReadEl, "in", key + " major or minor");
+      line(keyReadEl, "function", "pre-dominant, so the next chord is the dominant");
+    } else {
+      answer(keyReadEl, "not a chromatic pre-dominant in " + key);
+      line(keyReadEl, "tested", "It+6, Fr+6, Ger+6, N6");
+    }
+  }
+
+  /* ---------- controls ---------- */
+
+  function refresh() {
+    stopPlaying();
+    drawStaff();
+    drawClock();
+    drawReading();
+    drawKeyReading();
+    drawEntered();
+  }
+
+  var enteredEl = document.getElementById("entered");
+
+  function drawEntered() {
+    while (enteredEl.firstChild) { enteredEl.removeChild(enteredEl.firstChild); }
+    var i;
+    for (i = 0; i < MAX; i++) {
+      var box = document.createElement("span");
+      box.className = "slotbox" + (notes[i] ? " filled" : "") + (i === 0 && notes[i] ? " bass" : "");
+      box.appendChild(glyphed(notes[i] ? nameOf(notes[i]) : "\u2013"));
+      enteredEl.appendChild(box);
+    }
+  }
+
+  var ACCS = [
+    { alt: -2, glyph: "\u266D\u266D", word: "double flat" },
+    { alt: -1, glyph: "\u266D", word: "flat" },
+    { alt: 0, glyph: "\u266E", word: "natural" },
+    { alt: 1, glyph: "\u266F", word: "sharp" },
+    { alt: 2, glyph: "x", word: "double sharp" }
+  ];
+
+  var accsEl = document.getElementById("accs");
+  var accButtons = [];
+  ACCS.forEach(function (a) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-pressed", a.alt === 0 ? "true" : "false");
+    b.setAttribute("aria-label", a.word);
+    b.appendChild(document.createTextNode(a.glyph));
+    b.addEventListener("click", function () {
+      alt = a.alt;
+      accButtons.forEach(function (other, k) {
+        other.setAttribute("aria-pressed", ACCS[k].alt === alt ? "true" : "false");
+      });
+    });
+    accButtons.push(b);
+    accsEl.appendChild(b);
+  });
+
+  var lettersEl = document.getElementById("letters");
+  LETTER.forEach(function (name, li) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.appendChild(document.createTextNode(name));
+    b.addEventListener("click", function () {
+      if (notes.length >= MAX) { return; }
+      notes.push({ li: li, alt: alt });
+      refresh();
+    });
+    lettersEl.appendChild(b);
+  });
+
+  document.getElementById("back").addEventListener("click", function () {
+    notes.pop();
+    refresh();
+  });
+  document.getElementById("clear").addEventListener("click", function () {
+    notes = [];
+    refresh();
+  });
+
+  var keysEl = document.getElementById("keys");
+  var keyButtons = [];
+  for (var t = 0; t < 12; t++) {
+    (function (pc) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("aria-pressed", pc === 0 ? "true" : "false");
+      b.setAttribute("aria-label", "tonic " + MAJOR_KEYS[pc].name);
+      b.appendChild(glyphed(MAJOR_KEYS[pc].name));
+      b.addEventListener("click", function () {
+        tonic = pc;
+        keyButtons.forEach(function (other, k) {
+          other.setAttribute("aria-pressed", k === pc ? "true" : "false");
+        });
+        drawKeyReading();
+      });
+      keyButtons.push(b);
+      keysEl.appendChild(b);
+    })(t);
+  }
+
+  var playBar = document.createElement("div");
+  var playButton = document.createElement("button");
+  playBar.className = "controls";
+  playButton.type = "button";
+  playButton.className = "play";
+  playButton.setAttribute("aria-pressed", "false");
+  playButton.setAttribute("aria-label", "play the chord entered");
+  playButton.appendChild(document.createTextNode("play"));
+  playButton.addEventListener("click", function () {
+    if (playButton.getAttribute("aria-pressed") === "true") { stopPlaying(); }
+    else { playFigure(staffEl, playButton); }
+  });
+  playBar.appendChild(playButton);
+  staffEl.parentNode.insertBefore(playBar, staffEl.nextSibling);
+
+  refresh();
+
+})();
+</script>
+</body>
+</html>

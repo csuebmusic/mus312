@@ -1508,6 +1508,7 @@
       MEL_UP = MUS.MEL_UP,
       MEL_DOWN = MUS.MEL_DOWN,
       STAVES = MUS.STAVES,
+      register = MUS.register,
       endStaff = MUS.endStaff,
       closeStaves = MUS.closeStaves,
       head = MUS.head,
@@ -1537,6 +1538,8 @@
       blockArrow = MUS.blockArrow,
       keySigMap = MUS.keySigMap,
       spellNote = MUS.spellNote,
+      TRIAD_TYPES = MUS.TRIAD_TYPES,
+      SEVENTH_TYPES = MUS.SEVENTH_TYPES,
       playButtons = MUS.playButtons,
       playFigure = MUS.playFigure,
       stopPlaying = MUS.stopPlaying,
@@ -2011,23 +2014,8 @@
       { name: "B\u266D", letter: 6 },  { name: "B", letter: 6 }
     ];
 
-    var TRIADS = [
-      { steps: [3, 3], abbr: "\u00B0", name: "diminished", sym: "\u00B0", upper: false },
-      { steps: [3, 4], abbr: "m",      name: "minor",      sym: "-",      upper: false },
-      { steps: [4, 3], abbr: "M",      name: "major",      sym: "",       upper: true  },
-      { steps: [4, 4], abbr: "+",      name: "augmented",  sym: "+",      upper: true  }
-    ];
-    var SEVENTHS = [
-      { steps: [3, 3, 3], abbr: "\u00B07", name: "fully diminished seventh",  sym: "\u00B07", upper: false },
-      { steps: [3, 3, 4], abbr: "\u00F87", name: "half-diminished seventh",   sym: "\u00F87", upper: false },
-      { steps: [3, 4, 3], abbr: "mm7",     name: "minor seventh",             sym: "-7",      upper: false },
-      { steps: [3, 4, 4], abbr: "mM7",     name: "minor-major seventh",       sym: "-M7",     upper: false },
-      { steps: [4, 3, 3], abbr: "Mm7",     name: "dominant seventh",          sym: "7",       upper: true  },
-      { steps: [4, 3, 4], abbr: "MM7",     name: "major seventh",             sym: "M7",      upper: true  },
-      { steps: [4, 4, 3], abbr: "+M7",     name: "augmented major seventh",   sym: "+M7",     upper: true  }
-    ];
 
-    var rootIndex = 0, picked = TRIADS[2];
+    var rootIndex = 0, picked = TRIAD_TYPES[2];
     var staffEl = document.getElementById("builder-staff");
     var nameEl = document.getElementById("builder-name");
     var factsEl = document.getElementById("builder-facts");
@@ -2170,8 +2158,8 @@
       });
     }
 
-    drawRow("rec-triads", TRIADS, 96, 9, 106, 62);
-    drawRow("rec-sevenths", SEVENTHS, 128, 9, 106, 62);
+    drawRow("rec-triads", TRIAD_TYPES, 96, 9, 106, 62);
+    drawRow("rec-sevenths", SEVENTH_TYPES, 128, 9, 106, 62);
 
     /* ----- root picker ----- */
 
@@ -2501,7 +2489,7 @@
         for (var a = 0; a < cfg.flats; a++) { sig[FLAT_ORDER[a]] = -1; }
       }
 
-      STAVES.push(svg);
+      register(svg);
       for (var L = 0; L < 5; L++) {
         svg.appendChild(el("line", {
           x1: 10, y1: STAFF_TOP + 12 * L, x2: 10, y2: STAFF_TOP + 12 * L, "class": "staff-line"

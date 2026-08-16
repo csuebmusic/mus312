@@ -12,6 +12,10 @@ Live links, for Canvas.
 https://csuebmusic.github.io/mus312/tools/harmony-review.html
 Part 1, counting in semitones: the four scale types on a linked staff and clock, interval names, diatonic triads in major and all three minors, the chord builder, figured bass, inversions, nonchord tones. Part 2, harmonic progressions and functions: tonal syntax, the seven triads by function, the diatonic function chart, structural and prolongational harmony, the cadential six-four, the cadence types, the diatonic sequences. Part 3, chromatic harmony: applied dominant and applied leading-tone chords, extended tonicization, the augmented sixths and the Neapolitan, modal mixture, the master function and prolongation chart, and a guided analysis that draws one progression seven times. Part 4, modulation: tonicization against modulation, the three stages, destabilizing the tonic, the pivot chord, closely related keys and chromatic modulation.
 
+**chord finder**
+https://csuebmusic.github.io/mus312/tools/chord-finder.html
+Enter up to four notes from the bass up and read what they make: the stack of thirds with the semitone distance between each pair, the quality, the chord symbol, the note in the bass and its figure. Two notes give an interval. A set that will not stack in thirds is measured against a tonic instead, which is how the augmented sixths and the Neapolitan are named.
+
 ## texts
 
 Caplin, *Analyzing Classical Form*, chapter 1 and Parts I and II. Laitz and Bartlette, *The Graduate Review of Tonal Theory*. Hepokoski and Darcy, *Elements of Sonata Theory*.
@@ -21,7 +25,7 @@ Sonata-form terminology follows Hepokoski and Darcy. Harmonic function follows L
 ## repository
 
 ```
-assets/       stylesheet and self-hosted fonts
+assets/       stylesheet, self-hosted fonts, shared notation code
 tools/        interactive analytical tools
 meta/         instructor notes and conventions
 ```

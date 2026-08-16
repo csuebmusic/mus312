@@ -144,9 +144,8 @@ var MUS = (function () {
   var STAVES = [], ENDED = {};
 
   function endStaff(svg, right) {
-    if (ENDED[svg.id]) { return; }
-    ENDED[svg.id] = true;
     if (right === undefined) {
+      if (ENDED[svg.id]) { return; }
       var last = 0;
       Array.prototype.forEach.call(svg.querySelectorAll("text.notehead"), function (t) {
         var x = parseFloat(t.getAttribute("x"));
@@ -154,6 +153,7 @@ var MUS = (function () {
       });
       right = last + NOTE_ADV + STAFF_TAIL;
     }
+    ENDED[svg.id] = true;
     Array.prototype.forEach.call(svg.querySelectorAll("line.staff-line"), function (l) {
       if (l.getAttribute("y1") === l.getAttribute("y2")) { l.setAttribute("x2", right); }
     });
@@ -161,6 +161,11 @@ var MUS = (function () {
 
   function closeStaves() {
     STAVES.forEach(function (svg) { endStaff(svg); });
+  }
+
+  /* a figure joins the list once, however often it is redrawn */
+  function register(svg) {
+    if (STAVES.indexOf(svg) < 0) { STAVES.push(svg); }
   }
 
   /* ---------- noteheads ---------- */
@@ -255,6 +260,34 @@ var MUS = (function () {
       ].join(" "),
       "class": "fn-arrow"
     }));
+  }
+
+  /* ---------- chord types ---------- */
+
+  var TRIAD_TYPES = [
+    { steps: [3, 3], abbr: "\u00B0", name: "diminished", sym: "\u00B0", upper: false },
+    { steps: [3, 4], abbr: "m",      name: "minor",      sym: "-",      upper: false },
+    { steps: [4, 3], abbr: "M",      name: "major",      sym: "",       upper: true  },
+    { steps: [4, 4], abbr: "+",      name: "augmented",  sym: "+",      upper: true  }
+  ];
+  var SEVENTH_TYPES = [
+    { steps: [3, 3, 3], abbr: "\u00B07", name: "fully diminished seventh",  sym: "\u00B07", upper: false },
+    { steps: [3, 3, 4], abbr: "\u00F87", name: "half-diminished seventh",   sym: "\u00F87", upper: false },
+    { steps: [3, 4, 3], abbr: "mm7",     name: "minor seventh",             sym: "-7",      upper: false },
+    { steps: [3, 4, 4], abbr: "mM7",     name: "minor-major seventh",       sym: "-M7",     upper: false },
+    { steps: [4, 3, 3], abbr: "Mm7",     name: "dominant seventh",          sym: "7",       upper: true  },
+    { steps: [4, 3, 4], abbr: "MM7",     name: "major seventh",             sym: "M7",      upper: true  },
+    { steps: [4, 4, 3], abbr: "+M7",     name: "augmented major seventh",   sym: "+M7",     upper: true  }
+  ];
+
+  /* the chord type a stack of thirds makes, by its semitone steps */
+  function chordType(steps) {
+    var key = steps.join(",");
+    var all = TRIAD_TYPES.concat(SEVENTH_TYPES), i;
+    for (i = 0; i < all.length; i++) {
+      if (all[i].steps.join(",") === key) { return all[i]; }
+    }
+    return null;
   }
 
   /* ---------- spelling ---------- */
@@ -460,7 +493,7 @@ var MUS = (function () {
   /* Both staves, both clefs, the opening barline, and a flat key signature.
      Returns the signature as a map from letter index to alteration. */
   function grandStaff(svg, flats) {
-    STAVES.push(svg);
+    register(svg);
     [GS.trebleTop, GS.bassTop].forEach(function (topY) {
       for (var L = 0; L < 5; L++) {
         svg.appendChild(el("line", {
@@ -525,7 +558,7 @@ var MUS = (function () {
   var RN_Y = TOP + 108;
 
   function staff(svg) {
-    STAVES.push(svg);
+    register(svg);
     for (var L = 0; L < 5; L++) {
       svg.appendChild(el("line", {
         x1: 10, y1: TOP + 12 * L, x2: 10, y2: TOP + 12 * L, "class": "staff-line"
@@ -632,6 +665,7 @@ var MUS = (function () {
     MEL_DOWN: MEL_DOWN,
     STAVES: STAVES,
     endStaff: endStaff,
+    register: register,
     closeStaves: closeStaves,
     head: head,
     pitchOf: pitchOf,
@@ -660,6 +694,9 @@ var MUS = (function () {
     blockArrow: blockArrow,
     keySigMap: keySigMap,
     spellNote: spellNote,
+    TRIAD_TYPES: TRIAD_TYPES,
+    SEVENTH_TYPES: SEVENTH_TYPES,
+    chordType: chordType,
     playButtons: playButtons,
     playFigure: playFigure,
     stopPlaying: stopPlaying,

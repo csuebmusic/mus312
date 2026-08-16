@@ -15,3 +15,7 @@ Part 3, chromatic harmony: applied dominant chords, the five applied dominants o
 Part 4, modulation: tonicization against extended tonicization against modulation; modulation as a classical development; the three stages; destabilizing the tonic three ways, the added seventh, the borrowed third, and the tonic passed through in inversion; the pivot chord, an eight-chord keyboard-style phrase from C major to G major with vi6 boxed and read again as ii6/V, the returning C major triad marked as IV/V, and the cadence in the new key bracketed; closely related keys and chromatic modulation, two grids of roman numerals read down the columns.
 
 Playback: 54 of the 62 figures with pitches on them carry a play button, the eight left out being the six later states of the guided analysis and the two annotated figured-bass repeats. Sound is synthesized from the noteheads through the Web Audio API.
+
+`assets/notation.js`, shared by every tool.
+
+`tools/chord-finder.html`: up to four spelled notes entered from the bass up, written on a staff and marked on the clock with the semitone distance between adjacent members; the stack of thirds with its distances, the quality, the chord symbol, the bass note and its figure; the interval name for two notes; and a tonic picker that tests a set which will not stack in thirds against the three augmented sixths and the Neapolitan.
