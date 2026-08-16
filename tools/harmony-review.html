@@ -559,6 +559,12 @@
     text-anchor: middle;
   }
 
+  button.play {
+    font-size: 0.72rem;
+    padding: calc(var(--step) * 0.7) calc(var(--step) * 1.6);
+  }
+  .notehead.sounding, .accidental.sounding { fill: var(--accent); }
+
   .callout {
     max-width: none;
     border-left: 3px solid var(--ink);
@@ -622,7 +628,7 @@
 
   <p class="lede full">A pitch on the staff implies register and spelling. The same pitch on the clock only implies distance. Scale degrees run above the staff, pitch classes around the clock.</p>
 
-  <p class="howto">Hover a pitch in either space to find it in the other. Click any pitch on the clock to make it scale degree 1.</p>
+  <p class="howto">Hover a pitch in either space to find it in the other. Click any pitch on the clock to make it scale degree 1. Play sounds the example above it, in whatever key is showing.</p>
 
   <section class="scale" data-scale="sec-major">
     <h2 id="sec-major">major</h2>
@@ -942,11 +948,11 @@
     <div class="panels">
       <section class="panel">
         <h3><span class="caps">D</span> half-diminished seventh, annotated</h3>
-        <svg id="fb-annot-halfdim" viewBox="-130 0 741 320" role="img" aria-label="The half-diminished seventh realization with its sensitive tones marked and arrows to their resolutions"></svg>
+        <svg id="fb-annot-halfdim" data-play="no" viewBox="-130 0 741 320" role="img" aria-label="The half-diminished seventh realization with its sensitive tones marked and arrows to their resolutions"></svg>
       </section>
       <section class="panel">
         <h3><span class="caps">F</span> major seventh, annotated</h3>
-        <svg id="fb-annot-maj7" viewBox="-130 0 741 320" role="img" aria-label="The major seventh realization with its sensitive tones marked and arrows to their resolutions"></svg>
+        <svg id="fb-annot-maj7" data-play="no" viewBox="-130 0 741 320" role="img" aria-label="The major seventh realization with its sensitive tones marked and arrows to their resolutions"></svg>
       </section>
     </div>
 
@@ -1344,25 +1350,25 @@
     <p class="full">In the passage above, the first step is to find the quality of the chords. What are they: major triads, minor triads, what types of sevenths. This is why knowing your chords is essential, and the sooner you have this internalized, the better.</p>
 
     <section class="panel">
-      <svg id="read-2" viewBox="-240 14 1600 226" role="img" aria-label="The same progression with a chord symbol above each chord, and a question mark above the sixth"></svg>
+      <svg id="read-2" data-play="no" viewBox="-240 14 1600 226" role="img" aria-label="The same progression with a chord symbol above each chord, and a question mark above the sixth"></svg>
     </section>
 
     <p class="full">There is only one chord that does not make sense under the regular chord-finding techniques (it does not stack in thirds). When this happens, your first instinct should <em>always</em> be to check whether it is a chromatic pre-dominant. For that you do not need qualities of thirds, you need scale degrees.</p>
 
     <section class="panel">
-      <svg id="read-3" viewBox="-240 14 1600 226" role="img" aria-label="The same progression with the scale degrees of the sixth chord given in place of the question mark"></svg>
+      <svg id="read-3" data-play="no" viewBox="-240 14 1600 226" role="img" aria-label="The same progression with the scale degrees of the sixth chord given in place of the question mark"></svg>
     </section>
 
     <p class="full">Look at the chromatic pre-dominant charts above and you will recognize this as a French augmented sixth. This chord can only have pre-dominant function, which means the dominant should be the next chord. Look ahead. Is it? Yes, it is a G7. Dominant chords can <em>only</em> have dominant function, there is no other choice. You have just clarified the cadential motion for this passage.</p>
 
     <section class="panel">
-      <svg id="read-4" viewBox="-240 14 1600 316" role="img" aria-label="The same progression with roman numerals under the French sixth, the dominant seventh, and the closing tonic, and a cadence bracket across them"></svg>
+      <svg id="read-4" data-play="no" viewBox="-240 14 1600 316" role="img" aria-label="The same progression with roman numerals under the French sixth, the dominant seventh, and the closing tonic, and a cadence bracket across them"></svg>
     </section>
 
     <p class="full">Now look at the start, since the last chord is the same as the first. Clearly we are in C major, which clarifies most of the rest of the chords. Be methodical. Is the second chord diatonic to C? It is an A major triad, so no. Skip it for now. Is the third chord diatonic? It is a d-, so yes, that is a ii chord. Is the fourth chord diatonic? Yes, that is a C major again. Check the bass: it is in an inversion, I6. Is the fifth chord diatonic? Yes, it is that same ii chord, but now with an F in the bass, ii6.</p>
 
     <section class="panel">
-      <svg id="read-5" viewBox="-240 14 1600 316" role="img" aria-label="The same progression with roman numerals added under every diatonic chord"></svg>
+      <svg id="read-5" data-play="no" viewBox="-240 14 1600 316" role="img" aria-label="The same progression with roman numerals added under every diatonic chord"></svg>
     </section>
 
     <p class="full">Now the only missing function is that A major triad. Remember, quality informs function. What can an A major actually be?</p>
@@ -1374,13 +1380,13 @@
     </ul>
 
     <section class="panel">
-      <svg id="read-6" viewBox="-240 14 1600 316" role="img" aria-label="The same progression with V of ii under the A major triad and a curved arrow to the ii that follows"></svg>
+      <svg id="read-6" data-play="no" viewBox="-240 14 1600 316" role="img" aria-label="The same progression with V of ii under the A major triad and a curved arrow to the ii that follows"></svg>
     </section>
 
     <p class="full">The only thing missing now is the second level analysis: what is structural and what is prolongational.</p>
 
     <section class="panel">
-      <svg id="read-7" viewBox="-240 14 1600 360" role="img" aria-label="The same progression with a second level of analysis, tonic, then a pre-dominant running from V of ii through the French sixth, then dominant and tonic"></svg>
+      <svg id="read-7" data-play="no" viewBox="-240 14 1600 360" role="img" aria-label="The same progression with a second level of analysis, tonic, then a pre-dominant running from V of ii through the French sixth, then dominant and tonic"></svg>
     </section>
   </section>
 
@@ -1630,6 +1636,30 @@
     STAVES.forEach(function (svg) { endStaff(svg); });
   }
 
+  /* ---------- noteheads ---------- */
+
+  /* A notehead carries the pitch it draws and the column it belongs to, so a
+     figure can be played back from what is on the staff. `col` is the nominal
+     x of the chord, which differs from `x` where a second is displaced. */
+  function head(x, y, cls, note, opt) {
+    opt = opt || {};
+    var a = {
+      x: x, y: y, "class": cls,
+      "data-note": note,
+      "data-col": opt.col === undefined ? x : opt.col
+    };
+    if (opt.dur) { a["data-dur"] = opt.dur; }
+    if (opt.beat !== undefined) { a["data-beat"] = opt.beat; }
+    return el("text", a, opt.glyph || "\uE0A2");
+  }
+
+  /* the sounding name of a pitch, with ascii accidentals and an octave */
+  var ASCII_ACC = { "-2": "bb", "-1": "b", "0": "", "1": "#", "2": "##" };
+  function pitchOf(letterIndex, alt, step) {
+    return LETTER[letterIndex] + ASCII_ACC[String(alt)] +
+           Math.floor((noteDia("E4") + step) / 7);
+  }
+
   /* ---------- geometry ---------- */
 
   var SP = 12, ROW_H = 215, ROW_TOP = 80;
@@ -1722,7 +1752,8 @@
       step: key.letter + lo - 2,
       degree: (lo % 7) + 1,
       alt: alt,
-      name: LETTER[li] + ACC_SIGN[String(alt)]
+      name: LETTER[li] + ACC_SIGN[String(alt)],
+      pitch: pitchOf(li, alt, key.letter + lo - 2)
     };
   }
 
@@ -1804,7 +1835,7 @@
             x: x - 17, y: y, "class": "accidental"
           }, ACC_GLYPH[String(n.alt)]));
         }
-        g.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
+        g.appendChild(head(x, y, "notehead", n.pitch));
         if (isTonic) {
           g.appendChild(el("circle", { cx: x + 10, cy: y, r: 17, "class": "tonic-ring" }));
         }
@@ -2087,7 +2118,7 @@
           }, ACC_GLYPH[String(m.alt)]));
           accCount += 1;
         }
-        g.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
+        g.appendChild(head(x, y, "notehead", m.pitch));
       });
 
       drawDegree(g, x + 10, top - 34, i + 1, rootAlt);
@@ -2221,7 +2252,8 @@
           name: LETTER[li] + ACC_SIGN[String(alt)],
           alt: alt,
           step: root.letter + 2 * i - 2,
-          pc: pc
+          pc: pc,
+          pitch: pitchOf(li, alt, root.letter + 2 * i - 2)
         });
       }
       return out;
@@ -2248,7 +2280,7 @@
           }, ACC_GLYPH[String(n.alt)]));
           accCount += 1;
         }
-        staffEl.appendChild(el("text", { x: x, y: y, "class": "notehead" }, "\uE0A2"));
+        staffEl.appendChild(head(x, y, "notehead", n.pitch));
       });
 
       for (var i = 0; i < picked.steps.length; i++) {
@@ -2391,7 +2423,7 @@
       }
     }
 
-    function drawNote(svg, x, note, bottomY, bottom, cls) {
+    function drawNote(svg, x, note, bottomY, bottom, cls, col) {
       var step = noteDia(note) - bottom;
       var y = bottomY - 6 * step;
       ledgers(svg, x, step, bottomY);
@@ -2402,7 +2434,7 @@
           x: x - 17, y: y, "class": "accidental" + mark
         }, ACC_GLYPH[String(alt)]));
       }
-      svg.appendChild(el("text", { x: x, y: y, "class": "notehead" + mark }, "\uE0A2"));
+      svg.appendChild(head(x, y, "notehead" + mark, note, { col: col }));
       return { x: x, y: y };
     }
 
@@ -2459,7 +2491,7 @@
         sorted.forEach(function (n) {
           var key = i + ":" + n;
           at[key] = drawNote(svg, x + (offset[n] || 0), n, trebleBottom, TREBLE_BOTTOM,
-                             marks[key] ? "sensitive" : null);
+                             marks[key] ? "sensitive" : null, x);
         });
         drawNote(svg, x, BASS_LINE[i], bassBottom, BASS_BOTTOM);
         figures[i].forEach(function (f, k) {
@@ -2563,9 +2595,7 @@
           var nx = x + (offset[n] || 0);
           var y = bottom - 6 * step;
           ledgers(svg, nx, step, bottom);
-          svg.appendChild(el("text", {
-            x: nx, y: y, "class": "notehead" + (idx === 0 ? " sensitive" : "")
-          }, "\uE0A2"));
+          svg.appendChild(head(nx, y, "notehead" + (idx === 0 ? " sensitive" : ""), n, { col: x }));
         });
 
         svg.appendChild(el("text", { x: x + 10, y: 30, "class": "inv-label" }, item.label));
@@ -2696,9 +2726,7 @@
             "class": "accidental" + (cls ? " " + cls : "")
           }, ACC_GLYPH[String(alt)]));
         }
-        svg.appendChild(el("text", {
-          x: x, y: y, "class": "notehead" + (cls ? " " + cls : "")
-        }, "\uE0A2"));
+        svg.appendChild(head(x, y, "notehead" + (cls ? " " + cls : ""), n, { col: accX }));
         return y;
       }
 
@@ -3260,6 +3288,171 @@
 
   prolongMap("prolong-map");
 
+  /* ---------- sound ---------- */
+
+  /* Playback reads the staff rather than a second copy of the music: every
+     notehead carries its pitch, its column, and where the figure is metered,
+     its beat and its length in beats. */
+
+  var PITCH_RE = /^([A-G])(b{1,2}|#{1,2})?(\d)$/;
+  var PARTIALS = [[1, 1], [2, 0.4], [3, 0.15], [4, 0.06]];
+  var CHORD_BEAT = 0.6, LINE_BEAT = 0.34;
+  var CTX = null, current = null;
+
+  function context() {
+    var Ctor = window.AudioContext || window.webkitAudioContext;
+    if (!Ctor) { return null; }
+    if (!CTX) { CTX = new Ctor(); }
+    if (CTX.state === "suspended" && CTX.resume) { CTX.resume(); }
+    return CTX;
+  }
+
+  function pitchHz(name) {
+    var m = PITCH_RE.exec(name);
+    if (!m) { return 0; }
+    var acc = m[2] || "";
+    var alt = acc.charAt(0) === "#" ? acc.length : -acc.length;
+    var midi = 12 * (parseInt(m[3], 10) + 1) +
+               NATURAL_PC[LETTER.indexOf(m[1])] + alt;
+    return 440 * Math.pow(2, (midi - 69) / 12);
+  }
+
+  function strike(ctx, hz, at, dur, level, nodes) {
+    var out = ctx.createGain();
+    out.gain.setValueAtTime(0.0001, at);
+    out.gain.exponentialRampToValueAtTime(level, at + 0.014);
+    out.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+    out.connect(ctx.destination);
+    PARTIALS.forEach(function (p) {
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = "sine";
+      o.frequency.value = hz * p[0];
+      g.gain.value = p[1];
+      o.connect(g);
+      g.connect(out);
+      o.start(at);
+      o.stop(at + dur + 0.06);
+      nodes.push(o);
+    });
+  }
+
+  /* One entry per sounding notehead, ordered by onset. A figure with no beat
+     marked sounds one column to a beat. */
+  function figureNotes(svg) {
+    var heads = Array.prototype.filter.call(
+      svg.querySelectorAll("text.notehead"),
+      function (t) {
+        return t.getAttribute("data-note") && !t.getAttribute("data-tie") &&
+               t.getAttribute("class").indexOf("optional") < 0;
+      }
+    );
+    var order = [], seen = {};
+    heads.forEach(function (t) {
+      var c = parseFloat(t.getAttribute("data-col"));
+      if (!seen[c]) { seen[c] = true; order.push(c); }
+    });
+    order.sort(function (a, b) { return a - b; });
+    var index = {};
+    order.forEach(function (c, i) { index[c] = i; });
+    return heads.map(function (t) {
+      var beat = t.getAttribute("data-beat");
+      var dur = parseFloat(t.getAttribute("data-dur"));
+      return {
+        head: t,
+        note: t.getAttribute("data-note"),
+        at: beat === null ? index[parseFloat(t.getAttribute("data-col"))]
+                          : parseFloat(beat),
+        beats: dur > 0 ? dur : 1
+      };
+    }).sort(function (a, b) { return a.at - b.at; });
+  }
+
+  function stopPlaying() {
+    if (!current) { return; }
+    var c = current;
+    current = null;
+    c.timers.forEach(function (t) { window.clearTimeout(t); });
+    c.lit.forEach(function (h) { h.classList.remove("sounding"); });
+    c.nodes.forEach(function (o) {
+      try { o.stop(c.ctx.currentTime + 0.04); } catch (err) { return; }
+    });
+    c.button.setAttribute("aria-pressed", "false");
+  }
+
+  function playFigure(svg, button) {
+    stopPlaying();
+    var ctx = context();
+    if (!ctx) { return; }
+    var notes = figureNotes(svg);
+    if (!notes.length) { return; }
+
+    var chordal = notes.some(function (n, i) {
+      return i > 0 && n.at === notes[i - 1].at;
+    });
+    var beat = chordal ? CHORD_BEAT : LINE_BEAT;
+    var voices = {};
+    notes.forEach(function (n) { voices[n.at] = (voices[n.at] || 0) + 1; });
+
+    var state = { ctx: ctx, button: button, nodes: [], timers: [], lit: [] };
+    current = state;
+    button.setAttribute("aria-pressed", "true");
+
+    var start = ctx.currentTime + 0.06, end = 0;
+    notes.forEach(function (n) {
+      var hz = pitchHz(n.note);
+      var dur = n.beats * beat;
+      if (hz) {
+        strike(ctx, hz, start + n.at * beat, dur * 1.2,
+               0.26 / Math.sqrt(voices[n.at]), state.nodes);
+      }
+      state.timers.push(window.setTimeout(function () {
+        n.head.classList.add("sounding");
+        state.lit.push(n.head);
+      }, n.at * beat * 1000));
+      state.timers.push(window.setTimeout(function () {
+        n.head.classList.remove("sounding");
+      }, (n.at + n.beats) * beat * 1000));
+      end = Math.max(end, (n.at + n.beats) * beat);
+    });
+    state.timers.push(window.setTimeout(stopPlaying, end * 1000 + 500));
+  }
+
+  /* A play button under every figure that has pitches on it, labelled from the
+     headings it sits under. */
+  function playButtons() {
+    var section = "", panel = "";
+    Array.prototype.forEach.call(
+      document.querySelectorAll(".wrap h1, .wrap h2, .wrap h3, .wrap svg"),
+      function (node) {
+        var tag = node.tagName;
+        if (tag === "H1" || tag === "H2") {
+          section = node.textContent.trim();
+          panel = "";
+          return;
+        }
+        if (tag === "H3") { panel = node.textContent.trim(); return; }
+        if (node.getAttribute("data-play") === "no") { return; }
+        if (!node.querySelector("text.notehead[data-note]")) { return; }
+
+        var bar = document.createElement("div");
+        var button = document.createElement("button");
+        bar.className = "controls";
+        button.type = "button";
+        button.className = "play";
+        button.setAttribute("aria-pressed", "false");
+        button.setAttribute("aria-label",
+          "play " + (panel ? panel + ", " + section : section));
+        button.appendChild(document.createTextNode("play"));
+        button.addEventListener("click", function () {
+          if (current && current.button === button) { stopPlaying(); }
+          else { playFigure(node, button); }
+        });
+        bar.appendChild(button);
+        node.parentNode.insertBefore(bar, node.nextSibling);
+      }
+    );
+  }
+
   /* ---------- contents: mark the section in view ---------- */
 
   (function contents() {
@@ -3365,9 +3558,10 @@
         }, ACC_GLYPH[String(alt)]));
       }
     }
-    svg.appendChild(el("text", {
-      x: x, y: y, "class": "notehead" + (opt.lit ? " lit-" + opt.lit : "")
-    }, opt.head || "\uE0A2"));
+    svg.appendChild(head(x, y, "notehead" + (opt.lit ? " lit-" + opt.lit : ""), note, {
+      col: opt.accX === undefined ? x : opt.accX, glyph: opt.head,
+      dur: opt.dur, beat: opt.beat
+    }));
     return y;
   }
 
@@ -3412,9 +3606,7 @@
         }, ACC_GLYPH[String(p.a)]));
         accCount += 1;
       }
-      g.appendChild(el("text", {
-        x: nx, y: y, "class": "notehead" + tint(p.n)
-      }, "\uE0A2"));
+      g.appendChild(head(nx, y, "notehead" + tint(p.n), p.n, { col: x }));
     });
   }
 
@@ -3736,6 +3928,7 @@
     var BEAT = [88, 138, 188, 238];
     var BARLINE = 276;
     var HEAD = { w: "\uE0A2", h: "\uE0A3", q: "\uE0A4" };
+    var BEATS = { w: 4, h: 2, q: 1 };
     var HEAD_W = 14, STEM = 42;
 
     function draw(cfg) {
@@ -3755,7 +3948,8 @@
         var x = BEAT[ev.beat];
         var ys = ev.notes.map(function (n) {
           return gsNote(svg, x, n, ev.staff, {
-            head: HEAD[ev.dur], lit: ev.lit === n ? "a" : null
+            head: HEAD[ev.dur], lit: ev.lit === n ? "a" : null,
+            dur: BEATS[ev.dur], beat: ev.beat
           });
         });
         if (ev.dur === "w") { return; }
@@ -3776,6 +3970,18 @@
              " " + x2 + " " + ty,
           "class": "tie"
         }));
+        /* the tied note sounds once, for the length of both halves */
+        var pick = function (beat) {
+          return svg.querySelector('text.notehead[data-beat="' + beat +
+                                   '"][data-note="' + cfg.tie[2] + '"]');
+        };
+        var from = pick(cfg.tie[0]), to = pick(cfg.tie[1]);
+        if (from && to) {
+          from.setAttribute("data-dur",
+            parseFloat(from.getAttribute("data-dur")) +
+            parseFloat(to.getAttribute("data-dur")));
+          to.setAttribute("data-tie", "1");
+        }
       }
 
       (cfg.tags || []).forEach(function (t) {
@@ -4687,6 +4893,7 @@
   })();
 
   closeStaves();
+  playButtons();
 
 })();
 </script>

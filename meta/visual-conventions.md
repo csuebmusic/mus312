@@ -77,7 +77,15 @@ Two chord tones a second apart are displaced by `secondsShift(notes, low, high)`
 
 `arrowMarker(target, id, w, refX, cls)` puts an arrowhead marker in a figure's own defs and returns its `url()` reference. `blockArrow(svg, x1, x2, y, size)` draws a function arrow at `ARROW_WIDE` or `ARROW_NARROW`.
 
+Every notehead is drawn by `head(x, y, cls, note, opt)`, which writes `data-note` as a sounding pitch with ascii accidentals and an octave, and `data-col` as the nominal x of its chord. `opt` takes `col`, `glyph`, `dur`, and `beat`. Part 1 figures pass `pitch` from `spellNote`; the shared module passes the note name it was given.
+
 Single-staff figures in part 1 keep their own geometry.
+
+## sound
+
+Playback reads the staff. `playButtons` walks the page in document order and puts a `button.play` under every figure carrying `text.notehead[data-note]`, labelled from the headings above it, unless the figure takes `data-play="no"`. `figureNotes(svg)` returns one entry per sounding notehead: its onset is `data-beat` where the figure is metered and its column index otherwise, and its length is `data-dur` in beats or one beat. A tied note carries the length of both halves and the note it ties into takes `data-tie`. Noteheads marked `optional` are silent.
+
+A beat is 0.6 seconds where any two notes share an onset, 0.34 seconds for a single line. A note sounds as four sine partials at 1, 2, 3, and 4 times its frequency through an exponential decay, built on the Web Audio API with no library and no sample. The notehead takes `.sounding` while it sounds. One figure plays at a time, and pressing a playing button stops it.
 
 ## spacing
 
