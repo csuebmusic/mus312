@@ -61,6 +61,8 @@
   .accs button, .acc { font-family: var(--font-music); }
   button.play { font-size: 0.72rem; padding: calc(var(--step) * 0.7) calc(var(--step) * 1.6); }
 
+  .panel h2 { margin-bottom: calc(var(--step) * 2); }
+
   .field {
     font-family: var(--font-data);
     font-size: 0.68rem;
@@ -132,7 +134,7 @@
     <div class="panels uneven">
       <div class="stack">
         <section class="panel">
-          <h3>the notes</h3>
+          <h2>the notes</h2>
           <p class="field">accidental</p>
           <div class="accs" id="accs"></div>
           <p class="field spaced">letter</p>
@@ -148,7 +150,7 @@
           <div class="keys spaced" id="modes"></div>
         </section>
         <section class="panel">
-          <h3>what they make</h3>
+          <h2>what they make</h2>
           <p class="field">the chord</p>
           <div class="reading" id="reading"></div>
           <p class="field spaced">in the key</p>
@@ -157,11 +159,11 @@
       </div>
       <div class="stack">
         <section class="panel">
-          <h3>on the staff</h3>
+          <h2>on the staff</h2>
           <svg id="cf-staff" viewBox="-166 20 593 180" role="img" aria-label="The notes entered, written on a treble staff from the bass up"></svg>
         </section>
         <section class="panel">
-          <h3>on the clock</h3>
+          <h2>on the clock</h2>
           <svg id="cf-clock" viewBox="0 0 445 445" role="img" aria-label="The twelve pitch classes on a clock face, with the notes entered marked and the semitone distance between adjacent members arced on the rim"></svg>
         </section>
       </div>
@@ -227,6 +229,7 @@
       out.push({
         li: n.li, alt: n.alt, dia: dia,
         octave: Math.floor(dia / 7),
+        midi: 12 * (Math.floor(dia / 7) + 1) + NATURAL_PC[n.li] + n.alt,
         pitch: LETTER[n.li] + (n.alt < 0 ? "bb".slice(0, -n.alt) : "##".slice(0, n.alt)) +
                Math.floor(dia / 7)
       });
@@ -234,12 +237,26 @@
     return out;
   }
 
+  /* A doubled note is one chord tone written twice. Identification works from
+     the distinct ones, keeping each where it was first entered. */
+  function distinct() {
+    var seen = {}, out = [];
+    voiced().forEach(function (n) {
+      var key = n.li + ":" + n.alt;
+      if (!seen[key]) { seen[key] = true; out.push(n); }
+    });
+    return out;
+  }
+
   /* ---------- identification ---------- */
 
-  /* Read the set as a stack of thirds from each member in turn. A stack holds
-     when every adjacent pair spans two letters. */
+  /* Sort the distinct notes by letter, then read the ring from each member in
+     turn. A stack holds where every adjacent pair spans two letters and a real
+     third, so an open voicing reads the same as a close one. */
   function stacks() {
-    var set = notes.slice(), out = [], i;
+    var set = distinct().slice().sort(function (a, b) { return a.li - b.li; });
+    var out = [], i;
+    if (set.length < 2) { return out; }
     for (i = 0; i < set.length; i++) {
       var order = set.slice(i).concat(set.slice(0, i));
       var steps = [], ok = true, run = 0, k;
@@ -250,9 +267,18 @@
         steps.push(semis);
         run += semis;
       }
-      if (ok) { out.push({ root: i, order: order, steps: steps, outer: run }); }
+      if (ok) { out.push({ order: order, steps: steps, outer: run }); }
     }
     return out;
+  }
+
+  /* where the bass sits in the stack: 0 is the root, 1 the third, and so on */
+  function bassPlace(order) {
+    var key = notes[0].li + ":" + notes[0].alt, i;
+    for (i = 0; i < order.length; i++) {
+      if (order[i].li + ":" + order[i].alt === key) { return i; }
+    }
+    return 0;
   }
 
   var FIGURE = {
@@ -263,27 +289,25 @@
 
   /* ---------- interval names, for a pair ---------- */
 
-  var IV_NAME = ["unison", "second", "third", "fourth", "fifth", "sixth", "seventh", "octave"];
-  var PERFECT = { 1: 0, 4: 5, 5: 7, 8: 12 };
-  var IMPERFECT = { 2: 2, 3: 4, 6: 9, 7: 11 };
+  var IV_NAME = ["unison", "second", "third", "fourth", "fifth", "sixth",
+                 "seventh", "octave"];
+  var IV_REF = [0, 2, 4, 5, 7, 9, 11, 12];
+  var IV_PERFECT = [true, false, false, true, true, false, false, true];
 
+  /* The number comes from the staff positions and the quality from the
+     sounding distance, so B\u266F above C is an augmented seventh. */
   function intervalName(a, b) {
-    var letters = ((b.li - a.li) % 7 + 7) % 7;
-    var number = letters + 1;
-    var semis = mod12(pcOf(b) - pcOf(a));
-    if (number === 1 && semis > 6) { number = 8; }
-    var ref = PERFECT[number], perfect = true;
-    if (ref === undefined) { ref = IMPERFECT[number]; perfect = false; }
-    var off = semis - ref;
-    if (number === 8) { off = (semis === 0 ? 0 : semis - 12); }
+    var number = b.dia - a.dia + 1;
+    var off = (b.midi - a.midi) - IV_REF[number - 1];
+    var perfect = IV_PERFECT[number - 1];
     var quality;
     if (off === 0) { quality = perfect ? "perfect" : "major"; }
     else if (off === 1) { quality = "augmented"; }
-    else if (off === 2) { quality = "doubly augmented"; }
     else if (off === -1) { quality = perfect ? "diminished" : "minor"; }
     else if (off === -2) { quality = perfect ? "doubly diminished" : "diminished"; }
+    else if (off > 1) { quality = "doubly augmented"; }
     else { quality = "doubly diminished"; }
-    return { text: quality + " " + IV_NAME[number - 1], semis: semis };
+    return { text: quality + " " + IV_NAME[number - 1], semis: b.midi - a.midi };
   }
 
   /* ---------- the chord in a key ---------- */
@@ -513,53 +537,59 @@
   function drawReading() {
     while (readEl.firstChild) { readEl.removeChild(readEl.firstChild); }
 
-    if (!notes.length) {
+    var set = distinct();
+    var doubled = notes.length > set.length;
+
+    if (!set.length) {
       answer(readEl, "nothing entered yet");
       return;
     }
-    if (notes.length === 1) {
-      answer(readEl, nameOf(notes[0]));
-      line(readEl, "pitch class", String(pcOf(notes[0])));
+    if (set.length === 1) {
+      answer(readEl, nameOf(set[0]) + (doubled ? ", doubled" : ""));
+      line(readEl, "pitch class", String(pcOf(set[0])));
       return;
     }
-    if (notes.length === 2) {
-      var iv = intervalName(notes[0], notes[1]);
+    if (set.length === 2) {
+      var iv = intervalName(set[0], set[1]);
       answer(readEl, iv.text);
-      line(readEl, "notes", nameOf(notes[0]) + " up to " + nameOf(notes[1]));
+      line(readEl, "notes", nameOf(set[0]) + " up to " + nameOf(set[1]));
       line(readEl, "semitones", String(iv.semis));
+      if (doubled) { line(readEl, "note", "one of the two is doubled"); }
       return;
     }
 
     var found = stacks();
     if (!found.length) {
       answer(readEl, "this will not stack in thirds", true);
-      line(readEl, "notes", notes.map(nameOf).join(" "));
-      line(readEl, "pitch classes", notes.map(pcOf).join(" "));
+      line(readEl, "notes", set.map(nameOf).join(" "));
+      line(readEl, "pitch classes", set.map(pcOf).join(" "));
       var p = document.createElement("p");
       p.className = "line";
       p.appendChild(document.createTextNode(
-        "Check the chromatic pre-dominants against a tonic below."));
+        "Set a tonic and a mode to test it against the chromatic pre-dominants."));
       readEl.appendChild(p);
       return;
     }
 
-    var s = found[0];
-    var type = chordType(s.steps);
-    var rootName = nameOf(s.order[0]);
-    var bassPlace = PLACE[(s.order.length + 0 - s.root) % s.order.length];
-    var inversion = FIGURE[s.order.length][(s.order.length - s.root) % s.order.length];
+    var s0 = found[0];
+    var type = chordType(s0.steps);
+    var rootName = nameOf(s0.order[0]);
+    var at = bassPlace(s0.order);
+    var place = PLACE[at];
+    var inversion = FIGURE[s0.order.length][at];
 
     answer(readEl, type
       ? rootName + " " + type.name
-      : rootName + " with a stack of " + s.steps.join(" and "));
-    line(readEl, "stack of thirds", s.order.map(nameOf).join(" "));
-    line(readEl, "distances", s.steps.join(" + ") + " = " + s.outer + " semitones");
+      : rootName + " with a stack of " + s0.steps.join(" and "));
+    line(readEl, "stack of thirds", s0.order.map(nameOf).join(" "));
+    line(readEl, "distances", s0.steps.join(" + ") + " = " + s0.outer + " semitones");
     if (type) {
       line(readEl, "chord symbol",
         (type.upper ? rootName : rootName.charAt(0).toLowerCase() + rootName.slice(1)) + type.sym);
     }
-    line(readEl, "in the bass", nameOf(notes[0]) + ", the " + bassPlace);
+    line(readEl, "in the bass", nameOf(notes[0]) + ", the " + place);
     line(readEl, "figure", inversion || "root position, 5/3");
+    if (doubled) { line(readEl, "note", "a chord tone is doubled"); }
   }
 
   function keyName() {
@@ -574,7 +604,7 @@
 
   function drawKeyReading() {
     while (keyReadEl.firstChild) { keyReadEl.removeChild(keyReadEl.firstChild); }
-    if (notes.length < 3) {
+    if (distinct().length < 3) {
       answer(keyReadEl, "enter three or four notes");
       return;
     }
@@ -599,7 +629,7 @@
     if (!type) { return; }
     var root = s0.order[0];
     var deg = degreeOf(tonic, root);
-    var fig = FIGURE[s0.order.length][(s0.order.length - s0.root) % s0.order.length];
+    var fig = FIGURE[s0.order.length][bassPlace(s0.order)];
     var rn = numeral(deg, type, fig);
 
     function reportDiatonic(source) {
