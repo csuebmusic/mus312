@@ -2819,6 +2819,39 @@
     });
   })();
 
+  /* ---------- prolongation patterns ---------- */
+
+  /* one pattern is a progression and the label for what it does. The master
+     chart and the prolongation map both read from here. */
+  var PROLONG = {
+    tonic: [
+      ["I \u2013 I6", "CL"],
+      ["I \u2013 V6 \u2013 I", "N"],
+      ["I \u2013 vii\u00B06 \u2013 I6", "P"],
+      ["I \u2013 V4/3 \u2013 I6", "P"],
+      ["I \u2013 IV6 \u2013 I6", "arp"],
+      ["I \u2013 IV6/4 \u2013 I", "ped"]
+    ],
+    mediant: [
+      ["vi \u2013 vi6", "CL"]
+    ],
+    predominant: [
+      ["ii \u2013 ii6", "CL"],
+      ["IV \u2013 ii6", "5\u20136"],
+      ["ii \u2013 I6 \u2013 ii6", "P"],
+      ["IV6 \u2013 I6/4 \u2013 ii6", "P"]
+    ],
+    dominant: [
+      ["V \u2013 V6", "CL"],
+      ["V \u2013 IV6 \u2013 V6", "P"],
+      ["Cad6/4 \u2013 V", "cad"]
+    ]
+  };
+
+  var APPLIED_ROW = ["applied chords", "app"];
+
+  function prolongRows(fn) { return PROLONG[fn].concat([APPLIED_ROW]); }
+
   /* ---------- diatonic function chart ---------- */
 
   function masterChart(id, opts) {
@@ -2834,31 +2867,15 @@
        an empty figure list means the plain triad */
     var BOXES = [
       { lw: 52, rw: 52, title: "TONIC",
-        pro: [
-          ["I \u2013 I6", "CL"],
-          ["I \u2013 V6 \u2013 I", "N"],
-          ["I \u2013 vii\u00B06 \u2013 I6", "P"],
-          ["I \u2013 V4/3 \u2013 I6", "P"],
-          ["I \u2013 IV6 \u2013 I6", "arp"],
-          ["I \u2013 IV6/4 \u2013 I", "ped"]
-        ],
+        pro: PROLONG.tonic,
         major: [{ n: "I" }],
         minor: [{ n: "i" }] },
       { lw: 62, rw: 62, title: "MEDIANT",
-        pro: [
-          ["vi \u2013 vi6", "CL"],
-          ["applied chords", "app"]
-        ],
+        pro: prolongRows("mediant"),
         major: [{ n: "iii" }, { n: "vi" }],
         minor: [{ n: "III", flat: true }, { n: "VI", flat: true }] },
       { lw: 78, rw: 88, cw: 110, title: "PRE-DOMINANT",
-        pro: [
-          ["ii \u2013 ii6", "CL"],
-          ["IV \u2013 ii6", "5\u20136"],
-          ["ii \u2013 I6 \u2013 ii6", "P"],
-          ["IV6 \u2013 I6/4 \u2013 ii6", "P"],
-          ["applied chords", "app"]
-        ],
+        pro: prolongRows("predominant"),
         chrom: [
           { n: "It+6", figs: [[], { label: "Fr+6" }] },
           { n: "Ger+6", figs: [[], { label: "N6" }] }
@@ -2869,12 +2886,7 @@
           { n: "iv" }
         ] },
       { lw: 106, rw: 136, title: "DOMINANT",
-        pro: [
-          ["V \u2013 V6", "CL"],
-          ["V \u2013 IV6 \u2013 V6", "P"],
-          ["Cad6/4 \u2013 V", "cad"],
-          ["applied chords", "app"]
-        ],
+        pro: prolongRows("dominant"),
         major: [
           { n: "V", figs: [[], { label: "V7 + inv" }] },
           { n: "vii\u00B0", figs: [["6"], { n: "vii\u00F8", f: ["6", "5"] }] }
@@ -3207,25 +3219,9 @@
     var DOT_TOP = 152, ROW0 = 200, ROW = 23, PAD = 95;
 
     var COLS = [
-      { cx: 110, title: "TONIC", pats: [
-        ["I \u2013 I6", "CL"],
-        ["I \u2013 V6 \u2013 I", "N"],
-        ["I \u2013 vii\u00B06 \u2013 I6", "P"],
-        ["I \u2013 V4/3 \u2013 I6", "P"],
-        ["I \u2013 IV6 \u2013 I6", "arp"],
-        ["I \u2013 IV6/4 \u2013 I", "ped"]
-      ] },
-      { cx: 330, title: "PRE-DOMINANT", pats: [
-        ["ii \u2013 ii6", "CL"],
-        ["IV \u2013 ii6", "5\u20136"],
-        ["ii \u2013 I6 \u2013 ii6", "P"],
-        ["IV6 \u2013 I6/4 \u2013 ii6", "P"]
-      ] },
-      { cx: 550, title: "DOMINANT", pats: [
-        ["V \u2013 V6", "CL"],
-        ["V \u2013 IV6 \u2013 V6", "P"],
-        ["Cad6/4 \u2013 V", "cad"]
-      ] }
+      { cx: 110, title: "TONIC", pats: PROLONG.tonic },
+      { cx: 330, title: "PRE-DOMINANT", pats: PROLONG.predominant },
+      { cx: 550, title: "DOMINANT", pats: PROLONG.dominant }
     ];
 
     var LAST = COLS[COLS.length - 1].cx + 200;
