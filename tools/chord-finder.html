@@ -8,9 +8,6 @@
 <style>
   section.scale { margin-bottom: 0; }
   section.scale > * { margin-top: calc(var(--step) * 4); margin-bottom: 0; }
-  section.scale > h2 { margin-top: calc(var(--step) * 6); }
-  section.scale > h2:first-child { margin-top: 0; }
-  section.scale > h2 + * { margin-top: calc(var(--step) * 3); }
   section.scale > .controls { margin-top: calc(var(--step) * 3); }
 
   .staff-line, .ledger { stroke: var(--ink); stroke-width: 1; }
@@ -132,24 +129,32 @@
 
   <section class="scale">
 
-    <h2 id="sec-enter">the notes</h2>
-
     <div class="panels uneven">
-      <section class="panel">
-        <p class="field">accidental</p>
-        <div class="accs" id="accs"></div>
-        <p class="field spaced">letter</p>
-        <div class="letters" id="letters"></div>
-        <p class="field spaced">entered, bass first</p>
-        <div class="entered" id="entered"></div>
-        <div class="controls">
-          <button type="button" id="back">backspace</button>
-          <button type="button" id="clear">clear</button>
-        </div>
-        <p class="field spaced">key</p>
-        <div class="keys" id="keys"></div>
-        <div class="keys spaced" id="modes"></div>
-      </section>
+      <div class="stack">
+        <section class="panel">
+          <h3>the notes</h3>
+          <p class="field">accidental</p>
+          <div class="accs" id="accs"></div>
+          <p class="field spaced">letter</p>
+          <div class="letters" id="letters"></div>
+          <p class="field spaced">entered, bass first</p>
+          <div class="entered" id="entered"></div>
+          <div class="controls">
+            <button type="button" id="back">backspace</button>
+            <button type="button" id="clear">clear</button>
+          </div>
+          <p class="field spaced">key</p>
+          <div class="keys" id="keys"></div>
+          <div class="keys spaced" id="modes"></div>
+        </section>
+        <section class="panel">
+          <h3>what they make</h3>
+          <p class="field">the chord</p>
+          <div class="reading" id="reading"></div>
+          <p class="field spaced">in the key</p>
+          <div class="reading" id="key-reading"></div>
+        </section>
+      </div>
       <div class="stack">
         <section class="panel">
           <h3>on the staff</h3>
@@ -161,15 +166,6 @@
         </section>
       </div>
     </div>
-
-    <h2 id="sec-reading">what they make</h2>
-
-    <section class="panel centered wide">
-      <p class="field">the chord</p>
-      <div class="reading" id="reading"></div>
-      <p class="field spaced">in the key</p>
-      <div class="reading" id="key-reading"></div>
-    </section>
 
   </section>
 
