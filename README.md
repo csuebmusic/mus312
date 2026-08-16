@@ -8,6 +8,10 @@ Instructor: Inés Thiebaut, ines.thiebaut@csueastbay.edu. Office hours Wednesday
 
 Live links, for Canvas.
 
+**syllabus**
+https://csuebmusic.github.io/mus312/syllabus.html
+Course information, important dates, the catalog description and learning outcomes, assessment and the grade scale, the coursework, the AI policy, the week-by-week schedule, policies, and the campus statements.
+
 **harmony review**
 https://csuebmusic.github.io/mus312/tools/harmony-review.html
 Part 1, counting in semitones: the four scale types on a linked staff and clock, interval names, diatonic triads in major and all three minors, the chord builder, figured bass, inversions, nonchord tones. Part 2, harmonic progressions and functions: tonal syntax, the seven triads by function, the diatonic function chart, structural and prolongational harmony, the cadential six-four, the cadence types, the diatonic sequences. Part 3, chromatic harmony: applied dominant and applied leading-tone chords, extended tonicization, the augmented sixths and the Neapolitan, modal mixture, the master function and prolongation chart, and a guided analysis that draws one progression seven times. Part 4, modulation: tonicization against modulation, the three stages, destabilizing the tonic, the pivot chord, closely related keys and chromatic modulation.

@@ -19,3 +19,7 @@ Playback: 54 of the 62 figures with pitches on them carry a play button, the eig
 `assets/notation.js`, shared by every tool.
 
 `tools/chord-finder.html`: up to four spelled notes entered from the bass up, written on a staff and marked on the clock with the semitone distance between adjacent members, the closing span to the bass left undrawn; the stack of thirds with its distances, the quality, the chord symbol, the bass note and its figure; the interval name for two notes. A tonic and mode picker reads the same chord in a key: the roman numeral and its function, in this order of test, diatonic, borrowed from the parallel mode, applied dominant or applied leading-tone chord taking its target's function, then the three augmented sixths and the Neapolitan. The minor v and ♭VII are reported as standing outside the four functions.
+
+`syllabus.html`, at the repo root. Course information, important dates, the catalog description and learning outcomes, assessment and the grade scale, the coursework, the tools, the AI policy, the schedule, policies, and the campus statements. General sections follow the MUS 601 syllabus.
+
+Awaiting confirmation on the syllabus: the assessment weights and the counts behind them (six problem sets at 5%, four analyses at 10%, final project at 30%); the shape of the final project and its performance component; the prerequisite line, left out of the course table; and whether required materials are in fact distributed through Canvas or library reserve. The repertoire, work by work, is not in the schedule.

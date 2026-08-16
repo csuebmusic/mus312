@@ -191,6 +191,49 @@ button:focus-visible, [tabindex]:focus-visible {
   min-height: 1.4em;
 }
 
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 0 calc(var(--step) * 4);
+  font-size: 0.92rem;
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: calc(var(--step) * 1.2) calc(var(--step) * 1.5);
+  border-bottom: var(--line) solid var(--rule);
+}
+thead th {
+  font-family: var(--font-data);
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: var(--line) solid var(--ink);
+}
+tbody th {
+  font-family: var(--font-data);
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--muted);
+  white-space: nowrap;
+  width: 11rem;
+}
+td .caps, th .caps { text-transform: none; }
+.num { font-family: var(--font-data); white-space: nowrap; }
+
+.toc {
+  font-family: var(--font-data);
+  font-size: 0.85rem;
+  columns: 2;
+  column-gap: calc(var(--step) * 5);
+  max-width: 44rem;
+  margin: 0 0 calc(var(--step) * 5);
+  padding-left: calc(var(--step) * 2.5);
+}
+.toc li { margin-bottom: calc(var(--step) * 0.75); break-inside: avoid; }
+
 ul {
   margin: 0 0 calc(var(--step) * 2);
   padding-left: calc(var(--step) * 2.5);
@@ -210,6 +253,9 @@ footer p { max-width: none; margin: 0; }
 
 @media (max-width: 62rem) {
   .panels, .panels.uneven, .panels.three { grid-template-columns: 1fr; }
+  .toc { columns: 1; }
+  table { font-size: 0.85rem; }
+  tbody th { width: auto; white-space: normal; }
   body { padding: calc(var(--step) * 4) calc(var(--step) * 2.5) calc(var(--step) * 8); }
 }
 
