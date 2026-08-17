@@ -21,7 +21,10 @@
     font-family: var(--font-data);
     font-size: 14px;
     fill: var(--ink);
+    text-anchor: middle;
   }
+  .figline { stroke: var(--ink); stroke-width: 1; }
+  .figline.lit { stroke: var(--accent); }
   .rowtag {
     font-family: var(--font-data);
     font-size: 9.5px;
@@ -54,6 +57,8 @@
   .phraselabel.lit, .keylabel.lit { fill: var(--accent); }
 
   .off { display: none; }
+
+  .panel + .panels { margin-top: calc(var(--step) * 5); }
 
   .rules { max-width: none; margin: 0; padding: 0; list-style: none; }
   .rules li { margin: 0 0 calc(var(--step) * 1.5); }
@@ -149,7 +154,7 @@
 
 </div>
 
-<script src="../assets/notation.js?v=3"></script>
+<script src="../assets/notation.js?v=4"></script>
 <script>
 (function () {
   "use strict";
@@ -179,7 +184,8 @@
   /* the staff starts clear of the clef, the key signature, and the metre */
   function left(cfg) { return 132 + 13 * cfg.flats; }
   function at(cfg, bar, beat) { return left(cfg) + (bar * 4 + beat) * BEAT; }
-  function barX(cfg, bar) { return left(cfg) + bar * 4 * BEAT - 14; }
+  /* the barline stands clear of the space an accidental needs */
+  function barX(cfg, bar) { return left(cfg) + bar * 4 * BEAT - 27; }
 
   /* ---------- the two examples ---------- */
 
@@ -189,7 +195,7 @@
 
   var UNITS = [
     { from: [0, 0], to: [1, 4], label: "basic idea" },
-    { from: [2, 0], to: [3, 4], label: "basic idea" },
+    { from: [2, 0], to: [3, 4], label: "repetition" },
     { from: [4, 0], to: [4, 4], label: "frag." },
     { from: [5, 0], to: [5, 4], label: "frag." },
     { from: [6, 0], to: [7, 4], label: "cadential idea" }
@@ -224,10 +230,11 @@
         [0, 0, "i"], [1, 0, "V6"], [2, 0, "i", true], [4, 0, "iv"], [5, 0, "ii\u00B06"],
         [6, 0, "Cad6/4"], [6, 2, "V"], [7, 0, "i"]
       ],
-      cadence: { type: "PAC", caplin: [[5, 0], [7, 0]], course: [[6, 2], [7, 0]] },
+      cadence: { type: "PAC", caplin: [[5, 0], [7, 0]], course: [[6, 0], [7, 0]] },
       figures: [
         [1, 0, ["6"]], [5, 0, ["6"]], [6, 0, ["6", "4"]], [6, 2, ["5", "\u266E"]]
-      ]
+      ],
+      figLines: [[6, 0, 6, 2, 1], [6, 0, 6, 2, 0]]
     }
   };
 
@@ -266,7 +273,7 @@
     });
 
     var sig = grandStaff(svg, cfg.flats);
-    endStaff(svg, barX(cfg, BARS) + 14);
+    endStaff(svg, barX(cfg, BARS) + 27);
 
     [GS.trebleBottom, GS.bassBottom].forEach(function (base) {
       svg.appendChild(el("text", { x: 84 + 13 * cfg.flats, y: base - 24, "class": "timesig" }, "\uE084"));
@@ -322,10 +329,17 @@
     cfg.figures.forEach(function (f) {
       f[2].forEach(function (g, k) {
         mark(figs, el("text", {
-          x: at(cfg, f[0], f[1]) - 2,
+          x: at(cfg, f[0], f[1]) + HEAD_W / 2,
           y: Y_FIG - (f[2].length - 1 - k) * FIG_STEP, "class": "figbass"
         }, g), "figures");
       });
+    });
+    (cfg.figLines || []).forEach(function (l) {
+      var y = Y_FIG - l[4] * FIG_STEP;
+      mark(figs, el("line", {
+        x1: at(cfg, l[0], l[1]) + HEAD_W / 2 + 9, y1: y - 4,
+        x2: at(cfg, l[2], l[3]) + HEAD_W / 2 - 9, y2: y - 4, "class": "figline"
+      }), "figures");
     });
 
     /* one row of roman numerals per notation, each with its own cadence mark */
@@ -345,9 +359,10 @@
       holdLines(cfg, g, nodes, row.y);
 
       var span = cfg.cadence[which];
-      bracket(g, at(cfg, span[0][0], span[0][1]) - 14,
-              at(cfg, span[1][0], span[1][1]) + 26, row.bracket, "cadbracket", null, false);
-      var bx = at(cfg, cfg.cadence.course[1][0], cfg.cadence.course[1][1]) - 4;
+      var bx1 = at(cfg, span[0][0], span[0][1]) - 14;
+      var bx2 = at(cfg, span[1][0], span[1][1]) + 26;
+      bracket(g, bx1, bx2, row.bracket, "cadbracket", null, false);
+      var bx = (bx1 + bx2) / 2;
       mark(g, el("rect", {
         x: bx - 22, y: row.box - 15, width: 44, height: 21, "class": "cadbox"
       }), "cadbox");

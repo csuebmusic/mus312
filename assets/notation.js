@@ -510,10 +510,10 @@ var MUS = (function () {
     for (var b = 0; b < (flats || 0); b++) {
       sig[FLAT_ORDER[b]] = -1;
       svg.appendChild(el("text", {
-        x: 46 + 13 * b, y: GS.trebleBottom - 6 * FLAT_STEPS[b], "class": "keysig"
+        x: 56 + 13 * b, y: GS.trebleBottom - 6 * FLAT_STEPS[b], "class": "keysig"
       }, KEYSIG_GLYPH.flat));
       svg.appendChild(el("text", {
-        x: 46 + 13 * b, y: GS.bassBottom - 6 * (FLAT_STEPS[b] - 2), "class": "keysig"
+        x: 56 + 13 * b, y: GS.bassBottom - 6 * (FLAT_STEPS[b] - 2), "class": "keysig"
       }, KEYSIG_GLYPH.flat));
     }
     return sig;

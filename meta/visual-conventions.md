@@ -71,6 +71,8 @@ A note name is `C4`, `F#3`, `Eb5`. `noteDia` turns one into a diatonic index, `n
 
 Grand-staff figures use the shared module in `tools/harmony-review.html`: `grandStaff(svg, flats)` draws both staves, both clefs, the opening barline, and a flat key signature, returning the signature as a map; `gsNote(svg, x, note, which, opt)` draws one notehead with its ledger lines, taking `sig`, `accX`, `lit`, and `head`; `gsY(note, which)` returns a vertical position. `which` is `"t"` or `"b"`. Single-staff figures outside part 1 use `staff(svg)` and `chord(g, x, notes, hot, cool)`. Do not write a second copy of any of these.
 
+A flat key signature starts at x 56, clear of the G clef, and steps 13 units a flat. A barline stands 27 units left of the first notehead of its bar, which is the room an accidental needs.
+
 A staff ends 70 units past the right edge of its last notehead. `grandStaff` and `staff` register their figure; `closeStaves`, called at the end of the script, sets the ends. A figure that is a measure calls `endStaff(svg, x)` with its barline instead.
 
 Two chord tones a second apart are displaced by `secondsShift(notes, low, high)`. It pairs from the top down, leaves a note already displaced where it is, and returns the notes low to high with a map from note name to shift. Part 1 figures pass -20 and 0, the function charts -20 and 3, grand-staff and single-staff figures 0 and 13.
