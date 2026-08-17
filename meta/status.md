@@ -30,7 +30,9 @@ Packet due dates: 1 Aug 31, 2 Sep 9, 3 Sep 14, 4 Sep 21, 5 Sep 28, 6 Oct 5, 7 Oc
 
 Caplin page ranges per packet: 25–29, 67–72, 93–98, 117–122, 157–165, 186–194, 228–237, 253–258, 301–307, 344–352, 408–419, and 462–474 with 510–518.
 
-`tools/annotation-guide.html`: Caplin's annotation rules against a composed eight-bar sentence in C major, a two-bar basic idea stated and repeated over a tonic prolongation, then a continuation fragmenting into one-bar units and cadencing PAC. Quarters and halves only, so no beams are needed. Marks carry `data-rule`; pressing a rule lights every mark it governs, and a rule naming a layer lights the layer. Three layer switches, a numeral switch between Caplin and Laitz, and playback. The harmonic annotation guide runs as eighteen rule-and-specimen rows.
+`tools/annotation-guide.html`: Caplin's annotation rules against his Example 2.1, Beethoven's Piano Sonata in F minor, Op. 2 no. 1, i, 1-8, transcribed from the book and engraved on two systems. Marks carry `data-rule`; pressing a rule lights every mark it governs, and a rule naming a layer lights the layer. Three layer switches, one label switch, and playback. The label switch moves the numerals and the cadence bracket together: Caplin brackets the whole cadential progression, I6 II6 V; this course brackets the pre-dominant to the dominant, ii°6 V, and at an authentic cadence the dominant and its target. The harmonic annotation guide runs as eighteen rule-and-specimen rows.
+
+Bar widths come from content: each onset is given room in proportion to the time before the next, with a floor of 27 units, and a system is scaled down if its bars overrun 1570.
 
 The syllabus states the coursework in brief and points to guidelines distributed with the packets. Those guidelines are not written.
 
