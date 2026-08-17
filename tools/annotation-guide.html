@@ -106,15 +106,23 @@
   <p class="eyebrow">mus 312 &middot; annotation guide</p>
   <h1 id="top">annotating a score</h1>
 
-  <p class="lede full">Caplin sets out how an analysis is written onto a score: what goes above the staff, what goes below, and which marks carry which meaning. The eight bars here are annotated by those rules. Turn a layer off to see what the score looks like without it, and press a rule to find its mark.</p>
+  <p class="lede full">Caplin sets out how an analysis is written onto a score: what goes above the staff, what goes below, and which marks carry which meaning. The two sentences here are annotated by those rules. Turn a layer off to see what the score looks like without it, and press a rule to find its mark.</p>
 
-  <p class="howto">Press any rule on the left to light the marks it governs. The four switches turn the annotation layers on and off. The numeral switch moves the harmonic labels between Caplin's system and the one this course uses.</p>
+  <p class="howto">Press any rule on the left to light the marks it governs. The switches at the foot of the page turn the annotation layers on and off and move the labels between Caplin's system and the one this course uses. The minor sentence is where the two part company most.</p>
 
   <section class="panel">
-    <h2>the example</h2>
-    <svg id="score" viewBox="0 -26 1600 460" role="img" aria-label="An eight-bar sentence in C major on a grand staff, annotated with formal brackets and phrase labels above and roman numerals, a cadential bracket, and a boxed cadence label below"></svg>
-    <div class="controls" id="layers"></div>
+    <h2>a sentence in major</h2>
+    <svg id="score-major" viewBox="0 -26 1600 460" role="img" aria-label="An eight-bar sentence in C major on a grand staff, annotated with formal brackets and phrase labels above and roman numerals, a cadential bracket, and a boxed cadence label below"></svg>
+    <div class="controls" id="controls-major"></div>
   </section>
+
+  <section class="panel">
+    <h2>a sentence in minor</h2>
+    <svg id="score-minor" viewBox="0 -26 1600 460" role="img" aria-label="An eight-bar sentence in C minor on a grand staff, annotated with formal brackets and phrase labels above and roman numerals, a cadential bracket, and a boxed cadence label below"></svg>
+    <div class="controls" id="controls-minor"></div>
+  </section>
+
+  <div class="controls" id="layers"></div>
 
   <div class="panels uneven">
     <section class="panel">
@@ -150,48 +158,25 @@
       playFigure = MUS.playFigure,
       stopPlaying = MUS.stopPlaying;
 
-  var svg = document.getElementById("score");
+  /* ---------- geometry ---------- */
 
-  /* ---------- the music ---------- */
-
-  /* An eight-bar sentence in C major: a two-bar basic idea repeated, then a
-     continuation that fragments into one-bar units and cadences. Quarters and
-     halves only, so the example needs no beams. */
-
-  var X0 = 132, BEAT = 45, BARS = 8;
+  var BEAT = 43, BARS = 8;
   var HEAD = { w: "\uE0A2", h: "\uE0A3", q: "\uE0A4" };
   var LEN = { w: 4, h: 2, q: 1 };
   var HEAD_W = 14, STEM = 42;
+  var Y_PHRASE = -10, Y_BRACKET = 22, Y_FORM = 12, Y_MEASURE = 48;
+  var Y_ROMAN = 300, Y_CADBR = 322, Y_CADBOX = 352;
 
-  function at(bar, beat) { return X0 + (bar * 4 + beat) * BEAT; }
-  function barX(bar) { return X0 + bar * 4 * BEAT - 14; }
+  /* the staff starts clear of the clef, the key signature, and the metre */
+  function left(cfg) { return 132 + 13 * cfg.flats; }
+  function at(cfg, bar, beat) { return left(cfg) + (bar * 4 + beat) * BEAT; }
+  function barX(cfg, bar) { return left(cfg) + bar * 4 * BEAT - 14; }
 
-  var MELODY = [
-    [0, 0, "q", "C5"], [0, 1, "q", "E5"], [0, 2, "q", "G5"], [0, 3, "q", "E5"],
-    [1, 0, "w", "D5"],
-    [2, 0, "q", "C5"], [2, 1, "q", "E5"], [2, 2, "q", "G5"], [2, 3, "q", "E5"],
-    [3, 0, "w", "C5"],
-    [4, 0, "h", "F5"], [4, 2, "h", "C5"],
-    [5, 0, "h", "F5"], [5, 2, "h", "D5"],
-    [6, 0, "h", "E5"], [6, 2, "h", "D5"],
-    [7, 0, "w", "C5"]
-  ];
+  /* ---------- the two examples ---------- */
 
-  var BASS = [
-    [0, 0, "w", "C3"], [1, 0, "w", "B2"], [2, 0, "w", "C3"], [3, 0, "w", "C3"],
-    [4, 0, "w", "F2"], [5, 0, "w", "F2"], [6, 0, "w", "G2"], [7, 0, "w", "C3"]
-  ];
-
-  /* ---------- what the annotation says ---------- */
-
-  var CAPLIN = [
-    [0, "I"], [1, "V6"], [2, "I"], [3, "I"],
-    [4, "IV"], [5, "II6"], [6, "V(6-4 5-3)"], [7, "I"]
-  ];
-  var LAITZ = [
-    [0, "I"], [1, "V6"], [2, "I"], [3, "I"],
-    [4, "IV"], [5, "ii6"], [6, "Cad6/4 \u2013 V"], [7, "I"]
-  ];
+  /* Both are eight-bar sentences written for this page: a two-bar basic idea
+     stated and repeated over a tonic prolongation, then a continuation that
+     fragments into one-bar units and cadences. Quarters and halves only. */
 
   var UNITS = [
     { from: [0, 0], to: [1, 4], label: "basic idea" },
@@ -200,163 +185,227 @@
     { from: [5, 0], to: [5, 4], label: "frag." },
     { from: [6, 0], to: [7, 4], label: "cadential idea" }
   ];
-
   var PHRASES = [
     { bar: 0, label: "PRESENTATION" },
     { bar: 4, label: "CONTINUATION" }
   ];
 
-  /* the cadential progression runs from the pre-dominant to the final tonic */
-  var CADENCE = { from: [5, 0], to: [7, 0], type: "PAC" };
+  var EXAMPLES = {
+    major: {
+      id: "score-major", flats: 0, key: "C:",
+      melody: [
+        [0, 0, "q", ["C5"]], [0, 1, "q", ["E5"]], [0, 2, "q", ["G5"]], [0, 3, "q", ["E5"]],
+        [1, 0, "w", ["D5"]],
+        [2, 0, "q", ["C5"]], [2, 1, "q", ["E5"]], [2, 2, "q", ["G5"]], [2, 3, "q", ["E5"]],
+        [3, 0, "w", ["C5"]],
+        [4, 0, "h", ["F5"]], [4, 2, "h", ["C5"]],
+        [5, 0, "h", ["F5"]], [5, 2, "h", ["D5"]],
+        [6, 0, "h", ["E5"]], [6, 2, "h", ["D5"]],
+        [7, 0, "w", ["C5"]]
+      ],
+      bass: [
+        [0, 0, "w", ["C3"]], [1, 0, "w", ["B2"]], [2, 0, "w", ["C3"]], [3, 0, "w", ["C3"]],
+        [4, 0, "w", ["F2"]], [5, 0, "w", ["F2"]], [6, 0, "w", ["G2"]], [7, 0, "w", ["C3"]]
+      ],
+      caplin: [
+        [0, 0, "I"], [1, 0, "V6"], [2, 0, "I", true], [4, 0, "IV"], [5, 0, "II6"],
+        [6, 0, "V(6-4 5-3)"], [7, 0, "I"]
+      ],
+      course: [
+        [0, 0, "I"], [1, 0, "V6"], [2, 0, "I", true], [4, 0, "IV"], [5, 0, "ii6"],
+        [6, 0, "Cad6/4"], [6, 2, "V"], [7, 0, "I"]
+      ],
+      cadence: { type: "PAC", caplin: [[5, 0], [7, 0]], course: [[6, 2], [7, 0]] }
+    },
+    minor: {
+      id: "score-minor", flats: 3, key: "c:",
+      melody: [
+        [0, 0, "q", ["C5"]], [0, 1, "q", ["Eb5"]], [0, 2, "q", ["G5"]], [0, 3, "q", ["Eb5"]],
+        [1, 0, "w", ["D5"]],
+        [2, 0, "q", ["C5"]], [2, 1, "q", ["Eb5"]], [2, 2, "q", ["G5"]], [2, 3, "q", ["Eb5"]],
+        [3, 0, "w", ["C5"]],
+        [4, 0, "h", ["F5"]], [4, 2, "h", ["C5"]],
+        [5, 0, "h", ["F5"]], [5, 2, "h", ["D5"]],
+        [6, 0, "h", ["C5", "Eb5"]], [6, 2, "h", ["B4", "D5"]],
+        [7, 0, "w", ["C5"]]
+      ],
+      bass: [
+        [0, 0, "w", ["C3"]], [1, 0, "w", ["B2"]], [2, 0, "w", ["C3"]], [3, 0, "w", ["C3"]],
+        [4, 0, "w", ["F2"]], [5, 0, "w", ["F2"]], [6, 0, "w", ["G2"]], [7, 0, "w", ["C3"]]
+      ],
+      caplin: [
+        [0, 0, "I"], [1, 0, "V6"], [2, 0, "I", true], [4, 0, "IV"], [5, 0, "II6"],
+        [6, 0, "V(6-4 5-3)"], [7, 0, "I"]
+      ],
+      course: [
+        [0, 0, "i"], [1, 0, "V6"], [2, 0, "i", true], [4, 0, "iv"], [5, 0, "ii\u00B06"],
+        [6, 0, "Cad6/4"], [6, 2, "V"], [7, 0, "i"]
+      ],
+      cadence: { type: "PAC", caplin: [[5, 0], [7, 0]], course: [[6, 2], [7, 0]] }
+    }
+  };
 
   /* ---------- drawing ---------- */
 
-  var Y_PHRASE = -10, Y_BRACKET = 22, Y_FORM = 12, Y_MEASURE = 48;
-  var Y_ROMAN = 300, Y_CADBR = 322, Y_CADBOX = 352;
-
   var groups = {};
-  function layer(name) {
-    if (!groups[name]) {
-      groups[name] = el("g", { "class": "layer", "data-layer": name });
-      svg.appendChild(groups[name]);
+
+  function layer(svg, name) {
+    var key = svg.id + ":" + name;
+    if (!groups[key]) {
+      groups[key] = el("g", { "class": "layer", "data-layer": name });
+      svg.appendChild(groups[key]);
     }
-    return groups[name];
+    return groups[key];
   }
+  function mark(g, node, rule) { node.setAttribute("data-rule", rule); g.appendChild(node); return node; }
 
-  function mark(g, node, rule) {
-    node.setAttribute("data-rule", rule);
-    g.appendChild(node);
-    return node;
-  }
-
-  function bracket(g, x1, x2, y, rule, label) {
+  function bracket(g, x1, x2, y, rule, label, down) {
+    var tick = down ? y + 7 : y - 7;
     mark(g, el("path", {
-      d: "M " + x1 + " " + (y + 7) + " L " + x1 + " " + y +
-         " L " + x2 + " " + y + " L " + x2 + " " + (y + 7),
-      "class": "bracket"
+      d: "M " + x1 + " " + tick + " L " + x1 + " " + y +
+         " L " + x2 + " " + y + " L " + x2 + " " + tick,
+      "class": down ? "bracket" : "cadbracket"
     }), rule);
     if (label) {
-      mark(g, el("text", {
-        x: (x1 + x2) / 2, y: y - 12, "class": "formlabel"
-      }, label), rule);
+      mark(g, el("text", { x: (x1 + x2) / 2, y: y - 10, "class": "formlabel" }, label), rule);
     }
   }
 
-  function drawScore() {
+  function drawScore(cfg) {
+    var svg = document.getElementById(cfg.id);
     stopPlaying();
     while (svg.firstChild) { svg.removeChild(svg.firstChild); }
-    groups = {};
-
-    grandStaff(svg);
-    endStaff(svg, barX(BARS) + 14);
-
-    /* time signature */
-    [GS.trebleBottom, GS.bassBottom].forEach(function (base) {
-      svg.appendChild(el("text", { x: 84, y: base - 24, "class": "timesig" }, "\uE084"));
-      svg.appendChild(el("text", { x: 84, y: base, "class": "timesig" }, "\uE084"));
+    Object.keys(groups).forEach(function (k) {
+      if (k.indexOf(cfg.id + ":") === 0) { delete groups[k]; }
     });
 
-    /* barlines and measure numbers */
+    var sig = grandStaff(svg, cfg.flats);
+    endStaff(svg, barX(cfg, BARS) + 14);
+
+    [GS.trebleBottom, GS.bassBottom].forEach(function (base) {
+      svg.appendChild(el("text", { x: 84 + 13 * cfg.flats, y: base - 24, "class": "timesig" }, "\uE084"));
+      svg.appendChild(el("text", { x: 84 + 13 * cfg.flats, y: base, "class": "timesig" }, "\uE084"));
+    });
+
     var b;
     for (b = 1; b <= BARS; b++) {
       svg.appendChild(el("line", {
-        x1: barX(b), y1: GS.trebleTop, x2: barX(b), y2: GS.bassBottom,
+        x1: barX(cfg, b), y1: GS.trebleTop, x2: barX(cfg, b), y2: GS.bassBottom,
         "class": "barline" + (b === BARS ? " final" : "")
       }));
     }
     for (b = 0; b < BARS; b++) {
       svg.appendChild(el("text", {
-        x: at(b, 0), y: Y_MEASURE, "class": "measure"
+        x: barX(cfg, b) + 5, y: Y_MEASURE, "class": "measure"
       }, String(b + 1)));
     }
 
-    /* notes */
     function put(events, which, stemUp) {
       events.forEach(function (ev) {
-        var x = at(ev[0], ev[1]);
-        var y = gsNote(svg, x, ev[3], which, {
-          head: HEAD[ev[2]], dur: LEN[ev[2]], beat: ev[0] * 4 + ev[1]
+        var x = at(cfg, ev[0], ev[1]);
+        var ys = ev[3].map(function (n) {
+          return gsNote(svg, x, n, which, {
+            head: HEAD[ev[2]], dur: LEN[ev[2]], beat: ev[0] * 4 + ev[1], sig: sig
+          });
         });
         if (ev[2] === "w") { return; }
+        var top = Math.min.apply(null, ys), bot = Math.max.apply(null, ys);
         svg.appendChild(el("line", {
-          x1: stemUp ? x + HEAD_W : x, y1: y,
-          x2: stemUp ? x + HEAD_W : x, y2: stemUp ? y - STEM : y + STEM,
+          x1: stemUp ? x + HEAD_W : x, y1: stemUp ? bot : top,
+          x2: stemUp ? x + HEAD_W : x, y2: stemUp ? top - STEM : bot + STEM,
           "class": "stem"
         }));
       });
     }
-    put(MELODY, "t", false);
-    put(BASS, "b", true);
+    put(cfg.melody, "t", false);
+    put(cfg.bass, "b", true);
 
-    /* above the staff: phrase labels and formal brackets */
-    var above = layer("form");
+    var above = layer(svg, "form");
     PHRASES.forEach(function (p) {
       mark(above, el("text", {
-        x: at(p.bar, 0) - 6, y: Y_PHRASE, "class": "phraselabel"
+        x: at(cfg, p.bar, 0) - 6, y: Y_PHRASE, "class": "phraselabel"
       }, p.label), "phrase");
     });
     UNITS.forEach(function (u) {
-      bracket(above, at(u.from[0], u.from[1]) - 10, at(u.to[0], u.to[1]) - 24,
-              Y_BRACKET, "units", u.label);
+      bracket(above, at(cfg, u.from[0], u.from[1]) - 10,
+              at(cfg, u.to[0], u.to[1]) - 24, Y_BRACKET, "units", u.label, true);
     });
 
-    /* below the staff: key, numerals, cadential bracket, cadence box */
-    var below = layer("harmony");
-    mark(below, el("text", { x: 18, y: Y_ROMAN, "class": "keylabel" }, "C:"), "key");
-    var table = numerals === "caplin" ? CAPLIN : LAITZ;
-    table.forEach(function (r) {
-      mark(below, el("text", {
-        x: at(r[0], 0) - 6, y: Y_ROMAN, "class": "roman"
-      }, r[1]), "numeral");
+    var below = layer(svg, "harmony");
+    mark(below, el("text", { x: 18, y: Y_ROMAN, "class": "keylabel" }, cfg.key), "key");
+    var nodes = cfg[numerals].map(function (r) {
+      var node = el("text", {
+        x: at(cfg, r[0], r[1]) - 6, y: Y_ROMAN, "class": "roman"
+      }, r[2]);
+      mark(below, node, "numeral");
+      return { r: r, node: node };
     });
+    holdLines(cfg, below, nodes);
 
-    var cad = layer("cadence");
-    var cx1 = at(CADENCE.from[0], CADENCE.from[1]) - 14;
-    var cx2 = at(CADENCE.to[0], CADENCE.to[1]) + 26;
-    mark(cad, el("path", {
-      d: "M " + cx1 + " " + (Y_CADBR - 7) + " L " + cx1 + " " + Y_CADBR +
-         " L " + cx2 + " " + Y_CADBR + " L " + cx2 + " " + (Y_CADBR - 7),
-      "class": "cadbracket"
-    }), "cadbracket");
-
-    var bx = at(CADENCE.to[0], CADENCE.to[1]) - 4;
+    var cad = layer(svg, "cadence");
+    var span = cfg.cadence[numerals];
+    bracket(cad, at(cfg, span[0][0], span[0][1]) - 14,
+            at(cfg, span[1][0], span[1][1]) + 26, Y_CADBR, "cadbracket", null, false);
+    var bx = at(cfg, cfg.cadence.course[1][0], cfg.cadence.course[1][1]) - 4;
     mark(cad, el("rect", {
       x: bx - 22, y: Y_CADBOX - 15, width: 44, height: 21, "class": "cadbox"
     }), "cadbox");
-    mark(cad, el("text", {
-      x: bx, y: Y_CADBOX, "class": "cadlabel"
-    }, CADENCE.type), "cadbox");
+    mark(cad, el("text", { x: bx, y: Y_CADBOX, "class": "cadlabel" }, cfg.cadence.type), "cadbox");
+  }
 
+  /* a harmony held past its own bar runs on as a line */
+  function holdLines(cfg, g, nodes) {
+    function run() {
+      nodes.forEach(function (n, k) {
+        if (n.r[3] !== true) { return; }
+        var box;
+        try { box = n.node.getBBox(); } catch (err) { return; }
+        if (!box || !box.width) { return; }
+        var x1 = box.x + box.width + 8;
+        var x2 = k + 1 < nodes.length
+          ? at(cfg, nodes[k + 1].r[0], nodes[k + 1].r[1]) - 16
+          : barX(cfg, BARS) - 8;
+        if (x2 - x1 < 16) { return; }
+        mark(g, el("line", {
+          x1: x1, y1: Y_ROMAN - 5, x2: x2, y2: Y_ROMAN - 5, "class": "harm-line"
+        }), "numeral");
+      });
+    }
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(run); }
+    else { run(); }
+  }
+
+  function drawAll() {
+    Object.keys(EXAMPLES).forEach(function (k) { drawScore(EXAMPLES[k]); });
     applyLayers();
     light(current);
   }
 
-  /* ---------- layers, numerals, and lighting ---------- */
+  /* ---------- layers, labels, and lighting ---------- */
 
   var numerals = "caplin";
   var shown = { form: true, harmony: true, cadence: true };
+  var current = null;
 
   function applyLayers() {
     Object.keys(groups).forEach(function (k) {
-      groups[k].classList.toggle("off", !shown[k]);
+      groups[k].classList.toggle("off", !shown[k.split(":")[1]]);
     });
   }
-
-  /* A rule names either one kind of mark or a whole layer, so lighting looks
-     for both. */
-  var current = null;
-
   function light(rule) {
     current = rule || null;
-    Array.prototype.forEach.call(svg.querySelectorAll(".lit"), function (n) {
+    Array.prototype.forEach.call(document.querySelectorAll("svg .lit"), function (n) {
       n.classList.remove("lit");
     });
     if (!rule) { return; }
-    var found = svg.querySelectorAll('[data-rule="' + rule + '"]');
-    if (!found.length && groups[rule]) {
-      found = groups[rule].querySelectorAll("[data-rule]");
-    }
-    Array.prototype.forEach.call(found, function (n) { n.classList.add("lit"); });
+    Object.keys(EXAMPLES).forEach(function (k) {
+      var svg = document.getElementById(EXAMPLES[k].id);
+      var found = svg.querySelectorAll('[data-rule="' + rule + '"]');
+      if (!found.length && groups[svg.id + ":" + rule]) {
+        found = groups[svg.id + ":" + rule].querySelectorAll("[data-rule]");
+      }
+      Array.prototype.forEach.call(found, function (n) { n.classList.add("lit"); });
+    });
   }
 
   /* ---------- the rules, in Caplin's words made brief ---------- */
@@ -372,8 +421,8 @@
     ["harmony", "the harmonic analysis", "Everything about harmony and cadence goes below the score."],
     ["key", "the key", "A bold pitch name and a colon, uppercase for major and lowercase for minor."],
     ["numeral", "the numerals", "One numeral per harmony, with figured-bass numbers for inversions."],
-    ["cadbracket", "a bracket on the cadential progression",
-     "A horizontal bracket marks where the cadential progression begins and ends. Where the progression is expanded, ECP after its first harmony replaces the bracket."],
+    ["cadbracket", "a bracket at the cadence",
+     "Caplin brackets the whole cadential progression, from its first harmony to the last. This course brackets the dominant and its target at an authentic cadence, and the pre-dominant and the dominant at a half cadence. Where a cadential progression is expanded, ECP after its first harmony replaces the bracket."],
     ["cadbox", "the cadence, boxed",
      "PAC, IAC, or HC in a box, placed under the arrival of the progression's final harmony. The melody may run on past that point."]
   ];
@@ -474,31 +523,36 @@
     n.type = "button";
     n.id = "numerals";
     n.setAttribute("aria-pressed", "false");
-    n.appendChild(document.createTextNode("Caplin's numerals"));
+    n.appendChild(document.createTextNode("Caplin's labels"));
     n.addEventListener("click", function () {
-      numerals = numerals === "caplin" ? "laitz" : "caplin";
-      n.setAttribute("aria-pressed", numerals === "laitz" ? "true" : "false");
+      numerals = numerals === "caplin" ? "course" : "caplin";
+      n.setAttribute("aria-pressed", numerals === "course" ? "true" : "false");
       while (n.firstChild) { n.removeChild(n.firstChild); }
       n.appendChild(document.createTextNode(
-        numerals === "caplin" ? "Caplin's numerals" : "this course's numerals"));
-      drawScore();
+        numerals === "caplin" ? "Caplin's labels" : "this course's labels"));
+      drawAll();
     });
     host.appendChild(n);
+  })();
 
+  /* a play button under each example */
+  Object.keys(EXAMPLES).forEach(function (k) {
+    var svg = document.getElementById(EXAMPLES[k].id);
+    var host = document.getElementById("controls-" + k);
     var p = document.createElement("button");
     p.type = "button";
     p.className = "play";
     p.setAttribute("aria-pressed", "false");
-    p.setAttribute("aria-label", "play the example");
+    p.setAttribute("aria-label", "play the sentence in " + k);
     p.appendChild(document.createTextNode("play"));
     p.addEventListener("click", function () {
       if (p.getAttribute("aria-pressed") === "true") { stopPlaying(); }
       else { playFigure(svg, p); }
     });
     host.appendChild(p);
-  })();
+  });
 
-  drawScore();
+  drawAll();
 
 })();
 </script>
