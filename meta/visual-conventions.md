@@ -37,7 +37,7 @@ Scale degrees are a Plex Mono digit with the caret drawn as an SVG path above it
 
 Codepoints in use: `U+E050` G clef, `U+E0A2` whole notehead, `U+E260` flat, `U+E261` natural, `U+E262` sharp, `U+E263` double sharp, `U+E264` double flat.
 
-Key signatures are drawn from the accidental orders (F C G D A E B, B E A D G C F) at fixed staff positions. A scale figure sets them 11px apart from x = 60 and starts its notes at x = 68 + 11 per accidental, spaced 48px apart, or 50px where any note in the figure takes an accidental. A triad figure sets them 13px apart from x = 66 and starts at x = 104 + 13 per accidental, spaced 64px apart. The grand staff sets them 13px apart from x = 46.
+Key signatures are drawn from the accidental orders (F C G D A E B, B E A D G C F) at fixed staff positions. A scale figure sets them 11px apart from x = 60 and starts its notes at x = 68 + 11 per accidental, spaced 48px apart, or 50px where any note in the figure takes an accidental. A triad figure sets them 13px apart from x = 66 and starts at x = 104 + 13 per accidental, spaced 64px apart. The grand staff sets them 13px apart from x = 56, clear of the G clef.
 
 A note's accidental is the difference between its pitch class and the natural pitch class of its letter, drawn whenever that differs from the key signature. Double sharps and double flats come out of this rule and are drawn. The difference is taken with a positive modulo so it lands in the range -2 to 2.
 
@@ -69,21 +69,30 @@ The drawing keeps its own coordinates and is centred by a negative `viewBox` ori
 
 A note name is `C4`, `F#3`, `Eb5`. `noteDia` turns one into a diatonic index, `noteAlt` into an alteration of -1, 0, or 1, and `ledgers(target, x, step, bottomY)` draws the ledger lines for a step beyond either edge of a staff. Every figure uses these.
 
-Grand-staff figures use the shared module in `tools/harmony-review.html`: `grandStaff(svg, flats)` draws both staves, both clefs, the opening barline, and a flat key signature, returning the signature as a map; `gsNote(svg, x, note, which, opt)` draws one notehead with its ledger lines, taking `sig`, `accX`, `lit`, and `head`; `gsY(note, which)` returns a vertical position. `which` is `"t"` or `"b"`. Single-staff figures outside part 1 use `staff(svg)` and `chord(g, x, notes, hot, cool)`. Do not write a second copy of any of these.
+Grand-staff figures use `assets/notation.js`: `grandStaff(svg, flats)` draws both staves, both clefs, the opening barline, and a flat key signature, returning the signature as a map; `gsNote(svg, x, note, which, opt)` draws one notehead with its ledger lines, taking `sig`, `accX`, `lit`, and `head`; `gsY(note, which)` returns a vertical position. `which` is `"t"` or `"b"`. Single-staff figures outside part 1 use `staff(svg)` and `chord(g, x, notes, hot, cool)`. Do not write a second copy of any of these.
 
-In a four-voice chord with a down stem, the lower note of a second is displaced one notehead left of the stem; `secondsShift(notes, -14, 0)` gives the offsets and `accX` keeps the column.
+Two chord tones a second apart are displaced by `secondsShift(notes, low, high)`. It pairs from the top down, leaves a note already displaced where it is, and returns the notes low to high with a map from note name to shift. `accX` keeps the undisplaced column, so the accidental and the playback grouping still read the chord as one.
 
-A flat key signature starts at x 56, clear of the G clef, and steps 13 units a flat. A barline stands 27 units left of the first notehead of its bar, which is the room an accidental needs.
+Which note moves depends on the stem. Where a chord has no stem the upper note moves right; where the stem runs down the lower note moves left across it.
 
-A staff ends 70 units past the right edge of its last notehead. `grandStaff` and `staff` register their figure; `closeStaves`, called at the end of the script, sets the ends. A figure that is a measure calls `endStaff(svg, x)` with its barline instead.
+| figures | low | high |
+|---|---|---|
+| part 1 of the harmony review | -20 | 0 |
+| the function charts | -20 | 3 |
+| grand-staff and single-staff figures | 0 | 13 |
+| four-voice chords under a down stem | -14 | 0 |
 
-Two chord tones a second apart are displaced by `secondsShift(notes, low, high)`. It pairs from the top down, leaves a note already displaced where it is, and returns the notes low to high with a map from note name to shift. Part 1 figures pass -20 and 0, the function charts -20 and 3, grand-staff and single-staff figures 0 and 13.
-
-`arrowMarker(target, id, w, refX, cls)` puts an arrowhead marker in a figure's own defs and returns its `url()` reference. `blockArrow(svg, x1, x2, y, size)` draws a function arrow at `ARROW_WIDE` or `ARROW_NARROW`.
+`arrowMarker(target, id, w, refX, cls)` puts an arrowhead marker in a figure's own defs and returns its `url()` reference. `blockArrow(svg, x1, x2, y, size)` draws a function arrow at `ARROW_WIDE` or `ARROW_NARROW`. Both sit in the harmony review's own script.
 
 Every notehead is drawn by `head(x, y, cls, note, opt)`, which writes `data-note` as a sounding pitch with ascii accidentals and an octave, and `data-col` as the nominal x of its chord. `opt` takes `col`, `glyph`, `dur`, and `beat`. Part 1 figures pass `pitch` from `spellNote`; the shared module passes the note name it was given.
 
 Single-staff figures in part 1 keep their own geometry.
+
+## analytical levels
+
+The first level names every sonority. A second level below it names the function of each span: T, M, PD, or D set at the head of the span with an accent line running to its end. A third level, where a passage takes one, sits below the second and reads the same way.
+
+A cadence bracket and its boxed label belong to the level of numerals they annotate and move with it.
 
 ## sound
 
@@ -116,7 +125,7 @@ Tables, the two-column contents list `.toc`, and the `.num` cell for figures and
 
 Layout primitives live in `assets/style.css`: `.panels` and its `uneven` and `three` modifiers, `.panel.centered` and `.panel.centered.wide`, and `.stack` for panels stacked inside one grid cell. A page's own `<style>` block holds only what that page draws.
 
-Both the stylesheet and the shared script take a `?v=N` query, bumped together whenever either changes.
+The shared script takes a `?v=N` query of its own, bumped whenever `assets/notation.js` changes. The stylesheet's number is independent and moves only when the stylesheet does.
 
 Interactive tools live in `tools/`. Each is one HTML file linking `assets/notation.js`, which holds note spelling, staff and clock geometry, the notehead tag, the chord type tables, the grand staff and single-staff renderers, and playback. A page aliases what it uses at the top of its own IIFE. Anything two tools need goes in the module rather than into a second copy.
 

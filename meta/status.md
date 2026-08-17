@@ -30,9 +30,15 @@ Packet due dates: 1 Aug 31, 2 Sep 9, 3 Sep 14, 4 Sep 21, 5 Sep 28, 6 Oct 5, 7 Oc
 
 Caplin page ranges per packet: 25–29, 67–72, 93–98, 117–122, 157–165, 186–194, 228–237, 253–258, 301–307, 344–352, 408–419, and 462–474 with 510–518.
 
-`tools/annotation-guide.html`: Caplin's annotation rules against a composed eight-bar sentence in C minor, a two-bar basic idea stated and repeated over a tonic prolongation, then a continuation fragmenting into one-bar units and cadencing PAC. Quarters and halves only, so no beams are needed. Four layers: form, this course's roman numerals, Caplin's roman numerals, and figured bass. Both notations show at once on their own rows, each with its own cadence bracket and boxed cadence; the cadence is part of the roman analysis rather than a layer of its own. Marks take `data-rule`; pressing a rule lights every mark it governs, and the two band rules light every mark in their layers. Playback reads the staff. The two extra passages take no toggles and no form layer, and each carries a second level below the numerals in the harmony review's treatment, T, M, PD, or D at the head of its span with an accent line running to the end of it. The modulating passage takes a third level below that, one tonic held to the return of I and one pre-dominant held across the modulation to the last ii6, labelled T, PD, D, T: two half-note chords a bar in four voices, a bass note under three in the right hand, numerals in this course's notation, and the applied-chord arrow, the extended-tonicization brace, the pivot brace drawn where they fall, and playback.
+`tools/annotation-guide.html`: Caplin's annotation rules against a composed eight-bar sentence in C minor. Four layers: form, this course's roman numerals, Caplin's roman numerals, and figured bass. Both notations show at once on their own rows, each with its own cadence bracket and boxed cadence. Marks take `data-rule`; pressing a rule lights every mark it governs, and the two band rules light every mark in their layers.
 
-The two notations differ on seven of the eight chords: i against I, iv against IV, ii°6 against II6, Cad6/4 and V against V(6-4 5-3), and the cadence bracket runs from the pre-dominant in Caplin and from the dominant here.
+Page order: the annotated sentence, reading a numeral in this course, the rules across the panel, the guide in two columns, then the passages.
+
+Ten rules on the left, each lighting the marks it governs, with Caplin's one instruction that leaves no mark set below them. The guide runs as nineteen rule-and-specimen rows, covering all thirteen entries of his printed guide.
+
+Two four-voice passages carry the marks the sentence cannot: a period in C major with a neighbouring and a passing chord, a change of inversion, a sequence, and a boxed HC and PAC; and a phrase modulating to G with an applied chord and its curved arrow, an extended tonicization under a brace, a pivot read in both keys, and three analytical levels. They take no toggles and no form layer. Both are clean on parallels, leaps, crossings, and spacing.
+
+Marks with no worked instance, documented in the guide but not shown on any figure: pedal point, the Neapolitan, augmented sixths, quality in place of a numeral, square brackets, the ellipsis, ECP, and IAC. The chromatic passage that carried them is in history at bfe73c5.
 
 The syllabus states the coursework in brief and points to guidelines distributed with the packets. Those guidelines are not written.
 
