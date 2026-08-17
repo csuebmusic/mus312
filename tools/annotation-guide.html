@@ -10,7 +10,7 @@
   .stem { stroke: var(--ink); stroke-width: 1.4; }
   .barline { stroke: var(--ink); stroke-width: 1; }
   .barline.final { stroke-width: 3.5; }
-  .clef, .notehead, .accidental, .timesig {
+  .clef, .notehead, .keysig, .accidental, .timesig {
     font-family: var(--font-music);
     fill: var(--ink);
     font-size: 48px;
@@ -106,23 +106,15 @@
   <p class="eyebrow">mus 312 &middot; annotation guide</p>
   <h1 id="top">annotating a score</h1>
 
-  <p class="lede full">Caplin sets out how an analysis is written onto a score: what goes above the staff, what goes below, and which marks carry which meaning. The two sentences here are annotated by those rules. Turn a layer off to see what the score looks like without it, and press a rule to find its mark.</p>
+  <p class="lede full">Caplin sets out how an analysis is written onto a score: what goes above the staff, what goes below, and which marks carry which meaning. The eight bars here are annotated by those rules. Turn a layer off to see what the score looks like without it, and press a rule to find its mark.</p>
 
-  <p class="howto">Press any rule on the left to light the marks it governs. The switches at the foot of the page turn the annotation layers on and off and move the labels between Caplin's system and the one this course uses. The minor sentence is where the two part company most.</p>
-
-  <section class="panel">
-    <h2>a sentence in major</h2>
-    <svg id="score-major" viewBox="0 -26 1600 460" role="img" aria-label="An eight-bar sentence in C major on a grand staff, annotated with formal brackets and phrase labels above and roman numerals, a cadential bracket, and a boxed cadence label below"></svg>
-    <div class="controls" id="controls-major"></div>
-  </section>
+  <p class="howto">Press any rule on the left to light the marks it governs. The switches turn the annotation layers on and off and move the labels between Caplin's system and the one this course uses, which in a minor key changes almost every chord.</p>
 
   <section class="panel">
     <h2>a sentence in minor</h2>
     <svg id="score-minor" viewBox="0 -26 1600 460" role="img" aria-label="An eight-bar sentence in C minor on a grand staff, annotated with formal brackets and phrase labels above and roman numerals, a cadential bracket, and a boxed cadence label below"></svg>
     <div class="controls" id="controls-minor"></div>
   </section>
-
-  <div class="controls" id="layers"></div>
 
   <div class="panels uneven">
     <section class="panel">
@@ -144,7 +136,7 @@
 
 </div>
 
-<script src="../assets/notation.js?v=1"></script>
+<script src="../assets/notation.js?v=2"></script>
 <script>
 (function () {
   "use strict";
@@ -191,32 +183,6 @@
   ];
 
   var EXAMPLES = {
-    major: {
-      id: "score-major", flats: 0, key: "C:",
-      melody: [
-        [0, 0, "q", ["C5"]], [0, 1, "q", ["E5"]], [0, 2, "q", ["G5"]], [0, 3, "q", ["E5"]],
-        [1, 0, "w", ["D5"]],
-        [2, 0, "q", ["C5"]], [2, 1, "q", ["E5"]], [2, 2, "q", ["G5"]], [2, 3, "q", ["E5"]],
-        [3, 0, "w", ["C5"]],
-        [4, 0, "h", ["F5"]], [4, 2, "h", ["C5"]],
-        [5, 0, "h", ["F5"]], [5, 2, "h", ["D5"]],
-        [6, 0, "h", ["E5"]], [6, 2, "h", ["D5"]],
-        [7, 0, "w", ["C5"]]
-      ],
-      bass: [
-        [0, 0, "w", ["C3"]], [1, 0, "w", ["B2"]], [2, 0, "w", ["C3"]], [3, 0, "w", ["C3"]],
-        [4, 0, "w", ["F2"]], [5, 0, "w", ["F2"]], [6, 0, "w", ["G2"]], [7, 0, "w", ["C3"]]
-      ],
-      caplin: [
-        [0, 0, "I"], [1, 0, "V6"], [2, 0, "I", true], [4, 0, "IV"], [5, 0, "II6"],
-        [6, 0, "V(6-4 5-3)"], [7, 0, "I"]
-      ],
-      course: [
-        [0, 0, "I"], [1, 0, "V6"], [2, 0, "I", true], [4, 0, "IV"], [5, 0, "ii6"],
-        [6, 0, "Cad6/4"], [6, 2, "V"], [7, 0, "I"]
-      ],
-      cadence: { type: "PAC", caplin: [[5, 0], [7, 0]], course: [[6, 2], [7, 0]] }
-    },
     minor: {
       id: "score-minor", flats: 3, key: "c:",
       melody: [
@@ -505,7 +471,7 @@
   ];
 
   (function buildSwitches() {
-    var host = document.getElementById("layers");
+    var host = document.getElementById("controls-minor");
     LAYERS.forEach(function (l) {
       var b = document.createElement("button");
       b.type = "button";
