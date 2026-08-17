@@ -38,3 +38,5 @@ The compiled PDF is 120 pages, a cover then twelve packets each opening on a div
 ## open
 
 Guidelines for the packets and the final analysis are not written. The syllabus points to them. They state what is handed in, how a score is annotated, and how the work is assessed, and they set the length of the final analysis and the extra credit for performing from it.
+
+SLO 4 asks students to implement the concepts through performance on their major instrument or voice. On the syllabus that performance is extra credit, so a student can complete the course without meeting it.

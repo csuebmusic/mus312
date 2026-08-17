@@ -54,7 +54,7 @@ Sonata-form terminology follows Hepokoski and Darcy. Elsewhere terminology follo
 | 14 | Mon Nov 16<br>Wed Nov 18 | Ch. 13 continued, and Ch. 14, recapitulation (recapitulatory rotation; essential structural closure, ESC) (475–518) | H&D 231–254 |
 | 15 | — | Fall Recess | |
 | 16 | Mon Nov 30<br>Wed Dec 2 | Ch. 15, coda and Ch. 16, slow introduction (parageneric spaces) (519–550, 551–562) | H&D 281–305 |
-| — | Dec 7–12 | final exam slot, time to be confirmed | |
+| — | Mon Dec 7, 10:15–12:15 | final analysis due | |
 
 ## omitted
 

@@ -46,7 +46,7 @@ A cadence bracket covers the dominant and its target at an authentic cadence, an
 
 ## assessment
 
-Twelve homework packets weighted equally at 70 percent, the final analysis at 30 percent. Performing a passage from the movement analyzed, in the final exam slot, earns extra credit. That performance is where SLO 4 is met.
+Twelve homework packets weighted equally at 70 percent, the final analysis at 30 percent. Performing a passage from the movement analyzed, in the final exam slot, earns extra credit.
 
 The department's 0 to 4 grade-point scale. The score is the GPA.
 
