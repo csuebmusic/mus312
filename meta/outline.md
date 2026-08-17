@@ -12,7 +12,7 @@ Single-meeting weeks: week 1 (Wednesday start), week 4 (Labor Day, September 7),
 
 Other dates: census September 15, last day to withdraw November 6, grades due December 15 at 8:00 PM.
 
-No class meeting is given to an exam. All twenty-seven meetings carry chapter content.
+No class meeting is given to an exam. All twenty-seven meetings are chapter content.
 
 ## texts
 

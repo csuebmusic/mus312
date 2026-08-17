@@ -15,7 +15,7 @@ White ground, black line, one accent. The accent marks what is live: highlights,
 | `--accent-edge` | `rgba(226, 86, 13, 0.38)` | outlines on washed fills |
 | `--accent-2` | `#1f5fa8` | a second strand, where two things move at once and must be told apart |
 
-Colors are addressed through these variables. Component CSS carries no hex values.
+Colors are addressed through these variables. Component CSS uses no hex values.
 
 ## type
 
@@ -33,7 +33,7 @@ Headings are lowercase and set in the body face at 600.
 
 Bravura is a SMuFL font: one em equals four staff spaces. A staff with 12px spaces sets Bravura at 48px, and glyph origins land where the SMuFL specification puts them, so a notehead's origin is its left edge at the vertical center and a G clef's origin sits on the G line.
 
-Scale degrees are a Plex Mono digit with the caret drawn as an SVG path above it, since neither Bravura nor Plex carries a combining caret that sets reliably over a numeral.
+Scale degrees are a Plex Mono digit with the caret drawn as an SVG path above it, since neither Bravura nor Plex has a combining caret that sets reliably over a numeral.
 
 Codepoints in use: `U+E050` G clef, `U+E0A2` whole notehead, `U+E260` flat, `U+E261` natural, `U+E262` sharp, `U+E263` double sharp, `U+E264` double flat.
 
@@ -49,7 +49,7 @@ Staff geometry: spaces of 12px, bottom line E4 at y = 128 in row 0, pitch positi
 
 ## figure size
 
-Staff notation renders at 0.75, so a 48px Bravura glyph draws at 36px and staff spaces at 9px. Diagrams that carry no staff (clock faces, stacking recipes, function and prolongation maps) render at 1.
+Staff notation renders at 0.75, so a 48px Bravura glyph draws at 36px and staff spaces at 9px. Diagrams with no staff (clock faces, stacking recipes, function and prolongation maps) render at 1.
 
 A figure's `viewBox` is sized from the panel that holds it divided by its scale, not from its content. Panel inner widths:
 
@@ -83,7 +83,7 @@ Single-staff figures in part 1 keep their own geometry.
 
 ## sound
 
-Playback reads the staff. `playButtons` walks the page in document order and puts a `button.play` under every figure carrying `text.notehead[data-note]`, labelled from the headings above it, unless the figure takes `data-play="no"`. `figureNotes(svg)` returns one entry per sounding notehead: its onset is `data-beat` where the figure is metered and its column index otherwise, and its length is `data-dur` in beats or one beat. A tied note carries the length of both halves and the note it ties into takes `data-tie`. Noteheads marked `optional` are silent.
+Playback reads the staff. `playButtons` walks the page in document order and puts a `button.play` under every figure with `text.notehead[data-note]`, labelled from the headings above it, unless the figure takes `data-play="no"`. `figureNotes(svg)` returns one entry per sounding notehead: its onset is `data-beat` where the figure is metered and its column index otherwise, and its length is `data-dur` in beats or one beat. A tied note takes the length of both halves and the note it ties into takes `data-tie`. Noteheads marked `optional` are silent.
 
 A beat is 0.85 seconds where any two notes share an onset, 0.48 seconds for a single line. A note sounds as four sine partials at 1, 2, 3, and 4 times its frequency, decaying exponentially over 1.7 times its notated length, so a chord rings into the one after it. Built on the Web Audio API with no library and no sample. The notehead takes `.sounding` while it sounds. One figure plays at a time, and pressing a playing button stops it.
 
@@ -100,7 +100,7 @@ One unit is `--step`, 0.5rem. The vertical scale, in units:
 | 6 | the rule between sections |
 | 8 | page to footer |
 
-Inside a section, spacing is carried by `margin-top` on `section.scale > *`, so adjacent margins never compete. A section's first heading takes no top margin; a later heading in the same section takes 6, so it reads as a subsection break. Paragraphs inside a panel keep their own bottom margin, and the last child of a panel drops it.
+Inside a section, spacing comes from `margin-top` on `section.scale > *`, so adjacent margins never compete. A section's first heading takes no top margin; a later heading in the same section takes 6, so it reads as a subsection break. Paragraphs inside a panel keep their own bottom margin, and the last child of a panel drops it.
 
 ## structure
 
@@ -110,11 +110,11 @@ Pages are self-contained: no build step, no runtime dependency, no external requ
 
 Tables, the two-column contents list `.toc`, and the `.num` cell for figures and dates live in `assets/style.css`. A table's row labels are `th` in `tbody`.
 
-Layout primitives live in `assets/style.css`: `.panels` and its `uneven` and `three` modifiers, `.panel.centered` and `.panel.centered.wide`, and `.stack` for panels stacked inside one grid cell. A page's own `<style>` block carries only what that page draws.
+Layout primitives live in `assets/style.css`: `.panels` and its `uneven` and `three` modifiers, `.panel.centered` and `.panel.centered.wide`, and `.stack` for panels stacked inside one grid cell. A page's own `<style>` block holds only what that page draws.
 
-Interactive tools live in `tools/`. Each is one HTML file linking `assets/notation.js`, which carries note spelling, staff and clock geometry, the notehead tag, the chord type tables, the grand staff and single-staff renderers, and playback. A page aliases what it uses at the top of its own IIFE. Anything two tools need goes in the module rather than into a second copy.
+Interactive tools live in `tools/`. Each is one HTML file linking `assets/notation.js`, which holds note spelling, staff and clock geometry, the notehead tag, the chord type tables, the grand staff and single-staff renderers, and playback. A page aliases what it uses at the top of its own IIFE. Anything two tools need goes in the module rather than into a second copy.
 
-A section that carries a transposable figure is found by `data-scale`, not by id. Ids on a section belong to its heading.
+A section with a transposable figure is found by `data-scale`, not by id. Ids on a section belong to its heading.
 
 A panel that stands alone rather than in a grid takes `.panel.centered`, which caps it at the width of one cell in the two-column grid and centers it:
 
@@ -130,7 +130,7 @@ Drawings render at the scale their box gives them, so a drawing sized for a grid
 
 ## contents index
 
-A long page carries `nav.toc` as the first child of `.page`, ahead of `.wrap`. Every `h1` and `h2` takes an id and appears in it. A lower heading takes one only where the page links to it.
+A long page opens with `nav.toc` as the first child of `.page`, ahead of `.wrap`. Every `h1` and `h2` takes an id and appears in it. A lower heading takes one only where the page links to it.
 
 At 96rem and wider the index is a sticky 13rem column beside the content; below that it sits above the content in three columns, one column under 48rem. The content column stays 78rem at every width, so figure sizes hold.
 

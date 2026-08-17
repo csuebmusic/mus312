@@ -170,7 +170,7 @@ var MUS = (function () {
 
   /* ---------- noteheads ---------- */
 
-  /* A notehead carries the pitch it draws and the column it belongs to, so a
+  /* A notehead records the pitch it draws and the column it belongs to, so a
      figure can be played back from what is on the staff. `col` is the nominal
      x of the chord, which differs from `x` where a second is displaced. */
   function head(x, y, cls, note, opt) {
@@ -320,7 +320,7 @@ var MUS = (function () {
   /* ---------- sound ---------- */
 
   /* Playback reads the staff rather than a second copy of the music: every
-     notehead carries its pitch, its column, and where the figure is metered,
+     notehead records its pitch, its column, and where the figure is metered,
      its beat and its length in beats. */
 
   var PITCH_RE = /^([A-G])(b{1,2}|#{1,2})?(\d)$/;

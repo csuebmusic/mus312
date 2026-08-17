@@ -341,7 +341,7 @@
   var FUNCTION = ["tonic", "pre-dominant", "mediant", "pre-dominant",
                   "dominant", "mediant", "dominant"];
 
-  /* the pitch classes a key admits, minor carrying both sixths and sevenths */
+  /* the pitch classes a key admits, minor with both sixths and sevenths */
   function scalePcs(t, m) {
     var steps = m === "minor" ? [0, 2, 3, 5, 7, 8, 9, 10, 11] : [0, 2, 4, 5, 7, 9, 11];
     return steps.map(function (v) { return mod12(t + v); });
@@ -641,7 +641,7 @@
       if (source) { line(keyReadEl, "source", source); }
       if (minorV) {
         line(keyReadEl, "note",
-          "the minor v carries no leading tone, so it passes rather than functions");
+          "the minor v has no leading tone, so it passes rather than functions");
       }
       if (flatVII) {
         line(keyReadEl, "note",
