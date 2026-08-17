@@ -58,7 +58,9 @@
 
   .off { display: none; }
 
-  .panel + .panels { margin-top: calc(var(--step) * 5); }
+  .panel + .panels, .panels + .panel { margin-top: calc(var(--step) * 5); }
+  .panel table:last-child { margin-bottom: 0; }
+  .panel h3 { margin-top: calc(var(--step) * 4); }
 
   .rules { max-width: none; margin: 0; padding: 0; list-style: none; }
   .rules li { margin: 0 0 calc(var(--step) * 1.5); }
@@ -150,13 +152,68 @@
     </section>
   </div>
 
+
+  <section class="panel">
+    <h2>reading a numeral in this course</h2>
+
+    <p class="full">A roman numeral in this course says two things at once. Its case reports the quality of the triad. Its accidental reports where the root sits against the major scale on the same tonic. Caplin writes every numeral uppercase and leaves quality to the reader; here the numeral carries it.</p>
+
+    <p class="full"><strong>The case.</strong> Uppercase for a major triad, lowercase for a minor one. A diminished triad is lowercase and takes a small circle after it, an augmented triad is uppercase and takes a plus.</p>
+
+    <p class="full"><strong>The accidental.</strong> The root is measured against the major scale on the same tonic, whatever the mode of the passage. A root that matches the major scale takes nothing. A root a semitone below it takes a flat, a semitone above it a sharp. So a triad built on E&#9837; in C is &#9837;III in C major and in C minor alike.</p>
+
+    <h3>the seven triads of C major</h3>
+
+    <table>
+      <thead>
+        <tr><th>numeral</th><th>triad</th><th>the case</th><th>the accidental</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="num">I</td><td class="num">C E G</td><td>major, so uppercase</td><td>the root is 1&#770;</td></tr>
+        <tr><td class="num">ii</td><td class="num">D F A</td><td>minor, so lowercase</td><td>the root is a major second above 1&#770;, which is what the major scale gives, so nothing</td></tr>
+        <tr><td class="num">iii</td><td class="num">E G B</td><td>minor, so lowercase</td><td>a major third above 1&#770;, so nothing</td></tr>
+        <tr><td class="num">IV</td><td class="num">F A C</td><td>major, so uppercase</td><td>a perfect fourth above 1&#770;, so nothing</td></tr>
+        <tr><td class="num">V</td><td class="num">G B D</td><td>major, so uppercase</td><td>a perfect fifth above 1&#770;, so nothing</td></tr>
+        <tr><td class="num">vi</td><td class="num">A C E</td><td>minor, so lowercase</td><td>a major sixth above 1&#770;, so nothing</td></tr>
+        <tr><td class="num">vii&#176;</td><td class="num">B D F</td><td>diminished, so lowercase with a circle</td><td>a major seventh above 1&#770;, so nothing</td></tr>
+      </tbody>
+    </table>
+
+    <h3>the triads of C minor</h3>
+
+    <p class="full">Minor draws on both forms of 6&#770; and 7&#770;, so nine triads stand on its seven degrees.</p>
+
+    <table>
+      <thead>
+        <tr><th>numeral</th><th>triad</th><th>the case</th><th>the accidental</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="num">i</td><td class="num">C E&#9837; G</td><td>minor, so lowercase</td><td>the root is 1&#770;</td></tr>
+        <tr><td class="num">ii&#176;</td><td class="num">D F A&#9837;</td><td>diminished, so lowercase with a circle</td><td>a major second above 1&#770;, so nothing</td></tr>
+        <tr><td class="num">&#9837;III</td><td class="num">E&#9837; G B&#9837;</td><td>major, so uppercase</td><td>a minor third above 1&#770;, a semitone under the major scale's third, so a flat</td></tr>
+        <tr><td class="num">iv</td><td class="num">F A&#9837; C</td><td>minor, so lowercase</td><td>a perfect fourth above 1&#770;, so nothing</td></tr>
+        <tr><td class="num">v</td><td class="num">G B&#9837; D</td><td>minor, so lowercase</td><td>a perfect fifth above 1&#770;, so nothing</td></tr>
+        <tr><td class="num">V</td><td class="num">G B D</td><td>major, so uppercase; the raised 7&#770; is what makes it major</td><td>a perfect fifth above 1&#770;, so nothing</td></tr>
+        <tr><td class="num">&#9837;VI</td><td class="num">A&#9837; C E&#9837;</td><td>major, so uppercase</td><td>a minor sixth above 1&#770;, a semitone under the major scale's sixth, so a flat</td></tr>
+        <tr><td class="num">&#9837;VII</td><td class="num">B&#9837; D F</td><td>major, so uppercase</td><td>a minor seventh above 1&#770;, a semitone under the major scale's seventh, so a flat</td></tr>
+        <tr><td class="num">vii&#176;</td><td class="num">B D F</td><td>diminished, so lowercase with a circle</td><td>the raised 7&#770; matches the major scale's seventh, so nothing</td></tr>
+      </tbody>
+    </table>
+
+    <p class="full">The same numerals hold when a chord is borrowed across the modes. A&#9837; C E&#9837; in C major is &#9837;VI, spelled and read exactly as it is in C minor, and the flat is what marks it as borrowed.</p>
+
+    <h3>the figures</h3>
+
+    <p class="full">Figured-bass numbers follow the numeral and report which member of the chord is in the bass: nothing for root position, 6 for first inversion, 6/4 for second. A seventh chord takes 7, 6/5, 4/3, and 4/2 from root position downward. The cadential six-four is written Cad6/4 and resolves to V, where Caplin writes the pair as one harmony, V(6-4 5-3).</p>
+  </section>
+
   <footer>
     <p>Notation set in Bravura, Steinberg Media Technologies. Text set in IBM Plex. Both under the SIL Open Font License.</p>
   </footer>
 
 </div>
 
-<script src="../assets/notation.js?v=5"></script>
+<script src="../assets/notation.js?v=6"></script>
 <script>
 (function () {
   "use strict";
