@@ -141,6 +141,8 @@
       <ul class="rules" id="rules-above"></ul>
       <p class="field spaced">below the staff</p>
       <ul class="rules" id="rules-below"></ul>
+      <p class="field spaced">and one that leaves no mark</p>
+      <p>Break into prose where the annotation alone cannot explain a subtlety. Do not write out in prose what the annotation already shows.</p>
     </section>
     <section class="panel">
       <h2>what the marks mean</h2>
@@ -154,7 +156,7 @@
 
 </div>
 
-<script src="../assets/notation.js?v=4"></script>
+<script src="../assets/notation.js?v=5"></script>
 <script>
 (function () {
   "use strict";
@@ -385,7 +387,7 @@
         if (x2 - x1 < 16) { return; }
         mark(g, el("line", {
           x1: x1, y1: y - 5, x2: x2, y2: y - 5, "class": "harm-line"
-        }), "numeral");
+        }), "hold");
       });
     }
     if (document.fonts && document.fonts.ready) { document.fonts.ready.then(run); }
@@ -440,18 +442,23 @@
   var RULES_ABOVE = [
     ["form", "the formal analysis", "Everything about form goes above the score."],
     ["units", "brackets on the formal units",
-     "A horizontal bracket shows the exact boundaries of a basic idea, a cadential idea, a fragment, a model, or a sequence. After the first fragment the label can be dropped, but the bracket stays. Do not run brackets automatically from barline to barline."],
+     "A horizontal bracket shows the exact boundaries of a basic idea, a cadential idea, a fragment, a model, or a sequence. After the first fragment the label can be dropped, but the bracket stays, and the same holds for the sequences that follow a model. Do not run brackets automatically from barline to barline: decide by ear where an idea begins and ends."],
     ["phrase", "phrase labels, unbracketed",
      "Presentation and continuation are named at the point the phrase begins. A phrase is never bracketed."]
   ];
   var RULES_BELOW = [
     ["harmony", "the harmonic analysis", "Everything about harmony and cadence goes below the score."],
     ["key", "the key", "A bold pitch name and a colon, uppercase for major and lowercase for minor."],
-    ["numeral", "the numerals", "One numeral per harmony, with figured-bass numbers for inversions."],
+    ["numeral", "the numerals",
+     "One numeral for each harmony, with figured-bass numbers for its inversion. A change of inversion within one harmony does not bring a new numeral."],
+    ["hold", "a harmony held on",
+     "A harmony that lasts past its own bar runs on as a straight line rather than being written again."],
     ["cadbracket", "a bracket at the cadence",
      "Caplin brackets the whole cadential progression, from its first harmony to the last. This course brackets the dominant and its target at an authentic cadence, and the pre-dominant and the dominant at a half cadence. Where a cadential progression is expanded, ECP after its first harmony replaces the bracket."],
     ["cadbox", "the cadence, boxed",
-     "PAC, IAC, or HC in a box, placed under the arrival of the progression's final harmony. The melody may run on past that point."]
+     "PAC, IAC, or HC in a box, placed under the arrival of the progression's final harmony. The melody may run on past that point."],
+    ["figures", "figured bass",
+     "Not part of Caplin's guide. This course adds the figures a continuo player would read, under the bass staff, so the inversions in the numerals have something to answer to."]
   ];
 
   function buildRules(id, list) {
@@ -498,6 +505,7 @@
     ["V7/ii", "Where the tonicized harmony is absent, a slash names it instead."],
     ["\u23DE &nbsp; ii", "An extended tonicization takes a horizontal brace over the borrowed harmonies, with the tonicized degree beneath."],
     ["I \u2013 (V) \u2013 I", "Harmonies subordinate to a prolongation go in parentheses."],
+    ["\u230A ii6 \u2013 V \u2013 I \u230B", "The boundaries of a cadential progression take a horizontal square bracket. Where the progression is expanded, ECP after its first harmony replaces the bracket."],
     ["I seq. \u2013 (\u2026) \u2013 IV", "A sequence takes seq. after its first harmony; the harmonies inside go in parentheses, the last one outside."],
     ["I ped. \u2013 (IV \u2013 V7) \u2013 I", "A pedal point takes ped., and everything above it goes in parentheses with no inversion figures."],
     ["(n) &nbsp; (p)", "A weakly functional neighboring or passing chord is labeled n or p, in parentheses. This course labels prolongations N, P, CL, and arp."],

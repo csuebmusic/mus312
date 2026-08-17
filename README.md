@@ -18,7 +18,7 @@ Part 1, counting in semitones: the four scale types on a linked staff and clock,
 
 **annotation guide**
 https://csuebmusic.github.io/mus312/tools/annotation-guide.html
-Caplin's rules for annotating a score, shown at work on an eight-bar sentence in C minor written for the purpose: formal brackets and phrase labels above, figured bass and two rows of roman numerals below, this course's notation and Caplin's, each with its own cadence bracket and boxed cadence. Four layers turn on and off independently, and pressing a rule lights the marks it governs. Alongside it, the eighteen entries of Caplin's Guide to Harmonic Annotation with a specimen of each mark.
+Caplin's rules for annotating a score, shown at work on an eight-bar sentence in C minor written for the purpose: formal brackets and phrase labels above, figured bass and two rows of roman numerals below, this course's notation and Caplin's, each with its own cadence bracket and boxed cadence. Four layers turn on and off independently, and pressing a rule lights the marks it governs. Alongside it, Caplin's Guide to Harmonic Annotation in full, with a specimen of each mark.
 
 **chord finder**
 https://csuebmusic.github.io/mus312/tools/chord-finder.html
