@@ -18,7 +18,7 @@ Part 1, counting in semitones: the four scale types on a linked staff and clock,
 
 **annotation guide**
 https://csuebmusic.github.io/mus312/tools/annotation-guide.html
-Caplin's rules for annotating a score, shown at work on his own Example 2.1, the first eight bars of Beethoven's Piano Sonata in F minor, Op. 2 no. 1, reduced to quarters and halves. Formal brackets and phrase labels above, roman numerals with a cadential bracket and a boxed half cadence below. Each rule lights the marks it governs, the annotation layers turn on and off, and the labels switch between Caplin's system and this course's, which moves the numerals and the extent of the cadence bracket at once. Alongside it, the eighteen entries of Caplin's Guide to Harmonic Annotation with a specimen of each mark.
+Caplin's rules for annotating a score, shown at work on an eight-bar sentence composed for the purpose: formal brackets and phrase labels above, roman numerals with a cadential bracket and a boxed cadence below. Each rule lights the marks it governs, the annotation layers turn on and off, and the numerals switch between Caplin's uppercase system and the four-function labels this course uses. Alongside it, the eighteen entries of Caplin's Guide to Harmonic Annotation with a specimen of each mark.
 
 **chord finder**
 https://csuebmusic.github.io/mus312/tools/chord-finder.html
