@@ -25,7 +25,6 @@
   }
   .figline { stroke: var(--ink); stroke-width: 1; }
   .roman.mid { text-anchor: middle; }
-  .roman.alt { fill: var(--muted); font-size: 13px; }
   .applied-arrow, .ext-brace, .pivot-brace {
     fill: none;
     stroke: var(--ink);
@@ -173,9 +172,9 @@
   <p class="eyebrow">mus 312 &middot; annotation guide</p>
   <h1 id="top">annotating a score</h1>
 
-  <p class="lede full">Caplin sets out how an analysis is written onto a score: what goes above the staff, what goes below, and which marks carry which meaning. The eight bars here are annotated by those rules. Turn a layer off to see what the score looks like without it, and press a rule to find its mark.</p>
+  <p class="lede full">Caplin sets out how an analysis is written onto a score: what goes above the staff, what goes below, and what each mark means. The sentence below is annotated by those rules, with the harmony read twice, once in this course's notation and once in Caplin's. In a minor key the two differ on almost every chord.</p>
 
-  <p class="howto">Press any rule to light the marks it governs. The switches turn the four layers on and off. Both notations are given: this course's on the upper row, Caplin's below it, which in a minor key differs on almost every chord.</p>
+  <p class="howto">Press any rule to light the marks it governs. The switches turn the four layers on and off, so any part of the analysis can come away from the score.</p>
 
 <section class="panel">
     <h2>a sentence in minor</h2>
@@ -186,7 +185,7 @@
 <section class="panel">
     <h2>reading a numeral in this course</h2>
 
-    <p class="full">A roman numeral in this course says two things at once. Its case reports the quality of the triad. Its accidental reports where the root sits against the major scale on the same tonic. Caplin writes every numeral uppercase and leaves quality to the reader; here the numeral carries it.</p>
+    <p class="full">A roman numeral in this course says two things at once. Its case reports the quality of the triad. Its accidental reports how the root stands against the major scale on the same tonic. Caplin writes every numeral uppercase and leaves quality to the reader; here the numeral states it.</p>
 
     <p class="full"><strong>The case.</strong> Uppercase for a major triad, lowercase for a minor one. A diminished triad is lowercase and takes a small circle after it, an augmented triad is uppercase and takes a plus.</p>
 
@@ -209,9 +208,9 @@
       </tbody>
     </table>
 
-    <h3>the triads of C minor</h3>
+    <h3>the nine triads of C minor</h3>
 
-    <p class="full">Minor draws on both forms of 6&#770; and 7&#770;, so nine triads stand on its seven degrees.</p>
+    <p class="full">Minor draws on both forms of 6&#770; and 7&#770;, so two of its degrees stand under two triads each.</p>
 
     <table>
       <thead>
@@ -234,7 +233,7 @@
 
     <h3>the figures</h3>
 
-    <p class="full">Figured-bass numbers follow the numeral and report which member of the chord is in the bass: nothing for root position, 6 for first inversion, 6/4 for second. A seventh chord takes 7, 6/5, 4/3, and 4/2 from root position downward. The cadential six-four is written Cad6/4 and resolves to V, where Caplin writes the pair as one harmony, V(6-4 5-3).</p>
+    <p class="full">Figured-bass numbers follow the numeral and report which member of the chord is in the bass: nothing for root position, 6 for first inversion, 6/4 for second. A seventh chord takes 7, 6/5, 4/3, and 4/2 from root position downward. The cadential six-four is written Cad6/4 and resolves to V. Caplin writes the pair as one harmony, V(6-4 5-3).</p>
   </section>
 
   <section class="panel">
@@ -259,7 +258,7 @@
     <p class="full">Two short passages, annotated in this course's notation.</p>
 
     <h3>prolongation, a sequence, and two cadences</h3>
-    <svg id="ex-a" viewBox="0 0 1600 380" role="img" aria-label="An eight-bar period in C major in four voices, annotated with roman numerals, a neighbouring and a passing chord in parentheses, a change of inversion, a sequence, and a boxed half cadence and perfect authentic cadence"></svg>
+    <svg id="ex-a" viewBox="0 0 1600 380" role="img" aria-label="An eight-bar period in C major in four voices, annotated with roman numerals, a neighboring and a passing chord in parentheses, a change of inversion, a sequence, and a boxed half cadence and perfect authentic cadence"></svg>
     <div class="controls" id="controls-ex-a"></div>
 
     <h3>applied chords and a modulation</h3>
@@ -274,7 +273,7 @@
 
 </div>
 
-<script src="../assets/notation.js?v=22"></script>
+<script src="../assets/notation.js?v=23"></script>
 <script>
 (function () {
   "use strict";
@@ -284,9 +283,31 @@
       grandStaff = MUS.grandStaff,
       endStaff = MUS.endStaff,
       gsNote = MUS.gsNote,
-      gsY = MUS.gsY,
       playFigure = MUS.playFigure,
       stopPlaying = MUS.stopPlaying;
+
+  /* every control on the page is a pressable button that reports its state */
+  function button(host, label, cls, onClick) {
+    var b = document.createElement("button");
+    b.type = "button";
+    if (cls) { b.className = cls; }
+    b.setAttribute("aria-pressed", "false");
+    b.appendChild(document.createTextNode(label));
+    b.addEventListener("click", function () { onClick(b); });
+    host.appendChild(b);
+    return b;
+  }
+
+  /* play and stop, on whichever figure the button belongs to */
+  function playButton(hostId, svgId, label) {
+    var svg = document.getElementById(svgId);
+    var b = button(document.getElementById(hostId), "play", "play", function (btn) {
+      if (btn.getAttribute("aria-pressed") === "true") { stopPlaying(); }
+      else { playFigure(svg, btn); }
+    });
+    b.setAttribute("aria-label", label);
+    return b;
+  }
 
   /* ---------- geometry ---------- */
 
@@ -372,12 +393,45 @@
   }
   function mark(g, node, rule) { node.setAttribute("data-rule", rule); g.appendChild(node); return node; }
 
-  function bracket(g, x1, x2, y, rule, label, down) {
+  /* the boxed cadence label, centered on whatever it annotates */
+  function cadenceBox(host, x, y, text) {
+    return [
+      host.appendChild(el("rect", {
+        x: x - 24, y: y - 15, width: 48, height: 21, "class": "cadbox"
+      })),
+      host.appendChild(el("text", { x: x, y: y, "class": "cadlabel" }, text))
+    ];
+  }
+
+  /* one label per function, set at the head of its span with a line to its end */
+  function levelSpan(host, x1, x2, y, text) {
+    host.appendChild(el("text", { x: x1, y: y, "class": "lvl2" }, text));
+    if (x2 > x1) {
+      host.appendChild(el("line", {
+        x1: x1 + 14 + text.length * 5, y1: y - 5, x2: x2 + 22, y2: y - 5,
+        "class": "lvl2-line"
+      }));
+    }
+  }
+
+  /* a stem down from a right-hand chord, or up from a left-hand one */
+  function stem(host, x, top, bot, up) {
+    host.appendChild(el("line", {
+      x1: up ? x + HEAD_W : x, y1: up ? bot : top,
+      x2: up ? x + HEAD_W : x, y2: up ? top - STEM : bot + STEM, "class": "stem"
+    }));
+  }
+
+  /* a square bracket: a line with a tick at each end, turned toward the score */
+  function bracketPath(x1, x2, y, down) {
     var tick = down ? y + 7 : y - 7;
+    return "M " + x1 + " " + tick + " L " + x1 + " " + y +
+           " L " + x2 + " " + y + " L " + x2 + " " + tick;
+  }
+
+  function bracket(g, x1, x2, y, rule, label, down) {
     mark(g, el("path", {
-      d: "M " + x1 + " " + tick + " L " + x1 + " " + y +
-         " L " + x2 + " " + y + " L " + x2 + " " + tick,
-      "class": down ? "bracket" : "cadbracket"
+      d: bracketPath(x1, x2, y, down), "class": down ? "bracket" : "cadbracket"
     }), rule);
     if (label) {
       mark(g, el("text", { x: (x1 + x2) / 2, y: y - 10, "class": "formlabel" }, label), rule);
@@ -423,11 +477,7 @@
         });
         if (ev[2] === "w") { return; }
         var top = Math.min.apply(null, ys), bot = Math.max.apply(null, ys);
-        svg.appendChild(el("line", {
-          x1: stemUp ? x + HEAD_W : x, y1: stemUp ? bot : top,
-          x2: stemUp ? x + HEAD_W : x, y2: stemUp ? top - STEM : bot + STEM,
-          "class": "stem"
-        }));
+        stem(svg, x, top, bot, stemUp);
       });
     }
     put(cfg.melody, "t", false);
@@ -482,11 +532,9 @@
       var bx1 = at(cfg, span[0][0], span[0][1]) - 14;
       var bx2 = at(cfg, span[1][0], span[1][1]) + 26;
       bracket(g, bx1, bx2, row.bracket, "cadbracket", null, false);
-      var bx = (bx1 + bx2) / 2;
-      mark(g, el("rect", {
-        x: bx - 22, y: row.box - 15, width: 44, height: 21, "class": "cadbox"
-      }), "cadbox");
-      mark(g, el("text", { x: bx, y: row.box, "class": "cadlabel" }, cfg.cadence.type), "cadbox");
+      cadenceBox(g, (bx1 + bx2) / 2, row.box, cfg.cadence.type).forEach(function (n) {
+        n.setAttribute("data-rule", "cadbox");
+      });
     });
   }
 
@@ -556,12 +604,12 @@
   }
 
 
-  /* ---------- three short passages carrying the rest of the marks ---------- */
+  /* ---------- two short passages for the rest of the marks ---------- */
 
-  /* Harmony only. Each bar holds two half-note chords, a bass note under a
-     treble dyad, and every mark in the guide appears on one of the three. */
+  /* Harmony only. Each bar holds two half-note chords: a bass note under three
+     voices in the right hand. */
 
-  var HX0 = 120, HW = 176, HBEAT = 74, HEAD_W = 14;
+  var HX0 = 120, HW = 176, HBEAT = 74;
   var HY_ROMAN = 262, HY_BOX = 300, HY_LEVEL = 336, HY_LEVEL3 = 372;
 
   function hx(bar, half) { return HX0 + (bar - 1) * HW + half * HBEAT; }
@@ -657,20 +705,15 @@
       var by = gsNote(svg, x, ev[2], "b", {
         head: "\uE0A3", dur: 2, beat: beat, sig: sig
       });
-      svg.appendChild(el("line", {
-        x1: x + 14, y1: by, x2: x + 14, y2: by - 42, "class": "stem"
-      }));
-      /* the stems run down, so the lower note of a second sits left of the stem */
+      stem(svg, x, by, by, true);
+      /* the stems run down, so the lower note of a second goes left of the stem */
       var shift = MUS.secondsShift(ev[3], -HEAD_W, 0).shift;
       var ys = ev[3].map(function (n) {
         return gsNote(svg, x + (shift[n] || 0), n, "t", {
           head: "\uE0A3", dur: 2, beat: beat, sig: sig, accX: x
         });
       });
-      svg.appendChild(el("line", {
-        x1: x, y1: Math.min.apply(null, ys), x2: x,
-        y2: Math.max.apply(null, ys) + 42, "class": "stem"
-      }));
+      stem(svg, x, Math.min.apply(null, ys), Math.max.apply(null, ys), false);
       if (ev[4]) {
         svg.appendChild(el("text", { x: x, y: HY_ROMAN, "class": "roman mid" }, ev[4]));
       }
@@ -694,9 +737,7 @@
       var y = HY_ROMAN + 14;
       var x1 = hx(br[0][0], br[0][1]) - 22, x2 = hx(br[1][0], br[1][1]) + 22;
       svg.appendChild(el("path", {
-        d: "M " + x1 + " " + (y - 6) + " L " + x1 + " " + y +
-           " L " + x2 + " " + y + " L " + x2 + " " + (y - 6),
-        "class": "ext-brace"
+        d: bracketPath(x1, x2, y, false), "class": "ext-brace"
       }));
       svg.appendChild(el("text", {
         x: (x1 + x2) / 2, y: y + 16, "class": "roman mid"
@@ -720,65 +761,27 @@
       }));
     }
 
-    (cfg.alts || []).forEach(function (a) {
-      svg.appendChild(el("text", {
-        x: hx(a[0][0], a[0][1]), y: HY_ROMAN + 24, "class": "roman mid alt"
-      }, a[1]));
-    });
-
     /* second level: one label per function, held across its span */
     (cfg.level || []).forEach(function (lv) {
-      var x1 = hx(lv[0][0], lv[0][1]), x2 = hx(lv[1][0], lv[1][1]);
-      svg.appendChild(el("text", { x: x1, y: HY_LEVEL, "class": "lvl2" }, lv[2]));
-      if (x2 > x1) {
-        svg.appendChild(el("line", {
-          x1: x1 + 14 + lv[2].length * 5, y1: HY_LEVEL - 5,
-          x2: x2 + 22, y2: HY_LEVEL - 5, "class": "lvl2-line"
-        }));
-      }
+      levelSpan(svg, hx(lv[0][0], lv[0][1]), hx(lv[1][0], lv[1][1]), HY_LEVEL, lv[2]);
     });
 
     (cfg.level3 || []).forEach(function (lv) {
-      var x1 = hx(lv[0][0], lv[0][1]), x2 = hx(lv[1][0], lv[1][1]);
-      svg.appendChild(el("text", { x: x1, y: HY_LEVEL3, "class": "lvl2" }, lv[2]));
-      if (x2 > x1) {
-        svg.appendChild(el("line", {
-          x1: x1 + 14 + lv[2].length * 5, y1: HY_LEVEL3 - 5,
-          x2: x2 + 22, y2: HY_LEVEL3 - 5, "class": "lvl2-line"
-        }));
-      }
+      levelSpan(svg, hx(lv[0][0], lv[0][1]), hx(lv[1][0], lv[1][1]), HY_LEVEL3, lv[2]);
     });
 
     (cfg.brackets || []).forEach(function (c) {
       var x1 = hx(c[0][0], c[0][1]) - 22, x2 = hx(c[1][0], c[1][1]) + 26;
       svg.appendChild(el("path", {
-        d: "M " + x1 + " " + (HY_ROMAN + 8) + " L " + x1 + " " + (HY_ROMAN + 15) +
-           " L " + x2 + " " + (HY_ROMAN + 15) + " L " + x2 + " " + (HY_ROMAN + 8),
-        "class": "cadbracket"
+        d: bracketPath(x1, x2, HY_ROMAN + 15, false), "class": "cadbracket"
       }));
-      var mid = (x1 + x2) / 2;
-      svg.appendChild(el("rect", {
-        x: mid - 24, y: HY_BOX - 15, width: 48, height: 21, "class": "cadbox"
-      }));
-      svg.appendChild(el("text", { x: mid, y: HY_BOX, "class": "cadlabel" }, c[2]));
+      cadenceBox(svg, (x1 + x2) / 2, HY_BOX, c[2]);
     });
   }
 
   Object.keys(PASSAGES).forEach(function (id) {
     drawPassage(id);
-    var svg = document.getElementById(id);
-    var host = document.getElementById("controls-" + id);
-    var b = document.createElement("button");
-    b.type = "button";
-    b.className = "play";
-    b.setAttribute("aria-pressed", "false");
-    b.setAttribute("aria-label", "play this passage");
-    b.appendChild(document.createTextNode("play"));
-    b.addEventListener("click", function () {
-      if (b.getAttribute("aria-pressed") === "true") { stopPlaying(); }
-      else { playFigure(svg, b); }
-    });
-    host.appendChild(b);
+    playButton("controls-" + id, id, "play this passage");
   });
 
   /* ---------- the rules, in Caplin's words made brief ---------- */
@@ -809,27 +812,22 @@
     var host = document.getElementById(id);
     list.forEach(function (r) {
       var li = document.createElement("li");
-      var b = document.createElement("button");
       var tag = document.createElement("span");
-      b.type = "button";
-      b.setAttribute("aria-pressed", "false");
       tag.className = "tag";
       tag.appendChild(document.createTextNode(r[1] + ". "));
-      b.appendChild(tag);
-      b.appendChild(document.createTextNode(r[2]));
-      b.addEventListener("click", function () {
-        var on = b.getAttribute("aria-pressed") === "true";
+      var b = button(li, r[2], null, function (btn) {
+        var on = btn.getAttribute("aria-pressed") === "true";
         Array.prototype.forEach.call(
           document.querySelectorAll(".rules button"), function (o) {
             o.setAttribute("aria-pressed", "false");
             o.parentNode.classList.remove("on");
           });
         if (on) { light(null); return; }
-        b.setAttribute("aria-pressed", "true");
+        btn.setAttribute("aria-pressed", "true");
         li.classList.add("on");
         light(r[0]);
       });
-      li.appendChild(b);
+      b.insertBefore(tag, b.firstChild);
       host.appendChild(li);
     });
   }
@@ -888,34 +886,16 @@
   (function buildSwitches() {
     var host = document.getElementById("controls-minor");
     LAYERS.forEach(function (l) {
-      var b = document.createElement("button");
-      b.type = "button";
-      b.setAttribute("aria-pressed", "true");
-      b.appendChild(document.createTextNode(l[1]));
-      b.addEventListener("click", function () {
+      button(host, l[1], null, function (b) {
         shown[l[0]] = !shown[l[0]];
         b.setAttribute("aria-pressed", shown[l[0]] ? "true" : "false");
         applyLayers();
-      });
-      host.appendChild(b);
+      }).setAttribute("aria-pressed", "true");
     });
   })();
 
-  /* a play button under each example */
   Object.keys(EXAMPLES).forEach(function (k) {
-    var svg = document.getElementById(EXAMPLES[k].id);
-    var host = document.getElementById("controls-" + k);
-    var p = document.createElement("button");
-    p.type = "button";
-    p.className = "play";
-    p.setAttribute("aria-pressed", "false");
-    p.setAttribute("aria-label", "play the sentence in " + k);
-    p.appendChild(document.createTextNode("play"));
-    p.addEventListener("click", function () {
-      if (p.getAttribute("aria-pressed") === "true") { stopPlaying(); }
-      else { playFigure(svg, p); }
-    });
-    host.appendChild(p);
+    playButton("controls-" + k, EXAMPLES[k].id, "play the sentence in " + k);
   });
 
   drawAll();
