@@ -30,7 +30,9 @@ Packet due dates: 1 Aug 31, 2 Sep 9, 3 Sep 14, 4 Sep 21, 5 Sep 28, 6 Oct 5, 7 Oc
 
 Caplin page ranges per packet: 25–29, 67–72, 93–98, 117–122, 157–165, 186–194, 228–237, 253–258, 301–307, 344–352, 408–419, and 462–474 with 510–518.
 
-`tools/annotation-guide.html`: Caplin's annotation rules against a composed eight-bar sentence in C minor, a two-bar basic idea stated and repeated over a tonic prolongation, then a continuation fragmenting into one-bar units and cadencing PAC. Quarters and halves only, so no beams are needed. Marks carry `data-rule`; pressing a rule lights every mark it governs, and a rule naming a layer lights the layer. Three layer switches, one label switch, and playback. The label switch moves the numerals, the cadential six-four, and the cadence bracket together: Caplin brackets the whole cadential progression, this course brackets the dominant and its target at an authentic cadence and the pre-dominant and the dominant at a half cadence. The harmonic annotation guide runs as eighteen rule-and-specimen rows.
+`tools/annotation-guide.html`: Caplin's annotation rules against a composed eight-bar sentence in C minor, a two-bar basic idea stated and repeated over a tonic prolongation, then a continuation fragmenting into one-bar units and cadencing PAC. Quarters and halves only, so no beams are needed. Four layers: form, this course's roman numerals, Caplin's roman numerals, and figured bass. Both notations show at once on their own rows, each with its own cadence bracket and boxed cadence; the cadence is part of the roman analysis rather than a layer of its own. Marks carry `data-rule`; pressing a rule lights every mark it governs, and the two band rules light every mark in their layers. Playback reads the staff.
+
+The two notations differ on seven of the eight chords: i against I, iv against IV, ii°6 against II6, Cad6/4 and V against V(6-4 5-3), and the cadence bracket runs from the pre-dominant in Caplin and from the dominant here.
 
 The syllabus states the coursework in brief and points to guidelines distributed with the packets. Those guidelines are not written.
 
