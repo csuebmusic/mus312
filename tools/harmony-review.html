@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mus 312 harmony review</title>
-<link rel="stylesheet" href="../assets/style.css?v=11">
+<link rel="stylesheet" href="../assets/style.css?v=12">
 <style>
   /* vertical rhythm: spacing comes from margin-top inside a section,
      so adjacent margins never compete */
@@ -190,7 +190,7 @@
   .triad.lit .caret { stroke: var(--accent); }
   .triad.lit .degree-acc { fill: var(--accent); }
 
-  .page { max-width: 94rem; margin: 0 auto; }
+  .page { max-width: 97rem; margin: 0 auto; }
 
   /* the shared sheet styles .toc as the syllabus's two-column list; this one
      is a sidebar, so it takes its own width, indent, and column count back */
@@ -226,10 +226,10 @@
   .toc-part { margin-top: calc(var(--step) * 2); }
   .toc-part a { color: var(--ink); font-weight: 500; }
 
-  @media (min-width: 96rem) {
+  @media (min-width: 101rem) {
     .page {
       display: grid;
-      grid-template-columns: 13rem 1fr;
+      grid-template-columns: 16rem 1fr;
       gap: calc(var(--step) * 6);
       align-items: start;
     }
@@ -241,7 +241,7 @@
     }
   }
 
-  @media (max-width: 95.99rem) {
+  @media (max-width: 100.99rem) {
     .toc {
       margin: 0 auto calc(var(--step) * 6);
       max-width: 78rem;

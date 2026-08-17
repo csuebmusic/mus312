@@ -147,7 +147,7 @@ Drawings render at the scale their box gives them, so a drawing sized for a grid
 
 A long page opens with `nav.toc` as the first child of `.page`, ahead of `.wrap`. Every `h1` and `h2` takes an id and appears in it. A lower heading takes one only where the page links to it.
 
-At 96rem and wider the index is a sticky 13rem column beside the content; below that it sits above the content in three columns, one column under 48rem. The content column stays 78rem at every width, so figure sizes hold.
+At 101rem and wider the index is a sticky 16rem column beside the content; below that it sits above the content in three columns, one column under 48rem. The content column stays 78rem at every width, so figure sizes hold, which is what sets the breakpoint: 16rem of index, a 3rem gap, 78rem of content, and 4rem of body padding.
 
 The section in view is marked with `.here`: the entry whose target last crossed a line a quarter of the way down the viewport, recomputed on scroll and resize through `requestAnimationFrame`.
 
