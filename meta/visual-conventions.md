@@ -112,6 +112,8 @@ Tables, the two-column contents list `.toc`, and the `.num` cell for figures and
 
 Layout primitives live in `assets/style.css`: `.panels` and its `uneven` and `three` modifiers, `.panel.centered` and `.panel.centered.wide`, and `.stack` for panels stacked inside one grid cell. A page's own `<style>` block holds only what that page draws.
 
+Both the stylesheet and the shared script take a `?v=N` query, bumped together whenever either changes.
+
 Interactive tools live in `tools/`. Each is one HTML file linking `assets/notation.js`, which holds note spelling, staff and clock geometry, the notehead tag, the chord type tables, the grand staff and single-staff renderers, and playback. A page aliases what it uses at the top of its own IIFE. Anything two tools need goes in the module rather than into a second copy.
 
 A section with a transposable figure is found by `data-scale`, not by id. Ids on a section belong to its heading.
