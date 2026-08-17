@@ -20,6 +20,8 @@ Student-facing prose follows the style rules in the profile and project instruct
 
 ## labels
 
+An applied chord is written with its target after a slash and a curved arrow to that target, whether or not the target follows.
+
 Roman numerals take the jazz flatted-degree convention: ♭3̂, ♭III.
 
 The cadential six-four is Cad6/4.
