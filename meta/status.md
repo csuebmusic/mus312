@@ -30,6 +30,8 @@ Packet due dates: 1 Aug 31, 2 Sep 9, 3 Sep 14, 4 Sep 21, 5 Sep 28, 6 Oct 5, 7 Oc
 
 Caplin page ranges per packet: 25–29, 67–72, 93–98, 117–122, 157–165, 186–194, 228–237, 253–258, 301–307, 344–352, 408–419, and 462–474 with 510–518.
 
+`tools/annotation-guide.html`: Caplin's annotation rules against a composed eight-bar sentence in C major, a two-bar basic idea stated and repeated over a tonic prolongation, then a continuation fragmenting into one-bar units and cadencing PAC. Quarters and halves only, so no beams are needed. Marks carry `data-rule`; pressing a rule lights every mark it governs, and a rule naming a layer lights the layer. Three layer switches, a numeral switch between Caplin and Laitz, and playback. The harmonic annotation guide runs as eighteen rule-and-specimen rows.
+
 The syllabus states the coursework in brief and points to guidelines distributed with the packets. Those guidelines are not written.
 
 Awaiting confirmation on the syllabus: the 70/30 split; whether the final analysis keeps its performance component, which is where SLO 4 currently sits; the prerequisite line, left out of the course table; and whether required materials are in fact distributed through Canvas or library reserve. The repertoire, work by work, is not in the schedule.

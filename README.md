@@ -16,6 +16,10 @@ Course information, important dates, the catalog description and learning outcom
 https://csuebmusic.github.io/mus312/tools/harmony-review.html
 Part 1, counting in semitones: the four scale types on a linked staff and clock, interval names, diatonic triads in major and all three minors, the chord builder, figured bass, inversions, nonchord tones. Part 2, harmonic progressions and functions: tonal syntax, the seven triads by function, the diatonic function chart, structural and prolongational harmony, the cadential six-four, the cadence types, the diatonic sequences. Part 3, chromatic harmony: applied dominant and applied leading-tone chords, extended tonicization, the augmented sixths and the Neapolitan, modal mixture, the master function and prolongation chart, and a guided analysis that draws one progression seven times. Part 4, modulation: tonicization against modulation, the three stages, destabilizing the tonic, the pivot chord, closely related keys and chromatic modulation.
 
+**annotation guide**
+https://csuebmusic.github.io/mus312/tools/annotation-guide.html
+Caplin's rules for annotating a score, shown at work on an eight-bar sentence composed for the purpose: formal brackets and phrase labels above, roman numerals with a cadential bracket and a boxed cadence below. Each rule lights the marks it governs, the annotation layers turn on and off, and the numerals switch between Caplin's uppercase system and the four-function labels this course uses. Alongside it, the eighteen entries of Caplin's Guide to Harmonic Annotation with a specimen of each mark.
+
 **chord finder**
 https://csuebmusic.github.io/mus312/tools/chord-finder.html
 Enter up to four notes from the bass up and read what they make: the stack of thirds with the semitone distance between each pair, the quality, the chord symbol, the note in the bass and its figure. Two notes give an interval. Set a tonic and a mode and the same chord comes back as a roman numeral with its function, whether it is diatonic, borrowed from the parallel mode, applied to another degree, or one of the chromatic pre-dominants.
