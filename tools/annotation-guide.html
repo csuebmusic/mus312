@@ -102,6 +102,20 @@
     line-height: 1.4;
   }
   .guide .mark .bold { font-weight: 500; }
+  .guide .mark .brace {
+    display: inline-block;
+    border-top: var(--line) solid var(--accent);
+    padding-top: 2px;
+  }
+  .guide .mark .beneath { display: block; text-align: center; }
+  .guide .mark .pivot {
+    display: inline-block;
+    border-left: var(--line) solid var(--accent);
+    padding-left: calc(var(--step) * 0.9);
+    line-height: 1.35;
+  }
+  .guide .mark .pivot > span { display: block; }
+  .guide .mark .pivot .paren { padding-left: calc(var(--step) * 1.6); }
   .guide .said { font-size: 0.92rem; }
   .guide .said em { color: var(--muted); font-style: normal; }
 
@@ -213,7 +227,7 @@
 
 </div>
 
-<script src="../assets/notation.js?v=6"></script>
+<script src="../assets/notation.js?v=7"></script>
 <script>
 (function () {
   "use strict";
@@ -552,24 +566,24 @@
 
   var GUIDE = [
     ["<span class=\"bold\">C:</span> &nbsp; <span class=\"bold\">c:</span>", "The key: bold and uppercase for major, bold and lowercase for minor."],
-    ["I &nbsp; IV &nbsp; V", "Caplin writes every numeral uppercase, whatever the chord's quality. This course writes quality into the case, so IV and ii6 rather than IV and II6."],
+    ["II &nbsp; VI &nbsp; VII", "Caplin writes every numeral uppercase whatever the chord's quality, so his II, VI, and VII are this course's ii, vi, and vii\u00B0."],
     ["I6 &nbsp; V4/2", "Inversions take figured-bass numbers after the numeral."],
     ["V(6-4 5-3)", "The cadential six-four is one harmony: a root-position dominant with its embellishments and their resolutions in parentheses. This course writes Cad6/4 \u2013 V."],
     ["I \u2013 6", "A change of inversion within one harmony does not repeat the numeral."],
     ["V6 \u2014\u2014\u2014", "A harmony held across a barline runs on as a line."],
-    ["It+6 &nbsp; Gr+6 &nbsp; Fr+6", "Augmented sixths take their national labels."],
+    ["It+6 &nbsp; Gr+6 &nbsp; Fr+6", "Augmented sixths take their national labels. This course writes the German one Ger+6."],
     ["V7 \u2192 ii", "An applied dominant takes an arrow to the harmony it tonicizes."],
     ["V7/ii", "Where the tonicized harmony is absent, a slash names it instead."],
-    ["\u23DE &nbsp; ii", "An extended tonicization takes a horizontal brace over the borrowed harmonies, with the tonicized degree beneath."],
+    ["<span class=\"brace\">V7 \u2013 I</span><span class=\"beneath\">ii</span>", "An extended tonicization takes a horizontal brace over the borrowed harmonies, with the tonicized degree beneath it."],
     ["I \u2013 (V) \u2013 I", "Harmonies subordinate to a prolongation go in parentheses."],
     ["\u230A ii6 \u2013 V \u2013 I \u230B", "The boundaries of a cadential progression take a horizontal square bracket. Where the progression is expanded, ECP after its first harmony replaces the bracket."],
-    ["I seq. \u2013 (\u2026) \u2013 IV", "A sequence takes seq. after its first harmony; the harmonies inside go in parentheses, the last one outside."],
+    ["I seq. \u2013 (VII6 \u2013 VI6 \u2013 V6) \u2013 IV", "A sequence takes seq. after its first harmony; the harmonies inside go in parentheses, the last one outside."],
     ["I ped. \u2013 (IV \u2013 V7) \u2013 I", "A pedal point takes ped., and everything above it goes in parentheses with no inversion figures."],
-    ["(n) &nbsp; (p)", "A weakly functional neighboring or passing chord is labeled n or p, in parentheses. This course labels prolongations N, P, CL, and arp."],
+    ["I \u2013 (n) \u2013 I &nbsp; I \u2013 (p) \u2013 I6", "A weakly functional neighboring or passing chord is labeled n or p, in parentheses. This course labels prolongations N, P, CL, and arp."],
     ["(\u00B07) &nbsp; (m7)", "A chord with no function takes its quality in parentheses in place of a numeral."],
     ["I \u2026", "An ellipsis marks where the harmonic analysis stops."],
     ["[ V ]", "Square brackets hold either a further level of subordination or an alternative reading."],
-    ["\u23A9 &nbsp; (V)", "A pivot-chord modulation takes a vertical brace, with the new key's relation to the old in parentheses beneath its name."]
+    ["<span class=\"pivot\"><span>C: &nbsp;vi</span><span>G: &nbsp;ii</span><span class=\"paren\">(V)</span></span>", "A pivot-chord modulation takes a vertical brace joining the chord's reading in each key, with the new key's relation to the old in parentheses beneath its name."]
   ];
 
   (function buildGuide() {
