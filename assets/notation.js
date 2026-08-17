@@ -317,143 +317,6 @@ var MUS = (function () {
     };
   }
 
-  /* ---------- engraving ---------- */
-
-  /* Glyphs and geometry for a figure that needs real rhythm: rests, flags,
-     dots, beams, slurs, articulation, dynamics. A staff space is 12 units and
-     a stem runs 42, which is three and a half spaces. */
-
-  var REST = { w: "\uE4E3", h: "\uE4E4", q: "\uE4E5", 8: "\uE4E6", 16: "\uE4E7" };
-  var FLAG = { up: { 8: "\uE240", 16: "\uE242", 32: "\uE244" },
-               down: { 8: "\uE241", 16: "\uE243", 32: "\uE245" } };
-  var DYNAMIC = { p: "\uE520", pp: "\uE52B", f: "\uE522", ff: "\uE52F",
-                  sf: "\uE524", sfz: "\uE524\uE52A", mp: "\uE52C", mf: "\uE52D" };
-  var FERMATA = "\uE4C0";
-  var CUT_TIME = "\uE08B";
-  var STEM_LEN = 42, HEAD_W = 14, SPACE = 12;
-
-  /* how many beams a duration takes */
-  var BEAMS = { 8: 1, 16: 2, 32: 3 };
-
-  function rest(svg, x, y, dur) {
-    return svg.appendChild(el("text", { x: x, y: y, "class": "rest" }, REST[dur]));
-  }
-
-  function dot(svg, x, y) {
-    return svg.appendChild(el("circle", { cx: x, cy: y, r: 2.2, "class": "dot" }));
-  }
-
-  function flag(svg, x, y, dur, up) {
-    if (!FLAG[up ? "up" : "down"][dur]) { return null; }
-    return svg.appendChild(el("text", {
-      x: up ? x + HEAD_W : x, y: up ? y - STEM_LEN : y + STEM_LEN, "class": "flag"
-    }, FLAG[up ? "up" : "down"][dur]));
-  }
-
-  function stem(svg, x, yTop, yBot, up) {
-    return svg.appendChild(el("line", {
-      x1: up ? x + HEAD_W : x, y1: up ? yBot : yTop,
-      x2: up ? x + HEAD_W : x, y2: up ? yTop - STEM_LEN : yBot + STEM_LEN,
-      "class": "stem"
-    }));
-  }
-
-  /* A beamed group: every note takes a stem to the beam, and the beam slopes
-     from the first note to the last, capped at one staff space. Secondary
-     beams run under the primary for the notes that need them. */
-  function beam(svg, notes, up) {
-    if (notes.length < 2) { return; }
-    var x1 = notes[0].x + (up ? HEAD_W : 0);
-    var x2 = notes[notes.length - 1].x + (up ? HEAD_W : 0);
-    var y1 = notes[0].y + (up ? -STEM_LEN : STEM_LEN);
-    var y2 = notes[notes.length - 1].y + (up ? -STEM_LEN : STEM_LEN);
-    var slope = (y2 - y1) / (x2 - x1);
-    if (Math.abs(y2 - y1) > SPACE) {
-      var capped = (y2 > y1 ? SPACE : -SPACE);
-      y2 = y1 + capped;
-      slope = capped / (x2 - x1);
-    }
-    /* every stem reaches the beam line */
-    notes.forEach(function (n) {
-      var bx = n.x + (up ? HEAD_W : 0);
-      var by = y1 + slope * (bx - x1);
-      svg.appendChild(el("line", {
-        x1: bx, y1: n.y, x2: bx, y2: by, "class": "stem"
-      }));
-    });
-    var thick = 4, gap = 7;
-    var level;
-    for (level = 0; level < 3; level++) {
-      var runs = [], run = null, i;
-      for (i = 0; i < notes.length; i++) {
-        if (BEAMS[notes[i].dur] > level) {
-          if (!run) { run = [i, i]; } else { run[1] = i; }
-        } else if (run) { runs.push(run); run = null; }
-      }
-      if (run) { runs.push(run); }
-      runs.forEach(function (r) {
-        var ax = notes[r[0]].x + (up ? HEAD_W : 0);
-        var bx = notes[r[1]].x + (up ? HEAD_W : 0);
-        if (r[0] === r[1]) {
-          /* a lone shorter value takes a stub pointing back into the group */
-          if (r[0] === 0) { bx = ax + 11; } else { ax = bx - 11; }
-        }
-        var off = (up ? 1 : -1) * level * gap;
-        var ay = y1 + slope * (ax - x1) + off;
-        var by = y1 + slope * (bx - x1) + off;
-        var t = up ? thick : -thick;
-        svg.appendChild(el("path", {
-          d: "M " + ax + " " + ay + " L " + bx + " " + by +
-             " L " + bx + " " + (by + t) + " L " + ax + " " + (ay + t) + " z",
-          "class": "beam"
-        }));
-      });
-    }
-  }
-
-  /* the bracket and numeral over a tuplet */
-  function tuplet(svg, x1, x2, y, n) {
-    svg.appendChild(el("text", {
-      x: (x1 + x2) / 2, y: y, "class": "tuplet"
-    }, String(n)));
-  }
-
-  /* a slur from one point to another, bowed away from the noteheads */
-  function slur(svg, x1, y1, x2, y2, over) {
-    var mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
-    var bow = Math.min(26, 8 + Math.abs(x2 - x1) * 0.09) * (over ? -1 : 1);
-    return svg.appendChild(el("path", {
-      d: "M " + x1 + " " + y1 + " Q " + mx + " " + (my + bow) + " " + x2 + " " + y2,
-      "class": "slur"
-    }));
-  }
-
-  function staccato(svg, x, y, up) {
-    return svg.appendChild(el("circle", {
-      cx: x + (up ? HEAD_W / 2 : HEAD_W / 2), cy: y + (up ? 11 : -11),
-      r: 1.8, "class": "artic"
-    }));
-  }
-
-  function dynamic(svg, x, y, name) {
-    return svg.appendChild(el("text", { x: x, y: y, "class": "dynamic" },
-      DYNAMIC[name] || name));
-  }
-
-  function hairpin(svg, x1, x2, y, open) {
-    var h = 5;
-    var d = open
-      ? "M " + x1 + " " + y + " L " + x2 + " " + (y - h) +
-        " M " + x1 + " " + y + " L " + x2 + " " + (y + h)
-      : "M " + x1 + " " + (y - h) + " L " + x2 + " " + y +
-        " M " + x1 + " " + (y + h) + " L " + x2 + " " + y;
-    return svg.appendChild(el("path", { d: d, "class": "hairpin" }));
-  }
-
-  function fermata(svg, x, y) {
-    return svg.appendChild(el("text", { x: x, y: y, "class": "clef" }, FERMATA));
-  }
-
   /* ---------- sound ---------- */
 
   /* Playback reads the staff rather than a second copy of the music: every
@@ -629,38 +492,35 @@ var MUS = (function () {
 
   /* Both staves, both clefs, the opening barline, and a flat key signature.
      Returns the signature as a map from letter index to alteration. */
-  /* `dy` moves a whole system down the page, so a figure can stack more than
-     one. It defaults to zero, which is where every single-system figure sits. */
-  function grandStaff(svg, flats, dy) {
-    dy = dy || 0;
+  function grandStaff(svg, flats) {
     register(svg);
-    [GS.trebleTop + dy, GS.bassTop + dy].forEach(function (topY) {
+    [GS.trebleTop, GS.bassTop].forEach(function (topY) {
       for (var L = 0; L < 5; L++) {
         svg.appendChild(el("line", {
           x1: 10, y1: topY + 12 * L, x2: 10, y2: topY + 12 * L, "class": "staff-line"
         }));
       }
     });
-    svg.appendChild(el("text", { x: 18, y: GS.trebleBottom + dy - 12, "class": "clef" }, "\uE050"));
-    svg.appendChild(el("text", { x: 18, y: GS.bassBottom + dy - 36, "class": "clef" }, "\uE062"));
+    svg.appendChild(el("text", { x: 18, y: GS.trebleBottom - 12, "class": "clef" }, "\uE050"));
+    svg.appendChild(el("text", { x: 18, y: GS.bassBottom - 36, "class": "clef" }, "\uE062"));
     svg.appendChild(el("line", {
-      x1: 10, y1: GS.trebleTop + dy, x2: 10, y2: GS.bassBottom + dy, "class": "staff-line"
+      x1: 10, y1: GS.trebleTop, x2: 10, y2: GS.bassBottom, "class": "staff-line"
     }));
     var sig = {};
     for (var b = 0; b < (flats || 0); b++) {
       sig[FLAT_ORDER[b]] = -1;
       svg.appendChild(el("text", {
-        x: 46 + 13 * b, y: GS.trebleBottom + dy - 6 * FLAT_STEPS[b], "class": "keysig"
+        x: 46 + 13 * b, y: GS.trebleBottom - 6 * FLAT_STEPS[b], "class": "keysig"
       }, KEYSIG_GLYPH.flat));
       svg.appendChild(el("text", {
-        x: 46 + 13 * b, y: GS.bassBottom + dy - 6 * (FLAT_STEPS[b] - 2), "class": "keysig"
+        x: 46 + 13 * b, y: GS.bassBottom - 6 * (FLAT_STEPS[b] - 2), "class": "keysig"
       }, KEYSIG_GLYPH.flat));
     }
     return sig;
   }
 
-  function gsY(note, which, dy) {
-    var bottomY = (which === "b" ? GS.bassBottom : GS.trebleBottom) + (dy || 0);
+  function gsY(note, which) {
+    var bottomY = which === "b" ? GS.bassBottom : GS.trebleBottom;
     var ref = which === "b" ? GS.bassRef : GS.trebleRef;
     return bottomY - 6 * (noteDia(note) - ref);
   }
@@ -669,7 +529,7 @@ var MUS = (function () {
      signature is given and does not already supply it. */
   function gsNote(svg, x, note, which, opt) {
     opt = opt || {};
-    var bottomY = (which === "b" ? GS.bassBottom : GS.trebleBottom) + (opt.dy || 0);
+    var bottomY = which === "b" ? GS.bassBottom : GS.trebleBottom;
     var ref = which === "b" ? GS.bassRef : GS.trebleRef;
     var step = noteDia(note) - ref, y = bottomY - 6 * step;
     ledgers(svg, x, step, bottomY);
@@ -844,11 +704,6 @@ var MUS = (function () {
     pitchHz: pitchHz,
     GS: GS,
     grandStaff: grandStaff,
-    REST: REST, FLAG: FLAG, DYNAMIC: DYNAMIC, CUT_TIME: CUT_TIME,
-    STEM_LEN: STEM_LEN, HEAD_W: HEAD_W, SPACE: SPACE,
-    rest: rest, dot: dot, flag: flag, stem: stem, beam: beam, tuplet: tuplet,
-    slur: slur, staccato: staccato, dynamic: dynamic, hairpin: hairpin,
-    fermata: fermata,
     gsY: gsY,
     gsNote: gsNote,
     stepOf: stepOf,
