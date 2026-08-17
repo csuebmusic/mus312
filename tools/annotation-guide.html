@@ -259,10 +259,12 @@
     <p class="full">Two short passages, annotated in this course's notation.</p>
 
     <h3>prolongation, a sequence, and two cadences</h3>
-    <svg id="ex-a" viewBox="0 0 1600 380" role="img" aria-label="An eight-bar period in C major annotated with roman numerals, a neighbouring and a passing chord in parentheses, a change of inversion, a sequence, and a boxed half cadence and imperfect authentic cadence"></svg>
+    <svg id="ex-a" viewBox="0 0 1600 380" role="img" aria-label="An eight-bar period in C major in four voices, annotated with roman numerals, a neighbouring and a passing chord in parentheses, a change of inversion, a sequence, and a boxed half cadence and imperfect authentic cadence"></svg>
+    <div class="controls" id="controls-ex-a"></div>
 
     <h3>applied chords and a modulation</h3>
-    <svg id="ex-b" viewBox="0 0 1600 420" role="img" aria-label="An eight-bar phrase modulating from C major to G major, annotated with an applied dominant and its arrow, the slash form of an applied chord, an extended tonicization under a brace, and a pivot chord read in both keys"></svg>
+    <svg id="ex-b" viewBox="0 0 1600 420" role="img" aria-label="An eight-bar phrase modulating from C major to G major in four voices, annotated with an applied dominant and its arrow, the slash form of an applied chord, an extended tonicization under a brace, and a pivot chord read in both keys"></svg>
+    <div class="controls" id="controls-ex-b"></div>
 
   </section>
 
@@ -272,7 +274,7 @@
 
 </div>
 
-<script src="../assets/notation.js?v=19"></script>
+<script src="../assets/notation.js?v=20"></script>
 <script>
 (function () {
   "use strict";
@@ -651,14 +653,15 @@
 
     cfg.events.forEach(function (ev) {
       var x = hx(ev[0], ev[1]);
+      var beat = (ev[0] - 1) * 4 + ev[1] * 2;
       var by = gsNote(svg, x, ev[2], "b", {
-        head: "\uE0A3", dur: 2, beat: ev[0] * 2 + ev[1], sig: sig
+        head: "\uE0A3", dur: 2, beat: beat, sig: sig
       });
       svg.appendChild(el("line", {
         x1: x + 14, y1: by, x2: x + 14, y2: by - 42, "class": "stem"
       }));
       var ys = ev[3].map(function (n) {
-        return gsNote(svg, x, n, "t", { head: "\uE0A3", dur: 2, beat: ev[0] * 2 + ev[1], sig: sig });
+        return gsNote(svg, x, n, "t", { head: "\uE0A3", dur: 2, beat: beat, sig: sig });
       });
       svg.appendChild(el("line", {
         x1: x, y1: Math.min.apply(null, ys), x2: x,
@@ -757,7 +760,22 @@
     });
   }
 
-  Object.keys(PASSAGES).forEach(drawPassage);
+  Object.keys(PASSAGES).forEach(function (id) {
+    drawPassage(id);
+    var svg = document.getElementById(id);
+    var host = document.getElementById("controls-" + id);
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "play";
+    b.setAttribute("aria-pressed", "false");
+    b.setAttribute("aria-label", "play this passage");
+    b.appendChild(document.createTextNode("play"));
+    b.addEventListener("click", function () {
+      if (b.getAttribute("aria-pressed") === "true") { stopPlaying(); }
+      else { playFigure(svg, b); }
+    });
+    host.appendChild(b);
+  });
 
   /* ---------- the rules, in Caplin's words made brief ---------- */
 
