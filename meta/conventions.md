@@ -46,6 +46,8 @@ A cadence bracket covers the dominant and its target at an authentic cadence, an
 
 ## assessment
 
+Twelve homework packets weighted equally at 70 percent, the final analysis at 30 percent. Performing a passage from the movement analyzed, in the final exam slot, earns extra credit. That performance is where SLO 4 is met.
+
 The department's 0 to 4 grade-point scale. The score is the GPA.
 
 Late work loses 2 percent per day past the due date, any part of a day counting as a day, to a floor of 50 percent. Canvas takes percentages only.

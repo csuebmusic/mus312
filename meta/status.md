@@ -37,16 +37,4 @@ The compiled PDF is 120 pages, a cover then twelve packets each opening on a div
 
 ## open
 
-Assessment weights are mine, not confirmed: twelve packets at 70% weighted equally, final analysis 30%.
-
-Whether the final analysis keeps its performance component. SLO 4 has no other home on the syllabus.
-
-The prerequisite line, left out of the course table for want of the earlier course number.
-
-Whether the texts are in fact distributed through Canvas or on library reserve, as required materials states.
-
-The repertoire, work by work, is not in the schedule. The catalog description names variation, rondo, and slow-movement forms; the schedule covers none of them.
-
-Guidelines for the packets and the final analysis are not written. The syllabus points to them.
-
-The annotation guide documents eight marks it does not show: pedal point, the Neapolitan, augmented sixths, quality in place of a numeral, square brackets, the ellipsis, ECP, and IAC.
+Guidelines for the packets and the final analysis are not written. The syllabus points to them. They state what is handed in, how a score is annotated, and how the work is assessed, and they set the length of the final analysis and the extra credit for performing from it.
