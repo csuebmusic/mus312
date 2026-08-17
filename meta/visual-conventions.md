@@ -121,7 +121,7 @@ Student-facing pages are hand-authored HTML linking `assets/style.css` with a `?
 
 Pages are self-contained: no build step, no runtime dependency, no external request. SVG is written inline so the variables resolve. Page-specific CSS sits in a `<style>` block in the page and uses the variables above.
 
-Tables, the two-column contents list `.toc`, and the `.num` cell for figures and dates live in `assets/style.css`. A table's row labels are `th` in `tbody`.
+Tables, the two-column contents list `.toc`, and the `.num` cell for figures and dates live in `assets/style.css`. A table's row labels are `th` in `tbody`. A page whose index is a sidebar rather than that list resets the shared width, indent, margin, and column count in its own base `.toc` rule, before its own media queries.
 
 Layout primitives live in `assets/style.css`: `.panels` and its `uneven` and `three` modifiers, `.panel.centered` and `.panel.centered.wide`, and `.stack` for panels stacked inside one grid cell. A page's own `<style>` block holds only what that page draws.
 

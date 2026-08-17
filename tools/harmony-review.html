@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mus 312 harmony review</title>
-<link rel="stylesheet" href="../assets/style.css?v=10">
+<link rel="stylesheet" href="../assets/style.css?v=11">
 <style>
   /* vertical rhythm: spacing comes from margin-top inside a section,
      so adjacent margins never compete */
@@ -192,7 +192,17 @@
 
   .page { max-width: 94rem; margin: 0 auto; }
 
-  .toc { font-family: var(--font-data); font-size: 13px; line-height: 1.5; }
+  /* the shared sheet styles .toc as the syllabus's two-column list; this one
+     is a sidebar, so it takes its own width, indent, and column count back */
+  .toc {
+    font-family: var(--font-data);
+    font-size: 13px;
+    line-height: 1.5;
+    columns: 1;
+    max-width: none;
+    margin: 0;
+    padding-left: 0;
+  }
   .toc-head {
     font-size: 11px;
     letter-spacing: 0.08em;
