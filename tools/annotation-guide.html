@@ -73,33 +73,34 @@
   .rules {
     max-width: none;
     margin: 0;
-    padding: 0;
-    list-style: none;
+    padding-left: calc(var(--step) * 2.5);
     columns: 2;
-    column-gap: calc(var(--step) * 4);
+    column-gap: calc(var(--step) * 5);
   }
-  .rules li { break-inside: avoid; }
-  .rules li { margin: 0 0 calc(var(--step) * 1.5); }
+  .rules li {
+    break-inside: avoid;
+    margin-bottom: calc(var(--step) * 1.5);
+  }
   .rules button {
-    display: block;
-    width: 100%;
+    display: inline;
     text-align: left;
     font-family: var(--font-body);
-    font-size: 0.92rem;
+    font-size: 0.95rem;
     letter-spacing: 0;
-    line-height: 1.45;
-    padding: calc(var(--step) * 1.2) calc(var(--step) * 1.6);
+    line-height: 1.5;
+    color: var(--ink);
+    background: none;
+    border: 0;
+    padding: 0;
   }
-  .rules .tag {
-    display: block;
-    font-family: var(--font-data);
-    font-size: 0.66rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: calc(var(--step) * 0.5);
+  .rules button:hover { background: none; color: var(--accent); }
+  .rules button[aria-pressed="true"] {
+    background: none;
+    color: var(--accent);
   }
-  .rules button[aria-pressed="true"] .tag { color: var(--paper); }
+  .rules button[aria-pressed="true"] .tag { color: var(--accent); }
+  .rules li.on::marker { color: var(--accent); }
+  .rules .tag { font-weight: 600; }
 
   .guide { max-width: none; margin: 0; padding: 0; list-style: none; }
   .guide.two {
@@ -167,7 +168,7 @@
 
   <p class="lede full">Caplin sets out how an analysis is written onto a score: what goes above the staff, what goes below, and which marks carry which meaning. The eight bars here are annotated by those rules. Turn a layer off to see what the score looks like without it, and press a rule to find its mark.</p>
 
-  <p class="howto">Press any rule on the left to light the marks it governs. The switches turn the four layers on and off. Both notations are given: this course's on the upper row, Caplin's below it, which in a minor key differs on almost every chord.</p>
+  <p class="howto">Press any rule to light the marks it governs. The switches turn the four layers on and off. Both notations are given: this course's on the upper row, Caplin's below it, which in a minor key differs on almost every chord.</p>
 
 <section class="panel">
     <h2>a sentence in minor</h2>
@@ -266,7 +267,7 @@
 
 </div>
 
-<script src="../assets/notation.js?v=8"></script>
+<script src="../assets/notation.js?v=9"></script>
 <script>
 (function () {
   "use strict";
@@ -764,7 +765,7 @@
       b.type = "button";
       b.setAttribute("aria-pressed", "false");
       tag.className = "tag";
-      tag.appendChild(document.createTextNode(r[1]));
+      tag.appendChild(document.createTextNode(r[1] + ". "));
       b.appendChild(tag);
       b.appendChild(document.createTextNode(r[2]));
       b.addEventListener("click", function () {
@@ -772,9 +773,11 @@
         Array.prototype.forEach.call(
           document.querySelectorAll(".rules button"), function (o) {
             o.setAttribute("aria-pressed", "false");
+            o.parentNode.classList.remove("on");
           });
         if (on) { light(null); return; }
         b.setAttribute("aria-pressed", "true");
+        li.classList.add("on");
         light(r[0]);
       });
       li.appendChild(b);
