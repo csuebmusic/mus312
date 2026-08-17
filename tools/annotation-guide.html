@@ -274,7 +274,7 @@
 
 </div>
 
-<script src="../assets/notation.js?v=21"></script>
+<script src="../assets/notation.js?v=22"></script>
 <script>
 (function () {
   "use strict";
@@ -561,7 +561,7 @@
   /* Harmony only. Each bar holds two half-note chords, a bass note under a
      treble dyad, and every mark in the guide appears on one of the three. */
 
-  var HX0 = 120, HW = 176, HBEAT = 74;
+  var HX0 = 120, HW = 176, HBEAT = 74, HEAD_W = 14;
   var HY_ROMAN = 262, HY_BOX = 300, HY_LEVEL = 336, HY_LEVEL3 = 372;
 
   function hx(bar, half) { return HX0 + (bar - 1) * HW + half * HBEAT; }
@@ -660,8 +660,12 @@
       svg.appendChild(el("line", {
         x1: x + 14, y1: by, x2: x + 14, y2: by - 42, "class": "stem"
       }));
+      /* the stems run down, so the lower note of a second sits left of the stem */
+      var shift = MUS.secondsShift(ev[3], -HEAD_W, 0).shift;
       var ys = ev[3].map(function (n) {
-        return gsNote(svg, x, n, "t", { head: "\uE0A3", dur: 2, beat: beat, sig: sig });
+        return gsNote(svg, x + (shift[n] || 0), n, "t", {
+          head: "\uE0A3", dur: 2, beat: beat, sig: sig, accX: x
+        });
       });
       svg.appendChild(el("line", {
         x1: x, y1: Math.min.apply(null, ys), x2: x,
