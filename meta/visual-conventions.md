@@ -27,7 +27,7 @@ Colors are addressed through these variables. Component CSS uses no hex values.
 
 All three are self-hosted woff2 in `assets/fonts/`, under the SIL Open Font License. License files sit beside them. Pages that use notation credit Bravura and Plex in the footer.
 
-Headings are lowercase and set in the body face at 600.
+Headings are lowercase and set in the body face at 600. The stylesheet lowercases them, so a roman numeral, a pitch letter, or a proper noun in a heading takes `<span class="caps">`.
 
 ## notation
 
@@ -71,6 +71,8 @@ A note name is `C4`, `F#3`, `Eb5`. `noteDia` turns one into a diatonic index, `n
 
 Grand-staff figures use `assets/notation.js`: `grandStaff(svg, flats)` draws both staves, both clefs, the opening barline, and a flat key signature, returning the signature as a map; `gsNote(svg, x, note, which, opt)` draws one notehead with its ledger lines, taking `sig`, `accX`, `lit`, and `head`; `gsY(note, which)` returns a vertical position. `which` is `"t"` or `"b"`. Single-staff figures outside part 1 use `staff(svg)` and `chord(g, x, notes, hot, cool)`. Do not write a second copy of any of these.
 
+A harmonic example written for a page is set in four voices, a bass note under three in the right hand.
+
 Two chord tones a second apart are displaced by `secondsShift(notes, low, high)`. It pairs from the top down, leaves a note already displaced where it is, and returns the notes low to high with a map from note name to shift. `accX` keeps the undisplaced column, so the accidental and the playback grouping still read the chord as one.
 
 Which note moves depends on the stem. Where a chord has no stem the upper note moves right; where the stem runs down the lower note moves left across it.
@@ -90,9 +92,9 @@ Single-staff figures in part 1 keep their own geometry.
 
 ## analytical levels
 
-The first level names every sonority. A second level below it names the function of each span: T, M, PD, or D set at the head of the span with an accent line running to its end. A third level, where a passage takes one, sits below the second and reads the same way.
+A second level sits below the numerals, its label set at the head of each span with an accent line running to the span's end. A third level, where a passage takes one, sits below the second and reads the same way. What the labels mean is in `meta/conventions.md`.
 
-A cadence bracket and its boxed label belong to the level of numerals they annotate and move with it.
+A cadence bracket and its boxed label belong to the row of numerals they annotate and move with it.
 
 ## sound
 
@@ -131,15 +133,7 @@ Interactive tools live in `tools/`. Each is one HTML file linking `assets/notati
 
 A section with a transposable figure is found by `data-scale`, not by id. Ids on a section belong to its heading.
 
-A panel that stands alone rather than in a grid takes `.panel.centered`, which caps it at the width of one cell in the two-column grid and centers it:
-
-```css
-.panel.centered {
-  max-width: calc((78rem - var(--step) * 5) / 2);
-  margin-left: auto;
-  margin-right: auto;
-}
-```
+A panel that stands alone rather than in a grid takes `.panel.centered`, which caps it at the width of one cell in the two-column grid and centers it.
 
 Drawings render at the scale their box gives them, so a drawing sized for a gridded panel doubles in a full-width one. Cap the box, not the drawing.
 
@@ -160,5 +154,3 @@ Focus is visible: a 2px accent outline at 2px offset.
 Prose above and below a panel pair takes `.full`. Prose inside a panel keeps the default measure.
 
 Motion is a single transform or opacity transition, 300ms to 800ms, on a `cubic-bezier(0.4, 0, 0.2, 1)` curve. `prefers-reduced-motion: reduce` collapses all of it.
-
-Headings are lowercased by the stylesheet. Wrap a roman numeral, a pitch letter, or a proper noun in `<span class="caps">` to keep its case.

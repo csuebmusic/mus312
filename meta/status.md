@@ -2,44 +2,51 @@
 
 ## built
 
+`syllabus.html`. Course information, dates, description and outcomes, assessment and the grade scale, the coursework, the tools, the AI policy, the schedule, policies, campus statements.
+
+`tools/harmony-review.html`. Four parts: counting in semitones, progressions and functions, chromatic harmony, modulation. 78 figures, 54 of them with playback.
+
+`tools/chord-finder.html`. Up to four spelled notes in, the stack of thirds and its intervals out, read again as a roman numeral once a key is set.
+
+`tools/annotation-guide.html`. Caplin's annotation rules on a C minor sentence in four layers, both notations at once; this course's numerals degree by degree; his Guide to Harmonic Annotation in full; two four-voice passages.
+
+`assets/notation.js`, shared by all three tools. `assets/style.css` and self-hosted fonts.
+
 `meta/outline.md`, the sixteen-week schedule.
 
-`tools/harmony-review.html`, four parts in one file.
+## homework packets
 
-Part 1, counting in semitones: the four scale types on linked staff and clock, interval names, diatonic triads in major and all three minors, the chord builder, figured bass, inversions, nonchord tones.
+Twelve, one per chapter of Caplin read, each due at the start of the first meeting on the next chapter, on paper. Chapters 9 and 10 share packet 9; chapters 13 and 14 share packet 12. Students hand in the Examples for Analysis, work the review questions against Caplin's companion website without handing them in, and are not assigned Model Composition.
 
-Part 2, harmonic progressions and functions: tonal syntax, the seven triads by function in major and minor, the diatonic function chart, structural and prolongational diatonic harmony with two worked phrases, the cadential six-four, six cadence types, the six diatonic sequences with a worked phrase.
+| packet | due | Caplin |
+|---|---|---|
+| 1 | Aug 31 | 25–29 |
+| 2 | Sep 9 | 67–72 |
+| 3 | Sep 14 | 93–98 |
+| 4 | Sep 21 | 117–122 |
+| 5 | Sep 28 | 157–165 |
+| 6 | Oct 5 | 186–194 |
+| 7 | Oct 12 | 228–237 |
+| 8 | Oct 19 | 253–258 |
+| 9 | Oct 26 | 301–307 |
+| 10 | Nov 2 | 344–352 |
+| 11 | Nov 9 | 408–419 |
+| 12 | Nov 30 | 462–474, 510–518 |
 
-Part 3, chromatic harmony: applied dominant chords, the five applied dominants of C major in four voices; function and applied chords, embedded phrase models and extended tonicization with the jazz ii–V–I filling the dominant space; applied leading-tone chords, the four chords built on 7̂ in major and minor with their sensitive tones resolved, then the five applied leading-tone chords of C major in four voices; chromatic pre-dominants, the three augmented sixths on single staves with their resolutions and the Neapolitan sixth in four voices with its voice leading marked; the master function and prolongation chart, modal mixture melodic and harmonic with the voice leading for altered tones, and one chart with every chord in both modes and the chromatic pre-dominants across the top with a prolongation panel hanging under each function; quality informs function, a guided analysis, one eight-chord progression drawn seven times, each state adding the next layer from bare notes to a second-level reading.
+The compiled PDF is 120 pages, a cover then twelve packets each opening on a divider. Distributed through Canvas, not the public site.
 
-Part 4, modulation: tonicization against extended tonicization against modulation; modulation as a classical development; the three stages; destabilizing the tonic three ways, the added seventh, the borrowed third, and the tonic passed through in inversion; the pivot chord, an eight-chord keyboard-style phrase from C major to G major with vi6 boxed and read again as ii6/V, the returning C major triad marked as IV/V, and the cadence in the new key bracketed; closely related keys and chromatic modulation, two grids of roman numerals read down the columns.
+## open
 
-Playback: 54 of the 62 figures with pitches on them have a play button, the eight left out being the six later states of the guided analysis and the two annotated figured-bass repeats. Sound is synthesized from the noteheads through the Web Audio API.
+Assessment weights are mine, not confirmed: twelve packets at 70% weighted equally, final analysis 30%.
 
-`assets/notation.js`, shared by every tool.
+Whether the final analysis keeps its performance component. SLO 4 has no other home on the syllabus.
 
-`tools/chord-finder.html`: up to four spelled notes entered from the bass up, written on a staff and marked on the clock with the semitone distance between adjacent members, the closing span to the bass left undrawn; the stack of thirds with its distances, the quality, the chord symbol, the bass note and its figure; the interval name for two notes. A tonic and mode picker reads the same chord in a key: the roman numeral and its function, in this order of test, diatonic, borrowed from the parallel mode, applied dominant or applied leading-tone chord taking its target's function, then the three augmented sixths and the Neapolitan. The minor v and ♭VII are reported as standing outside the four functions.
+The prerequisite line, left out of the course table for want of the earlier course number.
 
-`syllabus.html`, at the repo root. Course information, important dates, the catalog description and learning outcomes, assessment and the grade scale, the coursework, the tools, the AI policy, the schedule, policies, and the campus statements. General sections follow the MUS 601 syllabus.
+Whether the texts are in fact distributed through Canvas or on library reserve, as required materials states.
 
-Assessment: twelve homework packets weighted equally at 70%, final analysis 30%.
+The repertoire, work by work, is not in the schedule. The catalog description names variation, rondo, and slow-movement forms; the schedule covers none of them.
 
-The twelve homework packets are the end-of-chapter material from Caplin, one packet per chapter read, each due at the start of the first meeting on the next chapter, on paper. Chapters 9 and 10 share packet 9; chapters 13 and 14 share packet 12. Students hand in the Examples for Analysis, work the review questions against Caplin's companion website without handing them in, and are not assigned Model Composition. The compiled PDF is 120 pages: a cover, then twelve packets each opening on a divider page. It is distributed through Canvas rather than the public site.
+Guidelines for the packets and the final analysis are not written. The syllabus points to them.
 
-Packet due dates: 1 Aug 31, 2 Sep 9, 3 Sep 14, 4 Sep 21, 5 Sep 28, 6 Oct 5, 7 Oct 12, 8 Oct 19, 9 Oct 26, 10 Nov 2, 11 Nov 9, 12 Nov 30.
-
-Caplin page ranges per packet: 25–29, 67–72, 93–98, 117–122, 157–165, 186–194, 228–237, 253–258, 301–307, 344–352, 408–419, and 462–474 with 510–518.
-
-`tools/annotation-guide.html`: Caplin's annotation rules against a composed eight-bar sentence in C minor. Four layers: form, this course's roman numerals, Caplin's roman numerals, and figured bass. Both notations show at once on their own rows, each with its own cadence bracket and boxed cadence. Marks take `data-rule`; pressing a rule lights every mark it governs, and the two band rules light every mark in their layers.
-
-Page order: the annotated sentence, reading a numeral in this course, the rules across the panel, the guide in two columns, then the passages.
-
-Ten rules on the left, each lighting the marks it governs, with Caplin's one instruction that leaves no mark set below them. The guide runs as nineteen rule-and-specimen rows, covering all thirteen entries of his printed guide.
-
-Two four-voice passages carry the marks the sentence cannot: a period in C major with a neighbouring and a passing chord, a change of inversion, a sequence, and a boxed HC and PAC; and a phrase modulating to G with an applied chord and its curved arrow, an extended tonicization under a brace, a pivot read in both keys, and three analytical levels. They take no toggles and no form layer. Both are clean on parallels, leaps, crossings, and spacing.
-
-Marks with no worked instance, documented in the guide but not shown on any figure: pedal point, the Neapolitan, augmented sixths, quality in place of a numeral, square brackets, the ellipsis, ECP, and IAC. The chromatic passage that carried them is in history at bfe73c5.
-
-The syllabus states the coursework in brief and points to guidelines distributed with the packets. Those guidelines are not written.
-
-Awaiting confirmation on the syllabus: the 70/30 split; whether the final analysis keeps its performance component, which is where SLO 4 currently sits; the prerequisite line, left out of the course table; and whether required materials are in fact distributed through Canvas or library reserve. The repertoire, work by work, is not in the schedule.
+The annotation guide documents eight marks it does not show: pedal point, the Neapolitan, augmented sixths, quality in place of a numeral, square brackets, the ellipsis, ECP, and IAC.

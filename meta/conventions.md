@@ -2,6 +2,8 @@
 
 ## terminology
 
+Caplin, *Analyzing Classical Form*, chapter 1 and Parts I and II, is the main text. Hepokoski and Darcy, *Elements of Sonata Theory*, covers sonata form. Laitz and Bartlette, *The Graduate Review of Tonal Theory*, covers the review, chromatic harmony, and the form topics outside Caplin.
+
 Sonata-form terminology follows Hepokoski and Darcy.
 
 Harmonic function follows Laitz: four functions, tonic, mediant, pre-dominant, dominant. Where Caplin differs, student-facing material names his reading alongside. Caplin counts three functions, placing vi with the tonic and treating iii as a dominant substitute.
@@ -25,12 +27,6 @@ The cadential six-four is Cad6/4.
 Second-level analysis names the function of each span: T, M, PD, D. Prolongations inside a span are labelled by what they do: N neighbor, P passing, CL chordal leap, arp arpeggiation.
 
 A cadence bracket covers the dominant and its target at an authentic cadence, and the pre-dominant and the dominant at a half cadence. Caplin brackets the whole cadential progression; where both notations appear, each takes its own bracket.
-
-Harmonic examples written for a page are set in four voices, a bass note under three in the right hand.
-
-## texts
-
-Caplin, *Analyzing Classical Form*, chapter 1 and Parts I and II. Hepokoski and Darcy, *Elements of Sonata Theory*, for sonata form. Laitz and Bartlette, *The Graduate Review of Tonal Theory*, for review, chromatic harmony, and the form topics outside Caplin.
 
 ## assessment
 
