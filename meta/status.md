@@ -22,4 +22,12 @@ Playback: 54 of the 62 figures with pitches on them carry a play button, the eig
 
 `syllabus.html`, at the repo root. Course information, important dates, the catalog description and learning outcomes, assessment and the grade scale, the coursework, the tools, the AI policy, the schedule, policies, and the campus statements. General sections follow the MUS 601 syllabus.
 
-Awaiting confirmation on the syllabus: the assessment weights and the counts behind them (six problem sets at 5%, four analyses at 10%, final project at 30%); the shape of the final project and its performance component; the prerequisite line, left out of the course table; and whether required materials are in fact distributed through Canvas or library reserve. The repertoire, work by work, is not in the schedule.
+Assessment: twelve homework packets weighted equally at 70%, final analysis 30%.
+
+The twelve homework packets are the end-of-chapter material from Caplin, one packet per chapter read, each due at the start of the first meeting on the next chapter, on paper. Chapters 9 and 10 share packet 9; chapters 13 and 14 share packet 12. Students hand in the Examples for Analysis, work the review questions against Caplin's companion website without handing them in, and are not assigned Model Composition. The compiled PDF is 120 pages: a cover, then twelve packets each opening on a divider page. It is distributed through Canvas rather than the public site.
+
+Packet due dates: 1 Aug 31, 2 Sep 9, 3 Sep 14, 4 Sep 21, 5 Sep 28, 6 Oct 5, 7 Oct 12, 8 Oct 19, 9 Oct 26, 10 Nov 2, 11 Nov 9, 12 Nov 30.
+
+Caplin page ranges per packet: 25–29, 67–72, 93–98, 117–122, 157–165, 186–194, 228–237, 253–258, 301–307, 344–352, 408–419, and 462–474 with 510–518.
+
+Awaiting confirmation on the syllabus: the 70/30 split; whether the final analysis keeps its performance component, which is where SLO 4 currently sits; the prerequisite line, left out of the course table; and whether required materials are in fact distributed through Canvas or library reserve. The repertoire, work by work, is not in the schedule.
