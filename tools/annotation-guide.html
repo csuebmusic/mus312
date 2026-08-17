@@ -24,6 +24,14 @@
     text-anchor: middle;
   }
   .figline { stroke: var(--ink); stroke-width: 1; }
+  .roman.mid { text-anchor: middle; }
+  .roman.alt { fill: var(--muted); font-size: 13px; }
+  .applied-arrow, .ext-brace, .pivot-brace {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.2;
+  }
+  .pivotrel { font-family: var(--font-data); font-size: 12px; fill: var(--muted); }
   .figline.lit { stroke: var(--accent); }
   .rowtag {
     font-family: var(--font-data);
@@ -58,11 +66,19 @@
 
   .off { display: none; }
 
-  .panel + .panels, .panels + .panel { margin-top: calc(var(--step) * 5); }
+  .panel + .panel { margin-top: calc(var(--step) * 5); }
   .panel table:last-child { margin-bottom: 0; }
   .panel h3 { margin-top: calc(var(--step) * 4); }
 
-  .rules { max-width: none; margin: 0; padding: 0; list-style: none; }
+  .rules {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: calc(var(--step) * 4);
+  }
+  .rules li { break-inside: avoid; }
   .rules li { margin: 0 0 calc(var(--step) * 1.5); }
   .rules button {
     display: block;
@@ -86,6 +102,11 @@
   .rules button[aria-pressed="true"] .tag { color: var(--paper); }
 
   .guide { max-width: none; margin: 0; padding: 0; list-style: none; }
+  .guide.two {
+    columns: 2;
+    column-gap: calc(var(--step) * 6);
+  }
+  .guide.two li { break-inside: avoid; }
   .guide li {
     display: grid;
     grid-template-columns: 9rem 1fr;
@@ -132,6 +153,10 @@
   .field + * { margin-top: 0; }
   .field.spaced { margin-top: calc(var(--step) * 3); }
   .lede { margin-bottom: calc(var(--step) * 3); }
+
+  @media (max-width: 62rem) {
+    .rules, .guide.two { columns: 1; }
+  }
 </style>
 </head>
 <body>
@@ -144,30 +169,13 @@
 
   <p class="howto">Press any rule on the left to light the marks it governs. The switches turn the four layers on and off. Both notations are given: this course's on the upper row, Caplin's below it, which in a minor key differs on almost every chord.</p>
 
-  <section class="panel">
+<section class="panel">
     <h2>a sentence in minor</h2>
     <svg id="score-minor" viewBox="0 -26 1600 500" role="img" aria-label="An eight-bar sentence in C minor on a grand staff, annotated with formal brackets and phrase labels above and roman numerals, a cadential bracket, and a boxed cadence label below"></svg>
     <div class="controls" id="controls-minor"></div>
   </section>
 
-  <div class="panels uneven">
-    <section class="panel">
-      <h2>the rules</h2>
-      <p class="field">above the staff</p>
-      <ul class="rules" id="rules-above"></ul>
-      <p class="field spaced">below the staff</p>
-      <ul class="rules" id="rules-below"></ul>
-      <p class="field spaced">note</p>
-      <p>Break into prose where the annotation alone cannot explain a subtlety. Do not write out in prose what the annotation already shows.</p>
-    </section>
-    <section class="panel">
-      <h2>what the marks mean</h2>
-      <ul class="guide" id="guide"></ul>
-    </section>
-  </div>
-
-
-  <section class="panel">
+<section class="panel">
     <h2>reading a numeral in this course</h2>
 
     <p class="full">A roman numeral in this course says two things at once. Its case reports the quality of the triad. Its accidental reports where the root sits against the major scale on the same tonic. Caplin writes every numeral uppercase and leaves quality to the reader; here the numeral carries it.</p>
@@ -221,13 +229,44 @@
     <p class="full">Figured-bass numbers follow the numeral and report which member of the chord is in the bass: nothing for root position, 6 for first inversion, 6/4 for second. A seventh chord takes 7, 6/5, 4/3, and 4/2 from root position downward. The cadential six-four is written Cad6/4 and resolves to V, where Caplin writes the pair as one harmony, V(6-4 5-3).</p>
   </section>
 
+  <section class="panel">
+    <h2>the rules</h2>
+    <p class="field">above the staff</p>
+    <ul class="rules" id="rules-above"></ul>
+    <p class="field spaced">below the staff</p>
+    <ul class="rules" id="rules-below"></ul>
+    <p class="field spaced">note</p>
+    <p class="full">Break into prose where the annotation alone cannot explain a subtlety. Do not write out in prose what the annotation already shows.</p>
+  </section>
+
+  <section class="panel">
+    <h2>what the marks mean</h2>
+    <ul class="guide two" id="guide"></ul>
+  </section>
+
+
+  <section class="panel">
+    <h2>the marks in use</h2>
+
+    <p class="full">Three short passages, annotated in this course's notation, between them carrying every mark in the guide. Harmony only: form is left off so the marks below the staff stand alone.</p>
+
+    <h3>prolongation, a sequence, and two cadences</h3>
+    <svg id="ex-a" viewBox="0 0 1600 300" role="img" aria-label="An eight-bar period in C major annotated with roman numerals, a neighbouring and a passing chord in parentheses, a change of inversion, a sequence, and a boxed half cadence and imperfect authentic cadence"></svg>
+
+    <h3>applied chords and a modulation</h3>
+    <svg id="ex-b" viewBox="0 0 1600 380" role="img" aria-label="An eight-bar phrase modulating from C major to G major, annotated with an applied dominant and its arrow, the slash form of an applied chord, an extended tonicization under a brace, and a pivot chord read in both keys"></svg>
+
+    <h3>chromatic harmony over a pedal</h3>
+    <svg id="ex-c" viewBox="0 0 1600 330" role="img" aria-label="An eight-bar phrase in C minor annotated with a pedal point, a Neapolitan sixth, a German augmented sixth, a chord labelled by quality alone, an alternative reading in square brackets, and an expanded cadential progression"></svg>
+  </section>
+
   <footer>
     <p>Notation set in Bravura, Steinberg Media Technologies. Text set in IBM Plex. Both under the SIL Open Font License.</p>
   </footer>
 
 </div>
 
-<script src="../assets/notation.js?v=7"></script>
+<script src="../assets/notation.js?v=8"></script>
 <script>
 (function () {
   "use strict";
@@ -507,6 +546,190 @@
       });
     });
   }
+
+
+  /* ---------- three short passages carrying the rest of the marks ---------- */
+
+  /* Harmony only. Each bar holds two half-note chords, a bass note under a
+     treble dyad, and every mark in the guide appears on one of the three. */
+
+  var HX0 = 120, HW = 176, HBEAT = 74;
+  var HY_ROMAN = 268, HY_MARK = 232, HY_BOX = 296;
+
+  function hx(bar, half) { return HX0 + (bar - 1) * HW + half * HBEAT; }
+
+  var PASSAGES = {
+    "ex-a": {
+      flats: 0, key: "C:",
+      events: [
+        [1, 0, "C3", ["E4", "G4"], "I"],
+        [1, 1, "D3", ["F4", "A4"], "(p)"],
+        [2, 0, "E3", ["G4", "C5"], "6"],
+        [2, 1, "D3", ["F4", "B4"], "(n)"],
+        [3, 0, "C3", ["E4", "G4"], "I"],
+        [3, 1, "F2", ["A4", "C5"], "IV"],
+        [4, 0, "G2", ["B4", "D5"], "V"],
+        [5, 0, "C3", ["E4", "G4"], "I seq."],
+        [5, 1, "D3", ["F4", "B4"], "(vii\u00B06)"],
+        [6, 0, "C3", ["E4", "A4"], "(vi6)"],
+        [6, 1, "B2", ["G4", "D5"], "(V6)"],
+        [7, 0, "F2", ["A4", "C5"], "IV"],
+        [7, 1, "F2", ["A4", "D5"], "ii6"],
+        [8, 0, "G2", ["B4", "D5"], "V"],
+        [8, 1, "C3", ["C5", "E5"], "I"]
+      ],
+      brackets: [[[3, 1], [4, 0], "HC"], [[8, 0], [8, 1], "IAC"]]
+    },
+    "ex-b": {
+      flats: 0, key: "C:",
+      events: [
+        [1, 0, "C3", ["E4", "G4"], "I"],
+        [1, 1, "A2", ["C5", "E5"], "vi"],
+        [2, 0, "D3", ["F#4", "C5"], "V7"],
+        [2, 1, "G2", ["B4", "D5"], "V"],
+        [3, 0, "A2", ["C#5", "G4"], "V7/ii"],
+        [3, 1, "C3", ["E4", "G4"], "I"],
+        [4, 0, "A2", ["C#5", "G4"], "V7"],
+        [4, 1, "D3", ["F4", "A4"], "i"],
+        [5, 0, "C3", ["E4", "G4"], "I"],
+        [5, 1, "A2", ["C5", "E5"], "vi"],
+        [6, 0, "A2", ["C5", "E5"], null],
+        [7, 0, "D3", ["F#4", "C5"], "V7"],
+        [7, 1, "G2", ["B4", "D5"], "I"],
+        [8, 0, "G2", ["B4", "D5"], "I"]
+      ],
+      arrows: [[[2, 0], [2, 1]]],
+      braces: [[[4, 0], [4, 1], "ii"]],
+      pivot: { at: [6, 0], home: "vi", newKey: "G:", newNum: "ii", rel: "(V)" },
+      brackets: [[[7, 0], [7, 1], "PAC"]]
+    },
+    "ex-c": {
+      flats: 3, key: "c:",
+      events: [
+        [1, 0, "C3", ["Eb4", "G4"], "i ped."],
+        [1, 1, "C3", ["F4", "Ab4"], "(iv)"],
+        [2, 0, "C3", ["Eb4", "G4"], "(i)"],
+        [2, 1, "C3", ["D4", "B4"], "(V7)"],
+        [3, 0, "C3", ["Eb4", "G4"], "i"],
+        [3, 1, "F2", ["Db5", "Ab4"], "N6"],
+        [4, 0, "G2", ["C5", "Eb5"], "Cad6/4"],
+        [4, 1, "G2", ["B4", "D5"], "V"],
+        [5, 0, "C3", ["Eb4", "G4"], "i"],
+        [5, 1, "Ab2", ["C5", "F#5"], "Ger+6"],
+        [6, 0, "B2", ["D5", "F5"], "(\u00B07)"],
+        [6, 1, "C3", ["Eb4", "G4"], "i \u2026"],
+        [7, 0, "F2", ["Ab4", "D5"], "ii\u00B06 ECP"],
+        [7, 1, "G2", ["C5", "Eb5"], null],
+        [8, 0, "G2", ["B4", "D5"], "V"],
+        [8, 1, "C3", ["Eb4", "C5"], "i"]
+      ],
+      alts: [[[6, 0], "[vii\u00B07/V]"]],
+      brackets: [[[8, 0], [8, 1], "PAC"]]
+    }
+  };
+
+  function drawPassage(id) {
+    var cfg = PASSAGES[id];
+    var svg = document.getElementById(id);
+    var sig = grandStaff(svg, cfg.flats);
+    endStaff(svg, hx(8, 1) + 90);
+
+    var b;
+    for (b = 1; b <= 8; b++) {
+      var x = hx(b, 0) - 22;
+      svg.appendChild(el("line", {
+        x1: x, y1: GS.trebleTop, x2: x, y2: GS.bassBottom, "class": "barline"
+      }));
+    }
+    svg.appendChild(el("line", {
+      x1: hx(8, 1) + 62, y1: GS.trebleTop, x2: hx(8, 1) + 62,
+      y2: GS.bassBottom, "class": "barline final"
+    }));
+
+    cfg.events.forEach(function (ev) {
+      var x = hx(ev[0], ev[1]);
+      var by = gsNote(svg, x, ev[2], "b", {
+        head: "\uE0A3", dur: 2, beat: ev[0] * 2 + ev[1], sig: sig
+      });
+      svg.appendChild(el("line", {
+        x1: x + 14, y1: by, x2: x + 14, y2: by - 42, "class": "stem"
+      }));
+      var ys = ev[3].map(function (n) {
+        return gsNote(svg, x, n, "t", { head: "\uE0A3", dur: 2, beat: ev[0] * 2 + ev[1], sig: sig });
+      });
+      svg.appendChild(el("line", {
+        x1: x, y1: Math.min.apply(null, ys), x2: x,
+        y2: Math.max.apply(null, ys) + 42, "class": "stem"
+      }));
+      if (ev[4]) {
+        svg.appendChild(el("text", { x: x, y: HY_ROMAN, "class": "roman mid" }, ev[4]));
+      }
+    });
+
+    svg.appendChild(el("text", { x: 22, y: HY_ROMAN, "class": "keylabel" }, cfg.key));
+
+    (cfg.arrows || []).forEach(function (a) {
+      var y = HY_ROMAN - 5;
+      var x1 = hx(a[0][0], a[0][1]) + 26, x2 = hx(a[1][0], a[1][1]) - 18;
+      svg.appendChild(el("path", {
+        d: "M " + x1 + " " + y + " L " + x2 + " " + y +
+           " M " + (x2 - 7) + " " + (y - 4) + " L " + x2 + " " + y +
+           " L " + (x2 - 7) + " " + (y + 4),
+        "class": "applied-arrow"
+      }));
+    });
+
+    (cfg.braces || []).forEach(function (br) {
+      var y = HY_ROMAN + 14;
+      var x1 = hx(br[0][0], br[0][1]) - 22, x2 = hx(br[1][0], br[1][1]) + 22;
+      svg.appendChild(el("path", {
+        d: "M " + x1 + " " + (y - 6) + " L " + x1 + " " + y +
+           " L " + x2 + " " + y + " L " + x2 + " " + (y - 6),
+        "class": "ext-brace"
+      }));
+      svg.appendChild(el("text", {
+        x: (x1 + x2) / 2, y: y + 16, "class": "roman mid"
+      }, br[2]));
+    });
+
+    if (cfg.pivot) {
+      var px1 = hx(cfg.pivot.at[0], cfg.pivot.at[1]);
+      svg.appendChild(el("text", { x: px1, y: HY_ROMAN, "class": "roman mid" }, cfg.pivot.home));
+      svg.appendChild(el("text", { x: 22, y: HY_ROMAN + 26, "class": "keylabel" }, cfg.pivot.newKey));
+      svg.appendChild(el("text", { x: 22, y: HY_ROMAN + 44, "class": "pivotrel" }, cfg.pivot.rel));
+      svg.appendChild(el("text", { x: px1, y: HY_ROMAN + 26, "class": "roman mid" }, cfg.pivot.newNum));
+      svg.appendChild(el("path", {
+        d: "M " + (px1 + 22) + " " + (HY_ROMAN - 12) +
+           " L " + (px1 + 28) + " " + (HY_ROMAN - 12) +
+           " L " + (px1 + 28) + " " + (HY_ROMAN + 20) +
+           " L " + (px1 + 22) + " " + (HY_ROMAN + 20),
+        "class": "pivot-brace"
+      }));
+    }
+
+    (cfg.alts || []).forEach(function (a) {
+      svg.appendChild(el("text", {
+        x: hx(a[0][0], a[0][1]), y: HY_ROMAN + 24, "class": "roman mid alt"
+      }, a[1]));
+    });
+
+    var drop = cfg.pivot ? 46 : 0;
+    (cfg.brackets || []).forEach(function (c) {
+      var x1 = hx(c[0][0], c[0][1]) - 22, x2 = hx(c[1][0], c[1][1]) + 26;
+      svg.appendChild(el("path", {
+        d: "M " + x1 + " " + (HY_ROMAN + drop + 15) + " L " + x1 + " " + (HY_ROMAN + drop + 22) +
+           " L " + x2 + " " + (HY_ROMAN + drop + 22) + " L " + x2 + " " + (HY_ROMAN + drop + 15),
+        "class": "cadbracket"
+      }));
+      var mid = (x1 + x2) / 2;
+      svg.appendChild(el("rect", {
+        x: mid - 24, y: HY_BOX + drop - 15, width: 48, height: 21, "class": "cadbox"
+      }));
+      svg.appendChild(el("text", { x: mid, y: HY_BOX + drop, "class": "cadlabel" }, c[2]));
+    });
+  }
+
+  Object.keys(PASSAGES).forEach(drawPassage);
 
   /* ---------- the rules, in Caplin's words made brief ---------- */
 
