@@ -262,7 +262,7 @@
     <svg id="ex-a" viewBox="0 0 1600 380" role="img" aria-label="An eight-bar period in C major annotated with roman numerals, a neighbouring and a passing chord in parentheses, a change of inversion, a sequence, and a boxed half cadence and imperfect authentic cadence"></svg>
 
     <h3>applied chords and a modulation</h3>
-    <svg id="ex-b" viewBox="0 0 1600 390" role="img" aria-label="An eight-bar phrase modulating from C major to G major, annotated with an applied dominant and its arrow, the slash form of an applied chord, an extended tonicization under a brace, and a pivot chord read in both keys"></svg>
+    <svg id="ex-b" viewBox="0 0 1600 420" role="img" aria-label="An eight-bar phrase modulating from C major to G major, annotated with an applied dominant and its arrow, the slash form of an applied chord, an extended tonicization under a brace, and a pivot chord read in both keys"></svg>
 
     <h3>chromatic harmony over a pedal</h3>
     <svg id="ex-c" viewBox="0 0 1600 380" role="img" aria-label="An eight-bar phrase in C minor annotated with a pedal point, a Neapolitan sixth, a German augmented sixth, a chord labelled by quality alone, an alternative reading in square brackets, and an expanded cadential progression"></svg>
@@ -274,7 +274,7 @@
 
 </div>
 
-<script src="../assets/notation.js?v=13"></script>
+<script src="../assets/notation.js?v=14"></script>
 <script>
 (function () {
   "use strict";
@@ -562,7 +562,7 @@
      treble dyad, and every mark in the guide appears on one of the three. */
 
   var HX0 = 120, HW = 176, HBEAT = 74;
-  var HY_ROMAN = 262, HY_BOX = 300, HY_LEVEL = 336;
+  var HY_ROMAN = 262, HY_BOX = 300, HY_LEVEL = 336, HY_LEVEL3 = 372;
 
   function hx(bar, half) { return HX0 + (bar - 1) * HW + half * HBEAT; }
 
@@ -625,6 +625,10 @@
         [[6, 1], [6, 1], "D"], [[7, 0], [7, 0], "T"],
         [[7, 1], [7, 1], "PD"], [[8, 0], [8, 0], "D"],
         [[8, 1], [8, 1], "T"]
+      ],
+      level3: [
+        [[1, 0], [5, 0], "I"], [[5, 1], [7, 1], "PD"],
+        [[8, 0], [8, 0], "V"], [[8, 1], [8, 1], "I"]
       ]
     },
     "ex-c": {
@@ -755,6 +759,17 @@
         svg.appendChild(el("line", {
           x1: x1 + 14 + lv[2].length * 5, y1: HY_LEVEL - 5,
           x2: x2 + 22, y2: HY_LEVEL - 5, "class": "lvl2-line"
+        }));
+      }
+    });
+
+    (cfg.level3 || []).forEach(function (lv) {
+      var x1 = hx(lv[0][0], lv[0][1]), x2 = hx(lv[1][0], lv[1][1]);
+      svg.appendChild(el("text", { x: x1, y: HY_LEVEL3, "class": "lvl2" }, lv[2]));
+      if (x2 > x1) {
+        svg.appendChild(el("line", {
+          x1: x1 + 14 + lv[2].length * 5, y1: HY_LEVEL3 - 5,
+          x2: x2 + 22, y2: HY_LEVEL3 - 5, "class": "lvl2-line"
         }));
       }
     });
