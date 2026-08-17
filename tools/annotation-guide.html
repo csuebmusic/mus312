@@ -274,7 +274,7 @@
 
 </div>
 
-<script src="../assets/notation.js?v=14"></script>
+<script src="../assets/notation.js?v=15"></script>
 <script>
 (function () {
   "use strict";
@@ -732,7 +732,7 @@
       var px1 = hx(cfg.pivot.at[0], cfg.pivot.at[1]);
       svg.appendChild(el("text", { x: px1, y: HY_ROMAN, "class": "roman mid" }, cfg.pivot.home));
       /* the new key is named where it arrives, at the end of the bar before */
-      var kx = px1 - 92;
+      var kx = px1 - 76;
       svg.appendChild(el("text", { x: kx, y: HY_ROMAN + 26, "class": "keylabel" }, cfg.pivot.newKey));
       svg.appendChild(el("text", { x: kx + 26, y: HY_ROMAN + 26, "class": "pivotrel" }, cfg.pivot.rel));
       svg.appendChild(el("text", { x: px1, y: HY_ROMAN + 26, "class": "roman mid" }, cfg.pivot.newNum));
