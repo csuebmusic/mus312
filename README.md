@@ -20,6 +20,13 @@ Part 1, counting in semitones: the four scale types on a linked staff and clock,
 https://csuebmusic.github.io/mus312/tools/annotation-guide.html
 Caplin's rules for annotating a score, at work on an eight-bar sentence in C minor: formal brackets and phrase labels above, figured bass and two rows of roman numerals below, this course's and Caplin's, each with its own cadence bracket and boxed cadence. Four layers turn on and off independently, and pressing a rule lights the marks it governs. Below it, this course's numerals read degree by degree, Caplin's Guide to Harmonic Annotation in full with a specimen of each mark, and two four-voice passages holding the marks the sentence has no room for: prolongation, a sequence and two cadences; applied chords, an extended tonicization and a pivot modulation read in three levels.
 
+**harmony review problem sets**
+https://csuebmusic.github.io/mus312/review/part-1.html
+https://csuebmusic.github.io/mus312/review/part-2.html
+https://csuebmusic.github.io/mus312/review/part-3.html
+https://csuebmusic.github.io/mus312/review/part-4.html
+One set per part of the harmony review. Semitone distances, interval names, scales, diatonic triads, chord spelling, figured bass, and nonchord tones. Function and depth of structure, the cadential six-four, the cadence types, the six sequences, and the prolongation patterns. Applied dominants and applied leading-tone chords, the augmented sixths and the Neapolitan, the function each chromatic chord carries, and modal mixture. Tonicization against modulation, the three stages, destabilizing the tonic, closely related keys, pivot charts for a diatonic and a chromatic move. Every exercise links the section of the review it draws on, and its answers open on a button.
+
 **chord finder**
 https://csuebmusic.github.io/mus312/tools/chord-finder.html
 Enter up to four notes from the bass up and read what they make: the stack of thirds with the semitone distance between each pair, the quality, the chord symbol, the note in the bass and its figure. Two notes give an interval. Set a tonic and a mode and the same chord comes back as a roman numeral with its function, whether it is diatonic, borrowed from the parallel mode, applied to another degree, or one of the chromatic pre-dominants.
@@ -33,6 +40,7 @@ Caplin, *Analyzing Classical Form*, chapter 1 and Parts I and II. Laitz and Bart
 ```
 assets/       stylesheet, self-hosted fonts, shared notation code
 tools/        interactive analytical tools
+review/       problem sets on the harmony review
 meta/         instructor notes and conventions
 ```
 
