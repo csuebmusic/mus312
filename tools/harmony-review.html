@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mus 312 harmony review</title>
-<link rel="stylesheet" href="../assets/style.css?v=13">
+<link rel="stylesheet" href="../assets/style.css?v=14">
 <style>
   /* vertical rhythm: spacing comes from margin-top inside a section,
      so adjacent margins never compete */
@@ -2969,7 +2969,9 @@
       btn.textContent = "preparing";
       if (note) { note.textContent = ""; }
       fontFaces().then(function (css) {
-        var out = serialize(css);
+        var html = document.documentElement, out;
+        html.classList.add("on-paper");
+        try { out = serialize(css); } finally { html.classList.remove("on-paper"); }
         var svgBlob = new window.Blob([out.text], { type: "image/svg+xml;charset=utf-8" });
         var url = window.URL.createObjectURL(svgBlob);
         var img = new window.Image();

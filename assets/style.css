@@ -37,6 +37,8 @@
 }
 
 :root {
+  color-scheme: light dark;
+
   --paper: #ffffff;
   --ink: #101010;
   --rule: #cfcfcf;
@@ -53,6 +55,18 @@
   --step: 0.5rem;
   --measure: 34rem;
   --line: 1px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.on-paper) {
+    --paper: #131417;
+    --ink: #e8e6e3;
+    --rule: #3b3e44;
+    --muted: #8a9199;
+    --accent-wash: rgba(226, 86, 13, 0.18);
+    --accent-edge: rgba(226, 86, 13, 0.45);
+    --accent-2: #6ba0dc;
+  }
 }
 
 * { box-sizing: border-box; }

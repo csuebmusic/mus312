@@ -17,6 +17,21 @@ White ground, black line, one accent. The accent marks what is live: highlights,
 
 Colors are addressed through these variables. Component CSS uses no hex values.
 
+A dark ground follows the reader's system setting under `prefers-color-scheme`. It redefines the palette and leaves every component rule untouched.
+
+| variable | dark value |
+|---|---|
+| `--paper` | `#131417` |
+| `--ink` | `#e8e6e3` |
+| `--rule` | `#3b3e44` |
+| `--muted` | `#8a9199` |
+| `--accent` | unchanged |
+| `--accent-wash` | `rgba(226, 86, 13, 0.18)` |
+| `--accent-edge` | `rgba(226, 86, 13, 0.45)` |
+| `--accent-2` | `#6ba0dc` |
+
+Ink stays short of white and the ground short of black, so a one-pixel staff line does not halate. A figure exported to a file is drawn on paper in either mode: the exporting page sets `on-paper` on the root element for the length of the serialization, and the dark block is written `:root:not(.on-paper)`.
+
 ## type
 
 | variable | family | use |
