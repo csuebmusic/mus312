@@ -4,6 +4,8 @@
 
 White ground, black line, one accent. The accent marks what is live: highlights, hover state, active controls, and the element under discussion. Fixed reference marks stay in ink.
 
+Colors are addressed through these variables. Component CSS uses no hex values.
+
 | variable | value | use |
 |---|---|---|
 | `--paper` | `#ffffff` | background |
@@ -15,7 +17,7 @@ White ground, black line, one accent. The accent marks what is live: highlights,
 | `--accent-edge` | `rgba(226, 86, 13, 0.38)` | outlines on washed fills |
 | `--accent-2` | `#1f5fa8` | a second strand, where two things move at once and must be told apart |
 
-Colors are addressed through these variables. Component CSS uses no hex values.
+A highlight lights everything belonging to the thing highlighted: a notehead lights with its accidental, a scale degree with its caret and its degree accidental, a roman numeral with its chord symbol. Staff furniture stays in ink, ledger lines included.
 
 A dark ground follows the reader's system setting until they choose otherwise with the control in the eyebrow row. It redefines the palette and leaves every component rule untouched.
 

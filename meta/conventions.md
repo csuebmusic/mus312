@@ -64,6 +64,8 @@ When adding or revoicing a four-voice example, check the voice leading: group no
 
 When changing playback, stub `AudioContext`, record every oscillator frequency and start time, and confirm the pitches and onsets of a chordal figure, a metered one, and a transposed one. Run the stub from `suspended` and from `interrupted` as well as from `running`, and confirm every oscillator starts with the context running.
 
+When changing a highlight, list every painted class the highlighted group contains in the rendered DOM against every class its rule recolours, and account for each difference.
+
 When changing a rotating figure, read the coordinates off the drawn elements, and confirm every point still sits on the circle it was drawn on and the tonic ring lands on the pitch class that was clicked. Check all twelve, at rest and at frames through the glide.
 
 ## checks before pushing a meta file
