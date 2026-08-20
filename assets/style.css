@@ -291,3 +291,91 @@ footer p { max-width: none; margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
+
+/* a workbook page: prompts printed, answers written by hand */
+
+.slug {
+  display: flex;
+  gap: calc(var(--step) * 5);
+  font-family: var(--font-data);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  max-width: none;
+  margin: calc(var(--step) * 4) 0 calc(var(--step) * 5);
+}
+.slug span { flex: 1; border-bottom: var(--line) solid var(--rule); }
+
+.set { margin-top: calc(var(--step) * 5); }
+.set h2 { margin-bottom: var(--step); break-after: avoid; }
+.set > p { break-after: avoid; }
+
+.ref {
+  font-family: var(--font-data);
+  font-size: 0.78rem;
+  color: var(--muted);
+  max-width: none;
+  margin-bottom: calc(var(--step) * 3);
+}
+
+ol.items {
+  margin: 0;
+  padding-left: calc(var(--step) * 4);
+  max-width: none;
+}
+ol.items > li { margin-bottom: calc(var(--step) * 3); break-inside: avoid; }
+ol.items > li:last-child { margin-bottom: 0; }
+ol.items > li > p { max-width: none; }
+ol.items.blanks > li {
+  padding-bottom: calc(var(--step) * 4);
+  border-bottom: var(--line) solid var(--rule);
+  margin-bottom: calc(var(--step) * 2);
+}
+ol.items.tight > li { margin-bottom: calc(var(--step) * 1.5); }
+
+/* a ruled line to write on, labelled at the left */
+.write {
+  display: flex;
+  align-items: flex-end;
+  gap: calc(var(--step) * 2);
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  max-width: none;
+  margin: calc(var(--step) * 3) 0 0;
+}
+.write::after {
+  content: "";
+  flex: 1;
+  border-bottom: var(--line) solid var(--rule);
+}
+
+/* blank staff paper */
+svg.answer {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: calc(var(--step) * 2);
+  break-inside: avoid;
+}
+.staff-label {
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  max-width: none;
+  margin: calc(var(--step) * 3) 0 0;
+}
+
+/* a table the student fills in */
+table.fill td { height: 2.4rem; }
+
+@media print {
+  body { padding: 0; }
+  .controls, .eyebrow button, nav.toc { display: none; }
+  .panel { border: none; padding: 0; }
+  .set { margin-top: calc(var(--step) * 6); }
+  a { color: var(--ink); text-decoration: none; }
+  footer { break-inside: avoid; }
+}
