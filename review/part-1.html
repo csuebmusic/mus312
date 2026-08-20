@@ -8,7 +8,7 @@
 <script src="../assets/theme.js?v=2"></script>
 <style>
   .staff-line { stroke: var(--ink); stroke-width: 1; }
-  .clef, .keysig, .notehead, .accidental, .dot {
+  .clef, .keysig, .notehead, .accidental {
     font-family: var(--font-music);
     fill: var(--ink);
     font-size: 48px;
@@ -37,16 +37,6 @@
     font-size: 15px;
     fill: var(--muted);
   }
-  .divider { stroke: var(--rule); stroke-width: 1; }
-  .barline { stroke: var(--ink); stroke-width: 1; }
-  .barline.final { stroke-width: 3.5; }
-  .stem { stroke: var(--ink); stroke-width: 1.4; }
-  .timesig {
-    font-family: var(--font-music);
-    fill: var(--ink);
-    font-size: 48px;
-  }
-  svg.example { display: block; width: 100%; height: auto; margin-top: calc(var(--step) * 2); }
 </style>
 </head>
 <body>
@@ -55,7 +45,7 @@
   <p class="eyebrow">mus 312 &middot; harmony review &middot; problem set 1</p>
   <h1>counting in semitones</h1>
 
-  <p class="full">Scales, intervals, triads, figured bass, inversions, and nonchord tones. Write by hand on the staves and the lines provided, and keep every spelling exact.</p>
+  <p class="full">Scales, intervals, triads, figured bass, and inversions, closing with two realizations. Write by hand on the staves and the lines provided, and keep every spelling exact.</p>
 
   <p class="slug">name <span></span> date <span></span></p>
 
@@ -232,32 +222,9 @@
   </section>
 
   <section class="panel set">
-    <h2>7, nonchord tones</h2>
-    <p class="ref"><a href="../tools/harmony-review.html#sec-nct">nonchord tones</a></p>
-    <p>Six passages in C major, two to a system. Circle every nonchord tone, name its type on the line, and give the figures where the passage carries a suspension.</p>
-    <div class="staff-group">
-      <svg id="nct-1" class="example" viewBox="0 0 1600 290" role="img" aria-label="Two one-bar passages in C major in four voices over a held tonic and a held dominant"></svg>
-      <p class="write">1</p>
-      <p class="write">2</p>
-    </div>
-    <div class="staff-group">
-      <svg id="nct-2" class="example" viewBox="0 0 1600 290" role="img" aria-label="A two-bar passage from the subdominant to the dominant and a one-bar passage over a held tonic, in four voices"></svg>
-      <p class="write">3</p>
-      <p class="write">4</p>
-    </div>
-    <div class="staff-group">
-      <svg id="nct-3" class="example" viewBox="0 0 1600 290" role="img" aria-label="A two-bar cadential passage and a two-bar passage over a held bass, in four voices"></svg>
-      <p class="write">5</p>
-      <p class="write">6</p>
-    </div>
-    <p>Two of the six fill a third by step. Name them, and name what separates them.</p>
-    <p class="write"></p>
-  </section>
-
-  <section class="panel set">
-    <h2>8, two realizations</h2>
-    <p class="ref"><a href="../tools/harmony-review.html#sec-figured">figured bass</a> &middot; <a href="../tools/harmony-review.html#sec-voice-leading">basic voice leading rules</a></p>
-    <p>Everything here is diatonic. Keep the sensitive tones resolving, avoid parallel fifths and octaves, and keep the upper voices within an octave of each other.</p>
+    <h2>7, two realizations</h2>
+    <p class="ref"><a href="../tools/harmony-review.html#sec-figured">figured bass</a> &middot; <a href="../tools/harmony-review.html#sec-voice-leading">basic voice leading rules</a> &middot; <a href="../tools/harmony-review.html#sec-nct">nonchord tones</a></p>
+    <p>Everything here is diatonic. Keep the sensitive tones resolving, avoid parallel fifths and octaves, and keep the upper voices within an octave of each other. Where a line calls for one, write in a nonchord tone: a passing tone between chord tones a third apart, a neighbor over a repeated one, a suspension across a change of harmony.</p>
 
     <h3>from roman numerals, in <span class="caps">SATB</span></h3>
     <p>Soprano and alto on the treble staff, tenor and bass on the bass staff, stems opposed: soprano and tenor up, alto and bass down. Work out the bass from the numeral.</p>
@@ -280,131 +247,5 @@
 
 <script src="../assets/notation.js?v=25"></script>
 <script src="../assets/workbook.js?v=1"></script>
-<script>
-(function () {
-  "use strict";
-
-  var el = MUS.el, GS = MUS.GS, HEADS = MUS.HEADS, HEAD_W = MUS.HEAD_W;
-  var BEAT = 62, START = [130, 830], METER_X = 84, RIGHT = 1580;
-  var NUM_Y = 22, BAR_BACK = 27;
-
-  /* Six passages in C major, written for this page. One nonchord tone each:
-     a passing tone, an upper neighbor, a suspension, an accented passing
-     tone, an anticipation, and a dominant pedal. An event is a beat, a
-     length in beats, and the notes sounding: the treble voices that move
-     alone carry their own stem, and a chord whose voices move together
-     shares one. */
-  var EXAMPLES = [
-    { num: "1", beats: 4,
-      events: [
-        { b: 0, d: 4, bass: ["C3"] },
-        { b: 0, d: 4, up: ["G4", "C5"] },
-        { b: 0, d: 1, up: ["E5"], stem: "up" },
-        { b: 1, d: 1, up: ["F5"], stem: "up" },
-        { b: 2, d: 2, up: ["G5"], stem: "up" }
-      ] },
-    { num: "2", beats: 4,
-      events: [
-        { b: 0, d: 4, bass: ["G2"] },
-        { b: 0, d: 4, up: ["B4", "D5"] },
-        { b: 0, d: 1, up: ["G5"], stem: "up" },
-        { b: 1, d: 1, up: ["A5"], stem: "up" },
-        { b: 2, d: 2, up: ["G5"], stem: "up" }
-      ] },
-    { num: "3", beats: 8,
-      events: [
-        { b: 0, d: 4, bass: ["F2"] },
-        { b: 0, d: 4, up: ["A4", "C5", "F5"] },
-        { b: 4, d: 4, bass: ["G2"] },
-        { b: 4, d: 4, up: ["G4", "D5"] },
-        { b: 4, d: 2, up: ["C5"], stem: "up" },
-        { b: 6, d: 2, up: ["B4"], stem: "up" }
-      ] },
-    { num: "4", beats: 4,
-      events: [
-        { b: 0, d: 4, bass: ["C3"] },
-        { b: 0, d: 4, up: ["E4", "G4"] },
-        { b: 0, d: 2, up: ["E5"], stem: "up" },
-        { b: 2, d: 1, up: ["D5"], stem: "up" },
-        { b: 3, d: 1, up: ["C5"], stem: "up" }
-      ] },
-    { num: "5", beats: 8,
-      events: [
-        { b: 0, d: 4, bass: ["G2"] },
-        { b: 0, d: 4, up: ["G4", "B4"] },
-        { b: 0, d: 3, up: ["D5"], stem: "up" },
-        { b: 3, d: 1, up: ["C5"], stem: "up" },
-        { b: 4, d: 4, bass: ["C3"] },
-        { b: 4, d: 4, up: ["E4", "G4", "C5"] }
-      ] },
-    { num: "6", beats: 8,
-      events: [
-        { b: 0, d: 4, bass: ["G2"] },
-        { b: 0, d: 2, up: ["G4", "C5", "E5"], stem: "down" },
-        { b: 2, d: 2, up: ["A4", "D5", "F5"], stem: "down" },
-        { b: 4, d: 4, bass: ["G2"] },
-        { b: 4, d: 4, up: ["G4", "B4", "D5"] }
-      ] }
-  ];
-
-  function glyph(d) { return d >= 4 ? HEADS.w : d >= 2 ? HEADS.h : HEADS.q; }
-
-  function meter(svg) {
-    [GS.trebleBottom, GS.bassBottom].forEach(function (base) {
-      svg.appendChild(el("text", { x: METER_X, y: base - 24, "class": "timesig" }, "\uE084"));
-      svg.appendChild(el("text", { x: METER_X, y: base, "class": "timesig" }, "\uE084"));
-    });
-  }
-
-  function event(svg, x0, ev) {
-    var x = x0 + ev.b * BEAT;
-    var notes = ev.bass || ev.up;
-    var which = ev.bass ? "b" : "t";
-    var shift = MUS.secondsShift(notes, ev.stem === "down" ? -HEAD_W : 0,
-                                        ev.stem === "down" ? 0 : HEAD_W).shift;
-    var ys = notes.map(function (n) {
-      return MUS.gsNote(svg, x + (shift[n] || 0), n, which, {
-        head: glyph(ev.d), dur: ev.d, beat: ev.b, accX: x
-      });
-    });
-    if (ev.d === 3) {
-      svg.appendChild(el("text", { x: x + 26, y: ys[ys.length - 1], "class": "dot" }, "\uE1E7"));
-    }
-    if (ev.stem) {
-      MUS.stem(svg, x, Math.min.apply(null, ys), Math.max.apply(null, ys), ev.stem === "up");
-    }
-  }
-
-  function draw(svg, list) {
-    MUS.grandStaff(svg, 0);
-    meter(svg);
-    list.forEach(function (ex, i) {
-      var x0 = START[i];
-      if (i > 0) {
-        svg.appendChild(el("line", {
-          x1: 750, y1: GS.trebleTop, x2: 750, y2: GS.bassBottom, "class": "divider"
-        }));
-      }
-      svg.appendChild(el("text", { x: x0 - 4, y: NUM_Y, "class": "itemnum" }, ex.num));
-      ex.events.forEach(function (ev) { event(svg, x0, ev); });
-      for (var bar = 1; bar * 4 < ex.beats; bar++) {
-        var bx = x0 + bar * 4 * BEAT - BAR_BACK;
-        svg.appendChild(el("line", {
-          x1: bx, y1: GS.trebleTop, x2: bx, y2: GS.bassBottom, "class": "barline"
-        }));
-      }
-      var end = x0 + ex.beats * BEAT - BAR_BACK;
-      svg.appendChild(el("line", {
-        x1: end, y1: GS.trebleTop, x2: end, y2: GS.bassBottom, "class": "barline final"
-      }));
-    });
-    MUS.endStaff(svg, RIGHT);
-  }
-
-  draw(document.getElementById("nct-1"), EXAMPLES.slice(0, 2));
-  draw(document.getElementById("nct-2"), EXAMPLES.slice(2, 4));
-  draw(document.getElementById("nct-3"), EXAMPLES.slice(4, 6));
-})();
-</script>
 </body>
 </html>

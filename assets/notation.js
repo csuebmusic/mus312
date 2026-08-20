@@ -120,6 +120,12 @@ var MUS = (function () {
     g.appendChild(t);
   }
 
+  /* Where a key signature begins. The clef stands at CLEF_X and the G and F
+     clefs are both a shade under 33 units wide at 48px, read from the shipped
+     woff2, so the first accidental clears the clef by SIG_GAP. */
+  var CLEF_X = 18, CLEF_ADV = 33, SIG_GAP = 5, SIG_STEP = 13;
+  var SIG_X = CLEF_X + CLEF_ADV + SIG_GAP;
+
   var SHARP_ORDER = [3, 0, 4, 1, 5, 2, 6];
   var FLAT_ORDER  = [6, 2, 5, 1, 4, 0, 3];
   var SHARP_STEPS = [8, 5, 9, 6, 3, 7, 4];
@@ -544,12 +550,12 @@ var MUS = (function () {
         }));
       }
     });
-    svg.appendChild(el("text", { x: 18, y: GS.trebleBottom - 12, "class": "clef" }, "\uE050"));
-    svg.appendChild(el("text", { x: 18, y: GS.bassBottom - 36, "class": "clef" }, "\uE062"));
+    svg.appendChild(el("text", { x: CLEF_X, y: GS.trebleBottom - 12, "class": "clef" }, "\uE050"));
+    svg.appendChild(el("text", { x: CLEF_X, y: GS.bassBottom - 36, "class": "clef" }, "\uE062"));
     svg.appendChild(el("line", {
       x1: 10, y1: GS.trebleTop, x2: 10, y2: GS.bassBottom, "class": "staff-line"
     }));
-    return keySignature(svg, 56, flats, sharps);
+    return keySignature(svg, SIG_X, flats, sharps);
   }
 
   /* a key signature on both staves, starting at x. Returns it as a map. */
@@ -564,10 +570,10 @@ var MUS = (function () {
     for (var b = 0; b < n; b++) {
       sig[order[b]] = alt;
       svg.appendChild(el("text", {
-        x: x + 13 * b, y: GS.trebleBottom - 6 * steps[b], "class": "keysig"
+        x: x + SIG_STEP * b, y: GS.trebleBottom - 6 * steps[b], "class": "keysig"
       }, glyph));
       svg.appendChild(el("text", {
-        x: x + 13 * b, y: GS.bassBottom - 6 * (steps[b] - 2), "class": "keysig"
+        x: x + SIG_STEP * b, y: GS.bassBottom - 6 * (steps[b] - 2), "class": "keysig"
       }, glyph));
     }
     return sig;
@@ -764,6 +770,8 @@ var MUS = (function () {
     GS: GS,
     grandStaff: grandStaff,
     keySignature: keySignature,
+    SIG_X: SIG_X,
+    SIG_STEP: SIG_STEP,
     gsY: gsY,
     gsNote: gsNote,
     stepOf: stepOf,
