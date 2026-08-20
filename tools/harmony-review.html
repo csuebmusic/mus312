@@ -679,7 +679,7 @@
       </section>
       <section class="panel">
         <svg class="clock" viewBox="-76 0 556 440" role="group" aria-label="Clock face of twelve pitch classes with the harmonic minor scale marked and its three-semitone gap arced"></svg>
-        <p>The gap of three positions between ♭6̂ and 7̂ is arced on the rim, the one place in these four scales where adjacent scale members sit more than a whole tone apart.</p>
+        <p>The gap of three positions between ♭6̂ and 7̂ is arced on the rim, the one place in these four scales where adjacent degrees sit more than a whole tone apart.</p>
       </section>
     </div>
     <div class="controls">
@@ -1911,19 +1911,19 @@
 
     for (var i = 0; i < 7; i++) {
       var x = x0 + gap * i;
-      var members = [0, 2, 4].map(function (k) {
+      var tones = [0, 2, 4].map(function (k) {
         var idx = i + k;
         var semis = cfg.offsets[idx % 7] + 12 * Math.floor(idx / 7);
         return spellNote(cfg.tonic, key, [semis, idx]);
       });
 
-      var third = (members[1].pc - members[0].pc + 12) % 12;
-      var fifth = (members[2].pc - members[0].pc + 12) % 12;
+      var third = (tones[1].pc - tones[0].pc + 12) % 12;
+      var fifth = (tones[2].pc - tones[0].pc + 12) % 12;
       var q = QUALITY[third + "," + fifth];
       var upper = (q.code === "M" || q.code === "A");
       var rootAlt = degreeAlt(cfg.offsets[i], i);
       var roman = (upper ? ROMAN_BASE[i] : ROMAN_BASE[i].toLowerCase()) + q.roman;
-      var rootName = members[0].name;
+      var rootName = tones[0].name;
       var symbol = (upper ? rootName : rootName.charAt(0).toLowerCase() + rootName.slice(1)) +
                    q.symbol;
 
@@ -1931,12 +1931,12 @@
         "class": "triad", tabindex: "0", role: "img",
         "aria-label": "degree " + (DEG_WORD[String(rootAlt)] || "") + (i + 1) + ", " +
                       (DEG_WORD[String(rootAlt)] || "") + roman + ", " +
-                      members[0].name + " " + q.word + ", " +
-                      members.map(function (m) { return m.name; }).join(" ")
+                      tones[0].name + " " + q.word + ", " +
+                      tones.map(function (m) { return m.name; }).join(" ")
       });
 
       var accCount = 0;
-      members.slice().reverse().forEach(function (m) {
+      tones.slice().reverse().forEach(function (m) {
         var y = noteY(m.step, 0);
         ledgers(g, x, m.step, noteY(0, 0));
         if (m.alt !== (ks[m.letterIndex] || 0)) {

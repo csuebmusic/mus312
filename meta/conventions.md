@@ -40,6 +40,10 @@ Roman numerals take the jazz flatted-degree convention: ♭3̂, ♭III.
 
 The cadential six-four is Cad6/4.
 
+A note belonging to a chord is a chord tone. Nothing is a member.
+
+Four-voice writing is keyboard style unless a page says otherwise: the bass alone on the bass staff, the three upper voices together on the treble staff.
+
 Second-level analysis names the function of each span: T, M, PD, D. Prolongations inside a span are labelled by what they do: N neighbor, P passing, CL chordal leap, arp arpeggiation.
 
 A cadence bracket covers the dominant and its target at an authentic cadence, and the pre-dominant and the dominant at a half cadence. Caplin brackets the whole cadential progression; where both notations appear, each takes its own bracket.
