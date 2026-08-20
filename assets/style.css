@@ -366,6 +366,40 @@ ol.items.tight > li { margin-bottom: calc(var(--step) * 1.5); }
 /* a staff and the lines that belong to it stay together */
 .staff-group { break-inside: avoid; margin-top: calc(var(--step) * 4); }
 
+/* the marks a workbook page draws */
+.staff-line, .ledger { stroke: var(--ink); stroke-width: 1; }
+.clef, .keysig, .notehead, .accidental {
+  font-family: var(--font-music);
+  fill: var(--ink);
+  font-size: 48px;
+}
+.figbass {
+  font-family: var(--font-data);
+  font-size: 14px;
+  fill: var(--ink);
+  text-anchor: middle;
+}
+.roman {
+  font-family: var(--font-data);
+  font-size: 15px;
+  fill: var(--ink);
+  text-anchor: middle;
+}
+.itemnum {
+  font-family: var(--font-data);
+  font-size: 15px;
+  fill: var(--muted);
+}
+/* the key a staff is in, boxed under its bass clef */
+.keybox { fill: var(--accent-wash); stroke: var(--accent); stroke-width: 1.2; }
+.keylabel {
+  font-family: var(--font-data);
+  font-size: 19px;
+  font-weight: 500;
+  fill: var(--ink);
+}
+.keylabel .acc-inline { font-family: var(--font-music); font-size: 0.95em; }
+
 /* blank staff paper */
 svg.answer {
   display: block;

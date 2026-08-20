@@ -23,6 +23,9 @@
 
   var FIRST = 150, LAST = 1440, TAIL = 70, SCALE = 0.75;
   var FIG_Y = 250, FIG_STEP = 17, ROMAN_Y = 252, NUM_Y = 52, CHORD_ADV = 130;
+  /* the key stands under the bass clef, boxed */
+  var KEY_X = 14, KEY_Y = 264, KEY_SIZE = 19, KEY_PAD = 8;
+  var KEY_ADV = { "\u266D": 0.32, "\u266F": 0.34 };
 
   function count(svg, name) {
     return parseInt(svg.getAttribute(name) || "0", 10);
@@ -34,6 +37,37 @@
     var step = (LAST - FIRST) / (n - 1), out = [], i;
     for (i = 0; i < n; i++) { out.push(FIRST + i * step); }
     return out;
+  }
+
+  /* the key label: a Bravura accidental where the name takes one, since
+     neither Plex face carries the sign */
+  function keyBox(svg, label) {
+    var text = MUS.el("text", { x: KEY_X + KEY_PAD, y: KEY_Y, "class": "keylabel" });
+    var width = 0, run = "", dy = null;
+    /* the accidental is raised, and whatever follows it drops back */
+    function flush() {
+      if (!run) { return; }
+      text.appendChild(MUS.el("tspan", dy ? { dy: dy } : {}, run));
+      run = "";
+      dy = null;
+    }
+    label.split("").forEach(function (ch) {
+      if (KEY_ADV[ch]) {
+        flush();
+        text.appendChild(MUS.el("tspan", { "class": "acc-inline", dy: "-3" }, ch));
+        dy = "3";
+        width += KEY_ADV[ch] * KEY_SIZE;
+      } else {
+        run += ch;
+        width += 0.6 * KEY_SIZE;
+      }
+    });
+    flush();
+    svg.appendChild(MUS.el("rect", {
+      x: KEY_X, y: KEY_Y - KEY_SIZE + 3, width: Math.round(width) + KEY_PAD * 2,
+      height: KEY_SIZE + 7, "class": "keybox"
+    }));
+    svg.appendChild(text);
   }
 
   function figures(svg, x, list) {
@@ -62,12 +96,8 @@
     var last = bassLine(svg, sig, at);
 
     var num = svg.getAttribute("data-num");
-    var key = svg.getAttribute("data-key");
     if (num) {
       svg.appendChild(MUS.el("text", { x: 18, y: NUM_Y, "class": "itemnum" }, num));
-    }
-    if (key) {
-      svg.appendChild(MUS.el("text", { x: num ? 42 : 18, y: NUM_Y, "class": "keylabel" }, key));
     }
 
     var width = last + TAIL + 10;
@@ -80,12 +110,7 @@
   function figuredBass(svg) {
     var sig = MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
     var n = (svg.getAttribute("data-bass") || "").split(/\s+/).filter(Boolean).length;
-    var end = bassLine(svg, sig, slots(n));
-    var key = svg.getAttribute("data-key");
-    if (key) {
-      svg.appendChild(MUS.el("text", { x: 14, y: FIG_Y, "class": "keylabel" }, key));
-    }
-    return end;
+    return bassLine(svg, sig, slots(n));
   }
 
   function numerals(svg) {
@@ -94,10 +119,6 @@
     list.forEach(function (r, i) {
       svg.appendChild(MUS.el("text", { x: at[i], y: ROMAN_Y, "class": "roman" }, r));
     });
-    var key = svg.getAttribute("data-key");
-    if (key) {
-      svg.appendChild(MUS.el("text", { x: 14, y: ROMAN_Y, "class": "keylabel" }, key));
-    }
     return at[at.length - 1];
   }
 
@@ -119,6 +140,8 @@
       MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
     }
     MUS.endStaff(svg, end === null ? 1580 : Math.min(1580, end + TAIL));
+    var key = svg.getAttribute("data-key");
+    if (key) { keyBox(svg, key); }
   }
 
   /* the dark ground is a screen setting: a printed page is always on paper */

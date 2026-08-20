@@ -4,29 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mus 312 &middot; problem set 3, chromatic harmony</title>
-<link rel="stylesheet" href="../assets/style.css?v=18">
+<link rel="stylesheet" href="../assets/style.css?v=19">
 <script src="../assets/theme.js?v=2"></script>
-<style>
-  .staff-line { stroke: var(--ink); stroke-width: 1; }
-  .clef, .keysig, .notehead, .accidental {
-    font-family: var(--font-music);
-    fill: var(--ink);
-    font-size: 48px;
-  }
-  .ledger { stroke: var(--ink); stroke-width: 1; }
-  .figbass {
-    font-family: var(--font-data);
-    font-size: 14px;
-    fill: var(--ink);
-    text-anchor: middle;
-  }
-  .keylabel {
-    font-family: var(--font-data);
-    font-size: 15px;
-    font-weight: 500;
-    fill: var(--ink);
-  }
-</style>
 </head>
 <body>
 <div class="wrap">
@@ -83,19 +62,16 @@
     <p class="write">targets</p>
     <svg class="answer" data-staff="single" role="img" aria-label="Blank treble staff"></svg>
     <p>Write vii°7/<span class="caps">V</span> resolving to <span class="caps">V</span> in four voices in keyboard style. Mark each sensitive tone and draw an arrow to where it goes.</p>
-    <svg class="answer" data-staff="grand" role="img" aria-label="Blank grand staff"></svg>
+    <svg class="answer" data-staff="grand" data-key="C:" role="img" aria-label="Blank grand staff in C major"></svg>
   </section>
 
   <section class="panel set">
     <h2>4, chromatic pre-dominants</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-chrom-pd">chromatic pre-dominants</a></p>
     <p>Spell It+6, Fr+6, Ger+6, and N6 in each key, in that order, in four voices in keyboard style. Mark the doubling where the chord takes one, and put the right note in the bass.</p>
-    <p class="staff-label">C minor</p>
-    <svg class="answer" data-staff="grand" data-flats="3" role="img" aria-label="Blank grand staff with three flats"></svg>
-    <p class="staff-label">A minor</p>
-    <svg class="answer" data-staff="grand" role="img" aria-label="Blank grand staff"></svg>
-    <p class="staff-label">D minor</p>
-    <svg class="answer" data-staff="grand" data-flats="1" role="img" aria-label="Blank grand staff with one flat"></svg>
+    <svg class="answer" data-staff="grand" data-flats="3" data-key="c:" role="img" aria-label="Blank grand staff in C minor"></svg>
+    <svg class="answer" data-staff="grand" data-key="a:" role="img" aria-label="Blank grand staff in A minor"></svg>
+    <svg class="answer" data-staff="grand" data-flats="1" data-key="d:" role="img" aria-label="Blank grand staff in D minor"></svg>
     <p>Name the two degrees the augmented sixth itself is measured between.</p>
     <p class="write"></p>
   </section>
@@ -124,8 +100,8 @@
       <li class="cue"><span class="caps">N</span>6</li>
       <li class="cue"><span class="caps">V</span>/iii</li>
     </ol>
-    <p>Write the progression <span class="caps">I</span> &ndash; <span class="caps">IV</span> &ndash; ii/<span class="caps">V</span> &ndash; <span class="caps">V</span>7/<span class="caps">V</span> &ndash; <span class="caps">V</span> &ndash; <span class="caps">I</span> in four voices in keyboard style in C major. Bracket the embedded phrase model, and read the functions on two levels: in the key of the dominant above, in C major below.</p>
-    <svg class="answer" data-staff="grand" role="img" aria-label="Blank grand staff"></svg>
+    <p>Write the progression <span class="caps">I</span> &ndash; <span class="caps">IV</span> &ndash; ii/<span class="caps">V</span> &ndash; <span class="caps">V</span>7/<span class="caps">V</span> &ndash; <span class="caps">V</span> &ndash; <span class="caps">I</span> in four voices in keyboard style. Bracket the embedded phrase model, and read the functions on two levels: in the key of the dominant above, in C major below.</p>
+    <svg class="answer" data-staff="grand" data-key="C:" role="img" aria-label="Blank grand staff in C major"></svg>
   </section>
 
   <section class="panel set">
