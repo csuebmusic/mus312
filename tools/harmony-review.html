@@ -99,11 +99,6 @@
     dominant-baseline: middle;
   }
 
-  .scale-layer {
-    transform-box: view-box;
-    transform-origin: 0 0;
-    transition: transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
   .scale-shape { fill: var(--accent-wash); stroke: var(--accent-edge); stroke-width: 1; }
   .scale-shape.ghost {
     fill: none;
@@ -120,9 +115,6 @@
     fill: var(--accent);
     text-anchor: middle;
     dominant-baseline: middle;
-    transform-box: view-box;
-    transform-origin: 0 0;
-    transition: transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
   }
   .hub {
     font-family: var(--font-data);
@@ -1566,7 +1558,8 @@
 
     var staffNotes = [];
     var slots = [];
-    var angle = 0;
+    var offset = 0;
+    var frame = null;
 
     function light(pc) {
       slots.forEach(function (s, i) { s.classList.toggle("lit", i === pc); });
@@ -1734,51 +1727,60 @@
     }
 
     var layer = el("g", { "class": "scale-layer" });
+    var main = cfg.rows[0].pairs.slice(0, 7).map(function (p) { return p[0]; });
+
+    /* every part of the layer, with the pitch classes and radius it is drawn
+       from, so a new tonic is a redraw rather than a transform */
+    var moving = [];
+
+    function follows(node, kind, pcs, r) {
+      moving.push({ node: node, kind: kind, pcs: pcs, r: r });
+      layer.appendChild(node);
+      return node;
+    }
+
+    function place(off) {
+      moving.forEach(function (m) {
+        if (m.kind === "polygon") {
+          m.node.setAttribute("points", m.pcs.map(function (p) {
+            return px(p + off, m.r) + "," + py(p + off, m.r);
+          }).join(" "));
+        } else if (m.kind === "point") {
+          m.node.setAttribute("cx", px(m.pcs[0] + off, m.r));
+          m.node.setAttribute("cy", py(m.pcs[0] + off, m.r));
+        } else if (m.kind === "text") {
+          m.node.setAttribute("x", px(m.pcs[0] + off, m.r));
+          m.node.setAttribute("y", py(m.pcs[0] + off, m.r));
+        } else if (m.kind === "arc") {
+          m.node.setAttribute("d", arc(m.pcs[0] + off, m.pcs[1] + off, m.r, INSET));
+        }
+      });
+    }
 
     if (cfg.ghost) {
-      layer.appendChild(el("polygon", {
-        points: cfg.ghost.map(function (p) { return px(p, R_RIM) + "," + py(p, R_RIM); }).join(" "),
-        "class": "scale-shape ghost"
-      }));
+      follows(el("polygon", { "class": "scale-shape ghost" }), "polygon", cfg.ghost, R_RIM);
     }
-    var main = cfg.rows[0].pairs.slice(0, 7).map(function (p) { return p[0]; });
-    layer.appendChild(el("polygon", {
-      points: main.map(function (p) { return px(p, R_RIM) + "," + py(p, R_RIM); }).join(" "),
-      "class": "scale-shape"
-    }));
+    follows(el("polygon", { "class": "scale-shape" }), "polygon", main, R_RIM);
     if (cfg.ghost) {
       cfg.ghost.forEach(function (p) {
         if (main.indexOf(p) === -1) {
-          layer.appendChild(el("circle", {
-            cx: px(p, R_RIM), cy: py(p, R_RIM), r: 5, "class": "scale-dot hollow"
-          }));
+          follows(el("circle", { r: 5, "class": "scale-dot hollow" }), "point", [p], R_RIM);
         }
       });
     }
     main.forEach(function (p) {
-      layer.appendChild(el("circle", {
-        cx: px(p, R_RIM), cy: py(p, R_RIM), r: 5, "class": "scale-dot"
-      }));
+      follows(el("circle", { r: 5, "class": "scale-dot" }), "point", [p], R_RIM);
     });
 
-    var gapLabel = null, gapX = 0, gapY = 0;
     if (cfg.gap) {
-      layer.appendChild(el("path", {
-        d: arc(cfg.gap[0], cfg.gap[1], R_ARROW, INSET), "class": "gap-arc",
-        "marker-end": markerRef
-      }));
-      var gm = (cfg.gap[0] + cfg.gap[1]) / 2;
-      gapX = px(gm, R_ARROW_LABEL);
-      gapY = py(gm, R_ARROW_LABEL);
-      gapLabel = el("text", {
-        x: gapX, y: gapY, "class": "gap-label"
-      }, String(cfg.gap[1] - cfg.gap[0]));
-      layer.appendChild(gapLabel);
+      follows(el("path", { "class": "gap-arc", "marker-end": markerRef }),
+        "arc", [cfg.gap[0], cfg.gap[1]], R_ARROW);
+      follows(el("text", { "class": "gap-label" }, String(cfg.gap[1] - cfg.gap[0])),
+        "text", [(cfg.gap[0] + cfg.gap[1]) / 2], R_ARROW_LABEL);
     }
 
-    layer.appendChild(el("circle", {
-      cx: px(0, R_RIM), cy: py(0, R_RIM), r: 12, "class": "tonic-ring"
-    }));
+    follows(el("circle", { r: 12, "class": "tonic-ring" }), "point", [0], R_RIM);
+    place(0);
     clock.appendChild(layer);
 
     var hub = el("text", { x: CX, y: CY, "class": "hub", dy: "0.35em" });
@@ -1788,22 +1790,50 @@
 
     /* ----- transposition ----- */
 
-    /* the centre of rotation travels in the transform, in user units, so it
-       never depends on how the reference box is resolved at the rendered size */
-    function spin(node, deg, x, y) {
-      node.style.transform =
-        "translate(" + x + "px, " + y + "px) rotate(" + deg + "deg) " +
-        "translate(" + (-x) + "px, " + (-y) + "px)";
+    /* cubic-bezier(0.4, 0, 0.2, 1) */
+    function ease(u) {
+      var x1 = 0.4, x2 = 0.2, y1 = 0, y2 = 1, t = u, i, x, d;
+      for (i = 0; i < 8; i++) {
+        x = 3 * (1 - t) * (1 - t) * t * x1 + 3 * (1 - t) * t * t * x2 + t * t * t - u;
+        if (Math.abs(x) < 1e-6) { break; }
+        d = 3 * (1 - t) * (1 - t) * x1 + 6 * (1 - t) * t * (x2 - x1) + 3 * t * t * (1 - x2);
+        if (!d) { break; }
+        t -= x / d;
+        if (t < 0) { t = 0; } else if (t > 1) { t = 1; }
+      }
+      return 3 * (1 - t) * (1 - t) * t * y1 + 3 * (1 - t) * t * t * y2 + t * t * t;
+    }
+
+    function still() {
+      return !!(window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    }
+
+    function glide(to) {
+      var from = offset, span = to - from, t0 = null;
+      if (frame) { window.cancelAnimationFrame(frame); frame = null; }
+      if (!span || still() || !window.requestAnimationFrame) {
+        offset = to;
+        place(offset);
+        return;
+      }
+      frame = window.requestAnimationFrame(function step(now) {
+        if (t0 === null) { t0 = now; }
+        var u = (now - t0) / 700;
+        if (u >= 1) {
+          offset = to;
+          place(offset);
+          frame = null;
+          return;
+        }
+        offset = from + span * ease(u);
+        place(offset);
+        frame = window.requestAnimationFrame(step);
+      });
     }
 
     function setTonic(pc) {
-      var target = pc * 30;
-      var delta = ((target - (angle % 360)) % 360 + 540) % 360 - 180;
-      angle += delta;
-      spin(layer, angle, CX, CY);
-      if (gapLabel) {
-        spin(gapLabel, -angle, gapX, gapY);
-      }
+      glide(offset + (((pc - offset) % 12 + 18) % 12 - 6));
       hub.textContent = KEYS[pc].name + " " + cfg.label;
       drawStaff(pc);
 
