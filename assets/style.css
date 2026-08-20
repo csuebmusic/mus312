@@ -107,7 +107,7 @@ a { color: var(--accent); text-underline-offset: 2px; }
 
 .eyebrow {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: calc(var(--step) * 2);
   font-family: var(--font-data);
@@ -118,18 +118,7 @@ a { color: var(--accent); text-underline-offset: 2px; }
   margin: 0 0 calc(var(--step) * 1.5);
 }
 
-button.ground {
-  font-size: inherit;
-  letter-spacing: inherit;
-  text-transform: inherit;
-  color: var(--muted);
-  background: none;
-  border: 0;
-  border-bottom: var(--line) solid var(--rule);
-  padding: 0;
-  flex: none;
-}
-button.ground:hover { background: none; color: var(--accent); border-bottom-color: var(--accent); }
+button.ground { flex: none; }
 
 .howto {
   max-width: none;

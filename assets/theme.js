@@ -27,7 +27,7 @@
     if (on) { root.classList.add("dark"); } else { root.classList.remove("dark"); }
     var button = document.querySelector("button.ground");
     if (button) {
-      button.textContent = on ? "light" : "dark";
+      button.textContent = on ? "light ground" : "dark ground";
       button.setAttribute("aria-label", on ? "switch to the light ground" : "switch to the dark ground");
     }
   }
