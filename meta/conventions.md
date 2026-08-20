@@ -62,7 +62,7 @@ When changing how a figure is drawn, snapshot the rendered SVG of every figure f
 
 When adding or revoicing a four-voice example, check the voice leading: group noteheads by `data-col`, order them low to high, and confirm no parallel fifths or octaves between any pair of voices, no upper voice leaping past a fifth, no crossings, and no gap over an octave between adjacent upper voices.
 
-When changing playback, stub `AudioContext`, record every oscillator frequency and start time, and confirm the pitches and onsets of a chordal figure, a metered one, and a transposed one.
+When changing playback, stub `AudioContext`, record every oscillator frequency and start time, and confirm the pitches and onsets of a chordal figure, a metered one, and a transposed one. Run the stub from `suspended` and from `interrupted` as well as from `running`, and confirm every oscillator starts with the context running.
 
 ## checks before pushing a meta file
 

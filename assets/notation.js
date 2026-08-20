@@ -326,14 +326,37 @@ var MUS = (function () {
   var PITCH_RE = /^([A-G])(b{1,2}|#{1,2})?(\d)$/;
   var PARTIALS = [[1, 1], [2, 0.4], [3, 0.15], [4, 0.06]];
   var CHORD_BEAT = 0.85, LINE_BEAT = 0.48, RING = 1.7;
-  var CTX = null, current = null;
+  var CTX = null, current = null, unlocked = false;
 
+  /* iOS routes Web Audio to the ambient session, which the ringer switch
+     silences, and leaves a backgrounded context in "interrupted" rather than
+     "suspended". Both are handled here, inside the gesture that calls it. */
   function context() {
     var Ctor = window.AudioContext || window.webkitAudioContext;
     if (!Ctor) { return null; }
+    if (window.navigator && navigator.audioSession &&
+        navigator.audioSession.type !== "playback") {
+      try { navigator.audioSession.type = "playback"; } catch (err) {}
+    }
     if (!CTX) { CTX = new Ctor(); }
-    if (CTX.state === "suspended" && CTX.resume) { CTX.resume(); }
+    if (!unlocked && CTX.createBuffer && CTX.createBufferSource) {
+      try {
+        var s = CTX.createBufferSource();
+        s.buffer = CTX.createBuffer(1, 1, CTX.sampleRate);
+        s.connect(CTX.destination);
+        s.start(0);
+        unlocked = true;
+      } catch (err) { unlocked = true; }
+    }
     return CTX;
+  }
+
+  /* resume resolves after the hardware is running, and currentTime does not
+     advance before then. */
+  function running(ctx) {
+    if (ctx.state === "running") { return Promise.resolve(); }
+    var p = ctx.resume && ctx.resume();
+    return p && p.then ? p : Promise.resolve();
   }
 
   function pitchHz(name) {
@@ -426,6 +449,14 @@ var MUS = (function () {
     current = state;
     button.setAttribute("aria-pressed", "true");
 
+    running(ctx).then(function () {
+      if (current === state) { schedule(ctx, notes, beat, voices, state); }
+    }, function () {
+      if (current === state) { stopPlaying(); }
+    });
+  }
+
+  function schedule(ctx, notes, beat, voices, state) {
     var start = ctx.currentTime + 0.06, end = 0;
     notes.forEach(function (n) {
       var hz = pitchHz(n.note);

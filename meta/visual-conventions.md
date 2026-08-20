@@ -102,6 +102,8 @@ Playback reads the staff. `playButtons` walks the page in document order and put
 
 A beat is 0.85 seconds where any two notes share an onset, 0.48 seconds for a single line. A note sounds as four sine partials at 1, 2, 3, and 4 times its frequency, decaying exponentially over 1.7 times its notated length, so a chord rings into the one after it. Built on the Web Audio API with no library and no sample. The notehead takes `.sounding` while it sounds. One figure plays at a time, and pressing a playing button stops it.
 
+One context serves the page. The gesture that starts a figure sets the audio session to `playback`, starts a one-frame silent buffer, and resumes the context from any state other than running. A figure is scheduled after the resume resolves, so its notes and its highlighting are timed from a clock that is already advancing.
+
 ## spacing
 
 One unit is `--step`, 0.5rem. The vertical scale, in units:
