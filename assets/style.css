@@ -308,6 +308,7 @@ footer p { max-width: none; margin: 0; }
 
 .set { margin-top: calc(var(--step) * 5); }
 .set h2 { margin-bottom: var(--step); break-after: avoid; }
+.set p { max-width: none; }
 .set > p { break-after: avoid; }
 
 .ref {
@@ -325,7 +326,7 @@ ol.items {
 }
 ol.items > li { margin-bottom: calc(var(--step) * 3); break-inside: avoid; }
 ol.items > li:last-child { margin-bottom: 0; }
-ol.items > li > p { max-width: none; }
+ol.items > li, ol.items > li > p { max-width: none; }
 ol.items.blanks > li {
   padding-bottom: calc(var(--step) * 4);
   border-bottom: var(--line) solid var(--rule);

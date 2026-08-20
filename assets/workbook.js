@@ -1,25 +1,63 @@
 /* mus 312 workbook pages.
    Draws the blank staff paper a set writes on, and prints the page.
 
-   Every svg.answer takes data-staff="single" or "grand", and a grand staff
-   takes data-flats for its key signature. */
+   Every svg.answer takes data-staff:
+     "single"   one treble staff
+     "grand"    both staves
+     "figured"  both staves with a bass line and its figures already set
+   A grand or figured staff takes data-flats or data-sharps for its key
+   signature. A figured staff takes data-key for the key label, data-bass for
+   the bass notes, and data-fig for the figure under each of them: figures
+   within one chord separated by commas, one chord from the next by a bar. */
 (function () {
   "use strict";
 
   var RIGHT = 1580;
   var VIEW = {
     single: "0 20 1600 190",
-    grand: "0 30 1600 260"
+    grand: "0 30 1600 260",
+    figured: "0 30 1600 320"
   };
 
-  function draw(svg) {
-    var kind = svg.getAttribute("data-staff") === "grand" ? "grand" : "single";
-    svg.setAttribute("viewBox", VIEW[kind]);
-    if (kind === "grand") {
-      MUS.grandStaff(svg, parseInt(svg.getAttribute("data-flats") || "0", 10));
-    } else {
-      MUS.staff(svg);
+  var FIG_Y = 250, FIG_STEP = 17, BASS_X = 130, BASS_ADV = 130;
+
+  function count(svg, name) {
+    return parseInt(svg.getAttribute(name) || "0", 10);
+  }
+
+  function signature(svg) {
+    return MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
+  }
+
+  function figuredBass(svg) {
+    var sig = signature(svg);
+    var x0 = BASS_X + 13 * (count(svg, "data-flats") + count(svg, "data-sharps"));
+    var notes = (svg.getAttribute("data-bass") || "").split(/\s+/).filter(Boolean);
+    var figs = (svg.getAttribute("data-fig") || "").split("|");
+
+    notes.forEach(function (note, i) {
+      var x = x0 + i * BASS_ADV;
+      MUS.gsNote(svg, x, note, "b", { sig: sig });
+      (figs[i] || "").split(",").filter(Boolean).forEach(function (f, row) {
+        svg.appendChild(MUS.el("text", {
+          x: x + 7, y: FIG_Y + row * FIG_STEP, "class": "figbass"
+        }, f));
+      });
+    });
+
+    var key = svg.getAttribute("data-key");
+    if (key) {
+      svg.appendChild(MUS.el("text", { x: 14, y: FIG_Y, "class": "keylabel" }, key));
     }
+  }
+
+  function draw(svg) {
+    var kind = svg.getAttribute("data-staff");
+    if (!VIEW[kind]) { kind = "single"; }
+    svg.setAttribute("viewBox", VIEW[kind]);
+    if (kind === "figured") { figuredBass(svg); }
+    else if (kind === "grand") { signature(svg); }
+    else { MUS.staff(svg); }
     MUS.endStaff(svg, RIGHT);
   }
 

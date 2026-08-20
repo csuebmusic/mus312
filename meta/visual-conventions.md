@@ -90,7 +90,7 @@ The drawing keeps its own coordinates and is centred by a negative `viewBox` ori
 
 A note name is `C4`, `F#3`, `Eb5`. `noteDia` turns one into a diatonic index, `noteAlt` into an alteration of -1, 0, or 1, and `ledgers(target, x, step, bottomY)` draws the ledger lines for a step beyond either edge of a staff. Every figure uses these.
 
-Grand-staff figures use `assets/notation.js`: `grandStaff(svg, flats)` draws both staves, both clefs, the opening barline, and a flat key signature, returning the signature as a map; `gsNote(svg, x, note, which, opt)` draws one notehead with its ledger lines, taking `sig`, `accX`, `lit`, and `head`; `gsY(note, which)` returns a vertical position. `which` is `"t"` or `"b"`. Single-staff figures outside part 1 use `staff(svg)` and `chord(g, x, notes, hot, cool)`. Do not write a second copy of any of these.
+Grand-staff figures use `assets/notation.js`: `grandStaff(svg, flats, sharps)` draws both staves, both clefs, the opening barline, and a key signature, returning the signature as a map; a sharp key passes 0 flats and a count of sharps. `gsNote(svg, x, note, which, opt)` draws one notehead with its ledger lines, taking `sig`, `accX`, `lit`, and `head`; `gsY(note, which)` returns a vertical position. `which` is `"t"` or `"b"`. Single-staff figures outside part 1 use `staff(svg)` and `chord(g, x, notes, hot, cool)`. Do not write a second copy of any of these.
 
 A harmonic example written for a page is set in four voices, a bass note under three in the right hand.
 
@@ -166,7 +166,7 @@ The cap is `--figure`, set on the holder in `assets/style.css` to the panel inne
 
 A problem set is written on by hand. Its answer space is one of four: `ol.items.blanks`, which rules a line under each prompt; `p.write`, a labelled rule on one line; `table.fill`, whose empty cells stand 2.4rem tall; and `svg.answer`, blank staff paper. All four live in `assets/style.css`.
 
-`assets/workbook.js` draws every `svg.answer` and appends the print control to the page's `.controls`. A staff takes `data-staff="single"` for one treble staff or `"grand"` for both, and a grand staff takes `data-flats` for its key signature. The single staff draws on `viewBox="0 20 1600 190"` and the grand staff on `viewBox="0 30 1600 260"`, both closed at x = 1580. The space under the lowest staff is where figures and numerals are written.
+`assets/workbook.js` draws every `svg.answer` and appends the print control to the page's `.controls`. A staff takes `data-staff="single"` for one treble staff, `"grand"` for both, or `"figured"` for both with a bass line and its figures already set. A grand or figured staff takes `data-flats` or `data-sharps` for its key signature. A figured staff takes `data-key` for the key label, `data-bass` for the bass notes, and `data-fig` for the figures: commas within one chord, a bar between chords. Figures sit at y = 250, 17 apart, and the first bass note stands at x = 130 plus 13 for each accidental in the signature. The single staff draws on `viewBox="0 20 1600 190"`, the grand staff on `"0 30 1600 260"`, and the figured staff on `"0 30 1600 320"`, all closed at x = 1580. The space under the lowest staff is where figures and numerals are written.
 
 Printing sets `on-paper` on the root element for the length of the job, from `beforeprint` and from the print media query, so a page read on the dark ground still prints black on white. The print block drops the controls, the ground button, the index, and the panel borders.
 
