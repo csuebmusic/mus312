@@ -162,6 +162,14 @@ Drawings render at the scale their box gives them, so a drawing sized for a grid
 
 The cap is `--figure`, set on the holder in `assets/style.css` to the panel inner width from the table above and read by `svg { max-width: var(--figure, 1200px) }`. It holds when the grid collapses to one column and when the root font size changes. A figure wider than its panel sits in `.scroll-wrap` and sets `max-width: none`.
 
+## workbook pages
+
+A problem set is written on by hand. Its answer space is one of four: `ol.items.blanks`, which rules a line under each prompt; `p.write`, a labelled rule on one line; `table.fill`, whose empty cells stand 2.4rem tall; and `svg.answer`, blank staff paper. All four live in `assets/style.css`.
+
+`assets/workbook.js` draws every `svg.answer` and appends the print control to the page's `.controls`. A staff takes `data-staff="single"` for one treble staff or `"grand"` for both, and a grand staff takes `data-flats` for its key signature. The single staff draws on `viewBox="0 20 1600 190"` and the grand staff on `viewBox="0 30 1600 260"`, both closed at x = 1580. The space under the lowest staff is where figures and numerals are written.
+
+Printing sets `on-paper` on the root element for the length of the job, from `beforeprint` and from the print media query, so a page read on the dark ground still prints black on white. The print block drops the controls, the ground button, the index, and the panel borders.
+
 ## contents index
 
 A long page opens with `nav.toc` as the first child of `.page`, ahead of `.wrap`. Every `h1` and `h2` takes an id and appears in it. A lower heading takes one only where the page links to it.

@@ -25,7 +25,7 @@ https://csuebmusic.github.io/mus312/review/part-1.html
 https://csuebmusic.github.io/mus312/review/part-2.html
 https://csuebmusic.github.io/mus312/review/part-3.html
 https://csuebmusic.github.io/mus312/review/part-4.html
-One set per part of the harmony review. Semitone distances, interval names, scales, diatonic triads, chord spelling, figured bass, and nonchord tones. Function and depth of structure, the cadential six-four, the cadence types, the six sequences, and the prolongation patterns. Applied dominants and applied leading-tone chords, the augmented sixths and the Neapolitan, the function each chromatic chord carries, and modal mixture. Tonicization against modulation, the three stages, destabilizing the tonic, closely related keys, pivot charts for a diatonic and a chromatic move. Every exercise links the section of the review it draws on, and its answers open on a button.
+One set per part of the harmony review, worked by hand on blank staff paper. Semitone distances, interval names, scales, diatonic triads, chord spelling, figured bass, and nonchord tones. Function and depth of structure, the cadential six-four, the cadence types, the six sequences, and the prolongation patterns. Applied dominants and applied leading-tone chords, the augmented sixths and the Neapolitan, the function each chromatic chord carries, and modal mixture. Tonicization against modulation, the three stages, destabilizing the tonic, closely related keys, pivot charts for a diatonic and a chromatic move. Every exercise links the section of the review it draws on. A button prints the set or saves it as a PDF.
 
 **chord finder**
 https://csuebmusic.github.io/mus312/tools/chord-finder.html

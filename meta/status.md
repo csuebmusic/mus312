@@ -10,9 +10,9 @@
 
 `tools/annotation-guide.html`. Caplin's annotation rules on a C minor sentence in four layers, both notations at once; this course's numerals degree by degree; his Guide to Harmonic Annotation in full; two four-voice passages.
 
-`review/part-1.html` through `review/part-4.html`. Four problem sets, one per part of the harmony review, each exercise carrying an answer block that opens on a button. They stand outside the twelve packets and carry no weight.
+`review/part-1.html` through `review/part-4.html`. Four problem sets, one per part of the harmony review. Workbooks: blank staff paper, ruled lines, and tables to fill, worked by hand, with a button that prints the page or saves it as a PDF. No answers on the page. They stand outside the twelve packets and carry no weight.
 
-`assets/notation.js`, shared by all three tools. `assets/worksheet.js`, shared by the four problem sets. `assets/style.css` and self-hosted fonts.
+`assets/notation.js`, shared by all three tools. `assets/workbook.js`, shared by the four problem sets: it draws the blank staves and carries the print control. `assets/style.css` and self-hosted fonts.
 
 `meta/outline.md`, the sixteen-week schedule.
 
