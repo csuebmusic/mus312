@@ -4,35 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mus 312 &middot; problem set 3, chromatic harmony</title>
-<link rel="stylesheet" href="../assets/style.css?v=17">
+<link rel="stylesheet" href="../assets/style.css?v=18">
 <script src="../assets/theme.js?v=2"></script>
 <style>
-  .set { margin-top: calc(var(--step) * 5); }
-  .set h2 { margin-bottom: var(--step); }
-  .ref {
-    font-family: var(--font-data);
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-bottom: calc(var(--step) * 2);
-    max-width: none;
-  }
-  ol.items { margin: 0; padding-left: calc(var(--step) * 4); }
-  ol.items li { margin-bottom: calc(var(--step) * 1.5); max-width: var(--measure); }
-  ol.items.wide li { max-width: none; }
-  ol.items li:last-child { margin-bottom: 0; }
-  .cue { font-family: var(--font-data); }
-  .key {
-    border-left: 2px solid var(--accent);
-    background: var(--accent-wash);
-    padding: calc(var(--step) * 2) calc(var(--step) * 2) calc(var(--step) * 2) calc(var(--step) * 2.5);
-    margin-top: calc(var(--step) * 3);
-  }
-  .key > :last-child { margin-bottom: 0; }
-  .key p { max-width: none; }
-  table { margin-bottom: 0; }
-  @media print {
-    .controls { display: none; }
-    .key { break-inside: avoid; }
+  .staff-line { stroke: var(--ink); stroke-width: 1; }
+  .clef, .keysig {
+    font-family: var(--font-music);
+    fill: var(--ink);
+    font-size: 48px;
   }
 </style>
 </head>
@@ -44,101 +23,87 @@
 
   <p class="full">Applied dominants, applied leading-tone chords, the augmented sixths, the Neapolitan, and modal mixture. Applied chords take the slash form with a curved arrow to the target.</p>
 
-  <div class="controls">
-    <button type="button" class="answers-all" aria-pressed="false">show every answer</button>
-  </div>
+  <p class="slug">name <span></span> date <span></span></p>
+
+  <div class="controls"></div>
 
   <section class="panel set">
     <h2>1, applied dominants</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-applied">applied dominant chords</a></p>
-    <p>Spell each applied dominant as a triad, add its seventh, and name the chord it points to.</p>
-    <ol class="items wide">
-      <li class="cue">D major: <span class="caps">V</span>/ii, <span class="caps">V</span>/iii, <span class="caps">V</span>/<span class="caps">IV</span>, <span class="caps">V</span>/<span class="caps">V</span>, <span class="caps">V</span>/vi</li>
-      <li class="cue">C minor: <span class="caps">V</span>/♭<span class="caps">III</span>, <span class="caps">V</span>/iv, <span class="caps">V</span>/<span class="caps">V</span>, <span class="caps">V</span>/♭<span class="caps">VI</span></li>
-      <li>Say which diatonic triads of a major key cannot be tonicized.</li>
+    <p>Spell each applied dominant as a root-position triad on the staff, add its seventh as a fifth note, and name the chord it points to on the line.</p>
+    <ol class="items">
+      <li>
+        <p class="cue">D major: <span class="caps">V</span>/ii, <span class="caps">V</span>/iii, <span class="caps">V</span>/<span class="caps">IV</span>, <span class="caps">V</span>/<span class="caps">V</span>, <span class="caps">V</span>/vi</p>
+        <svg class="answer" data-staff="single" role="img" aria-label="Blank treble staff"></svg>
+        <p class="write">targets</p>
+      </li>
+      <li>
+        <p class="cue">C minor: <span class="caps">V</span>/♭<span class="caps">III</span>, <span class="caps">V</span>/iv, <span class="caps">V</span>/<span class="caps">V</span>, <span class="caps">V</span>/♭<span class="caps">VI</span></p>
+        <svg class="answer" data-staff="single" role="img" aria-label="Blank treble staff"></svg>
+        <p class="write">targets</p>
+      </li>
     </ol>
-    <div class="key">
-      <p><span class="caps">D</span> major. <span class="caps">V</span>/ii: B D♯ F♯, seventh A, to E minor. <span class="caps">V</span>/iii: C♯ E♯ G♯, seventh B, to F♯ minor. <span class="caps">V</span>/<span class="caps">IV</span>: D F♯ A, seventh C, to G major. <span class="caps">V</span>/<span class="caps">V</span>: E G♯ B, seventh D, to A major. <span class="caps">V</span>/vi: F♯ A♯ C♯, seventh E, to B minor.</p>
-      <p><span class="caps">C</span> minor. <span class="caps">V</span>/♭<span class="caps">III</span>: B♭ D F, seventh A♭, to E♭ major. <span class="caps">V</span>/iv: C E♮ G, seventh B♭, to F minor. <span class="caps">V</span>/<span class="caps">V</span>: D F♯ A, seventh C, to G major. <span class="caps">V</span>/♭<span class="caps">VI</span>: E♭ G B♭, seventh D♭, to A♭ major.</p>
-      <p>Only a major or minor triad is tonicized. The tonic already has its dominant in the key, and the triad on 7̂ is diminished. In minor, ♭<span class="caps">VII</span> most often acts as the dominant of ♭<span class="caps">III</span> rather than as a target.</p>
-    </div>
+    <p>Name the diatonic triads of a major key that cannot be tonicized, and say what rules each one out.</p>
+    <p class="write"></p>
+    <p class="write"></p>
   </section>
 
   <section class="panel set">
     <h2>2, the accidentals an applied dominant takes</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-applied">applied dominant chords</a></p>
-    <p>In C major, name the diatonic triad each applied dominant stands on and the accidental or accidentals that turn it major.</p>
-    <ol class="items">
+    <p>In C major, name the diatonic triad each applied dominant stands on, the accidental or accidentals that turn it major, and the three notes of the result.</p>
+    <ol class="items blanks">
       <li class="cue"><span class="caps">V</span>/ii</li>
       <li class="cue"><span class="caps">V</span>/iii</li>
       <li class="cue"><span class="caps">V</span>/<span class="caps">IV</span></li>
       <li class="cue"><span class="caps">V</span>/<span class="caps">V</span></li>
       <li class="cue"><span class="caps">V</span>/vi</li>
     </ol>
-    <div class="key">
-      <ol class="items wide">
-        <li>Stands on vi, a minor triad. The third rises: A C♯ E.</li>
-        <li>Stands on vii°, a diminished triad. The third and the fifth rise: B D♯ F♯.</li>
-        <li>Stands on <span class="caps">I</span>, already major, and takes no accidental: C E G. The seventh B♭ is what marks it.</li>
-        <li>Stands on ii, a minor triad. The third rises: D F♯ A.</li>
-        <li>Stands on iii, a minor triad. The third rises: E G♯ B.</li>
-      </ol>
-    </div>
   </section>
 
   <section class="panel set">
     <h2>3, applied leading-tone chords</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-leading">applied leading-tone chords</a></p>
-    <p>In C major, spell the fully diminished seventh applied to each of ii, iii, <span class="caps">IV</span>, <span class="caps">V</span>, and vi. Say which of the five targets also admits a half-diminished seventh and spell those. Then write the resolution of vii°7/<span class="caps">V</span> to <span class="caps">V</span> in four voices, naming what each sensitive tone does.</p>
-    <div class="key">
-      <p>Roots sit a semitone below the root of the target. vii°7/ii: C♯ E G B♭. vii°7/iii: D♯ F♯ A C. vii°7/<span class="caps">IV</span>: E G B♭ D♭. vii°7/<span class="caps">V</span>: F♯ A C E♭. vii°7/vi: G♯ B D F.</p>
-      <p>The fully diminished belongs to a minor tonic and the half-diminished to a major one, so only the major targets <span class="caps">IV</span> and <span class="caps">V</span> admit it: viiø7/<span class="caps">IV</span> is E G B♭ D, viiø7/<span class="caps">V</span> is F♯ A C E. The fully diminished is the more common in both cases.</p>
-      <p>F♯ A C E♭ to G B D G. F♯ is the leading tone and rises to G. C is the diminished fifth above the root and falls to B. E♭ is the chordal seventh and falls to D. A moves to G. No sensitive tone is doubled.</p>
-    </div>
+    <p>In C major, spell the fully diminished seventh applied to ii, iii, <span class="caps">IV</span>, <span class="caps">V</span>, and vi, in that order.</p>
+    <svg class="answer" data-staff="single" role="img" aria-label="Blank treble staff"></svg>
+    <p>Two of the five targets also admit a half-diminished seventh. Name them, say what admits them, and spell both chords.</p>
+    <p class="write">targets</p>
+    <svg class="answer" data-staff="single" role="img" aria-label="Blank treble staff"></svg>
+    <p>Write vii°7/<span class="caps">V</span> resolving to <span class="caps">V</span> in four voices. Mark each sensitive tone and draw an arrow to where it goes.</p>
+    <svg class="answer" data-staff="grand" role="img" aria-label="Blank grand staff"></svg>
   </section>
 
   <section class="panel set">
     <h2>4, chromatic pre-dominants</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-chrom-pd">chromatic pre-dominants</a></p>
-    <p>Spell the Italian, French, and German augmented sixths and the Neapolitan sixth in each key. Mark the doubling where the chord takes one, and put the right note in the bass.</p>
-    <ol class="items">
-      <li class="cue">C minor</li>
-      <li class="cue">A minor</li>
-      <li class="cue">D minor</li>
-    </ol>
-    <div class="key">
-      <p><span class="caps">C</span> minor. It+6: A♭ C F♯, C doubled. Fr+6: A♭ C D F♯. Ger+6: A♭ C E♭ F♯. N6: D♭ F A♭, F in the bass and doubled.</p>
-      <p><span class="caps">A</span> minor. It+6: F A D♯, A doubled. Fr+6: F A B D♯. Ger+6: F A C D♯. N6: B♭ D F, D in the bass and doubled.</p>
-      <p><span class="caps">D</span> minor. It+6: B♭ D G♯, D doubled. Fr+6: B♭ D E G♯. Ger+6: B♭ D F G♯. N6: E♭ G B♭, G in the bass and doubled.</p>
-      <p>♭6̂ is in the bass of all three augmented sixths, and the augmented sixth itself is the interval from ♭6̂ up to ♯4̂.</p>
-    </div>
+    <p>Spell It+6, Fr+6, Ger+6, and N6 in each key, in that order, in four voices. Mark the doubling where the chord takes one, and put the right note in the bass.</p>
+    <p class="staff-label">C minor</p>
+    <svg class="answer" data-staff="grand" data-flats="3" role="img" aria-label="Blank grand staff with three flats"></svg>
+    <p class="staff-label">A minor</p>
+    <svg class="answer" data-staff="grand" role="img" aria-label="Blank grand staff"></svg>
+    <p class="staff-label">D minor</p>
+    <svg class="answer" data-staff="grand" data-flats="1" role="img" aria-label="Blank grand staff with one flat"></svg>
+    <p>Name the two degrees the augmented sixth itself is measured between.</p>
+    <p class="write"></p>
   </section>
 
   <section class="panel set">
     <h2>5, resolutions</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-chrom-pd">chromatic pre-dominants</a></p>
     <p>Give the destination of every tone, by scale degree.</p>
-    <ol class="items wide">
+    <ol class="items blanks">
       <li>The three tones of It+6, including the doubling.</li>
       <li>The tone that separates Fr+6 from It+6.</li>
-      <li>The tone that separates Ger+6 from It+6, and the chord Ger+6 moves through on its way to <span class="caps">V</span>.</li>
+      <li>The tone that separates Ger+6 from It+6, the chord Ger+6 moves through on its way to <span class="caps">V</span>, and what goes wrong without it.</li>
       <li>The four tones of N6, and what happens to the fifth of the <span class="caps">V</span>7 that follows.</li>
     </ol>
-    <div class="key">
-      <ol class="items wide">
-        <li>♭6̂ in the bass falls to 5̂. ♯4̂ rises to 5̂. 1̂ moves to 7̂, and the doubled 1̂ moves to 2̂.</li>
-        <li>2̂, which is held, or moves to the seventh where the dominant arrives as <span class="caps">V</span>7.</li>
-        <li>♭3̂, which is held into a cadential six-four. Moving Ger+6 straight to <span class="caps">V</span> puts parallel fifths between ♭6̂ &ndash; ♭3̂ and 5̂ &ndash; 2̂.</li>
-        <li>4̂ in the bass rises to 5̂. The doubled 4̂ stays where it is and becomes the seventh of <span class="caps">V</span>7. ♭2̂ leaps down to 7̂. ♭6̂ falls to 5̂. The <span class="caps">V</span>7 arrives without its fifth.</li>
-      </ol>
-    </div>
   </section>
 
   <section class="panel set">
     <h2>6, function</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-embedded">function and applied chords</a> &middot; <a href="../tools/harmony-review.html#sec-master-chart">master function and prolongation chart</a></p>
     <p>Give the function of each chord in C major.</p>
-    <ol class="items">
+    <ol class="items blanks">
       <li class="cue"><span class="caps">V</span>/<span class="caps">V</span></li>
       <li class="cue">vii°7/vi</li>
       <li class="cue"><span class="caps">V</span>7/<span class="caps">IV</span></li>
@@ -146,24 +111,15 @@
       <li class="cue"><span class="caps">N</span>6</li>
       <li class="cue"><span class="caps">V</span>/iii</li>
     </ol>
-    <div class="key">
-      <ol class="items">
-        <li>Dominant.</li>
-        <li>Mediant.</li>
-        <li>Pre-dominant.</li>
-        <li>Pre-dominant.</li>
-        <li>Pre-dominant.</li>
-        <li>Mediant.</li>
-      </ol>
-      <p>An applied chord takes the function of the chord it points at. A tonicization carrying more than one applied chord is an extended tonicization, and the chords it governs form an embedded phrase model: ii/<span class="caps">V</span> and <span class="caps">V</span>7/<span class="caps">V</span> arriving on <span class="caps">V</span> are a pre-dominant and a dominant inside the dominant space.</p>
-    </div>
+    <p>Write the progression <span class="caps">I</span> &ndash; <span class="caps">IV</span> &ndash; ii/<span class="caps">V</span> &ndash; <span class="caps">V</span>7/<span class="caps">V</span> &ndash; <span class="caps">V</span> &ndash; <span class="caps">I</span> in four voices in C major. Bracket the embedded phrase model, and read the functions on two levels: in the key of the dominant above, in C major below.</p>
+    <svg class="answer" data-staff="grand" role="img" aria-label="Blank grand staff"></svg>
   </section>
 
   <section class="panel set">
     <h2>7, modal mixture</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-master-chart">master function and prolongation chart</a></p>
-    <p>Spell each borrowed chord in C major and name the degree or degrees it alters. Then say which function most mixture chords carry and which degree turns up most often.</p>
-    <ol class="items">
+    <p>Spell each borrowed chord in C major on the staff, in the order given, and name the degree or degrees it alters on the line.</p>
+    <ol class="items tight">
       <li class="cue">iv</li>
       <li class="cue">ii°6</li>
       <li class="cue">♭<span class="caps">VI</span></li>
@@ -171,25 +127,20 @@
       <li class="cue">i</li>
       <li class="cue">vii°7</li>
     </ol>
-    <div class="key">
-      <ol class="items wide">
-        <li class="cue">F A♭ C. ♭6̂.</li>
-        <li class="cue">D F A♭, F in the bass. ♭6̂.</li>
-        <li class="cue">A♭ C E♭. ♭6̂ and ♭3̂.</li>
-        <li class="cue">E♭ G B♭. ♭3̂ and ♭7̂.</li>
-        <li class="cue">C E♭ G. ♭3̂.</li>
-        <li class="cue">B D F A♭. ♭6̂.</li>
-      </ol>
-      <p>Mixture works mostly through pre-dominant function. ♭6̂ is the degree most often involved: it drives by half step to 5̂ and colors every pre-dominant, and it leaves the mode of the passage standing where ♭3̂ would put it in question.</p>
-    </div>
+    <svg class="answer" data-staff="single" role="img" aria-label="Blank treble staff"></svg>
+    <p class="write">degrees altered</p>
+    <p>Name the function most mixture chords carry and the degree that turns up most often.</p>
+    <p class="write">function</p>
+    <p class="write">degree</p>
   </section>
 
   <footer>
-    <p>Text set in <span class="caps">IBM</span> Plex, under the <span class="caps">SIL</span> Open Font License.</p>
+    <p>Notation set in Bravura, Steinberg Media Technologies. Text set in <span class="caps">IBM</span> Plex. Both under the <span class="caps">SIL</span> Open Font License.</p>
   </footer>
 
 </div>
 
-<script src="../assets/worksheet.js?v=1"></script>
+<script src="../assets/notation.js?v=24"></script>
+<script src="../assets/workbook.js?v=1"></script>
 </body>
 </html>

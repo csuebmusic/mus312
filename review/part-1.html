@@ -4,35 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mus 312 &middot; problem set 1, counting in semitones</title>
-<link rel="stylesheet" href="../assets/style.css?v=17">
+<link rel="stylesheet" href="../assets/style.css?v=18">
 <script src="../assets/theme.js?v=2"></script>
 <style>
-  .set { margin-top: calc(var(--step) * 5); }
-  .set h2 { margin-bottom: var(--step); }
-  .ref {
-    font-family: var(--font-data);
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-bottom: calc(var(--step) * 2);
-    max-width: none;
-  }
-  ol.items { margin: 0; padding-left: calc(var(--step) * 4); }
-  ol.items li { margin-bottom: calc(var(--step) * 1.5); max-width: var(--measure); }
-  ol.items.wide li { max-width: none; }
-  ol.items li:last-child { margin-bottom: 0; }
-  .cue { font-family: var(--font-data); }
-  .key {
-    border-left: 2px solid var(--accent);
-    background: var(--accent-wash);
-    padding: calc(var(--step) * 2) calc(var(--step) * 2) calc(var(--step) * 2) calc(var(--step) * 2.5);
-    margin-top: calc(var(--step) * 3);
-  }
-  .key > :last-child { margin-bottom: 0; }
-  .key p { max-width: none; }
-  table { margin-bottom: 0; }
-  @media print {
-    .controls { display: none; }
-    .key { break-inside: avoid; }
+  .staff-line { stroke: var(--ink); stroke-width: 1; }
+  .clef, .keysig {
+    font-family: var(--font-music);
+    fill: var(--ink);
+    font-size: 48px;
   }
 </style>
 </head>
@@ -42,17 +21,17 @@
   <p class="eyebrow">mus 312 &middot; harmony review &middot; problem set 1</p>
   <h1>counting in semitones</h1>
 
-  <p class="full">Scales, intervals, triads, figured bass, inversions, and nonchord tones. Where an exercise asks for notation, write it on staff paper and keep the spelling exact.</p>
+  <p class="full">Scales, intervals, triads, figured bass, inversions, and nonchord tones. Write by hand on the staves and the lines provided, and keep every spelling exact.</p>
 
-  <div class="controls">
-    <button type="button" class="answers-all" aria-pressed="false">show every answer</button>
-  </div>
+  <p class="slug">name <span></span> date <span></span></p>
+
+  <div class="controls"></div>
 
   <section class="panel set">
-    <h2>1, semitone distances</h2>
+    <h2>1, semitone distances and interval names</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-major">major</a> &middot; <a href="../tools/harmony-review.html#sec-intervals">interval names</a></p>
-    <p>Count the semitones from the first pitch up to the second.</p>
-    <ol class="items">
+    <p>Count the semitones from the first pitch up to the second, then name the interval by quality and size.</p>
+    <ol class="items blanks">
       <li class="cue">C4 to A4</li>
       <li class="cue">E4 to B♭4</li>
       <li class="cue">F♯3 to D4</li>
@@ -62,134 +41,112 @@
       <li class="cue">G♯3 to B3</li>
       <li class="cue">C♯4 to G4</li>
     </ol>
-    <div class="key">
-      <ol class="items">
-        <li>9</li>
-        <li>6</li>
-        <li>8</li>
-        <li>5</li>
-        <li>11</li>
-        <li>9</li>
-        <li>3</li>
-        <li>6</li>
-      </ol>
-    </div>
   </section>
 
   <section class="panel set">
-    <h2>2, interval names</h2>
+    <h2>2, spelling against distance</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-intervals">interval names</a></p>
-    <p>Name each interval of exercise 1 by quality and size. Then name these four, and give the semitone count of each.</p>
-    <ol class="items" start="9">
+    <p>Name each interval and give its semitone count. Then say what separates items 1 and 2 from each other, and item 3 from a major third.</p>
+    <ol class="items blanks">
       <li class="cue">C4 to F♯4</li>
       <li class="cue">C4 to G♭4</li>
       <li class="cue">D4 to G♭4</li>
       <li class="cue">B♭3 to C♯4</li>
     </ol>
-    <div class="key">
-      <ol class="items">
-        <li>major sixth</li>
-        <li>diminished fifth</li>
-        <li>minor sixth</li>
-        <li>perfect fourth</li>
-        <li>major seventh</li>
-        <li>major sixth</li>
-        <li>minor third</li>
-        <li>diminished fifth</li>
-        <li>augmented fourth, 6</li>
-        <li>diminished fifth, 6</li>
-        <li>diminished fourth, 4</li>
-        <li>augmented second, 3</li>
-      </ol>
-      <p>Items 9 and 10 span the same distance and take different names; item 11 spans the same distance as a major third and takes a different name again. The letters decide the size, the semitones decide the quality.</p>
-    </div>
+    <p class="write">the difference</p>
+    <p class="write"></p>
   </section>
 
   <section class="panel set">
     <h2>3, scales</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-natural">natural minor</a> &middot; <a href="../tools/harmony-review.html#sec-harmonic">harmonic minor</a> &middot; <a href="../tools/harmony-review.html#sec-melodic">melodic minor</a></p>
-    <p>Write each scale ascending, one letter per degree, with its key signature.</p>
+    <p>Write each scale ascending in whole notes, one octave, with every accidental drawn in front of the note it belongs to. Give the key signature of each minor tonic on the line.</p>
     <ol class="items">
-      <li class="cue">F♯ natural minor</li>
-      <li class="cue">F♯ harmonic minor</li>
-      <li class="cue">F♯ melodic minor, ascending form</li>
-      <li class="cue">E♭ natural minor</li>
-      <li class="cue">E♭ harmonic minor</li>
-      <li class="cue">E♭ melodic minor, ascending form</li>
-      <li class="cue">B major</li>
-      <li class="cue">A♭ major</li>
+      <li>
+        <p class="cue">F♯ natural minor</p>
+        <svg class="answer" data-staff="single" role="img" aria-label="Blank treble staff"></svg>
+        <p class="write">key signature</p>
+      </li>
+      <li>
+        <p class="cue">F♯ harmonic minor</p>
+        <svg class="answer" data-staff="single" role="img" aria-label="Blank treble staff"></svg>
+      </li>
+      <li>
+        <p class="cue">F♯ melodic minor, ascending form</p>
+        <svg class="answer" data-staff="single" role="img" aria-label="Blank treble staff"></svg>
+      </li>
+      <li>
+        <p class="cue">E♭ natural minor</p>
+        <svg class="answer" data-staff="single" role="img" aria-label="Blank treble staff"></svg>
+        <p class="write">key signature</p>
+      </li>
+      <li>
+        <p class="cue">E♭ harmonic minor</p>
+        <svg class="answer" data-staff="single" role="img" aria-label="Blank treble staff"></svg>
+      </li>
+      <li>
+        <p class="cue">E♭ melodic minor, ascending form</p>
+        <svg class="answer" data-staff="single" role="img" aria-label="Blank treble staff"></svg>
+      </li>
+      <li>
+        <p class="cue">B major</p>
+        <svg class="answer" data-staff="single" role="img" aria-label="Blank treble staff"></svg>
+      </li>
+      <li>
+        <p class="cue">A♭ major</p>
+        <svg class="answer" data-staff="single" role="img" aria-label="Blank treble staff"></svg>
+      </li>
     </ol>
-    <div class="key">
-      <ol class="items wide">
-        <li class="cue">F♯ G♯ A B C♯ D E F♯ &nbsp; (three sharps)</li>
-        <li class="cue">F♯ G♯ A B C♯ D E♯ F♯</li>
-        <li class="cue">F♯ G♯ A B C♯ D♯ E♯ F♯</li>
-        <li class="cue">E♭ F G♭ A♭ B♭ C♭ D♭ E♭ &nbsp; (six flats)</li>
-        <li class="cue">E♭ F G♭ A♭ B♭ C♭ D E♭</li>
-        <li class="cue">E♭ F G♭ A♭ B♭ C D E♭</li>
-        <li class="cue">B C♯ D♯ E F♯ G♯ A♯ B &nbsp; (five sharps)</li>
-        <li class="cue">A♭ B♭ C D♭ E♭ F G A♭ &nbsp; (four flats)</li>
-      </ol>
-      <p>Every degree keeps its own letter. E♯ in F♯ harmonic minor and C♭ in E♭ natural minor follow from that.</p>
-    </div>
   </section>
 
   <section class="panel set">
     <h2>4, diatonic triads</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-triads">diatonic triads</a> &middot; <a href="../tools/harmony-review.html#sec-minor-triads">diatonic triads in minor</a></p>
-    <p>Give the roman numeral and the quality of the triad on every degree, in major, in natural minor, and in harmonic minor. Then name the three triads that change quality between natural and harmonic minor, and the degree that changes them.</p>
-    <div class="key">
-      <table>
-        <thead>
-          <tr><th>degree</th><th>major</th><th>natural minor</th><th>harmonic minor</th></tr>
-        </thead>
-        <tbody>
-          <tr><th class="num">1</th><td class="num"><span class="caps">I</span>, major</td><td class="num">i, minor</td><td class="num">i, minor</td></tr>
-          <tr><th class="num">2</th><td class="num">ii, minor</td><td class="num">ii°, diminished</td><td class="num">ii°, diminished</td></tr>
-          <tr><th class="num">3</th><td class="num">iii, minor</td><td class="num">♭<span class="caps">III</span>, major</td><td class="num">♭<span class="caps">III</span>+, augmented</td></tr>
-          <tr><th class="num">4</th><td class="num"><span class="caps">IV</span>, major</td><td class="num">iv, minor</td><td class="num">iv, minor</td></tr>
-          <tr><th class="num">5</th><td class="num"><span class="caps">V</span>, major</td><td class="num">v, minor</td><td class="num"><span class="caps">V</span>, major</td></tr>
-          <tr><th class="num">6</th><td class="num">vi, minor</td><td class="num">♭<span class="caps">VI</span>, major</td><td class="num">♭<span class="caps">VI</span>, major</td></tr>
-          <tr><th class="num">7</th><td class="num">vii°, diminished</td><td class="num">♭<span class="caps">VII</span>, major</td><td class="num">vii°, diminished</td></tr>
-        </tbody>
-      </table>
-      <p>The raised 7̂ falls in the triads on 3, 5, and 7: ♭<span class="caps">III</span> becomes augmented, v becomes major, and ♭<span class="caps">VII</span> becomes diminished on the raised degree.</p>
-    </div>
+    <p>Fill in the roman numeral and the quality of the triad on every degree.</p>
+    <table class="fill">
+      <thead>
+        <tr><th>degree</th><th>major</th><th>natural minor</th><th>harmonic minor</th></tr>
+      </thead>
+      <tbody>
+        <tr><th class="num">1</th><td></td><td></td><td></td></tr>
+        <tr><th class="num">2</th><td></td><td></td><td></td></tr>
+        <tr><th class="num">3</th><td></td><td></td><td></td></tr>
+        <tr><th class="num">4</th><td></td><td></td><td></td></tr>
+        <tr><th class="num">5</th><td></td><td></td><td></td></tr>
+        <tr><th class="num">6</th><td></td><td></td><td></td></tr>
+        <tr><th class="num">7</th><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+    <p>Name the three triads that change quality between natural and harmonic minor, and the degree that changes them.</p>
+    <p class="write">triads</p>
+    <p class="write">degree</p>
   </section>
 
   <section class="panel set">
     <h2>5, chord spelling</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-builder">chord builder</a></p>
-    <p>Spell each chord from the bottom up.</p>
-    <ol class="items">
+    <p>Spell each chord in whole notes on the staff below its group, in the order given.</p>
+    <ol class="items tight">
       <li class="cue">G♯ half-diminished seventh</li>
       <li class="cue">B♭ dominant seventh</li>
       <li class="cue">F♯ fully diminished seventh</li>
       <li class="cue">E♭ major seventh</li>
+    </ol>
+    <svg class="answer" data-staff="single" role="img" aria-label="Blank treble staff for items 1 to 4"></svg>
+    <ol class="items tight" start="5">
       <li class="cue">C minor seventh</li>
       <li class="cue">D augmented triad</li>
       <li class="cue">A♭ minor triad</li>
       <li class="cue">B fully diminished seventh</li>
     </ol>
-    <div class="key">
-      <ol class="items">
-        <li class="cue">G♯ B D F♯</li>
-        <li class="cue">B♭ D F A♭</li>
-        <li class="cue">F♯ A C E♭</li>
-        <li class="cue">E♭ G B♭ D</li>
-        <li class="cue">C E♭ G B♭</li>
-        <li class="cue">D F♯ A♯</li>
-        <li class="cue">A♭ C♭ E♭</li>
-        <li class="cue">B D F A♭</li>
-      </ol>
-    </div>
+    <svg class="answer" data-staff="single" role="img" aria-label="Blank treble staff for items 5 to 8"></svg>
   </section>
 
   <section class="panel set">
     <h2>6, figured bass</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-figured">figured bass</a> &middot; <a href="../tools/harmony-review.html#sec-inversions">inversions</a></p>
     <p>Each item gives a key, a bass note, and a figure. Read the figure against the key signature. Name the chord, say which member is in the bass, and give the roman numeral.</p>
-    <ol class="items wide">
+    <ol class="items blanks">
       <li class="cue">D major, bass F♯, 6</li>
       <li class="cue">A minor, bass D, 6</li>
       <li class="cue">B♭ major, bass F, 6/4</li>
@@ -199,26 +156,17 @@
       <li class="cue">D minor, bass B♭, 6/5</li>
       <li class="cue">C minor, bass G, 6/4 to 5/3</li>
     </ol>
-    <div class="key">
-      <ol class="items wide">
-        <li class="cue">D F♯ A, third in the bass, <span class="caps">I</span>6</li>
-        <li class="cue">B D F, third in the bass, ii°6</li>
-        <li class="cue">B♭ D F, fifth in the bass, <span class="caps">I</span>6/4</li>
-        <li class="cue">B D♯ F♯ A, third in the bass, <span class="caps">V</span>6/5</li>
-        <li class="cue">D F A C, seventh in the bass, ii4/2</li>
-        <li class="cue">B D F♯, root position, iii</li>
-        <li class="cue">G B♭ D F, third in the bass, iv6/5</li>
-        <li class="cue">C E♭ G over G, moving to G B♮ D: Cad6/4 to <span class="caps">V</span></li>
-      </ol>
-      <p>In item 4 the fifth above D♯ is A♮, the sixth is B. In item 8 the sixth and the fourth above the bass fall by step to the fifth and the third, and the bass holds.</p>
-    </div>
+    <p>Realize items 1 to 4 in four voices, a bass note under three in the right hand, and write the figures under the bass.</p>
+    <svg class="answer" data-staff="grand" role="img" aria-label="Blank grand staff for items 1 to 4"></svg>
+    <p>Realize item 8 in four voices and resolve it. The key signature is given.</p>
+    <svg class="answer" data-staff="grand" data-flats="3" role="img" aria-label="Blank grand staff with three flats"></svg>
   </section>
 
   <section class="panel set">
     <h2>7, nonchord tones</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-nct">nonchord tones</a></p>
     <p>Name the type in each situation.</p>
-    <ol class="items wide">
+    <ol class="items blanks">
       <li>Over a tonic held through the bar in C major, the soprano moves E, F, G, with the F on a weak beat.</li>
       <li>Over <span class="caps">V</span> in C major, the soprano moves B, C, B, with the C on a weak beat.</li>
       <li><span class="caps">IV</span> moves to <span class="caps">V</span> in C major. The soprano holds C across the change and falls to B on the second beat.</li>
@@ -226,25 +174,17 @@
       <li>At a cadence in C major, the soprano leaves D over the <span class="caps">V</span> and reaches C before the tonic arrives.</li>
       <li>The bass holds G while the upper voices move through <span class="caps">I</span>, ii6, and <span class="caps">V</span>.</li>
     </ol>
-    <div class="key">
-      <ol class="items wide">
-        <li>Passing tone.</li>
-        <li>Upper neighbor.</li>
-        <li>Suspension, 4 to 3 above the bass.</li>
-        <li>Accented passing tone.</li>
-        <li>Anticipation.</li>
-        <li>Pedal, on the dominant.</li>
-      </ol>
-      <p>Items 1 and 4 fill the same third. The metric placement is what separates them.</p>
-    </div>
+    <p>Two of the six fill the same third. Name them, and name what separates them.</p>
+    <p class="write"></p>
   </section>
 
   <footer>
-    <p>Text set in <span class="caps">IBM</span> Plex, under the <span class="caps">SIL</span> Open Font License.</p>
+    <p>Notation set in Bravura, Steinberg Media Technologies. Text set in <span class="caps">IBM</span> Plex. Both under the <span class="caps">SIL</span> Open Font License.</p>
   </footer>
 
 </div>
 
-<script src="../assets/worksheet.js?v=1"></script>
+<script src="../assets/notation.js?v=24"></script>
+<script src="../assets/workbook.js?v=1"></script>
 </body>
 </html>

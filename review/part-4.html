@@ -4,35 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mus 312 &middot; problem set 4, modulation</title>
-<link rel="stylesheet" href="../assets/style.css?v=17">
+<link rel="stylesheet" href="../assets/style.css?v=18">
 <script src="../assets/theme.js?v=2"></script>
 <style>
-  .set { margin-top: calc(var(--step) * 5); }
-  .set h2 { margin-bottom: var(--step); }
-  .ref {
-    font-family: var(--font-data);
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-bottom: calc(var(--step) * 2);
-    max-width: none;
-  }
-  ol.items { margin: 0; padding-left: calc(var(--step) * 4); }
-  ol.items li { margin-bottom: calc(var(--step) * 1.5); max-width: var(--measure); }
-  ol.items.wide li { max-width: none; }
-  ol.items li:last-child { margin-bottom: 0; }
-  .cue { font-family: var(--font-data); }
-  .key {
-    border-left: 2px solid var(--accent);
-    background: var(--accent-wash);
-    padding: calc(var(--step) * 2) calc(var(--step) * 2) calc(var(--step) * 2) calc(var(--step) * 2.5);
-    margin-top: calc(var(--step) * 3);
-  }
-  .key > :last-child { margin-bottom: 0; }
-  .key p { max-width: none; }
-  table { margin-bottom: 0; }
-  @media print {
-    .controls { display: none; }
-    .key { break-inside: avoid; }
+  .staff-line { stroke: var(--ink); stroke-width: 1; }
+  .clef, .keysig {
+    font-family: var(--font-music);
+    fill: var(--ink);
+    font-size: 48px;
   }
 </style>
 </head>
@@ -44,36 +23,29 @@
 
   <p class="full">Tonicization against modulation, the three stages, pivot chords, closely related keys, and the chromatic case.</p>
 
-  <div class="controls">
-    <button type="button" class="answers-all" aria-pressed="false">show every answer</button>
-  </div>
+  <p class="slug">name <span></span> date <span></span></p>
+
+  <div class="controls"></div>
 
   <section class="panel set">
     <h2>1, tonicization, extended tonicization, modulation</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-mod-three">tonicization, extended tonicization, and modulation</a></p>
-    <p>Sort each passage into one of the three, and say what decides it.</p>
-    <ol class="items wide">
+    <p>Sort each passage into one of the three, and name what decides it.</p>
+    <ol class="items blanks">
       <li>In a phrase in C major, a D7 chord falls on the second beat and G major follows on the third. The phrase closes <span class="caps">I</span> &ndash; ii6 &ndash; <span class="caps">V</span>7 &ndash; <span class="caps">I</span> in C.</li>
       <li>A phrase in C major reaches ii/<span class="caps">V</span> and <span class="caps">V</span>7/<span class="caps">V</span>, arrives on G, and then takes up a pre-dominant and cadences in C.</li>
       <li>A sequence quits C, a chord in it is reheard as a pre-dominant in G, and an authentic cadence lands in G. The music then works its way back to C without cadencing in G again.</li>
       <li>A transition modulates and breaks off. A new theme closes with a perfect authentic cadence in G, and the music that follows prolongs G, draws its pre-dominants and dominants from G, and cadences in G again.</li>
     </ol>
-    <div class="key">
-      <ol class="items wide">
-        <li>Tonicization. The applied dominant lasts a beat and the G keeps its function as <span class="caps">V</span> in C.</li>
-        <li>Extended tonicization. The target gets a phrase model of its own, and the home key still governs: the arrival on G turns out to be a dominant.</li>
-        <li>Extended tonicization. The authentic cadence closes the second stage, and nothing after it treats G as a tonic.</li>
-        <li>Modulation. All three stages are present, and the third is what separates this from item 3.</li>
-      </ol>
-      <p>Baroque continuous binary movements work largely through the shape of item 3. Their moves to <span class="caps">V</span> or ♭<span class="caps">III</span> are often read as extended tonicizations.</p>
-    </div>
+    <p>Name the shape a baroque continuous binary movement usually takes, of the three.</p>
+    <p class="write"></p>
   </section>
 
   <section class="panel set">
     <h2>2, the three stages</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-mod-stages">the three stages of modulation</a></p>
     <p>Name the stage each event belongs to.</p>
-    <ol class="items wide">
+    <ol class="items blanks">
       <li>A seventh is added to the tonic triad.</li>
       <li>A chord is heard in both keys at once and the syntax shifts under it.</li>
       <li>The new tonic is prolonged and cadences a second time.</li>
@@ -81,119 +53,113 @@
       <li>♭3̂ is borrowed and the tonic turns minor.</li>
       <li>The target acquires a pre-dominant and a cadential six-four of its own.</li>
     </ol>
-    <div class="key">
-      <ol class="items wide">
-        <li>One. The tonic becomes the dominant seventh of <span class="caps">IV</span> and stops being a resting point.</li>
-        <li>Two.</li>
-        <li>Three.</li>
-        <li>Two, and it closes that stage.</li>
-        <li>One.</li>
-        <li>Two.</li>
-      </ol>
-    </div>
   </section>
 
   <section class="panel set">
     <h2>3, destabilizing the tonic</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-mod-destab">destabilizing the tonic</a></p>
     <p>Write each of the three in D major, in four voices, and name what each one opens.</p>
-    <ol class="items wide">
-      <li>A seventh added to the tonic.</li>
-      <li>A borrowing from the parallel minor.</li>
-      <li>A tonic passed through rather than arrived at.</li>
+    <ol class="items">
+      <li>
+        <p>A seventh added to the tonic, with the chord it moves to.</p>
+        <svg class="answer" data-staff="grand" role="img" aria-label="Blank grand staff"></svg>
+        <p class="write">what it opens</p>
+      </li>
+      <li>
+        <p>A borrowing from the parallel minor, with the chord it opens onto.</p>
+        <svg class="answer" data-staff="grand" role="img" aria-label="Blank grand staff"></svg>
+        <p class="write">what it opens</p>
+      </li>
+      <li>
+        <p>A tonic passed through rather than arrived at, over a bass rising by step.</p>
+        <svg class="answer" data-staff="grand" role="img" aria-label="Blank grand staff"></svg>
+        <p class="write">what it opens</p>
+      </li>
     </ol>
-    <div class="key">
-      <ol class="items wide">
-        <li>D F♯ A C, the dominant seventh of <span class="caps">IV</span>, moving to G major. The C resolves down to B.</li>
-        <li>F♮ in place of F♯ turns the tonic minor and opens the flat side: B♭ major as ♭<span class="caps">VI</span> follows directly.</li>
-        <li><span class="caps">I</span> &ndash; <span class="caps">V</span>4/3 &ndash; <span class="caps">I</span>6 over a bass rising D E F♯. The tonic appears in inversion on the way somewhere else and stops being a point of arrival.</li>
-      </ol>
-    </div>
   </section>
 
   <section class="panel set">
     <h2>4, closely related keys</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-mod-related">closely related keys</a></p>
-    <p>List the closely related keys of each home key, with the numeral each one stands on. Then name the targets classical major-mode and minor-mode movements go to most often.</p>
-    <ol class="items">
+    <p>List the closely related keys of each home key, with the numeral each one stands on.</p>
+    <ol class="items blanks">
       <li class="cue">C major</li>
       <li class="cue">A major</li>
       <li class="cue">E♭ major</li>
       <li class="cue">C minor</li>
       <li class="cue">F♯ minor</li>
     </ol>
-    <div class="key">
-      <ol class="items wide">
-        <li class="cue">D minor (ii), E minor (iii), F major (<span class="caps">IV</span>), G major (<span class="caps">V</span>), A minor (vi)</li>
-        <li class="cue">B minor (ii), C♯ minor (iii), D major (<span class="caps">IV</span>), E major (<span class="caps">V</span>), F♯ minor (vi)</li>
-        <li class="cue">F minor (ii), G minor (iii), A♭ major (<span class="caps">IV</span>), B♭ major (<span class="caps">V</span>), C minor (vi)</li>
-        <li class="cue">E♭ major (♭<span class="caps">III</span>), F minor (iv), G minor (v), A♭ major (♭<span class="caps">VI</span>), B♭ major (♭<span class="caps">VII</span>)</li>
-        <li class="cue">A major (♭<span class="caps">III</span>), B minor (iv), C♯ minor (v), D major (♭<span class="caps">VI</span>), E major (♭<span class="caps">VII</span>)</li>
-      </ol>
-      <p>The closely related keys stand on the consonant triads of the home key, and no signature among them is more than one accidental away.</p>
-      <p>Major keys most often go to <span class="caps">V</span>, vi, and <span class="caps">IV</span>. Minor keys most often go to ♭<span class="caps">III</span>, and also to v. Laitz lists iii in place of <span class="caps">IV</span>.</p>
-    </div>
+    <p>Name the targets classical major-mode and minor-mode movements go to most often, and where Laitz's list differs.</p>
+    <p class="write">major</p>
+    <p class="write">minor</p>
+    <p class="write"><span class="caps">L</span>aitz</p>
   </section>
 
   <section class="panel set">
     <h2>5, pivot chords</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-mod-pivot">the pivot chord</a> &middot; <a href="../tools/harmony-review.html#sec-mod-related">closely related keys</a></p>
-    <p>Write the seven triads of C major with their numerals, then the numeral each one takes in the second key. Box the chords common to both, pick the strongest pivot, and say why the others are weaker. One chord type is never a pivot: name it.</p>
-    <ol class="items">
-      <li class="cue">C major to G major</li>
-      <li class="cue">C major to A minor</li>
-    </ol>
-    <div class="key">
-      <table>
-        <thead>
-          <tr><th>triad</th><th class="num">C</th><th class="num">G</th><th class="num">a</th></tr>
-        </thead>
-        <tbody>
-          <tr><th class="num">C</th><td class="num"><span class="caps">I</span></td><td class="num"><span class="caps">IV</span></td><td class="num">♭<span class="caps">III</span></td></tr>
-          <tr><th class="num">D minor</th><td class="num">ii</td><td class="num">&ndash;</td><td class="num">iv</td></tr>
-          <tr><th class="num">E minor</th><td class="num">iii</td><td class="num">vi</td><td class="num">v</td></tr>
-          <tr><th class="num">F</th><td class="num"><span class="caps">IV</span></td><td class="num">&ndash;</td><td class="num">♭<span class="caps">VI</span></td></tr>
-          <tr><th class="num">G</th><td class="num"><span class="caps">V</span></td><td class="num"><span class="caps">I</span></td><td class="num">♭<span class="caps">VII</span></td></tr>
-          <tr><th class="num">A minor</th><td class="num">vi</td><td class="num">ii</td><td class="num">i</td></tr>
-          <tr><th class="num">B diminished</th><td class="num">vii°</td><td class="num">&ndash;</td><td class="num">ii°</td></tr>
-        </tbody>
-      </table>
-      <p>To G major, four chords are common: C, E minor, G, and A minor. D minor, F, and B diminished have no place in G, whose triads on those letters are D major, F♯ diminished, and B minor. The strongest pivot is vi, which becomes ii in G: a pre-dominant leading straight into the cadence that confirms the new tonic. vi6 as ii6 is the common form. <span class="caps">I</span> as <span class="caps">IV</span> and iii as vi arrive further from the cadence, and <span class="caps">V</span> as <span class="caps">I</span> is the arrival itself rather than a hinge.</p>
-      <p>To A minor, all seven are common, since A natural minor holds the same seven triads. What separates the keys is E major, the <span class="caps">V</span> of A minor, absent from C. The strongest pivot is ii, which becomes iv in A minor. <span class="caps">IV</span> as ♭<span class="caps">VI</span> also works.</p>
-      <p>A six-four is never a pivot. It is unstable in both keys.</p>
-    </div>
+    <p>Fill in the numeral each triad takes in each key, and leave a cell empty where the triad has no place in that key. Box the chords common to C and G, then the chords common to C and A minor.</p>
+    <table class="fill">
+      <thead>
+        <tr><th>triad</th><th><span class="caps">C</span> major</th><th><span class="caps">G</span> major</th><th><span class="caps">A</span> minor</th></tr>
+      </thead>
+      <tbody>
+        <tr><th class="num"><span class="caps">C</span></th><td></td><td></td><td></td></tr>
+        <tr><th class="num"><span class="caps">D</span> minor</th><td></td><td></td><td></td></tr>
+        <tr><th class="num"><span class="caps">E</span> minor</th><td></td><td></td><td></td></tr>
+        <tr><th class="num"><span class="caps">F</span></th><td></td><td></td><td></td></tr>
+        <tr><th class="num"><span class="caps">G</span></th><td></td><td></td><td></td></tr>
+        <tr><th class="num"><span class="caps">A</span> minor</th><td></td><td></td><td></td></tr>
+        <tr><th class="num"><span class="caps">B</span> diminished</th><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+    <p>Pick the strongest pivot for each move and say what makes the other candidates weaker.</p>
+    <p class="write"><span class="caps">C</span> to <span class="caps">G</span></p>
+    <p class="write"><span class="caps">C</span> to <span class="caps">A</span> minor</p>
+    <p>One chord separates C major from A minor. Name it. Then name the one chord type that is never a pivot, and say what rules it out.</p>
+    <p class="write"></p>
+    <p class="write"></p>
+    <p>Write eight chords in keyboard style modulating from C major to G major. Box the pivot and read it in both keys, and bracket the perfect authentic cadence that confirms G.</p>
+    <svg class="answer" data-staff="grand" role="img" aria-label="Blank grand staff"></svg>
   </section>
 
   <section class="panel set">
     <h2>6, chromatic modulation</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-mod-chromatic">chromatic modulation</a></p>
-    <p>C major moves to A♭ major. Show that the two keys share no triad. Write the triads of C minor against those of A♭ major, mark the chords common to both, and pick the pivot. Then name the two ways a distant key is reached with no pivot at all.</p>
-    <div class="key">
-      <p>C major and A♭ major have no triad in common. A♭ major holds A♭, B♭ minor, C minor, D♭, E♭, F minor, and G diminished; C major holds none of them.</p>
-      <table>
-        <thead>
-          <tr><th>triad</th><th class="num">c</th><th class="num">A♭</th></tr>
-        </thead>
-        <tbody>
-          <tr><th class="num">C minor</th><td class="num">i</td><td class="num">iii</td></tr>
-          <tr><th class="num">E♭</th><td class="num">♭<span class="caps">III</span></td><td class="num"><span class="caps">V</span></td></tr>
-          <tr><th class="num">F minor</th><td class="num">iv</td><td class="num">vi</td></tr>
-          <tr><th class="num">A♭</th><td class="num">♭<span class="caps">VI</span></td><td class="num"><span class="caps">I</span></td></tr>
-        </tbody>
-      </table>
-      <p>Borrowing from C minor puts four chords into both keys at once. Every chromatic pivot works this way: a mixture chord in the key being left, a plain diatonic chord in the key being entered. The chromaticism belongs to the old key.</p>
-      <p>iv in C, F minor, is the pivot to take: as vi in A♭ it leads into that key's own pre-dominant and cadence. ♭<span class="caps">VI</span> as <span class="caps">I</span> is the arrival rather than a hinge, and ♭<span class="caps">III</span> as <span class="caps">V</span> reaches the new key without a pre-dominant.</p>
-      <p>Mixture appearing in a passage is often the first sign that a chromatic modulation is coming.</p>
-      <p>Without a pivot: direct, or unprepared, modulation, where the two keys are juxtaposed with nothing shared between them; and common-tone modulation, hinged on a single pitch held across the seam.</p>
-    </div>
+    <p>C major moves to A♭ major. Write the triads of C major and of A♭ major and show that the two keys share none.</p>
+    <p class="write"><span class="caps">C</span> major</p>
+    <p class="write"><span class="caps">A</span>♭ major</p>
+    <p>Read the same seven letters through C minor. Fill in the numeral each triad takes in C minor and in A♭ major, and mark every row where the two agree.</p>
+    <table class="fill">
+      <thead>
+        <tr><th>triad</th><th><span class="caps">C</span> minor</th><th><span class="caps">A</span>♭ major</th></tr>
+      </thead>
+      <tbody>
+        <tr><th class="num"><span class="caps">C</span> minor</th><td></td><td></td></tr>
+        <tr><th class="num"><span class="caps">D</span> diminished</th><td></td><td></td></tr>
+        <tr><th class="num"><span class="caps">E</span>♭</th><td></td><td></td></tr>
+        <tr><th class="num"><span class="caps">F</span> minor</th><td></td><td></td></tr>
+        <tr><th class="num"><span class="caps">G</span> minor</th><td></td><td></td></tr>
+        <tr><th class="num"><span class="caps">A</span>♭</th><td></td><td></td></tr>
+        <tr><th class="num"><span class="caps">B</span>♭</th><td></td><td></td></tr>
+      </tbody>
+    </table>
+    <p>Say what a chromatic pivot is in each of the two keys, then pick the pivot to take from C to A♭ and say what makes it the strongest.</p>
+    <p class="write">the pivot in each key</p>
+    <p class="write">the one to take</p>
+    <p>Write the modulation in four voices, ending with a cadence in A♭.</p>
+    <svg class="answer" data-staff="grand" data-flats="4" role="img" aria-label="Blank grand staff with four flats"></svg>
+    <p>Name the two ways a distant key is reached with no pivot at all.</p>
+    <p class="write"></p>
   </section>
 
   <footer>
-    <p>Text set in <span class="caps">IBM</span> Plex, under the <span class="caps">SIL</span> Open Font License.</p>
+    <p>Notation set in Bravura, Steinberg Media Technologies. Text set in <span class="caps">IBM</span> Plex. Both under the <span class="caps">SIL</span> Open Font License.</p>
   </footer>
 
 </div>
 
-<script src="../assets/worksheet.js?v=1"></script>
+<script src="../assets/notation.js?v=24"></script>
+<script src="../assets/workbook.js?v=1"></script>
 </body>
 </html>

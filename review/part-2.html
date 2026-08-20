@@ -4,35 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mus 312 &middot; problem set 2, progressions and functions</title>
-<link rel="stylesheet" href="../assets/style.css?v=17">
+<link rel="stylesheet" href="../assets/style.css?v=18">
 <script src="../assets/theme.js?v=2"></script>
 <style>
-  .set { margin-top: calc(var(--step) * 5); }
-  .set h2 { margin-bottom: var(--step); }
-  .ref {
-    font-family: var(--font-data);
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-bottom: calc(var(--step) * 2);
-    max-width: none;
-  }
-  ol.items { margin: 0; padding-left: calc(var(--step) * 4); }
-  ol.items li { margin-bottom: calc(var(--step) * 1.5); max-width: var(--measure); }
-  ol.items.wide li { max-width: none; }
-  ol.items li:last-child { margin-bottom: 0; }
-  .cue { font-family: var(--font-data); }
-  .key {
-    border-left: 2px solid var(--accent);
-    background: var(--accent-wash);
-    padding: calc(var(--step) * 2) calc(var(--step) * 2) calc(var(--step) * 2) calc(var(--step) * 2.5);
-    margin-top: calc(var(--step) * 3);
-  }
-  .key > :last-child { margin-bottom: 0; }
-  .key p { max-width: none; }
-  table { margin-bottom: 0; }
-  @media print {
-    .controls { display: none; }
-    .key { break-inside: avoid; }
+  .staff-line { stroke: var(--ink); stroke-width: 1; }
+  .clef, .keysig {
+    font-family: var(--font-music);
+    fill: var(--ink);
+    font-size: 48px;
   }
 </style>
 </head>
@@ -44,68 +23,83 @@
 
   <p class="full">Function, depth of structure, the cadential six-four, cadences, and the six sequences. Roman numerals follow this course's conventions, and function labels follow Laitz.</p>
 
-  <div class="controls">
-    <button type="button" class="answers-all" aria-pressed="false">show every answer</button>
-  </div>
+  <p class="slug">name <span></span> date <span></span></p>
+
+  <div class="controls"></div>
 
   <section class="panel set">
     <h2>1, the seven triads by function</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-fn-triads">the seven triads by function</a> &middot; <a href="../tools/harmony-review.html#sec-master">the diatonic function chart</a></p>
-    <p>Give the function of every diatonic chord, in major and in minor. Name the two chords in minor that stand outside the four functions and say what each one does. Then give Caplin's reading of vi and of iii.</p>
-    <div class="key">
-      <table>
-        <thead>
-          <tr><th>function</th><th>major</th><th>minor</th></tr>
-        </thead>
-        <tbody>
-          <tr><th>tonic</th><td class="num"><span class="caps">I</span></td><td class="num">i</td></tr>
-          <tr><th>mediant</th><td class="num">iii, vi</td><td class="num">♭<span class="caps">III</span>, ♭<span class="caps">VI</span></td></tr>
-          <tr><th>pre-dominant</th><td class="num">ii, ii6, ii6/5, <span class="caps">IV</span>, <span class="caps">IV</span>7</td><td class="num">ii°6, iiø6/5, iv</td></tr>
-          <tr><th>dominant</th><td class="num"><span class="caps">V</span>, <span class="caps">V</span>7 and inversions, vii°6, viiø6/5</td><td class="num"><span class="caps">V</span>, <span class="caps">V</span>7 and inversions, vii°6, vii°7 and inversions</td></tr>
-        </tbody>
-      </table>
-      <p>Outside the four: minor v, which lacks a leading tone and harmonizes ♭7̂ in a bass descending from the tonic; and ♭<span class="caps">VII</span>, which usually acts as the dominant of ♭<span class="caps">III</span> and is labelled <span class="caps">V</span>/♭<span class="caps">III</span> when it does.</p>
-      <p>Caplin counts three functions. vi goes with the tonic, substituting for <span class="caps">I</span> in a deceptive resolution, and iii is an occasional dominant substitute in progressions such as iii6 to <span class="caps">I</span>.</p>
-    </div>
+    <p>Enter every diatonic chord under the function it carries, in the inversion and with the figures it usually takes.</p>
+    <table class="fill">
+      <thead>
+        <tr><th>function</th><th>major</th><th>minor</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>tonic</th><td></td><td></td></tr>
+        <tr><th>mediant</th><td></td><td></td></tr>
+        <tr><th>pre-dominant</th><td></td><td></td></tr>
+        <tr><th>dominant</th><td></td><td></td></tr>
+      </tbody>
+    </table>
+    <p>Two chords in minor stand outside the four functions. Name them and say what each one does.</p>
+    <p class="write"></p>
+    <p class="write"></p>
+    <p>Give Caplin's reading of vi and of iii.</p>
+    <p class="write">vi</p>
+    <p class="write">iii</p>
   </section>
 
   <section class="panel set">
     <h2>2, function and depth</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-prolong">structural and prolongational diatonic harmonies</a></p>
     <p>For each progression, give the function of every chord, mark which chords are structural and which prolong, label each prolongation by what it does, and write the second level.</p>
-    <ol class="items wide">
-      <li class="cue">C major: <span class="caps">I</span> &ndash; <span class="caps">V</span>6 &ndash; <span class="caps">I</span> &ndash; <span class="caps">IV</span> &ndash; <span class="caps">V</span>7 &ndash; <span class="caps">I</span></li>
-      <li class="cue">C major: <span class="caps">I</span> &ndash; vii°6 &ndash; <span class="caps">I</span>6 &ndash; ii6 &ndash; Cad6/4 &ndash; <span class="caps">V</span> &ndash; <span class="caps">I</span></li>
-      <li class="cue">C minor: i &ndash; <span class="caps">V</span>4/3 &ndash; i6 &ndash; iv &ndash; ii°6 &ndash; <span class="caps">V</span>7 &ndash; i</li>
-      <li class="cue">C major: <span class="caps">I</span> &ndash; vi &ndash; vi6 &ndash; ii &ndash; <span class="caps">V</span>7 &ndash; <span class="caps">I</span></li>
+    <ol class="items">
+      <li>
+        <p class="cue">C major: <span class="caps">I</span> &ndash; <span class="caps">V</span>6 &ndash; <span class="caps">I</span> &ndash; <span class="caps">IV</span> &ndash; <span class="caps">V</span>7 &ndash; <span class="caps">I</span></p>
+        <p class="write">function</p>
+        <p class="write">structural or prolonging</p>
+        <p class="write">second level</p>
+      </li>
+      <li>
+        <p class="cue">C major: <span class="caps">I</span> &ndash; vii°6 &ndash; <span class="caps">I</span>6 &ndash; ii6 &ndash; Cad6/4 &ndash; <span class="caps">V</span> &ndash; <span class="caps">I</span></p>
+        <p class="write">function</p>
+        <p class="write">structural or prolonging</p>
+        <p class="write">second level</p>
+      </li>
+      <li>
+        <p class="cue">C minor: i &ndash; <span class="caps">V</span>4/3 &ndash; i6 &ndash; iv &ndash; ii°6 &ndash; <span class="caps">V</span>7 &ndash; i</p>
+        <p class="write">function</p>
+        <p class="write">structural or prolonging</p>
+        <p class="write">second level</p>
+      </li>
+      <li>
+        <p class="cue">C major: <span class="caps">I</span> &ndash; vi &ndash; vi6 &ndash; ii &ndash; <span class="caps">V</span>7 &ndash; <span class="caps">I</span></p>
+        <p class="write">function</p>
+        <p class="write">structural or prolonging</p>
+        <p class="write">second level</p>
+      </li>
     </ol>
-    <div class="key">
-      <ol class="items wide">
-        <li>Tonic, tonic, tonic, pre-dominant, dominant, tonic. The <span class="caps">V</span>6 is a neighbor inside the tonic, <span class="caps">N</span>. Everything else is structural. Second level: <span class="caps">T PD D T</span>.</li>
-        <li>Tonic, tonic, tonic, pre-dominant, dominant, dominant, tonic. The vii°6 is a passing chord inside the tonic, <span class="caps">P</span>, carrying the bass from 1̂ to 3̂. The Cad6/4 prolongs the dominant. Second level: <span class="caps">T PD D T</span>.</li>
-        <li>Tonic, tonic, tonic, pre-dominant, pre-dominant, dominant, tonic. The <span class="caps">V</span>4/3 is a passing chord inside the tonic, <span class="caps">P</span>. The ii°6 comes from the 5&ndash;6 motion over the held bass of iv and prolongs the pre-dominant. Second level: <span class="caps">T PD D T</span>.</li>
-        <li>Tonic, mediant, mediant, pre-dominant, dominant, tonic. The vi6 is a chordal leap inside the mediant, <span class="caps">CL</span>. Second level: <span class="caps">T M PD D T</span>.</li>
-      </ol>
-      <p>Root-position <span class="caps">V</span>7 signals a cadence. Its inversions prolong.</p>
-    </div>
   </section>
 
   <section class="panel set">
     <h2>3, the cadential six-four</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-cad64">the cadential six-four</a></p>
-    <p>Write the cadential six-four and its resolution in C major and in C minor, with figures. Say what the sixth and the fourth do and what the harmony is across both chords. Give the label in this course's notation and in Caplin's.</p>
-    <div class="key">
-      <p>C major: bass G held, C and E above it, moving to B and D. C minor: bass G held, C and E♭ above it, moving to B♮ and D. Figures 6/4 to 5/3.</p>
-      <p>The sixth and the fourth fall by step to the fifth and the third. The harmony is dominant throughout: only after both have fallen is the dominant triad sounding.</p>
-      <p>This course: Cad6/4 to <span class="caps">V</span>. Caplin: one harmony, <span class="caps">V</span>(6-4 5-3).</p>
-    </div>
+    <p>Write the cadential six-four and its resolution to the tonic in four voices, with figures under the bass. C major on the first staff, C minor on the second.</p>
+    <svg class="answer" data-staff="grand" role="img" aria-label="Blank grand staff"></svg>
+    <svg class="answer" data-staff="grand" data-flats="3" role="img" aria-label="Blank grand staff with three flats"></svg>
+    <p>Say what the sixth and the fourth do, and what the harmony is across both chords.</p>
+    <p class="write"></p>
+    <p>Give the label in this course's notation and in Caplin's.</p>
+    <p class="write">this course</p>
+    <p class="write"><span class="caps">C</span>aplin</p>
   </section>
 
   <section class="panel set">
     <h2>4, cadences</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-cadences">cadences</a></p>
     <p>Name each cadence and say what the bracket covers under this course's convention.</p>
-    <ol class="items wide">
+    <ol class="items blanks">
       <li class="cue">C major: <span class="caps">I</span> &ndash; ii6 &ndash; <span class="caps">V</span>7 &ndash; <span class="caps">I</span>, soprano closing on 1̂</li>
       <li class="cue">C major: <span class="caps">I</span> &ndash; <span class="caps">IV</span> &ndash; <span class="caps">V</span> &ndash; <span class="caps">I</span>, soprano closing on 3̂</li>
       <li class="cue">C major: <span class="caps">I</span> &ndash; ii6 &ndash; <span class="caps">V</span>, and the phrase stops there</li>
@@ -113,23 +107,13 @@
       <li class="cue">C major: <span class="caps">I</span> &ndash; <span class="caps">IV</span> &ndash; Cad6/4 &ndash; <span class="caps">V</span>7 &ndash; vi</li>
       <li class="cue">C major: <span class="caps">I</span> &ndash; <span class="caps">IV</span> &ndash; <span class="caps">I</span>, following a perfect authentic cadence</li>
     </ol>
-    <div class="key">
-      <ol class="items wide">
-        <li>Perfect authentic cadence. The bracket covers the <span class="caps">V</span>7 and the <span class="caps">I</span>.</li>
-        <li>Imperfect authentic cadence. The bracket covers the <span class="caps">V</span> and the <span class="caps">I</span>.</li>
-        <li>Half cadence. The bracket covers the ii6 and the <span class="caps">V</span>.</li>
-        <li>Phrygian half cadence. The bracket covers the iv6 and the <span class="caps">V</span>.</li>
-        <li>Deceptive cadence. vi stands in for the tonic and the phrase continues.</li>
-        <li>Plagal motion, not a cadence. The cadence has already happened.</li>
-      </ol>
-    </div>
   </section>
 
   <section class="panel set">
     <h2>5, diatonic sequences</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-sequences">diatonic sequences</a></p>
-    <p>Write the roman numerals of each sequence in C major, in the inversions each pattern takes.</p>
-    <ol class="items">
+    <p>Write the roman numerals of each sequence in C major, in the inversions the pattern takes.</p>
+    <ol class="items blanks">
       <li class="cue">(&minus;5/+4)</li>
       <li class="cue">(&minus;4/+2)</li>
       <li class="cue">(&minus;2)</li>
@@ -137,56 +121,42 @@
       <li class="cue">(+5/&minus;4)</li>
       <li class="cue">(+3)</li>
     </ol>
-    <div class="key">
-      <ol class="items wide">
-        <li class="cue"><span class="caps">I</span> &ndash; <span class="caps">IV</span> &ndash; vii° &ndash; iii &ndash; vi &ndash; ii &ndash; <span class="caps">V</span></li>
-        <li class="cue"><span class="caps">I</span> &ndash; <span class="caps">V</span> &ndash; vi &ndash; iii &ndash; <span class="caps">IV</span> &ndash; <span class="caps">I</span></li>
-        <li class="cue"><span class="caps">I</span>6 &ndash; vii°6 &ndash; vi6 &ndash; <span class="caps">V</span>6 &ndash; <span class="caps">IV</span>6 &ndash; iii6</li>
-        <li class="cue"><span class="caps">I</span> &ndash; vi6 &ndash; ii &ndash; vii°6 &ndash; iii &ndash; <span class="caps">I</span>6 &ndash; <span class="caps">IV</span> &ndash; ii6</li>
-        <li class="cue"><span class="caps">I</span> &ndash; <span class="caps">V</span> &ndash; ii &ndash; vi &ndash; iii</li>
-        <li class="cue"><span class="caps">I</span> &ndash; iii &ndash; <span class="caps">V</span> &ndash; vii°</li>
-      </ol>
-      <p>In the descending fifths the vii° stands in root position with its root doubled, passing rather than acting as a dominant. The descending seconds run entirely in first inversion. The ascending seconds come from the 5&ndash;6 motion over each bass note.</p>
-      <p>Inside a sequence the syntax is suspended: the <span class="caps">V</span> after <span class="caps">I</span> in the descending thirds is a link in the pattern, not a cadence.</p>
-    </div>
+    <p>Realize the descending fifths in four voices, and mark the chord whose root is doubled.</p>
+    <svg class="answer" data-staff="grand" role="img" aria-label="Blank grand staff"></svg>
+    <p>A sequence suspends the syntax. Name what the <span class="caps">V</span> after <span class="caps">I</span> in the descending thirds is doing.</p>
+    <p class="write"></p>
   </section>
 
   <section class="panel set">
     <h2>6, prolongation patterns</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-prolong">structural and prolongational diatonic harmonies</a></p>
-    <p>For each function, write two standard prolongations in C major and label what each one does.</p>
-    <div class="key">
-      <table>
-        <thead>
-          <tr><th>function</th><th>pattern</th><th>label</th></tr>
-        </thead>
-        <tbody>
-          <tr><th>tonic</th><td class="num"><span class="caps">I</span> &ndash; <span class="caps">I</span>6</td><td class="num"><span class="caps">CL</span></td></tr>
-          <tr><th></th><td class="num"><span class="caps">I</span> &ndash; <span class="caps">V</span>6 &ndash; <span class="caps">I</span></td><td class="num"><span class="caps">N</span></td></tr>
-          <tr><th></th><td class="num"><span class="caps">I</span> &ndash; vii°6 &ndash; <span class="caps">I</span>6</td><td class="num"><span class="caps">P</span></td></tr>
-          <tr><th></th><td class="num"><span class="caps">I</span> &ndash; <span class="caps">V</span>4/3 &ndash; <span class="caps">I</span>6</td><td class="num"><span class="caps">P</span></td></tr>
-          <tr><th></th><td class="num"><span class="caps">I</span> &ndash; <span class="caps">IV</span>6 &ndash; <span class="caps">I</span>6</td><td class="num">arp</td></tr>
-          <tr><th></th><td class="num"><span class="caps">I</span> &ndash; <span class="caps">IV</span>6/4 &ndash; <span class="caps">I</span></td><td class="num">ped</td></tr>
-          <tr><th>mediant</th><td class="num">vi &ndash; vi6</td><td class="num"><span class="caps">CL</span></td></tr>
-          <tr><th>pre-dominant</th><td class="num">ii &ndash; ii6</td><td class="num"><span class="caps">CL</span></td></tr>
-          <tr><th></th><td class="num"><span class="caps">IV</span> &ndash; ii6</td><td class="num">5&ndash;6</td></tr>
-          <tr><th></th><td class="num">ii &ndash; <span class="caps">I</span>6 &ndash; ii6</td><td class="num"><span class="caps">P</span></td></tr>
-          <tr><th></th><td class="num"><span class="caps">IV</span>6 &ndash; <span class="caps">I</span>6/4 &ndash; ii6</td><td class="num"><span class="caps">P</span></td></tr>
-          <tr><th>dominant</th><td class="num"><span class="caps">V</span> &ndash; <span class="caps">V</span>6</td><td class="num"><span class="caps">CL</span></td></tr>
-          <tr><th></th><td class="num"><span class="caps">V</span> &ndash; <span class="caps">IV</span>6 &ndash; <span class="caps">V</span>6</td><td class="num"><span class="caps">P</span></td></tr>
-          <tr><th></th><td class="num">Cad6/4 &ndash; <span class="caps">V</span></td><td class="num">cad</td></tr>
-        </tbody>
-      </table>
-      <p>Applied chords prolong any of the four.</p>
-    </div>
+    <p>Write two standard prolongations of each function in C major, and label what each one does.</p>
+    <table class="fill">
+      <thead>
+        <tr><th>function</th><th>pattern</th><th>label</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>tonic</th><td></td><td></td></tr>
+        <tr><th></th><td></td><td></td></tr>
+        <tr><th>mediant</th><td></td><td></td></tr>
+        <tr><th></th><td></td><td></td></tr>
+        <tr><th>pre-dominant</th><td></td><td></td></tr>
+        <tr><th></th><td></td><td></td></tr>
+        <tr><th>dominant</th><td></td><td></td></tr>
+        <tr><th></th><td></td><td></td></tr>
+      </tbody>
+    </table>
+    <p>Name the one kind of chord that prolongs any of the four.</p>
+    <p class="write"></p>
   </section>
 
   <footer>
-    <p>Text set in <span class="caps">IBM</span> Plex, under the <span class="caps">SIL</span> Open Font License.</p>
+    <p>Notation set in Bravura, Steinberg Media Technologies. Text set in <span class="caps">IBM</span> Plex. Both under the <span class="caps">SIL</span> Open Font License.</p>
   </footer>
 
 </div>
 
-<script src="../assets/worksheet.js?v=1"></script>
+<script src="../assets/notation.js?v=24"></script>
+<script src="../assets/workbook.js?v=1"></script>
 </body>
 </html>
