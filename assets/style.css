@@ -131,7 +131,16 @@ a { color: var(--accent); text-underline-offset: 2px; }
   background: var(--paper);
 }
 
-.panel svg { display: block; width: 100%; height: auto; }
+/* a figure renders no wider than the box it was drawn for */
+svg { max-width: var(--figure, 1200px); }
+.panels { --figure: 556px; }
+.panels.uneven > :nth-child(1) { --figure: 667px; }
+.panels.uneven > :nth-child(2) { --figure: 445px; }
+.panels.three { --figure: 341px; }
+.panel.centered { --figure: 556px; }
+.panel.centered.wide { --figure: 667px; }
+
+.panel svg { display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto; }
 
 .panels.uneven { grid-template-columns: 1.45fr 1fr; }
 .panels.three { grid-template-columns: 1fr 1fr 1fr; }

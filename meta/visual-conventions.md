@@ -139,6 +139,8 @@ A panel that stands alone rather than in a grid takes `.panel.centered`, which c
 
 Drawings render at the scale their box gives them, so a drawing sized for a gridded panel doubles in a full-width one. Cap the box, not the drawing.
 
+The cap is `--figure`, set on the holder in `assets/style.css` to the panel inner width from the table above and read by `svg { max-width: var(--figure, 1200px) }`. It holds when the grid collapses to one column and when the root font size changes. A figure wider than its panel sits in `.scroll-wrap` and sets `max-width: none`.
+
 ## contents index
 
 A long page opens with `nav.toc` as the first child of `.page`, ahead of `.wrap`. Every `h1` and `h2` takes an id and appears in it. A lower heading takes one only where the page links to it.
