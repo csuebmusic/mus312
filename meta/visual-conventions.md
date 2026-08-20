@@ -17,7 +17,7 @@ White ground, black line, one accent. The accent marks what is live: highlights,
 
 Colors are addressed through these variables. Component CSS uses no hex values.
 
-A dark ground follows the reader's system setting under `prefers-color-scheme`. It redefines the palette and leaves every component rule untouched.
+A dark ground follows the reader's system setting until they choose otherwise with the control in the eyebrow row. It redefines the palette and leaves every component rule untouched.
 
 | variable | dark value |
 |---|---|
@@ -30,7 +30,9 @@ A dark ground follows the reader's system setting under `prefers-color-scheme`. 
 | `--accent-edge` | `rgba(226, 86, 13, 0.45)` |
 | `--accent-2` | `#6ba0dc` |
 
-Ink stays short of white and the ground short of black, so a one-pixel staff line does not halate. A figure exported to a file is drawn on paper in either mode: the exporting page sets `on-paper` on the root element for the length of the serialization, and the dark block is written `:root:not(.on-paper)`.
+Ink stays short of white and the ground short of black, so a one-pixel staff line does not halate. A figure exported to a file is drawn on paper in either mode: the exporting page sets `on-paper` on the root element for the length of the serialization, and the dark block is written `:root.dark:not(.on-paper)`.
+
+`assets/theme.js` carries the ground. It loads in the head of every page, ahead of the first paint, sets `dark` on the root element, and appends the control to the first `.eyebrow`. The choice is held in `localStorage` under `mus312-ground` and applies across the site. With no choice held, the system setting governs and is followed live.
 
 ## type
 
