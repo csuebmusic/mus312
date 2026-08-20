@@ -521,9 +521,10 @@ var MUS = (function () {
     trebleRef: noteDia("E4"), bassRef: noteDia("G2")
   };
 
-  /* Both staves, both clefs, the opening barline, and a flat key signature.
+  /* Both staves, both clefs, the opening barline, and a key signature.
+     Pass flats or, for a sharp key, pass 0 flats and a count of sharps.
      Returns the signature as a map from letter index to alteration. */
-  function grandStaff(svg, flats) {
+  function grandStaff(svg, flats, sharps) {
     register(svg);
     [GS.trebleTop, GS.bassTop].forEach(function (topY) {
       for (var L = 0; L < 5; L++) {
@@ -538,14 +539,20 @@ var MUS = (function () {
       x1: 10, y1: GS.trebleTop, x2: 10, y2: GS.bassBottom, "class": "staff-line"
     }));
     var sig = {};
-    for (var b = 0; b < (flats || 0); b++) {
-      sig[FLAT_ORDER[b]] = -1;
+    var n = flats || 0, order = FLAT_ORDER, steps = FLAT_STEPS,
+        glyph = KEYSIG_GLYPH.flat, alt = -1;
+    if (!n && sharps) {
+      n = sharps; order = SHARP_ORDER; steps = SHARP_STEPS;
+      glyph = KEYSIG_GLYPH.sharp; alt = 1;
+    }
+    for (var b = 0; b < n; b++) {
+      sig[order[b]] = alt;
       svg.appendChild(el("text", {
-        x: 56 + 13 * b, y: GS.trebleBottom - 6 * FLAT_STEPS[b], "class": "keysig"
-      }, KEYSIG_GLYPH.flat));
+        x: 56 + 13 * b, y: GS.trebleBottom - 6 * steps[b], "class": "keysig"
+      }, glyph));
       svg.appendChild(el("text", {
-        x: 56 + 13 * b, y: GS.bassBottom - 6 * (FLAT_STEPS[b] - 2), "class": "keysig"
-      }, KEYSIG_GLYPH.flat));
+        x: 56 + 13 * b, y: GS.bassBottom - 6 * (steps[b] - 2), "class": "keysig"
+      }, glyph));
     }
     return sig;
   }
