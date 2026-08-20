@@ -352,6 +352,9 @@ ol.items.tight > li { margin-bottom: calc(var(--step) * 1.5); }
   border-bottom: var(--line) solid var(--rule);
 }
 
+/* a staff and the lines that belong to it stay together */
+.staff-group { break-inside: avoid; margin-top: calc(var(--step) * 4); }
+
 /* blank staff paper */
 svg.answer {
   display: block;
