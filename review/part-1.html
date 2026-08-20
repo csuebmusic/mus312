@@ -20,6 +20,12 @@
     fill: var(--ink);
     text-anchor: middle;
   }
+  .roman {
+    font-family: var(--font-data);
+    font-size: 15px;
+    fill: var(--ink);
+    text-anchor: middle;
+  }
   .keylabel {
     font-family: var(--font-data);
     font-size: 15px;
@@ -188,32 +194,26 @@
   <section class="panel set">
     <h2>6, figured bass</h2>
     <p class="ref"><a href="../tools/harmony-review.html#sec-figured">figured bass</a> &middot; <a href="../tools/harmony-review.html#sec-inversions">inversions</a></p>
-    <p>Each example gives a key, a key signature, a bass note, and a figure. The two examples on a system share the signature. Read each figure against it, realize the chord in four voices with a bass note under three in the right hand, write the roman numeral under the bass, and name the chord and the member standing in the bass on the line.</p>
+    <p>Each example gives a key, its signature, a bass note, and a figure. Read the figure against the signature. Realize the chord in keyboard style: the bass note alone on the bass staff, the three upper voices together on the treble staff. Write the roman numeral under the bass, and name the chord and the member standing in the bass on the line.</p>
     <div class="staff-group">
-      <svg class="answer" data-staff="figured" data-sharps="2"
-           data-num="1;2" data-key="D:;b:" data-bass="F#3;D3" data-fig="6;"
-           role="img" aria-label="Grand staff with two sharps: F sharp in the bass figured six in D major, and D in the bass unfigured in B minor"></svg>
+      <svg class="answer" data-staff="figured"
+           data-num="1;2;3;4" data-key="D:;a:;B♭:;E:"
+           data-flats="0;0;2;0" data-sharps="2;0;0;4"
+           data-bass="F#3;D3;F2;D#3" data-fig="6;6;6,4;6,5"
+           role="img" aria-label="Four figured basses, each with its own key signature: F sharp figured six in D major, D figured six in A minor, F figured six four in B flat major, and D sharp figured six five in E major"></svg>
       <p class="write">1</p>
       <p class="write">2</p>
-    </div>
-    <div class="staff-group">
-      <svg class="answer" data-staff="figured" data-flats="2"
-           data-num="3;4" data-key="B♭:;g:" data-bass="F2;Eb3" data-fig="6,4;6,5"
-           role="img" aria-label="Grand staff with two flats: F in the bass figured six four in B flat major, and E flat in the bass figured six five in G minor"></svg>
       <p class="write">3</p>
       <p class="write">4</p>
     </div>
     <div class="staff-group">
-      <svg class="answer" data-staff="figured" data-sharps="4"
-           data-num="5;6" data-key="E:;c♯:" data-bass="D#3;B#2" data-fig="6,5;6"
-           role="img" aria-label="Grand staff with four sharps: D sharp in the bass figured six five in E major, and B sharp in the bass figured six in C sharp minor"></svg>
+      <svg class="answer" data-staff="figured"
+           data-num="5;6;7;8" data-key="F:;G:;d:;c:"
+           data-flats="1;0;1;3" data-sharps="0;1;0;0"
+           data-bass="C3;B2;Bb2;G2" data-fig="4,2;;6,5;6"
+           role="img" aria-label="Four figured basses, each with its own key signature: C figured four two in F major, B unfigured in G major, B flat figured six five in D minor, and G figured six in C minor"></svg>
       <p class="write">5</p>
       <p class="write">6</p>
-    </div>
-    <div class="staff-group">
-      <svg class="answer" data-staff="figured" data-flats="1"
-           data-num="7;8" data-key="F:;d:" data-bass="C3;A2 A2" data-fig="4,2;6,4|5,3"
-           role="img" aria-label="Grand staff with one flat: C in the bass figured four two in F major, and A in the bass twice figured six four then five three in D minor"></svg>
       <p class="write">7</p>
       <p class="write">8</p>
     </div>
@@ -240,6 +240,24 @@
     </div>
     <p>Two of the six fill a third by step. Name them, and name what separates them.</p>
     <p class="write"></p>
+  </section>
+
+  <section class="panel set">
+    <h2>8, two realizations</h2>
+    <p class="ref"><a href="../tools/harmony-review.html#sec-figured">figured bass</a> &middot; <a href="../tools/harmony-review.html#sec-voice-leading">basic voice leading rules</a></p>
+    <p>Everything here is diatonic. Keep the sensitive tones resolving, avoid parallel fifths and octaves, and keep the upper voices within an octave of each other.</p>
+
+    <h3>from roman numerals, in <span class="caps">SATB</span></h3>
+    <p>Soprano and alto on the treble staff, tenor and bass on the bass staff, stems opposed: soprano and tenor up, alto and bass down. Work out the bass from the numeral.</p>
+    <svg class="answer" data-staff="numerals" data-flats="1" data-key="F:"
+         data-roman="I;V6;I;vi;IV;ii6;V7;I"
+         role="img" aria-label="Blank grand staff in F major with eight roman numerals set beneath: one, five six, one, six, four, two six, five seven, one"></svg>
+
+    <h3>from a figured bass, in keyboard style</h3>
+    <p>The bass alone on the bass staff, the three upper voices together on the treble staff. Write the roman numeral under each bass note.</p>
+    <svg class="answer" data-staff="figured" data-sharps="1" data-key="G:"
+         data-bass="G2 A2 B2 E3 C3 D3 G2" data-fig="|6|6||6|7|"
+         role="img" aria-label="Grand staff in G major with a seven-note bass line and its figures: G, A figured six, B figured six, E, C figured six, D figured seven, and G"></svg>
   </section>
 
   <footer>

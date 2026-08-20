@@ -549,6 +549,27 @@ var MUS = (function () {
     svg.appendChild(el("line", {
       x1: 10, y1: GS.trebleTop, x2: 10, y2: GS.bassBottom, "class": "staff-line"
     }));
+    return keySignature(svg, 56, flats, sharps);
+  }
+
+  /* the naturals that cancel a signature, at the positions it stood on.
+     Returns how many were drawn. */
+  function cancelSignature(svg, x, flats, sharps) {
+    var n = flats || 0, order = FLAT_ORDER, steps = FLAT_STEPS;
+    if (!n && sharps) { n = sharps; order = SHARP_ORDER; steps = SHARP_STEPS; }
+    for (var b = 0; b < n; b++) {
+      svg.appendChild(el("text", {
+        x: x + 13 * b, y: GS.trebleBottom - 6 * steps[b], "class": "keysig"
+      }, "\uE261"));
+      svg.appendChild(el("text", {
+        x: x + 13 * b, y: GS.bassBottom - 6 * (steps[b] - 2), "class": "keysig"
+      }, "\uE261"));
+    }
+    return n;
+  }
+
+  /* a key signature on both staves, starting at x. Returns it as a map. */
+  function keySignature(svg, x, flats, sharps) {
     var sig = {};
     var n = flats || 0, order = FLAT_ORDER, steps = FLAT_STEPS,
         glyph = KEYSIG_GLYPH.flat, alt = -1;
@@ -559,10 +580,10 @@ var MUS = (function () {
     for (var b = 0; b < n; b++) {
       sig[order[b]] = alt;
       svg.appendChild(el("text", {
-        x: 56 + 13 * b, y: GS.trebleBottom - 6 * steps[b], "class": "keysig"
+        x: x + 13 * b, y: GS.trebleBottom - 6 * steps[b], "class": "keysig"
       }, glyph));
       svg.appendChild(el("text", {
-        x: 56 + 13 * b, y: GS.bassBottom - 6 * (steps[b] - 2), "class": "keysig"
+        x: x + 13 * b, y: GS.bassBottom - 6 * (steps[b] - 2), "class": "keysig"
       }, glyph));
     }
     return sig;
@@ -758,6 +779,8 @@ var MUS = (function () {
     pitchHz: pitchHz,
     GS: GS,
     grandStaff: grandStaff,
+    keySignature: keySignature,
+    cancelSignature: cancelSignature,
     gsY: gsY,
     gsNote: gsNote,
     stepOf: stepOf,
