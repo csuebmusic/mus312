@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mus 312 harmony review</title>
-<link rel="stylesheet" href="../assets/style.css?v=16">
+<link rel="stylesheet" href="../assets/style.css?v=17">
 <script src="../assets/theme.js?v=2"></script>
 <style>
   /* vertical rhythm: spacing comes from margin-top inside a section,
@@ -101,7 +101,7 @@
 
   .scale-layer {
     transform-box: view-box;
-    transform-origin: 220px 220px;
+    transform-origin: 0 0;
     transition: transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
   }
   .scale-shape { fill: var(--accent-wash); stroke: var(--accent-edge); stroke-width: 1; }
@@ -120,6 +120,8 @@
     fill: var(--accent);
     text-anchor: middle;
     dominant-baseline: middle;
+    transform-box: view-box;
+    transform-origin: 0 0;
     transition: transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
   }
   .hub {
@@ -1759,19 +1761,18 @@
       }));
     });
 
-    var gapLabel = null;
+    var gapLabel = null, gapX = 0, gapY = 0;
     if (cfg.gap) {
       layer.appendChild(el("path", {
         d: arc(cfg.gap[0], cfg.gap[1], R_ARROW, INSET), "class": "gap-arc",
         "marker-end": markerRef
       }));
       var gm = (cfg.gap[0] + cfg.gap[1]) / 2;
+      gapX = px(gm, R_ARROW_LABEL);
+      gapY = py(gm, R_ARROW_LABEL);
       gapLabel = el("text", {
-        x: px(gm, R_ARROW_LABEL), y: py(gm, R_ARROW_LABEL), "class": "gap-label"
+        x: gapX, y: gapY, "class": "gap-label"
       }, String(cfg.gap[1] - cfg.gap[0]));
-      gapLabel.style.transformBox = "view-box";
-      gapLabel.style.transformOrigin =
-        px(gm, R_ARROW_LABEL) + "px " + py(gm, R_ARROW_LABEL) + "px";
       layer.appendChild(gapLabel);
     }
 
@@ -1787,13 +1788,21 @@
 
     /* ----- transposition ----- */
 
+    /* the centre of rotation travels in the transform, in user units, so it
+       never depends on how the reference box is resolved at the rendered size */
+    function spin(node, deg, x, y) {
+      node.style.transform =
+        "translate(" + x + "px, " + y + "px) rotate(" + deg + "deg) " +
+        "translate(" + (-x) + "px, " + (-y) + "px)";
+    }
+
     function setTonic(pc) {
       var target = pc * 30;
       var delta = ((target - (angle % 360)) % 360 + 540) % 360 - 180;
       angle += delta;
-      layer.style.transform = "rotate(" + angle + "deg)";
+      spin(layer, angle, CX, CY);
       if (gapLabel) {
-        gapLabel.style.transform = "rotate(" + (-angle) + "deg)";
+        spin(gapLabel, -angle, gapX, gapY);
       }
       hub.textContent = KEYS[pc].name + " " + cfg.label;
       drawStaff(pc);

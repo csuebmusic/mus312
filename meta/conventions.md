@@ -64,6 +64,8 @@ When adding or revoicing a four-voice example, check the voice leading: group no
 
 When changing playback, stub `AudioContext`, record every oscillator frequency and start time, and confirm the pitches and onsets of a chordal figure, a metered one, and a transposed one. Run the stub from `suspended` and from `interrupted` as well as from `running`, and confirm every oscillator starts with the context running.
 
+When changing a rotating figure, read the transform back off the element, apply it to the drawn coordinates, and confirm every rotated point still sits on the circle it was drawn on and the tonic ring lands on the pitch class that was clicked. Check all twelve.
+
 ## checks before pushing a meta file
 
 Split every file in `meta/` and `README.md` into sentences and report any that appear in two files, or twice in one. A hit means two owners for one statement; delete the copy that sits outside its owner.

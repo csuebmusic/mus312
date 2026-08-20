@@ -34,6 +34,8 @@ Ink stays short of white and the ground short of black, so a one-pixel staff lin
 
 `assets/theme.js` carries the ground. It loads in the head of every page, ahead of the first paint, sets `dark` on the root element, and appends the control to the first `.eyebrow`. The choice is held in `localStorage` under `mus312-ground` and applies across the site. With no choice held, the system setting governs and is followed live.
 
+A figure that rotates carries its centre of rotation in the transform, as `translate(x, y) rotate(a) translate(-x, -y)` in user units, and sets `transform-origin: 0 0`. A centre named in `transform-origin` is resolved against the reference box and drifts when the figure renders at a size other than the one it was drawn for.
+
 ## type
 
 | variable | family | use |
