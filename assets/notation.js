@@ -552,22 +552,6 @@ var MUS = (function () {
     return keySignature(svg, 56, flats, sharps);
   }
 
-  /* the naturals that cancel a signature, at the positions it stood on.
-     Returns how many were drawn. */
-  function cancelSignature(svg, x, flats, sharps) {
-    var n = flats || 0, order = FLAT_ORDER, steps = FLAT_STEPS;
-    if (!n && sharps) { n = sharps; order = SHARP_ORDER; steps = SHARP_STEPS; }
-    for (var b = 0; b < n; b++) {
-      svg.appendChild(el("text", {
-        x: x + 13 * b, y: GS.trebleBottom - 6 * steps[b], "class": "keysig"
-      }, "\uE261"));
-      svg.appendChild(el("text", {
-        x: x + 13 * b, y: GS.bassBottom - 6 * (steps[b] - 2), "class": "keysig"
-      }, "\uE261"));
-    }
-    return n;
-  }
-
   /* a key signature on both staves, starting at x. Returns it as a map. */
   function keySignature(svg, x, flats, sharps) {
     var sig = {};
@@ -780,7 +764,6 @@ var MUS = (function () {
     GS: GS,
     grandStaff: grandStaff,
     keySignature: keySignature,
-    cancelSignature: cancelSignature,
     gsY: gsY,
     gsNote: gsNote,
     stepOf: stepOf,

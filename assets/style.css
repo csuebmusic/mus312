@@ -282,6 +282,7 @@ footer p { max-width: none; margin: 0; }
 
 @media (max-width: 62rem) {
   .panels, .panels.uneven, .panels.three { grid-template-columns: 1fr; }
+  .staff-row { grid-template-columns: repeat(2, max-content); }
   .toc { columns: 1; }
   table { font-size: 0.85rem; }
   tbody th { width: auto; white-space: normal; }
@@ -351,6 +352,16 @@ ol.items.tight > li { margin-bottom: calc(var(--step) * 1.5); }
   flex: 1;
   border-bottom: var(--line) solid var(--rule);
 }
+
+/* short examples, each on a staff of its own, laid out across the page */
+.staff-row {
+  display: grid;
+  grid-template-columns: repeat(4, max-content);
+  justify-content: start;
+  gap: calc(var(--step) * 3) calc(var(--step) * 5);
+  margin-top: calc(var(--step) * 3);
+}
+.staff-row > svg { margin-top: 0; break-inside: avoid; }
 
 /* a staff and the lines that belong to it stay together */
 .staff-group { break-inside: avoid; margin-top: calc(var(--step) * 4); }

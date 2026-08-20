@@ -4,15 +4,13 @@
    Every svg.answer takes data-staff:
      "single"   one treble staff
      "grand"    both staves
-     "figured"  both staves with a bass line and its figures already set
+     "chord"    one staff to an example, sized to what it holds
+     "figured"  a full-width bass line with its figures already set
      "numerals" both staves with roman numerals already set beneath
-   A grand or numerals staff takes data-flats or data-sharps for its key
-   signature. On a figured staff data-bass, data-fig, data-key, data-num,
-   data-flats, and data-sharps hold one entry per example, separated by
-   semicolons: within an example, chords are separated by bars and the
-   figures of one chord by commas. Every chord on a system, whatever example
-   it belongs to, takes an equal share of the width, and an example that
-   names its own key signature has that signature drawn where it begins. */
+   Any of these takes data-flats or data-sharps for its key signature.
+   data-bass names the bass notes and data-fig the figure under each of them,
+   chords separated by bars and the figures of one chord by commas. A chord
+   staff also takes data-key and data-num, set above the staff. */
 (function () {
   "use strict";
 
@@ -23,15 +21,11 @@
     numerals: "0 30 1600 320"
   };
 
-  var FIRST = 150, LAST = 1440, TAIL = 70;
-  var FIG_Y = 250, FIG_STEP = 17, ROMAN_Y = 252, NUM_Y = 52, SIG_BACK = 30, BAR_BACK = 18;
+  var FIRST = 150, LAST = 1440, TAIL = 70, SCALE = 0.75;
+  var FIG_Y = 250, FIG_STEP = 17, ROMAN_Y = 252, NUM_Y = 52, CHORD_ADV = 130;
 
   function count(svg, name) {
     return parseInt(svg.getAttribute(name) || "0", 10);
-  }
-
-  function part(svg, name) {
-    return (svg.getAttribute(name) || "").split(";");
   }
 
   /* every chord on the system, evenly spread */
@@ -50,67 +44,52 @@
     });
   }
 
-  /* two thin lines, as a key signature is approached */
-  function doubleBar(svg, x) {
-    [x, x + 6].forEach(function (at) {
-      svg.appendChild(MUS.el("line", {
-        x1: at, y1: MUS.GS.trebleTop, x2: at, y2: MUS.GS.bassBottom, "class": "divider"
-      }));
+  function bassLine(svg, sig, at) {
+    var notes = (svg.getAttribute("data-bass") || "").split(/\s+/).filter(Boolean);
+    var chords = (svg.getAttribute("data-fig") || "").split("|");
+    notes.forEach(function (note, i) {
+      MUS.gsNote(svg, at[i], note, "b", { sig: sig });
+      figures(svg, at[i], chords[i] || "");
     });
+    return at[notes.length - 1];
   }
 
-  function figuredBass(svg) {
-    var examples = part(svg, "data-bass").map(function (e) {
-      return e.split(/\s+/).filter(Boolean);
-    });
-    var figs = part(svg, "data-fig");
-    var keys = part(svg, "data-key");
-    var nums = part(svg, "data-num");
-    var flats = part(svg, "data-flats");
-    var sharps = part(svg, "data-sharps");
+  /* one example on a staff of its own, no wider than what it holds */
+  function chord(svg) {
+    var sig = MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
+    var notes = (svg.getAttribute("data-bass") || "").split(/\s+/).filter(Boolean);
+    var at = notes.map(function (n, i) { return FIRST + i * CHORD_ADV; });
+    var last = bassLine(svg, sig, at);
 
-    var total = examples.reduce(function (n, ex) { return n + ex.length; }, 0);
-    var at = slots(total);
-    var k = 0, last = FIRST, prev = null;
+    var num = svg.getAttribute("data-num");
+    var key = svg.getAttribute("data-key");
+    if (num) {
+      svg.appendChild(MUS.el("text", { x: 18, y: NUM_Y, "class": "itemnum" }, num));
+    }
+    if (key) {
+      svg.appendChild(MUS.el("text", { x: num ? 42 : 18, y: NUM_Y, "class": "keylabel" }, key));
+    }
 
-    examples.forEach(function (notes, e) {
-      var start = at[k];
-      var f = parseInt(flats[e] || "0", 10), s = parseInt(sharps[e] || "0", 10);
-      /* a signature is cancelled where the next example has none of its own,
-         or stands on the other side of the circle */
-      var cancel = prev && (prev.f + prev.s) &&
-                   (!(f + s) || (f > 0) !== (prev.f > 0)) ? prev : null;
-      var width = 13 * (f + s) + (cancel ? 13 * (cancel.f + cancel.s) + 6 : 0);
-      if (e > 0) { doubleBar(svg, start - SIG_BACK - width - BAR_BACK); }
-      var x = start - SIG_BACK - width;
-      if (cancel) { x += 13 * MUS.cancelSignature(svg, x, cancel.f, cancel.s) + 6; }
-      var sig = MUS.keySignature(svg, x, f, s);
-      prev = { f: f, s: s };
-
-      notes.forEach(function (note, i) {
-        var x = at[k + i];
-        MUS.gsNote(svg, x, note, "b", { sig: sig });
-        figures(svg, x, (figs[e] || "").split("|")[i] || "");
-        last = x;
-      });
-
-      if (nums[e]) {
-        svg.appendChild(MUS.el("text", { x: start - 4, y: NUM_Y, "class": "itemnum" }, nums[e]));
-      }
-      if (keys[e]) {
-        svg.appendChild(MUS.el("text", {
-          x: nums[e] ? start + 20 : 14, y: nums[e] ? NUM_Y : FIG_Y, "class": "keylabel"
-        }, keys[e]));
-      }
-      k += notes.length;
-    });
-
+    var width = last + TAIL + 10;
+    svg.setAttribute("viewBox", "0 30 " + width + " 320");
+    svg.style.width = Math.round(width * SCALE) + "px";
+    svg.style.maxWidth = Math.round(width * SCALE) + "px";
     return last;
   }
 
+  function figuredBass(svg) {
+    var sig = MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
+    var n = (svg.getAttribute("data-bass") || "").split(/\s+/).filter(Boolean).length;
+    var end = bassLine(svg, sig, slots(n));
+    var key = svg.getAttribute("data-key");
+    if (key) {
+      svg.appendChild(MUS.el("text", { x: 14, y: FIG_Y, "class": "keylabel" }, key));
+    }
+    return end;
+  }
+
   function numerals(svg) {
-    MUS.keySignature(svg, 56, count(svg, "data-flats"), count(svg, "data-sharps"));
-    var list = part(svg, "data-roman").filter(Boolean);
+    var list = (svg.getAttribute("data-roman") || "").split(";").filter(Boolean);
     var at = slots(list.length);
     list.forEach(function (r, i) {
       svg.appendChild(MUS.el("text", { x: at[i], y: ROMAN_Y, "class": "roman" }, r));
@@ -124,16 +103,17 @@
 
   function draw(svg) {
     var kind = svg.getAttribute("data-staff");
-    if (!VIEW[kind]) { kind = "single"; }
-    svg.setAttribute("viewBox", VIEW[kind]);
+    if (kind !== "chord" && !VIEW[kind]) { kind = "single"; }
+    if (VIEW[kind]) { svg.setAttribute("viewBox", VIEW[kind]); }
     var end = null;
     if (kind === "single") {
       MUS.staff(svg);
+    } else if (kind === "chord") {
+      end = chord(svg);
     } else if (kind === "figured") {
-      MUS.grandStaff(svg, 0);
       end = figuredBass(svg);
     } else if (kind === "numerals") {
-      MUS.grandStaff(svg, 0);
+      MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
       end = numerals(svg);
     } else {
       MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
