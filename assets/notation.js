@@ -173,6 +173,17 @@ var MUS = (function () {
   /* A notehead records the pitch it draws and the column it belongs to, so a
      figure can be played back from what is on the staff. `col` is the nominal
      x of the chord, which differs from `x` where a second is displaced. */
+  /* a stem down from a right-hand chord, or up from a left-hand one */
+  var HEAD_W = 14, STEM = 42;
+  var HEADS = { w: "\uE0A2", h: "\uE0A3", q: "\uE0A4" };
+  var DUR = { w: 4, h: 2, q: 1 };
+  function stem(host, x, top, bot, up) {
+    host.appendChild(el("line", {
+      x1: up ? x + HEAD_W : x, y1: up ? bot : top,
+      x2: up ? x + HEAD_W : x, y2: up ? top - STEM : bot + STEM, "class": "stem"
+    }));
+  }
+
   function head(x, y, cls, note, opt) {
     opt = opt || {};
     var a = {
@@ -707,6 +718,11 @@ var MUS = (function () {
     register: register,
     closeStaves: closeStaves,
     head: head,
+    stem: stem,
+    HEAD_W: HEAD_W,
+    STEM: STEM,
+    HEADS: HEADS,
+    DUR: DUR,
     pitchOf: pitchOf,
     ROW_TOP: ROW_TOP,
     rowTop: rowTop,

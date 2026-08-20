@@ -313,9 +313,9 @@
   /* ---------- geometry ---------- */
 
   var BEAT = 43, BARS = 8;
-  var HEAD = { w: "\uE0A2", h: "\uE0A3", q: "\uE0A4" };
-  var LEN = { w: 4, h: 2, q: 1 };
-  var HEAD_W = 14, STEM = 42;
+  var HEAD = MUS.HEADS, LEN = MUS.DUR;
+  var HEAD_W = MUS.HEAD_W, STEM = MUS.STEM;
+  var stem = MUS.stem;
   var Y_PHRASE = -10, Y_BRACKET = 22, Y_FORM = 12, Y_MEASURE = 48;
   var Y_FIG = 268, FIG_STEP = 17;
   var ROWS = {
@@ -413,14 +413,6 @@
         "class": "lvl2-line"
       }));
     }
-  }
-
-  /* a stem down from a right-hand chord, or up from a left-hand one */
-  function stem(host, x, top, bot, up) {
-    host.appendChild(el("line", {
-      x1: up ? x + HEAD_W : x, y1: up ? bot : top,
-      x2: up ? x + HEAD_W : x, y2: up ? top - STEM : bot + STEM, "class": "stem"
-    }));
   }
 
   /* a square bracket: a line with a tick at each end, turned toward the score */
