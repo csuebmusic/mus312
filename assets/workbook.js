@@ -94,6 +94,17 @@
     notes.forEach(function (note, i) {
       MUS.gsNote(svg, at[i], note, "b", { sig: sig });
       figures(svg, at[i], chords[i] || "");
+      /* a bass note held under changing figures carries each row across */
+      if (i && notes[i] === notes[i - 1]) {
+        var rows = Math.min((chords[i - 1] || "").split(",").filter(Boolean).length,
+                            (chords[i] || "").split(",").filter(Boolean).length);
+        for (var r = 0; r < rows; r++) {
+          svg.appendChild(MUS.el("line", {
+            x1: at[i - 1] + 14, y1: FIG_Y + r * FIG_STEP - 4,
+            x2: at[i], y2: FIG_Y + r * FIG_STEP - 4, "class": "figline"
+          }));
+        }
+      }
     });
     return at[notes.length - 1];
   }
