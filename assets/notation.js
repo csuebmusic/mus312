@@ -558,24 +558,17 @@ var MUS = (function () {
     return keySignature(svg, SIG_X, flats, sharps);
   }
 
-  /* a key signature as a map from letter index to alteration, drawn or not */
-  function signatureMap(flats, sharps) {
-    var sig = {}, n = flats || 0, order = FLAT_ORDER, alt = -1;
-    if (!n && sharps) { n = sharps; order = SHARP_ORDER; alt = 1; }
-    for (var b = 0; b < n; b++) { sig[order[b]] = alt; }
-    return sig;
-  }
-
   /* a key signature on both staves, starting at x. Returns it as a map. */
   function keySignature(svg, x, flats, sharps) {
-    var sig = signatureMap(flats, sharps);
+    var sig = {};
     var n = flats || 0, order = FLAT_ORDER, steps = FLAT_STEPS,
-        glyph = KEYSIG_GLYPH.flat;
+        glyph = KEYSIG_GLYPH.flat, alt = -1;
     if (!n && sharps) {
       n = sharps; order = SHARP_ORDER; steps = SHARP_STEPS;
-      glyph = KEYSIG_GLYPH.sharp;
+      glyph = KEYSIG_GLYPH.sharp; alt = 1;
     }
     for (var b = 0; b < n; b++) {
+      sig[order[b]] = alt;
       svg.appendChild(el("text", {
         x: x + SIG_STEP * b, y: GS.trebleBottom - 6 * steps[b], "class": "keysig"
       }, glyph));
@@ -777,7 +770,6 @@ var MUS = (function () {
     GS: GS,
     grandStaff: grandStaff,
     keySignature: keySignature,
-    signatureMap: signatureMap,
     SIG_X: SIG_X,
     SIG_STEP: SIG_STEP,
     gsY: gsY,
