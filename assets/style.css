@@ -335,14 +335,6 @@ ol.items.blanks > li {
 }
 ol.items.tight > li { margin-bottom: calc(var(--step) * 1.5); }
 
-/* answer lines set two across, where a set has a long run of them */
-.write-columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 calc(var(--step) * 5);
-}
-@media (max-width: 62rem) { .write-columns { grid-template-columns: 1fr; } }
-
 /* a ruled line to write on, labelled at the left */
 .write {
   display: flex;
