@@ -30,7 +30,7 @@
   var FIG_Y = 250, FIG_STEP = 17, ROMAN_Y = 252, NUM_Y = 42, CHORD_ADV = 130;
   /* the key stands under the bass clef, boxed */
   var KEY_X = 14, KEY_Y = 264, KEY_SIZE = 19, KEY_PAD = 8;
-  var ACC_W = { "\u266D": 0.32, "\u266F": 0.34 };
+  var ACC_W = { "\u266D": 0.32, "\u266F": 0.34, "\u266E": 0.26 };
 
   function count(svg, name) {
     return parseInt(svg.getAttribute(name) || "0", 10);
@@ -106,7 +106,7 @@
         }
       }
     });
-    return at[notes.length - 1];
+    return notes.length ? at[notes.length - 1] : FIRST;
   }
 
   /* a compact staff is no wider than what it holds, and is then held to
@@ -114,7 +114,6 @@
   function box(svg, last) {
     var width = last + TAIL + 10;
     svg.setAttribute("viewBox", "0 14 " + width + " 336");
-    svg.style.width = Math.round(width * SCALE) + "px";
     svg.style.maxWidth = Math.round(width * SCALE) + "px";
     return last;
   }
@@ -124,10 +123,7 @@
     var sig = MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
     var notes = (svg.getAttribute("data-bass") || "").split(/\s+/).filter(Boolean);
     var at = notes.map(function (n, i) { return FIRST + i * CHORD_ADV; });
-    var last = bassLine(svg, sig, at);
-
-
-    return box(svg, last);
+    return box(svg, bassLine(svg, sig, at));
   }
 
   /* one chord in keyboard style, written out for the student to name */

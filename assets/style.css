@@ -282,7 +282,7 @@ footer p { max-width: none; margin: 0; }
 
 @media (max-width: 62rem) {
   .panels, .panels.uneven, .panels.three { grid-template-columns: 1fr; }
-  .staff-row { grid-template-columns: repeat(2, max-content); }
+  .staff-row { grid-template-columns: repeat(2, 1fr); }
   .toc { columns: 1; }
   table { font-size: 0.85rem; }
   tbody th { width: auto; white-space: normal; }
@@ -356,12 +356,12 @@ ol.items.tight > li { margin-bottom: calc(var(--step) * 1.5); }
 /* short examples, each on a staff of its own, laid out across the page */
 .staff-row {
   display: grid;
-  grid-template-columns: repeat(4, max-content);
-  justify-content: start;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: start;
   gap: calc(var(--step) * 3) calc(var(--step) * 5);
   margin-top: calc(var(--step) * 3);
 }
-.staff-row.three { grid-template-columns: repeat(3, max-content); }
+.staff-row.three { grid-template-columns: repeat(3, 1fr); }
 .staff-row > svg { margin-top: 0; break-inside: avoid; }
 
 /* a staff and the lines that belong to it stay together */
@@ -381,6 +381,7 @@ ol.items.tight > li { margin-bottom: calc(var(--step) * 1.5); }
   text-anchor: middle;
 }
 .figline { stroke: var(--ink); stroke-width: 1.2; }
+.cue { font-family: var(--font-data); }
 .roman {
   font-family: var(--font-data);
   font-size: 15px;
@@ -428,6 +429,7 @@ table.fill td { height: 2.4rem; }
   .controls, .eyebrow button, nav.toc { display: none; }
   .panel { border: none; padding: 0; }
   .set { margin-top: calc(var(--step) * 6); }
+  .staff-row.three { grid-template-columns: repeat(2, 1fr); }
   a { color: var(--ink); text-decoration: none; }
   footer { break-inside: avoid; }
 }
