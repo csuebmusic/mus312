@@ -120,7 +120,13 @@
 
   /* one chord in keyboard style, written out for the student to name */
   function sonority(svg) {
-    var sig = MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
+    var flats = count(svg, "data-flats"), sharps = count(svg, "data-sharps");
+    /* where the student supplies the signature, the chord is still spelled
+       against it and only what falls outside is written in */
+    var written = svg.getAttribute("data-sig") === "write";
+    var sig = written ? MUS.signatureMap(flats, sharps)
+                      : MUS.grandStaff(svg, flats, sharps);
+    if (written) { MUS.grandStaff(svg, 0); }
     var up = (svg.getAttribute("data-up") || "").split(/\s+/).filter(Boolean);
     var shift = MUS.secondsShift(up, 0, 13).shift;
     MUS.gsNote(svg, FIRST, svg.getAttribute("data-bass"), "b", { sig: sig });
