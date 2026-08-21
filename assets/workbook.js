@@ -20,8 +20,8 @@
   var VIEW = {
     single: "0 20 1600 190",
     grand: "0 14 1600 276",
-    figured: "0 14 1600 336",
-    numerals: "0 14 1600 336"
+    figured: "0 14 1600 400",
+    numerals: "0 14 1600 400"
   };
 
   var FIRST = 150, LAST = 1440, TAIL = 70, SCALE = 0.75;
