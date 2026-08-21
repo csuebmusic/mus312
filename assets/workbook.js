@@ -25,7 +25,7 @@
   var FIG_Y = 250, FIG_STEP = 17, ROMAN_Y = 252, NUM_Y = 52, CHORD_ADV = 130;
   /* the key stands under the bass clef, boxed */
   var KEY_X = 14, KEY_Y = 264, KEY_SIZE = 19, KEY_PAD = 8;
-  var KEY_ADV = { "\u266D": 0.32, "\u266F": 0.34 };
+  var ACC_W = { "\u266D": 0.32, "\u266F": 0.34 };
 
   function count(svg, name) {
     return parseInt(svg.getAttribute(name) || "0", 10);
@@ -39,30 +39,35 @@
     return out;
   }
 
-  /* the key label: a Bravura accidental where the name takes one, since
-     neither Plex face carries the sign */
-  function keyBox(svg, label) {
-    var text = MUS.el("text", { x: KEY_X + KEY_PAD, y: KEY_Y, "class": "keylabel" });
+  /* Any label a page sets: a key, a figure, a numeral. An accidental comes
+     from Bravura, raised off the baseline, since neither Plex face carries
+     the sign. Returns roughly how wide the label runs. */
+  function marks(node, label, size) {
     var width = 0, run = "", dy = null;
-    /* the accidental is raised, and whatever follows it drops back */
     function flush() {
       if (!run) { return; }
-      text.appendChild(MUS.el("tspan", dy ? { dy: dy } : {}, run));
+      node.appendChild(MUS.el("tspan", dy ? { dy: dy } : {}, run));
       run = "";
       dy = null;
     }
     label.split("").forEach(function (ch) {
-      if (KEY_ADV[ch]) {
+      if (ACC_W[ch]) {
         flush();
-        text.appendChild(MUS.el("tspan", { "class": "acc-inline", dy: "-3" }, ch));
+        node.appendChild(MUS.el("tspan", { "class": "acc-inline", dy: "-3" }, ch));
         dy = "3";
-        width += KEY_ADV[ch] * KEY_SIZE;
+        width += ACC_W[ch] * size;
       } else {
         run += ch;
-        width += 0.6 * KEY_SIZE;
+        width += 0.6 * size;
       }
     });
     flush();
+    return width;
+  }
+
+  function keyBox(svg, label) {
+    var text = MUS.el("text", { x: KEY_X + KEY_PAD, y: KEY_Y, "class": "keylabel" });
+    var width = marks(text, label, KEY_SIZE);
     svg.appendChild(MUS.el("rect", {
       x: KEY_X, y: KEY_Y - KEY_SIZE + 3, width: Math.round(width) + KEY_PAD * 2,
       height: KEY_SIZE + 7, "class": "keybox"
@@ -72,9 +77,9 @@
 
   function figures(svg, x, list) {
     list.split(",").filter(Boolean).forEach(function (f, row) {
-      svg.appendChild(MUS.el("text", {
-        x: x + 7, y: FIG_Y + row * FIG_STEP, "class": "figbass"
-      }, f));
+      var t = MUS.el("text", { x: x + 7, y: FIG_Y + row * FIG_STEP, "class": "figbass" });
+      marks(t, f, 14);
+      svg.appendChild(t);
     });
   }
 
@@ -95,10 +100,6 @@
     var at = notes.map(function (n, i) { return FIRST + i * CHORD_ADV; });
     var last = bassLine(svg, sig, at);
 
-    var num = svg.getAttribute("data-num");
-    if (num) {
-      svg.appendChild(MUS.el("text", { x: 18, y: NUM_Y, "class": "itemnum" }, num));
-    }
 
     var width = last + TAIL + 10;
     svg.setAttribute("viewBox", "0 30 " + width + " 320");
@@ -117,7 +118,9 @@
     var list = (svg.getAttribute("data-roman") || "").split(";").filter(Boolean);
     var at = slots(list.length);
     list.forEach(function (r, i) {
-      svg.appendChild(MUS.el("text", { x: at[i], y: ROMAN_Y, "class": "roman" }, r));
+      var t = MUS.el("text", { x: at[i], y: ROMAN_Y, "class": "roman" });
+      marks(t, r, 15);
+      svg.appendChild(t);
     });
     return at[at.length - 1];
   }
@@ -140,6 +143,10 @@
       MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
     }
     MUS.endStaff(svg, end === null ? 1580 : Math.min(1580, end + TAIL));
+    var num = svg.getAttribute("data-num");
+    if (num) {
+      svg.appendChild(MUS.el("text", { x: 18, y: NUM_Y, "class": "itemnum" }, num));
+    }
     var key = svg.getAttribute("data-key");
     if (key) { keyBox(svg, key); }
   }

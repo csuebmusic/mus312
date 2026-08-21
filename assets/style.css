@@ -398,7 +398,7 @@ ol.items.tight > li { margin-bottom: calc(var(--step) * 1.5); }
   font-weight: 500;
   fill: var(--ink);
 }
-.keylabel .acc-inline { font-family: var(--font-music); font-size: 0.95em; }
+.acc-inline { font-family: var(--font-music); font-size: 0.95em; }
 
 /* blank staff paper */
 svg.answer {
