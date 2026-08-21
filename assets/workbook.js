@@ -5,7 +5,8 @@
      "single"   one treble staff
      "grand"    both staves
      "chord"    one staff to an example, sized to what it holds
-     "sonority" one chord written out on a staff of its own, to be named
+     "sonority" a passage written out on a staff of its own, to be named
+     "blank"    a staff of its own with nothing on it, data-chords wide
      "figured"  a full-width bass line with its figures already set
      "numerals" both staves with roman numerals already set beneath
    Any of these takes data-flats or data-sharps for its key signature.
@@ -139,6 +140,13 @@
     return box(svg, last);
   }
 
+  /* a compact staff with nothing on it, wide enough for data-chords chords */
+  function blank(svg) {
+    MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
+    var n = parseInt(svg.getAttribute("data-chords") || "3", 10);
+    return box(svg, FIRST + (n - 1) * CHORD_ADV);
+  }
+
   function figuredBass(svg) {
     var sig = MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
     var n = (svg.getAttribute("data-bass") || "").split(/\s+/).filter(Boolean).length;
@@ -158,7 +166,7 @@
 
   function draw(svg) {
     var kind = svg.getAttribute("data-staff");
-    if (kind !== "chord" && kind !== "sonority" && !VIEW[kind]) { kind = "single"; }
+    if (["chord", "sonority", "blank"].indexOf(kind) < 0 && !VIEW[kind]) { kind = "single"; }
     if (VIEW[kind]) { svg.setAttribute("viewBox", VIEW[kind]); }
     var end = null;
     if (kind === "single") {
@@ -167,6 +175,8 @@
       end = chord(svg);
     } else if (kind === "sonority") {
       end = sonority(svg);
+    } else if (kind === "blank") {
+      end = blank(svg);
     } else if (kind === "figured") {
       end = figuredBass(svg);
     } else if (kind === "numerals") {
