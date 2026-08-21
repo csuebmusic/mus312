@@ -5,12 +5,14 @@
      "single"   one treble staff
      "grand"    both staves
      "chord"    one staff to an example, sized to what it holds
+     "sonority" one chord written out on a staff of its own, to be named
      "figured"  a full-width bass line with its figures already set
      "numerals" both staves with roman numerals already set beneath
    Any of these takes data-flats or data-sharps for its key signature.
    data-bass names the bass notes and data-fig the figure under each of them,
-   chords separated by bars and the figures of one chord by commas. A chord
-   staff also takes data-key and data-num, set above the staff. */
+   chords separated by bars and the figures of one chord by commas. A sonority
+   staff takes data-up for the three voices above its bass. Any staff takes
+   data-key, drawn under the bass clef, and data-num, drawn above. */
 (function () {
   "use strict";
 
@@ -93,6 +95,16 @@
     return at[notes.length - 1];
   }
 
+  /* a compact staff is no wider than what it holds, and is then held to
+     three quarters of that width so the notation keeps the house scale */
+  function box(svg, last) {
+    var width = last + TAIL + 10;
+    svg.setAttribute("viewBox", "0 30 " + width + " 320");
+    svg.style.width = Math.round(width * SCALE) + "px";
+    svg.style.maxWidth = Math.round(width * SCALE) + "px";
+    return last;
+  }
+
   /* one example on a staff of its own, no wider than what it holds */
   function chord(svg) {
     var sig = MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
@@ -101,11 +113,19 @@
     var last = bassLine(svg, sig, at);
 
 
-    var width = last + TAIL + 10;
-    svg.setAttribute("viewBox", "0 30 " + width + " 320");
-    svg.style.width = Math.round(width * SCALE) + "px";
-    svg.style.maxWidth = Math.round(width * SCALE) + "px";
-    return last;
+    return box(svg, last);
+  }
+
+  /* one chord in keyboard style, written out for the student to name */
+  function sonority(svg) {
+    MUS.grandStaff(svg, 0);
+    var up = (svg.getAttribute("data-up") || "").split(/\s+/).filter(Boolean);
+    var shift = MUS.secondsShift(up, 0, 13).shift;
+    MUS.gsNote(svg, FIRST, svg.getAttribute("data-bass"), "b", { sig: {} });
+    up.forEach(function (note) {
+      MUS.gsNote(svg, FIRST + (shift[note] || 0), note, "t", { sig: {}, accX: FIRST });
+    });
+    return box(svg, FIRST);
   }
 
   function figuredBass(svg) {
@@ -127,13 +147,15 @@
 
   function draw(svg) {
     var kind = svg.getAttribute("data-staff");
-    if (kind !== "chord" && !VIEW[kind]) { kind = "single"; }
+    if (kind !== "chord" && kind !== "sonority" && !VIEW[kind]) { kind = "single"; }
     if (VIEW[kind]) { svg.setAttribute("viewBox", VIEW[kind]); }
     var end = null;
     if (kind === "single") {
       MUS.staff(svg);
     } else if (kind === "chord") {
       end = chord(svg);
+    } else if (kind === "sonority") {
+      end = sonority(svg);
     } else if (kind === "figured") {
       end = figuredBass(svg);
     } else if (kind === "numerals") {
