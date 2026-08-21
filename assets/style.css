@@ -361,6 +361,7 @@ ol.items.tight > li { margin-bottom: calc(var(--step) * 1.5); }
   gap: calc(var(--step) * 3) calc(var(--step) * 5);
   margin-top: calc(var(--step) * 3);
 }
+.staff-row.three { grid-template-columns: repeat(3, max-content); }
 .staff-row > svg { margin-top: 0; break-inside: avoid; }
 
 /* a staff and the lines that belong to it stay together */

@@ -121,13 +121,22 @@
   /* one chord in keyboard style, written out for the student to name */
   function sonority(svg) {
     var sig = MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
-    var up = (svg.getAttribute("data-up") || "").split(/\s+/).filter(Boolean);
-    var shift = MUS.secondsShift(up, 0, 13).shift;
-    MUS.gsNote(svg, FIRST, svg.getAttribute("data-bass"), "b", { sig: sig });
-    up.forEach(function (note) {
-      MUS.gsNote(svg, FIRST + (shift[note] || 0), note, "t", { sig: sig, accX: FIRST });
+    var basses = (svg.getAttribute("data-bass") || "").split(/\s+/).filter(Boolean);
+    var chords = (svg.getAttribute("data-up") || "").split("|");
+    var last = FIRST;
+
+    basses.forEach(function (bass, i) {
+      var x = FIRST + i * CHORD_ADV;
+      MUS.gsNote(svg, x, bass, "b", { sig: sig });
+      var up = (chords[i] || "").split(/\s+/).filter(Boolean);
+      var shift = MUS.secondsShift(up, 0, 13).shift;
+      up.forEach(function (note) {
+        MUS.gsNote(svg, x + (shift[note] || 0), note, "t", { sig: sig, accX: x });
+      });
+      last = x;
     });
-    return box(svg, FIRST);
+
+    return box(svg, last);
   }
 
   function figuredBass(svg) {
