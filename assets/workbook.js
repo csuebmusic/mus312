@@ -18,13 +18,15 @@
 
   var VIEW = {
     single: "0 20 1600 190",
-    grand: "0 30 1600 260",
-    figured: "0 30 1600 320",
-    numerals: "0 30 1600 320"
+    grand: "0 14 1600 276",
+    figured: "0 14 1600 336",
+    numerals: "0 14 1600 336"
   };
 
   var FIRST = 150, LAST = 1440, TAIL = 70, SCALE = 0.75;
-  var FIG_Y = 250, FIG_STEP = 17, ROMAN_Y = 252, NUM_Y = 52, CHORD_ADV = 130;
+  /* the G clef reaches 53 above its baseline at 102, so the item number
+     clears it at NUM_Y and the box opens above that */
+  var FIG_Y = 250, FIG_STEP = 17, ROMAN_Y = 252, NUM_Y = 42, CHORD_ADV = 130;
   /* the key stands under the bass clef, boxed */
   var KEY_X = 14, KEY_Y = 264, KEY_SIZE = 19, KEY_PAD = 8;
   var ACC_W = { "\u266D": 0.32, "\u266F": 0.34 };
@@ -99,7 +101,7 @@
      three quarters of that width so the notation keeps the house scale */
   function box(svg, last) {
     var width = last + TAIL + 10;
-    svg.setAttribute("viewBox", "0 30 " + width + " 320");
+    svg.setAttribute("viewBox", "0 14 " + width + " 336");
     svg.style.width = Math.round(width * SCALE) + "px";
     svg.style.maxWidth = Math.round(width * SCALE) + "px";
     return last;
