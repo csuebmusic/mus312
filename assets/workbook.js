@@ -120,12 +120,12 @@
 
   /* one chord in keyboard style, written out for the student to name */
   function sonority(svg) {
-    MUS.grandStaff(svg, 0);
+    var sig = MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
     var up = (svg.getAttribute("data-up") || "").split(/\s+/).filter(Boolean);
     var shift = MUS.secondsShift(up, 0, 13).shift;
-    MUS.gsNote(svg, FIRST, svg.getAttribute("data-bass"), "b", { sig: {} });
+    MUS.gsNote(svg, FIRST, svg.getAttribute("data-bass"), "b", { sig: sig });
     up.forEach(function (note) {
-      MUS.gsNote(svg, FIRST + (shift[note] || 0), note, "t", { sig: {}, accX: FIRST });
+      MUS.gsNote(svg, FIRST + (shift[note] || 0), note, "t", { sig: sig, accX: FIRST });
     });
     return box(svg, FIRST);
   }
