@@ -38,7 +38,7 @@ An applied chord is written with its target after a slash and a curved arrow to 
 
 Roman numerals take the jazz flatted-degree convention: ♭3̂, ♭III.
 
-The cadential six-four is Cad6/4. In a figured bass it stands over one held bass note, figured 6–5 above 4–3, and in minor the 3 is the accidental that raises it.
+The cadential six-four is Cad6/4. In a figured bass it takes the bass note twice, 6 over 4 under the first and 5 over 3 under the second, with the accidental in place of the 3 where the key raises it.
 
 A note belonging to a chord is a chord tone. Nothing is a member.
 
