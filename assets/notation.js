@@ -614,7 +614,11 @@ var MUS = (function () {
       }
     }
     svg.appendChild(head(x, y, "notehead" + (opt.lit ? " lit-" + opt.lit : ""), note, {
-      col: opt.accX === undefined ? x : opt.accX, glyph: opt.head,
+      /* the column is what the chord is read by, so a staggered accidental
+         does not move it */
+      col: opt.col !== undefined ? opt.col
+         : (opt.accX === undefined ? x : opt.accX),
+      glyph: opt.head,
       dur: opt.dur, beat: opt.beat
     }));
     return y;

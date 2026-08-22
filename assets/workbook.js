@@ -7,7 +7,7 @@
      "bass"     one bass staff, for a bass line written on its own
      "chord"    one staff to an example, sized to what it holds
      "sonority" a passage written out on a staff of its own, to be named
-     "blank"    a staff of its own with nothing on it, data-chords wide
+     "blank"    a staff of its own to write on, data-chords wide
      "figured"  a full-width bass line with its figures already set
      "numerals" both staves with roman numerals already set beneath
    Any of these takes data-flats or data-sharps for its key signature.
@@ -129,6 +129,27 @@
   }
 
   /* one chord in keyboard style, written out for the student to name */
+  /* a note takes an accidental where its spelling differs from the signature */
+  function altered(note, sig) {
+    var m = /^([A-G])(#|b)?/.exec(note);
+    var letter = "CDEFGAB".indexOf(m[1]);
+    var alt = m[2] === "#" ? 1 : m[2] === "b" ? -1 : 0;
+    return alt !== (sig[letter] || 0);
+  }
+
+  /* accidentals stack in one column, so two of them close together step left */
+  function columns(notes, sig, which) {
+    var marked = notes.filter(function (n) { return altered(n, sig); })
+      .map(function (n) { return { note: n, y: MUS.gsY(n, which) }; })
+      .sort(function (a, b) { return a.y - b.y; });
+    var out = {}, col = 0;
+    marked.forEach(function (m, i) {
+      col = (i && m.y - marked[i - 1].y < 22) ? col + 1 : 0;
+      out[m.note] = col;
+    });
+    return out;
+  }
+
   function sonority(svg) {
     var sig = MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
     var basses = (svg.getAttribute("data-bass") || "").split(/\s+/).filter(Boolean);
@@ -137,11 +158,13 @@
 
     basses.forEach(function (bass, i) {
       var x = FIRST + i * CHORD_ADV;
-      MUS.gsNote(svg, x, bass, "b", { sig: sig });
+      MUS.gsNote(svg, x, bass, "b", { sig: sig, col: x });
       var up = (chords[i] || "").split(/\s+/).filter(Boolean);
       var shift = MUS.secondsShift(up, 0, 13).shift;
+      var col = columns(up, sig, "t");
       up.forEach(function (note) {
-        MUS.gsNote(svg, x + (shift[note] || 0), note, "t", { sig: sig, accX: x });
+        MUS.gsNote(svg, x + (shift[note] || 0), note, "t",
+                   { sig: sig, col: x, accX: x - 13 * (col[note] || 0) });
       });
       last = x;
     });
@@ -152,8 +175,11 @@
   /* a compact staff with nothing on it, wide enough for data-chords chords */
   function blank(svg) {
     MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
-    var n = parseInt(svg.getAttribute("data-chords") || "3", 10);
-    return box(svg, FIRST + (n - 1) * CHORD_ADV);
+    var n = parseInt(svg.getAttribute("data-chords") || "3", 10), at = [], i;
+    for (i = 0; i < n; i++) { at.push(FIRST + i * CHORD_ADV); }
+    /* a blank staff may name the chord it wants written on it */
+    if (svg.getAttribute("data-roman")) { numerals(svg, at); }
+    return box(svg, at[n - 1]);
   }
 
   function figuredBass(svg) {
