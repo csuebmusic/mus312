@@ -29,7 +29,7 @@
   var FIRST = 150, LAST = 1440, TAIL = 70, SCALE = 0.75;
   /* the G clef reaches 53 above its baseline at 102, so the item number
      clears it at NUM_Y and the box opens above that */
-  var FIG_Y = 250, FIG_STEP = 17, ROMAN_Y = 272, NUM_Y = 42, CHORD_ADV = 130;
+  var FIG_Y = 250, FIG_STEP = 21, ROMAN_Y = 276, NUM_Y = 42, CHORD_ADV = 130;
   /* the key stands under the bass clef, boxed */
   var KEY_X = 14, KEY_Y = 264, KEY_SIZE = 19, KEY_PAD = 8;
   var ACC_W = { "\u266D": 0.32, "\u266F": 0.34, "\u266E": 0.26 };
@@ -85,7 +85,7 @@
   function figures(svg, x, list) {
     list.split(",").filter(Boolean).forEach(function (f, row) {
       var t = MUS.el("text", { x: x + 7, y: FIG_Y + row * FIG_STEP, "class": "figbass" });
-      marks(t, f, 14);
+      marks(t, f, 19);
       svg.appendChild(t);
     });
   }
@@ -102,8 +102,8 @@
                             (chords[i] || "").split(",").filter(Boolean).length);
         for (var r = 0; r < rows; r++) {
           svg.appendChild(MUS.el("line", {
-            x1: at[i - 1] + 14, y1: FIG_Y + r * FIG_STEP - 4,
-            x2: at[i], y2: FIG_Y + r * FIG_STEP - 4, "class": "figline"
+            x1: at[i - 1] + 18, y1: FIG_Y + r * FIG_STEP - 6,
+            x2: at[i] - 4, y2: FIG_Y + r * FIG_STEP - 6, "class": "figline"
           }));
         }
       }
@@ -197,7 +197,7 @@
     at = at || slots(list.length);
     list.forEach(function (r, i) {
       var t = MUS.el("text", { x: at[i] + 7, y: ROMAN_Y, "class": "roman" });
-      marks(t, r, 15);
+      marks(t, r, 20);
       svg.appendChild(t);
     });
     return at[at.length - 1];

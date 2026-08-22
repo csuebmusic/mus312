@@ -377,15 +377,15 @@ ol.items.tight > li { margin-bottom: calc(var(--step) * 1.5); }
 }
 .figbass {
   font-family: var(--font-data);
-  font-size: 14px;
+  font-size: 19px;
   fill: var(--ink);
   text-anchor: middle;
 }
-.figline { stroke: var(--ink); stroke-width: 1.2; }
+.figline { stroke: var(--ink); stroke-width: 1.4; }
 .cue { font-family: var(--font-data); }
 .roman {
   font-family: var(--font-data);
-  font-size: 15px;
+  font-size: 20px;
   fill: var(--ink);
   text-anchor: middle;
 }
