@@ -558,6 +558,17 @@ var MUS = (function () {
     return keySignature(svg, SIG_X, flats, sharps);
   }
 
+  /* one bass staff, for a bass line written without its upper voices */
+  function bassStaff(svg) {
+    register(svg);
+    for (var L = 0; L < 5; L++) {
+      svg.appendChild(el("line", {
+        x1: 10, y1: GS.bassTop + 12 * L, x2: 10, y2: GS.bassTop + 12 * L, "class": "staff-line"
+      }));
+    }
+    svg.appendChild(el("text", { x: CLEF_X, y: GS.bassBottom - 36, "class": "clef" }, "\uE062"));
+  }
+
   /* a key signature on both staves, starting at x. Returns it as a map. */
   function keySignature(svg, x, flats, sharps) {
     var sig = {};
@@ -769,6 +780,7 @@ var MUS = (function () {
     pitchHz: pitchHz,
     GS: GS,
     grandStaff: grandStaff,
+    bassStaff: bassStaff,
     keySignature: keySignature,
     SIG_X: SIG_X,
     SIG_STEP: SIG_STEP,

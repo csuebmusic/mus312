@@ -4,6 +4,7 @@
    Every svg.answer takes data-staff:
      "single"   one treble staff
      "grand"    both staves
+     "bass"     one bass staff, for a bass line written on its own
      "chord"    one staff to an example, sized to what it holds
      "sonority" a passage written out on a staff of its own, to be named
      "blank"    a staff of its own with nothing on it, data-chords wide
@@ -20,6 +21,7 @@
   var VIEW = {
     single: "0 20 1600 190",
     grand: "0 14 1600 276",
+    bass: "0 120 1600 230",
     figured: "0 14 1600 400",
     numerals: "0 14 1600 400"
   };
@@ -182,6 +184,8 @@
     var end = null;
     if (kind === "single") {
       MUS.staff(svg);
+    } else if (kind === "bass") {
+      MUS.bassStaff(svg);
     } else if (kind === "chord") {
       end = chord(svg);
     } else if (kind === "sonority") {
