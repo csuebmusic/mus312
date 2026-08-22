@@ -397,6 +397,7 @@ ol.items.tight > li { margin-bottom: calc(var(--step) * 1.5); }
 }
 /* the key a staff is in, boxed under its bass clef */
 .keybox { fill: var(--accent-wash); stroke: var(--accent); stroke-width: 1.2; }
+.pivotbox { fill: none; stroke: var(--ink); stroke-width: 1.2; }
 .keylabel {
   font-family: var(--font-data);
   font-size: 19px;

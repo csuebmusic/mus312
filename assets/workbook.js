@@ -30,6 +30,7 @@
   /* the G clef reaches 53 above its baseline at 102, so the item number
      clears it at NUM_Y and the box opens above that */
   var FIG_Y = 250, FIG_STEP = 21, ROMAN_Y = 276, NUM_Y = 42, CHORD_ADV = 130;
+  var ROMAN_SIZE = 20, ROMAN_ROW = 30, KEY_W = 48;
   /* the key stands under the bass clef, boxed */
   var KEY_X = 14, KEY_Y = 264, KEY_SIZE = 19, KEY_PAD = 8;
   var ACC_W = { "\u266D": 0.32, "\u266F": 0.34, "\u266E": 0.26 };
@@ -192,13 +193,42 @@
     return end;
   }
 
+  /* One numeral to a chord, on the home key's row. A numeral written
+     "old=new" is the pivot: it takes both rows inside a box, everything after
+     it reads on the lower row, and an empty box to its left is where the new
+     key is named. */
   function numerals(svg, at) {
     var list = (svg.getAttribute("data-roman") || "").split(";").filter(Boolean);
     at = at || slots(list.length);
-    list.forEach(function (r, i) {
-      var t = MUS.el("text", { x: at[i] + 7, y: ROMAN_Y, "class": "roman" });
-      marks(t, r, 20);
+    var pivot = -1, i;
+    for (i = 0; i < list.length; i++) {
+      if (list[i].indexOf("=") > 0) { pivot = i; break; }
+    }
+    var low = ROMAN_Y + ROMAN_ROW;
+
+    function put(label, x, y) {
+      var t = MUS.el("text", { x: x, y: y, "class": "roman" });
+      var w = marks(t, label, ROMAN_SIZE);
       svg.appendChild(t);
+      return w;
+    }
+
+    list.forEach(function (r, n) {
+      var x = at[n] + 7;
+      if (n !== pivot) {
+        put(r, x, pivot >= 0 && n > pivot ? low : ROMAN_Y);
+        return;
+      }
+      var both = r.split("=");
+      var w = Math.max(put(both[0], x, ROMAN_Y), put(both[1], x, low)) + 16;
+      svg.appendChild(MUS.el("rect", {
+        x: Math.round(x - w / 2), y: ROMAN_Y - ROMAN_SIZE,
+        width: Math.round(w), height: ROMAN_ROW + ROMAN_SIZE + 6, "class": "pivotbox"
+      }));
+      svg.appendChild(MUS.el("rect", {
+        x: Math.round(x - w / 2) - KEY_W - 10, y: low - ROMAN_SIZE,
+        width: KEY_W, height: ROMAN_SIZE + 6, "class": "keybox"
+      }));
     });
     return at[at.length - 1];
   }

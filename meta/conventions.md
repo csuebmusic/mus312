@@ -42,6 +42,8 @@ The cadential six-four is Cad6/4. In a figured bass it takes the bass note twice
 
 A note belonging to a chord is a chord tone. Nothing is a member.
 
+A pivot is boxed and read in both keys, the old key's numeral above the new key's, and the new key is named in a box to the left of the lower row. Numerals after the pivot stand on that lower row.
+
 Four-voice writing is keyboard style unless a page says otherwise: the bass alone on the bass staff, the three upper voices together on the treble staff.
 
 Second-level analysis names the function of each span: T, M, PD, D. Prolongations inside a span are labelled by what they do: N neighbor, P passing, CL chordal leap, arp arpeggiation.
