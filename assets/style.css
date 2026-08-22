@@ -362,6 +362,7 @@ ol.items.tight > li { margin-bottom: calc(var(--step) * 1.5); }
   margin-top: calc(var(--step) * 3);
 }
 .staff-row.three { grid-template-columns: repeat(3, 1fr); }
+.staff-row.five { grid-template-columns: repeat(5, 1fr); }
 .staff-row > svg { margin-top: 0; break-inside: avoid; }
 
 /* a staff and the lines that belong to it stay together */
@@ -430,6 +431,7 @@ table.fill td { height: 2.4rem; }
   .panel { border: none; padding: 0; }
   .set { margin-top: calc(var(--step) * 6); }
   .staff-row.three { grid-template-columns: repeat(2, 1fr); }
+  .staff-row.five { grid-template-columns: repeat(3, 1fr); }
   a { color: var(--ink); text-decoration: none; }
   footer { break-inside: avoid; }
 }
