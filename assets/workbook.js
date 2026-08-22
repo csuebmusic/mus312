@@ -157,12 +157,16 @@
   function figuredBass(svg) {
     var sig = MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
     var n = (svg.getAttribute("data-bass") || "").split(/\s+/).filter(Boolean).length;
-    return bassLine(svg, sig, slots(n));
+    var at = slots(n);
+    var end = bassLine(svg, sig, at);
+    /* a bass line may carry its numerals already, leaving only the reading */
+    if (svg.getAttribute("data-roman")) { numerals(svg, at); }
+    return end;
   }
 
-  function numerals(svg) {
+  function numerals(svg, at) {
     var list = (svg.getAttribute("data-roman") || "").split(";").filter(Boolean);
-    var at = slots(list.length);
+    at = at || slots(list.length);
     list.forEach(function (r, i) {
       var t = MUS.el("text", { x: at[i], y: ROMAN_Y, "class": "roman" });
       marks(t, r, 15);
