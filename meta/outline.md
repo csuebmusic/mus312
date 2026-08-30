@@ -22,8 +22,6 @@ Hepokoski and Darcy, *Elements of Sonata Theory*. Sonata-form terminology and th
 
 Laitz and Bartlette, *Graduate Review of Tonal Theory*. Review, harmony and form. Laitz mixes the two within single chapters; the harmony sections are read in weeks 1 and 2, the form sections at the chapter they belong to.
 
-Sonata-form terminology follows Hepokoski and Darcy. Elsewhere terminology follows Caplin.
-
 ## harmony review
 
 | wk | meetings | Caplin | supplement |
