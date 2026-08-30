@@ -12,7 +12,7 @@ Each file owns one kind of statement. A sentence goes where it is owned, and now
 | `status.md` | what exists, in a line each, and what is open | descriptions of features, verification results, page counts, history |
 | `README.md` | the public front: live links and what each page is for | rules, status, anything instructor-only |
 
-Update by replacing, not appending. A change that lands edits the sentence that is now wrong. Where no sentence is wrong, nothing is added: a file records the state, not the sequence of states that reached it.
+Update by replacing, not appending. A change edits the sentence that is now wrong. Where no sentence is wrong, nothing is added: a file records the state, not the sequence of states that reached it.
 
 Settled decisions are written as rules. Leave out why a rule was chosen, what was weighed against it, when it changed, and what it replaced. A commit reference belongs in a commit, not in a file.
 
