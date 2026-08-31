@@ -24,6 +24,8 @@ Sonata-form terminology follows Hepokoski and Darcy.
 
 Harmonic function follows Laitz: four functions, tonic, mediant, pre-dominant, dominant. Where Caplin differs, student-facing material names his reading alongside. Caplin counts three functions, placing vi with the tonic and treating iii as a dominant substitute.
 
+A phrase closes with a cadence, following Laitz and Hepokoski and Darcy. The units inside a phrase are subphrases, whatever their formal function: presentation, continuation, antecedent, consequent, cadential. Caplin calls these units phrases, and student-facing material names his usage where his rules are given.
+
 Elsewhere formal terminology follows Caplin.
 
 Common modulation targets are given for the classical repertoire: V, vi, and IV from a major key, ♭III and v from a minor one. Laitz lists iii in place of IV.
@@ -45,6 +47,8 @@ A note belonging to a chord is a chord tone. Nothing is a member.
 A pivot is boxed and read in both keys, the old key's numeral above the new key's, and the new key is named in a box to the left of the lower row. Numerals after the pivot stand on that lower row.
 
 Four-voice writing is keyboard style unless a page says otherwise: the bass alone on the bass staff, the three upper voices together on the treble staff.
+
+Subphrase labels are unbracketed and stand at the point the subphrase begins. Brackets mark ideas, fragments, models, and sequences.
 
 Second-level analysis names the function of each span: T, M, PD, D. Prolongations inside a span are labelled by what they do: N neighbor, P passing, CL chordal leap, arp arpeggiation.
 
