@@ -55,13 +55,13 @@
     fill: var(--muted);
     text-anchor: middle;
   }
-  .roman, .cadlabel, .formlabel, .phraselabel, .keylabel {
+  .roman, .cadlabel, .formlabel, .subphraselabel, .keylabel {
     font-family: var(--font-data);
     font-size: 15px;
     fill: var(--ink);
   }
   .keylabel { font-weight: 500; }
-  .phraselabel { font-size: 14px; letter-spacing: 0.04em; }
+  .subphraselabel { font-size: 14px; letter-spacing: 0.04em; }
   .formlabel { font-size: 13px; text-anchor: middle; fill: var(--muted); }
   .bracket, .cadbracket { stroke: var(--ink); stroke-width: 1.2; fill: none; }
   .cadbox { stroke: var(--ink); stroke-width: 1.2; fill: none; }
@@ -70,7 +70,7 @@
 
   .bracket.lit, .cadbracket.lit, .cadbox.lit { stroke: var(--accent); }
   .roman.lit, .cadlabel.lit, .formlabel.lit,
-  .phraselabel.lit, .keylabel.lit { fill: var(--accent); }
+  .subphraselabel.lit, .keylabel.lit { fill: var(--accent); }
 
   .off { display: none; }
 
@@ -179,7 +179,7 @@
 
 <section class="panel">
     <h2>a sentence in minor</h2>
-    <svg id="score-minor" viewBox="0 -26 1600 500" role="img" aria-label="An eight-bar sentence in C minor on a grand staff, annotated with formal brackets and phrase labels above and roman numerals, a cadential bracket, and a boxed cadence label below"></svg>
+    <svg id="score-minor" viewBox="0 -26 1600 500" role="img" aria-label="An eight-bar sentence in C minor on a grand staff, annotated with formal brackets and subphrase labels above and roman numerals, a cadential bracket, and a boxed cadence label below"></svg>
     <div class="controls" id="controls-minor"></div>
   </section>
 
@@ -316,7 +316,7 @@
   var HEAD = MUS.HEADS, LEN = MUS.DUR;
   var HEAD_W = MUS.HEAD_W, STEM = MUS.STEM;
   var stem = MUS.stem;
-  var Y_PHRASE = -10, Y_BRACKET = 22, Y_FORM = 12, Y_MEASURE = 48;
+  var Y_SUBPHRASE = -10, Y_BRACKET = 22, Y_FORM = 12, Y_MEASURE = 48;
   var Y_FIG = 268, FIG_STEP = 17;
   var ROWS = {
     course: { y: 300, bracket: 320, box: 348, tag: "THIS COURSE" },
@@ -342,7 +342,7 @@
     { from: [5, 0], to: [5, 4], label: "frag." },
     { from: [6, 0], to: [7, 4], label: "cadential idea" }
   ];
-  var PHRASES = [
+  var SUBPHRASES = [
     { bar: 0, label: "PRESENTATION" },
     { bar: 4, label: "CONTINUATION" }
   ];
@@ -477,10 +477,10 @@
     put(cfg.bass, "b", true);
 
     var above = layer(svg, "form");
-    PHRASES.forEach(function (p) {
+    SUBPHRASES.forEach(function (p) {
       mark(above, el("text", {
-        x: at(cfg, p.bar, 0) - 6, y: Y_PHRASE, "class": "phraselabel"
-      }, p.label), "phrase");
+        x: at(cfg, p.bar, 0) - 6, y: Y_SUBPHRASE, "class": "subphraselabel"
+      }, p.label), "subphrase");
     });
     UNITS.forEach(function (u) {
       bracket(above, at(cfg, u.from[0], u.from[1]) - 10,
@@ -783,8 +783,8 @@
     ["form", "the formal analysis", "Everything about form goes above the score."],
     ["units", "brackets on the formal units",
      "A horizontal bracket shows the exact boundaries of a basic idea, a cadential idea, a fragment, a model, or a sequence. After the first fragment the label can be dropped, but the bracket stays, and the same holds for the sequences that follow a model. Do not run brackets automatically from barline to barline: decide by ear where an idea begins and ends."],
-    ["phrase", "phrase labels, unbracketed",
-     "Presentation and continuation are named at the point the phrase begins. A phrase is never bracketed."]
+    ["subphrase", "subphrase labels, unbracketed",
+     "A phrase closes with a cadence, and the units inside it are subphrases. Presentation and continuation are named at the point the subphrase begins. These labels are never bracketed. Caplin calls these units phrases."]
   ];
   var RULES_BELOW = [
     ["harmony", "the harmonic analysis", "Everything about harmony and cadence goes below the score."],
