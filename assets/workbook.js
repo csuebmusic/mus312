@@ -34,7 +34,8 @@
   /* a numeral's figures stack to its right, straddling its baseline */
   var RFIG_SIZE = 14, RFIG_UP = 9, RFIG_STEP = 14, RFIG_GAP = 2;
   /* a row names itself at the left, right-aligned, clear of the first chord */
-  var LABEL_X = 140, LABEL_STEP = 20;
+  /* a staff that names its rows indents its chords to make room */
+  var LABEL_INDENT = 330, LABEL_X = 310, LABEL_STEP = 20;
   /* a single treble staff sits higher, so its labels do too */
   var TREBLE_LABEL_Y = 170;
   /* the key stands under the bass clef, boxed */
@@ -46,11 +47,18 @@
   }
 
   /* every chord on the system, evenly spread */
-  function slots(n) {
-    if (n < 2) { return [FIRST]; }
-    var step = (LAST - FIRST) / (n - 1), out = [], i;
-    for (i = 0; i < n; i++) { out.push(FIRST + i * step); }
+  function slots(n, start) {
+    start = start || FIRST;
+    if (n < 2) { return [start]; }
+    var step = (LAST - start) / (n - 1), out = [], i;
+    for (i = 0; i < n; i++) { out.push(start + i * step); }
     return out;
+  }
+
+  /* where the first chord stands: further right where a row names itself */
+  function firstX(svg) {
+    return (svg.getAttribute("data-fig-label") || svg.getAttribute("data-roman-label"))
+      ? LABEL_INDENT : FIRST;
   }
 
   /* Any label a page sets: a key, a figure, a numeral. An accidental comes
@@ -238,7 +246,7 @@
   function figuredBass(svg) {
     var sig = MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
     var n = (svg.getAttribute("data-bass") || "").split(/\s+/).filter(Boolean).length;
-    var at = slots(n);
+    var at = slots(n, firstX(svg));
     var end = bassLine(svg, sig, at);
     /* a bass line may carry its numerals already, leaving only the reading */
     if (svg.getAttribute("data-roman")) { numerals(svg, at); }
@@ -266,7 +274,7 @@
      key is named. */
   function numerals(svg, at, baseY) {
     var list = (svg.getAttribute("data-roman") || "").split(";").filter(Boolean);
-    at = at || slots(list.length);
+    at = at || slots(list.length, firstX(svg));
     var pivot = -1, i;
     for (i = 0; i < list.length; i++) {
       if (list[i].indexOf("=") > 0) { pivot = i; break; }
