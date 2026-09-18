@@ -6,6 +6,10 @@
 <title>mus 312 &middot; problem set 1, what to look at again</title>
 <link rel="stylesheet" href="../assets/style.css?v=20">
 <script src="../assets/theme.js?v=2"></script>
+<style>
+  /* the figures centre in the panel, so the prose measure centres with them */
+  .panel p { margin-left: auto; margin-right: auto; }
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -44,12 +48,12 @@
     <h2>six semitones, two spellings</h2>
 
     <div class="staff-row">
-      <svg class="answer" data-staff="sonority" data-num="1"
-           data-bass="C3" data-up="C4 F#4"
-           role="img" aria-label="Bass C, above it C and F sharp"></svg>
-      <svg class="answer" data-staff="sonority" data-num="2"
-           data-bass="C3" data-up="C4 Gb4"
-           role="img" aria-label="Bass C, above it C and G flat"></svg>
+      <svg class="answer" data-staff="single" data-num="1"
+           data-up="C4 F#4" data-roman="augmented 4th"
+           role="img" aria-label="C and F sharp, an augmented fourth"></svg>
+      <svg class="answer" data-staff="single" data-num="2"
+           data-up="C4 Gb4" data-roman="diminished 5th"
+           role="img" aria-label="C and G flat, a diminished fifth"></svg>
     </div>
 
     <p>Same distance, different notes. C up to F covers C D E F, four letter names, so the first is a fourth, augmented. C up to G covers five, so the second is a fifth, diminished. The accidentals can't change the size.</p>
@@ -63,6 +67,7 @@
 
     <svg class="answer" data-staff="sonority" data-sharps="3" data-key="f&#x266F;:"
          data-bass="F#3 C#3" data-up="A4 C#5 F#5|E#4 G#4 C#5"
+         data-roman="i;V"
          role="img" aria-label="In F sharp minor, bass F sharp with A, C sharp and F sharp above, then bass C sharp with E sharp, G sharp and C sharp above"></svg>
 
     <p>Three sharps in the signature cover F, C and G wherever they fall. The only written accidental is the E&#x266F;, the raised 7&#x302; that makes the dominant major.</p>
@@ -77,6 +82,7 @@
     <svg class="answer" data-staff="sonority" data-flats="3" data-key="c:"
          data-bass="Eb3 Eb3 G2 G2 Bb2 B2"
          data-up="G4 Bb4 Eb5|G4 B4 Eb5|Bb4 D5 G5|B4 D5 G5|D5 F5 Bb5|D5 F5 B5"
+         data-roman="&#x266D;III;&#x266D;III+;v;V;&#x266D;VII;vii&#xB0;"
          role="img" aria-label="In C minor, six chords: E flat G B flat, E flat G B natural, G B flat D, G B natural D, B flat D F, B natural D F"></svg>
 
     <p>&#x266D;<span class="caps">III</span> becomes &#x266D;<span class="caps">III</span>+, v becomes <span class="caps">V</span>, &#x266D;<span class="caps">VII</span> becomes vii&#xB0;. All three contain 7&#x302;, and raising it is the only thing that happens.</p>
@@ -96,10 +102,10 @@
 
     <div class="staff-row">
       <svg class="answer" data-staff="sonority" data-num="4" data-key="B&#x266D;:" data-flats="2"
-           data-bass="C3" data-up="A4 C5 Eb5"
+           data-bass="C3" data-up="A4 C5 Eb5" data-roman="vii&#xB0;6"
            role="img" aria-label="In B flat major, bass C, upper voices A, C and E flat"></svg>
       <svg class="answer" data-staff="sonority" data-num="9" data-key="g:" data-flats="2"
-           data-bass="C3" data-up="A4 C5 Eb5"
+           data-bass="C3" data-up="A4 C5 Eb5" data-roman="ii&#xB0;6"
            role="img" aria-label="In G minor, bass C, upper voices A, C and E flat"></svg>
     </div>
 
@@ -113,6 +119,6 @@
 </div>
 
 <script src="../assets/notation.js?v=25"></script>
-<script src="../assets/workbook.js?v=3"></script>
+<script src="../assets/workbook.js?v=4"></script>
 </body>
 </html>

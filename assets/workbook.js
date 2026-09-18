@@ -35,6 +35,8 @@
   var RFIG_SIZE = 14, RFIG_UP = 9, RFIG_STEP = 14, RFIG_GAP = 2;
   /* a row names itself at the left, right-aligned, clear of the first chord */
   var LABEL_X = 140, LABEL_STEP = 17;
+  /* a single treble staff sits higher, so its labels do too */
+  var TREBLE_LABEL_Y = 170;
   /* the key stands under the bass clef, boxed */
   var KEY_X = 14, KEY_Y = 264, KEY_SIZE = 19, KEY_PAD = 8;
   var ACC_W = { "\u266D": 0.32, "\u266F": 0.34, "\u266E": 0.26 };
@@ -194,7 +196,34 @@
       last = x;
     });
 
+    if (svg.getAttribute("data-roman")) {
+      numerals(svg, basses.map(function (b, i) { return FIRST + i * CHORD_ADV; }));
+    }
     return box(svg, last);
+  }
+
+  /* chords on one treble staff, for an example that needs no bass */
+  function trebleChords(svg) {
+    var chords = (svg.getAttribute("data-up") || "").split("|").filter(Boolean);
+    var last = FIRST;
+    var at = chords.map(function (c, i) {
+      var x = FIRST + i * CHORD_ADV;
+      MUS.chord(svg, x, c.split(/\s+/).filter(Boolean));
+      last = x;
+      return x;
+    });
+    var widest = 0;
+    if (svg.getAttribute("data-roman")) {
+      numerals(svg, at, TREBLE_LABEL_Y);
+      svg.getAttribute("data-roman").split(";").forEach(function (r) {
+        widest = Math.max(widest, runWidth(r, ROMAN_SIZE));
+      });
+    }
+    /* a name wider than the notes it sits under still has to fit the box */
+    var width = Math.max(last + TAIL + 10, FIRST + 7 + widest / 2 + 10);
+    svg.setAttribute("viewBox", "0 20 " + width + " 190");
+    svg.style.maxWidth = Math.round(width * SCALE) + "px";
+    return last;
   }
 
   /* a compact staff with nothing on it, wide enough for data-chords chords */
@@ -236,14 +265,14 @@
      "old=new" is the pivot: it takes both rows inside a box, everything after
      it reads on the lower row, and an empty box to its left is where the new
      key is named. */
-  function numerals(svg, at) {
+  function numerals(svg, at, baseY) {
     var list = (svg.getAttribute("data-roman") || "").split(";").filter(Boolean);
     at = at || slots(list.length);
     var pivot = -1, i;
     for (i = 0; i < list.length; i++) {
       if (list[i].indexOf("=") > 0) { pivot = i; break; }
     }
-    var top = romanTop(svg);
+    var top = baseY || romanTop(svg);
     var low = top + ROMAN_ROW;
 
     /* a numeral's figures stack, so V6/5 reads 6 over 5 rather than across.
@@ -303,6 +332,7 @@
     var end = null;
     if (kind === "single") {
       MUS.staff(svg);
+      if (svg.getAttribute("data-up")) { end = trebleChords(svg); }
     } else if (kind === "bass") {
       MUS.bassStaff(svg);
     } else if (kind === "chord") {
