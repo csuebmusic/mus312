@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mus 312 &middot; problem set 1, parts 8 and 9</title>
+<link rel="stylesheet" href="../assets/style.css?v=20">
+<script src="../assets/theme.js?v=2"></script>
+<style>
+  /* the figures centre in the panel, so the prose measure centres with them */
+  .panel p { margin-left: auto; margin-right: auto; }
+  /* the accent marks the notes under discussion; a second strand takes blue */
+  .lit-a { fill: var(--accent); }
+  .lit-b { fill: var(--accent-2); }
+  .accidental.lit-a { fill: var(--accent); }
+  .accidental.lit-b { fill: var(--accent-2); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">mus 312 &middot; harmony review &middot; problem set 1</p>
+  <h1>what to look at again, parts 8 and 9</h1>
+
+  <p class="full">Parts 8 and 9 of <a href="part-1.html">problem set 1</a>. The first four sections are about naming a chord you've been handed; the last four are about writing four voices that move. Sections of the <a href="../tools/harmony-review.html#part-1">harmony review</a> that cover this: <a href="../tools/harmony-review.html#sec-figured">figured bass</a>, <a href="../tools/harmony-review.html#sec-inversions">inversions</a>, <a href="../tools/harmony-review.html#sec-voice-leading">basic voice leading rules</a>.</p>
+
+  <section class="panel">
+    <h2>the numeral counts from the root</h2>
+    <p>In A minor, a 6 over D gives B D F. The bass is D, the root is B, and the numeral counts the root up from the tonic:</p>
+
+    <svg class="answer" data-staff="sonority" data-key="a:"
+         data-bass="D3" data-up="F4 B4 D5" data-roman="ii&#xB0;6"
+         data-lit="B4"
+         role="img" aria-label="In A minor, bass D, upper voices F, B and D, read as two diminished six"></svg>
+
+    <p>B is 2̂ in A minor, the triad on it is diminished, and D in the bass is its third, so ii&#xB0;6. Naming it from the bass note instead would give a numeral on 4̂, and no chord in this key is built on D with those pitches.</p>
+
+    <p>Stack the pitches in thirds first. The bottom of that stack is the root, whatever is lowest on the page.</p>
+  </section>
+
+  <section class="panel">
+    <h2>case, and the flat</h2>
+    <p>The same numeral in two qualities. D minor and C minor, with the root of each chord in orange and its third in blue:</p>
+
+    <div class="staff-row">
+      <svg class="answer" data-staff="sonority" data-flats="1" data-key="d:"
+           data-bass="Bb2" data-up="D5 F5 G5" data-roman="iv6/5" data-lit="a:G5 b:Bb2"
+           role="img" aria-label="In D minor, bass B flat, upper voices D, F and G, read as four six five"></svg>
+      <svg class="answer" data-staff="sonority" data-flats="3" data-key="c:"
+           data-bass="G2" data-up="Eb4 G4 Bb4" data-roman="&#x266D;III6" data-lit="a:Eb4 b:G2"
+           role="img" aria-label="In C minor, bass G, upper voices E flat, G and B flat, read as flat three six"></svg>
+    </div>
+
+    <p>G B♭ D F is a minor seventh chord, so its numeral is lowercase: iv6/5. E♭ G B♭ is major, so uppercase: ♭III6. Uppercase is major, lowercase is minor, lowercase with ° is diminished, uppercase with + is augmented, and the case is set by the third above the root.</p>
+
+    <p>In a minor key ♭III, ♭VI and ♭VII carry the flat in front of the numeral, because the degree they stand on is a semitone below where the major scale puts it. Writing iii instead of ♭III names a chord on E♮ that C minor doesn't have.</p>
+  </section>
+
+  <section class="panel">
+    <h2>keyboard style is four voices</h2>
+    <p>The same chord written twice. Two voices above the bass, then three:</p>
+
+    <svg class="answer" data-staff="sonority" data-sharps="2" data-key="D:"
+         data-bass="F#3 F#3" data-up="A4 D5|A4 D5 F#5"
+         data-roman="incomplete;complete"
+         role="img" aria-label="In D major, bass F sharp twice, first with A and D above, then with A, D and F sharp above"></svg>
+
+    <p>Part 8 says the bass note alone on the bass staff and the three upper voices together on the treble staff. Three. A chord with two notes above the bass is a voice short, and the missing voice is usually where the doubling decision lives.</p>
+
+    <p>With four voices and a triad, one chord tone gets doubled. In root position double the root. In a 6/3 chord, double the bass. In vii°6 and ii°6 double the bass as well, never the leading tone.</p>
+  </section>
+
+  <section class="panel">
+    <h2>the seventh is part of the name</h2>
+    <p>Two chords a semitone apart at the top:</p>
+
+    <div class="staff-row">
+      <svg class="answer" data-staff="sonority" data-sharps="4" data-key="E:"
+           data-bass="B2" data-up="D#4 F#4 A4" data-roman="dominant 7th" data-lit="A4"
+           role="img" aria-label="Bass B with D sharp, F sharp and A above, a dominant seventh"></svg>
+      <svg class="answer" data-staff="sonority" data-sharps="4" data-key="E:"
+           data-bass="B2" data-up="D#4 F#4 A#4" data-roman="major 7th" data-lit="A#4"
+           role="img" aria-label="Bass B with D sharp, F sharp and A sharp above, a major seventh"></svg>
+    </div>
+
+    <p>B up to A is a minor seventh, which makes the chord a dominant seventh, the V of E major. B up to A♯ is a major seventh, a different chord that doesn't occur on 5̂ of any major key. Cm7, B♭7, E♭maj7 and G♯ø7 each name a specific stack of thirds, and the seventh is what separates them.</p>
+
+    <p>Every line in part 8 also asks for the chord tone in the bass: root, third, fifth, or seventh. That's the figure said in words, and writing it out is what stops the figures from looking arbitrary.</p>
+  </section>
+
+  <section class="panel">
+    <h2>the upper three stay within an octave</h2>
+    <p>The same four pitches, spaced two ways:</p>
+
+    <div class="staff-row">
+      <svg class="answer" data-staff="sonority" data-flats="1" data-key="F:"
+           data-bass="F3" data-up="C4 F4 A5" data-roman="a thirteenth"
+           data-lit="F4 A5"
+           role="img" aria-label="Bass F with C, F and A above, the top two a thirteenth apart"></svg>
+      <svg class="answer" data-staff="sonority" data-flats="1" data-key="F:"
+           data-bass="F3" data-up="C4 F4 A4" data-roman="within an octave"
+           data-lit="F4 A4"
+           role="img" aria-label="Bass F with C, F and A above, the top two a third apart"></svg>
+    </div>
+
+    <p>No gap over an octave between soprano and alto, or between alto and tenor. Bass to tenor may exceed an octave; the other two pairs may not. A soprano that runs away upward leaves a hole in the middle of the chord and makes the next chord hard to reach.</p>
+  </section>
+
+  <section class="panel">
+    <h2>the leading tone goes up, the seventh goes down</h2>
+    <p>V7 to I in C major, twice:</p>
+
+    <div class="staff-row">
+      <svg class="answer" data-staff="sonority" data-key="C:"
+           data-bass="G2 C3" data-up="D4 F4 B4|C4 E4 G4" data-roman="loose;"
+           data-lit="a:B4 b:F4|a:G4 b:E4"
+           role="img" aria-label="V seven to one in C major with the leading tone falling to G"></svg>
+      <svg class="answer" data-staff="sonority" data-key="C:"
+           data-bass="G2 C3" data-up="D4 F4 B4|C4 E4 C5" data-roman="resolved;"
+           data-lit="a:B4 b:F4|a:C5 b:E4"
+           role="img" aria-label="V seven to one in C major with the leading tone rising to C"></svg>
+    </div>
+
+    <p>The two marked notes are 7̂ and the seventh of the chord. B is the leading tone and pulls up to C. F is the seventh and pulls down to E. In the first realization B drops to G, which leaves the resolution to no one and weakens the cadence. In the second it rises.</p>
+
+    <p>Both of these hold in every key and in every inversion: a raised 7̂ resolves up to 1̂, and the seventh of a seventh chord resolves down by step.</p>
+  </section>
+
+  <section class="panel">
+    <h2>parallel fifths and octaves</h2>
+    <p>Two chords, bass rising a step, with the outer voices marked in orange and a fifth marked in blue:</p>
+
+    <svg class="answer" data-staff="sonority" data-key="C:"
+         data-bass="C3 D3" data-up="E4 G4 C5|F4 A4 D5"
+         data-roman="parallel;"
+         data-lit="a:C3 b:G4 a:C5|a:D3 b:A4 a:D5"
+         role="img" aria-label="C major triad moving to a D minor triad with the outer voices in octaves and an inner voice in fifths"></svg>
+
+    <p>The bass moves C to D. The soprano moves C to D with it, an octave above both times. The alto moves G to A, a fifth above the bass both times. Those are parallel octaves and parallel fifths, and both are out.</p>
+
+    <p>Check them between every pair of voices, not only the outer two: soprano and alto, soprano and tenor, soprano and bass, alto and tenor, alto and bass, tenor and bass. Six pairs. The fix is almost always to move one of the two voices in the opposite direction from the bass, or to hold a common tone.</p>
+
+    <svg class="answer" data-staff="sonority" data-key="C:"
+         data-bass="C3 D3" data-up="E4 G4 C5|D4 F4 A4"
+         data-roman="fixed;"
+         data-lit="a:C3 b:G4 a:C5|a:D3 b:F4 a:A4"
+         role="img" aria-label="The same two chords with the upper voices moving down against the rising bass"></svg>
+
+    <p>Here the three upper voices move down while the bass steps up. The octave between bass and soprano becomes a sixth, and the fifth between bass and alto becomes a third. Contrary motion breaks both parallels at once, which is why it's the first thing to try.</p>
+  </section>
+
+  <section class="panel">
+    <h2>how to check a realization</h2>
+    <p>Work through it in this order once the notes are on the page. Read the bass line first and confirm every bass note is the chord tone its numeral calls for. Then read each chord vertically and confirm all four notes belong to it and that the doubling is right. Then read each voice horizontally, one at a time, and follow where it goes. Then check the six pairs for parallels. Then find every leading tone and every chordal seventh and follow them into the next chord.</p>
+
+    <p>Most faults show up on the second or third pass, not the first. A chord that is correct standing still can still be wrong in motion, and that's the whole subject of part 9.</p>
+  </section>
+
+  <footer>
+    <p>Notation set in Bravura, Steinberg Media Technologies. Text set in <span class="caps">IBM</span> Plex. Both under the <span class="caps">SIL</span> Open Font License.</p>
+  </footer>
+
+</div>
+
+<script src="../assets/notation.js?v=25"></script>
+<script src="../assets/workbook.js?v=7"></script>
+</body>
+</html>

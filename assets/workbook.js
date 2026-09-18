@@ -184,21 +184,38 @@
     return out;
   }
 
+  /* data-lit names the notes under discussion, chord by chord: a note may
+     take a "b:" prefix for the second strand where two things move at once */
+  function litMap(svg) {
+    return (svg.getAttribute("data-lit") || "").split("|").map(function (group) {
+      var out = {};
+      group.split(/\s+/).filter(Boolean).forEach(function (token) {
+        var parts = token.split(":");
+        out[parts.length > 1 ? parts[1] : parts[0]] =
+          parts.length > 1 ? parts[0] : "a";
+      });
+      return out;
+    });
+  }
+
   function sonority(svg) {
     var sig = MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
     var basses = (svg.getAttribute("data-bass") || "").split(/\s+/).filter(Boolean);
     var chords = (svg.getAttribute("data-up") || "").split("|");
+    var lit = litMap(svg);
     var last = FIRST;
 
     basses.forEach(function (bass, i) {
       var x = FIRST + i * CHORD_ADV;
-      MUS.gsNote(svg, x, bass, "b", { sig: sig, col: x });
+      var hot = lit[i] || {};
+      MUS.gsNote(svg, x, bass, "b", { sig: sig, col: x, lit: hot[bass] });
       var up = (chords[i] || "").split(/\s+/).filter(Boolean);
       var shift = MUS.secondsShift(up, 0, 13).shift;
       var col = columns(up, sig, "t");
       up.forEach(function (note) {
         MUS.gsNote(svg, x + (shift[note] || 0), note, "t",
-                   { sig: sig, col: x, accX: x - 13 * (col[note] || 0) });
+                   { sig: sig, col: x, accX: x - 13 * (col[note] || 0),
+                     lit: hot[note] });
       });
       last = x;
     });
