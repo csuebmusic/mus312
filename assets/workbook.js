@@ -34,7 +34,7 @@
   /* a numeral's figures stack to its right, straddling its baseline */
   var RFIG_SIZE = 14, RFIG_UP = 9, RFIG_STEP = 14, RFIG_GAP = 2;
   /* a row names itself at the left, right-aligned, clear of the first chord */
-  var LABEL_X = 140, LABEL_STEP = 17;
+  var LABEL_X = 140, LABEL_STEP = 20;
   /* a single treble staff sits higher, so its labels do too */
   var TREBLE_LABEL_Y = 170;
   /* the key stands under the bass clef, boxed */
@@ -88,13 +88,12 @@
     return w;
   }
 
-  /* a label at the left of a row, one text per line, last on the baseline */
+  /* a label at the left of a row, one text per line, first on the baseline
+     and the rest below it, so a two-line label clears the staff above */
   function rowLabel(svg, text, baseY) {
-    var lines = text.split("/");
-    lines.forEach(function (line, i) {
+    text.split("/").forEach(function (line, i) {
       svg.appendChild(MUS.el("text", {
-        x: LABEL_X, y: baseY - (lines.length - 1 - i) * LABEL_STEP,
-        "class": "rowlabel"
+        x: LABEL_X, y: baseY + i * LABEL_STEP, "class": "rowlabel"
       }, line));
     });
   }
