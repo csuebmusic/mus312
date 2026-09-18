@@ -29,7 +29,7 @@ One set per part of the harmony review, worked by hand on blank staff paper. Sem
 
 **problem set 1 notes**
 https://csuebmusic.github.io/mus312/review/part-1-notes.html
-What the class as a whole got wrong on problem set 1, worked in notation: one triad under three bass notes and one seventh chord under four, with their figures and numerals set; C to F♯ against C to G♭; i and V in F♯ minor with the one written accidental the signature leaves; the three triads that change quality between the two minors, each written twice in C minor; and A C E♭ with C in the bass, read as vii°6 in B♭ major and ii°6 in G minor.
+What the class as a whole got wrong on problem set 1, worked in notation: one triad under three bass notes and one seventh chord under four, with their figures and numerals set; C to F♯ against C to G♭; i and V in F♯ minor with the one written accidental the signature leaves; the three triads that change quality between the two minors, each written twice in C minor; one chord named three ways, as Cm7/E♭, as a figured bass and as ii6/5; and A C E♭ with C in the bass, read as vii°6 in B♭ major and ii°6 in G minor.
 
 **chord finder**
 https://csuebmusic.github.io/mus312/tools/chord-finder.html
