@@ -13,42 +13,82 @@
   <p class="eyebrow">mus 312 &middot; harmony review &middot; problem set 1</p>
   <h1>what to look at again</h1>
 
-  <p class="full">Six things came up often enough across the class to be worth going through together. Each one points back at the part of <a href="part-1.html">problem set 1</a> it came from, and at the section of the <a href="../tools/harmony-review.html#part-1">harmony review</a> that covers it.</p>
+  <p class="full">Six things came up across the class. Each one sends you back to a part of <a href="part-1.html">problem set 1</a> and to the section of the <a href="../tools/harmony-review.html#part-1">harmony review</a> that covers it.</p>
 
   <section class="panel">
-    <h2>the bass note belongs to the chord</h2>
-    <p>In parts 6 and 7 every chord stands on a grand staff, and the note on the bass staff is part of the chord exactly as much as the three above it. Read it first. Work out what chord all four pitches make. Then ask which member of that chord the bass note is: root, third, fifth, or seventh. That answer is the inversion, and the inversion is what the figures report.</p>
-    <p>A chord whose upper voices happen to sit in a 6/4 arrangement is still in root position if the root is in the bass. In part 7, number 5, the treble reads F&#x266F; A D and the bass is D, so the chord is D F&#x266F; A with its root lowest: <span class="caps">IV</span>, no figure.</p>
-    <p>For triads the four possibilities are 5/3, 6/3 and 6/4, written plain, 6 and 6/4. For seventh chords they are 7/5/3, 6/5, 4/3 and 4/2.</p>
+    <h2>the bass note sets the inversion</h2>
+    <p>One triad, three bass notes. <span class="caps">D</span> F&#x266F; A in A major:</p>
+
+    <svg class="answer" data-staff="figured" data-sharps="3" data-key="A:"
+         data-bass="D3 F#3 A3" data-fig="|6|6,4"
+         data-roman="IV;IV6;IV6/4"
+         role="img" aria-label="In A major, bass D unfigured, F sharp figured six, A figured six four, read as four, four six, four six four"></svg>
+
+    <p>The pitches never change. What changes is which one is lowest, and that is what the figures report.</p>
+
+    <p>One seventh chord, four bass notes. G B D F in C major:</p>
+
+    <svg class="answer" data-staff="figured" data-key="C:"
+         data-bass="G2 B2 D3 F3" data-fig="7|6,5|4,3|4,2"
+         data-roman="V7;V6/5;V4/3;V4/2"
+         role="img" aria-label="In C major, bass G figured seven, B figured six five, D figured four three, F figured four two, read as five seven, five six five, five four three, five four two"></svg>
+
+    <p>Read the bass first, work out what chord all four pitches make, then ask which member of that chord the bass note is.</p>
   </section>
 
   <section class="panel">
-    <h2>six semitones has two names</h2>
-    <p>An augmented fourth and a diminished fifth cover the same distance. So do a major third and a diminished fourth, a minor third and an augmented second, a minor seventh and an augmented sixth. Counting semitones gives you the quality and nothing else.</p>
-    <p>Count letter names first, from the bottom note to the top, inclusive. That gives you the size, and the accidentals can't change it: C up to F is C D E F, four letter names, so it's some kind of fourth however either note is spelled. C up to G is five letter names, so it's some kind of fifth. Once the size is settled, the semitone count sets the quality.</p>
+    <h2>six semitones, two spellings</h2>
+
+    <div class="staff-row">
+      <svg class="answer" data-staff="sonority" data-num="1"
+           data-bass="C3" data-up="C4 F#4"
+           role="img" aria-label="Bass C, above it C and F sharp"></svg>
+      <svg class="answer" data-staff="sonority" data-num="2"
+           data-bass="C3" data-up="C4 Gb4"
+           role="img" aria-label="Bass C, above it C and G flat"></svg>
+    </div>
+
+    <p>Same distance, different notes. C up to F covers C D E F, four letter names, so the first is a fourth, augmented. C up to G covers five, so the second is a fifth, diminished. The accidentals can't change the size.</p>
+
+    <p>Count letter names first, inclusive, from the bottom note to the top. Then let the semitones set the quality. The same pair of names covers a major third against a diminished fourth, a minor third against an augmented second, and a minor seventh against an augmented sixth.</p>
   </section>
 
   <section class="panel">
-    <h2>the key signature stays in force</h2>
-    <p>An accidental in front of a note is for what the scale takes beyond the signature. F&#x266F; minor with three sharps needs no sharp written on F, G or C. E&#x266D; minor with six flats needs no flat written on any of its six.</p>
-    <p>Write only the alterations and the page shows what's happening: one E&#x266F; in F&#x266F; harmonic minor, a D&#x266F; and an E&#x266F; in melodic, a D&#x266E; in E&#x266D; harmonic minor, a C&#x266E; and a D&#x266E; in E&#x266D; melodic. Natural minor takes none at all.</p>
+    <h2>the signature is already doing the work</h2>
+    <p>i and <span class="caps">V</span> in F&#x266F; minor, with every accidental the page needs and no others:</p>
+
+    <svg class="answer" data-staff="sonority" data-sharps="3" data-key="f&#x266F;:"
+         data-bass="F#3 C#3" data-up="A4 C#5 F#5|E#4 G#4 C#5"
+         role="img" aria-label="In F sharp minor, bass F sharp with A, C sharp and F sharp above, then bass C sharp with E sharp, G sharp and C sharp above"></svg>
+
+    <p>Three sharps in the signature cover F, C and G wherever they fall. The only written accidental is the E&#x266F;, the raised 7&#x302; that makes the dominant major.</p>
+
+    <p>Natural minor takes no written accidental at all. Harmonic minor takes one, on 7&#x302;. Melodic minor ascending takes two, on 6&#x302; and 7&#x302;.</p>
   </section>
 
   <section class="panel">
-    <h2>minor has eight rows for seven notes</h2>
-    <p>Natural minor has a triad on &#x266D;7&#x302; and none on 7&#x302;. Harmonic minor has a triad on 7&#x302; and none on &#x266D;7&#x302;. Those are two different degrees, a whole step apart, and each form of the scale has only one of them. In the table that's the two cells that stay empty.</p>
-    <p>Three triads change quality between the two forms, and all three contain 7&#x302;. In C minor: &#x266D;<span class="caps">III</span>, E&#x266D; G B&#x266D;, becomes &#x266D;<span class="caps">III</span>+, E&#x266D; G B&#x266E;. The triad on 5&#x302; goes from v, G B&#x266D; D, to <span class="caps">V</span>, G B&#x266E; D. And &#x266D;<span class="caps">VII</span>, B&#x266D; D F, becomes vii&#xB0;, B&#x266E; D F.</p>
+    <h2>three triads change between the two minors</h2>
+    <p>Each pair in C minor, natural form then harmonic:</p>
+
+    <svg class="answer" data-staff="sonority" data-flats="3" data-key="c:"
+         data-bass="Eb3 Eb3 G2 G2 Bb2 B2"
+         data-up="G4 Bb4 Eb5|G4 B4 Eb5|Bb4 D5 G5|B4 D5 G5|D5 F5 Bb5|D5 F5 B5"
+         role="img" aria-label="In C minor, six chords: E flat G B flat, E flat G B natural, G B flat D, G B natural D, B flat D F, B natural D F"></svg>
+
+    <p>&#x266D;<span class="caps">III</span> becomes &#x266D;<span class="caps">III</span>+, v becomes <span class="caps">V</span>, &#x266D;<span class="caps">VII</span> becomes vii&#xB0;. All three contain 7&#x302;, and raising it is the only thing that happens.</p>
+
+    <p>Which is why the table in part 4 has eight rows for a seven-note scale. Natural minor has a triad on &#x266D;7&#x302; and none on 7&#x302;. Harmonic minor has one on 7&#x302; and none on &#x266D;7&#x302;. Two cells stay empty.</p>
   </section>
 
   <section class="panel">
     <h2>quality in words</h2>
     <p>Major, minor, diminished, augmented. Perfect describes fourths, fifths, octaves and unisons, never a triad.</p>
-    <p>Chord symbols like Cm7 or B&#x266D;7 carry the root and the quality but have no slot for the inversion. Where a question asks for root, quality, inversion and figures, a symbol answers half of it.</p>
+    <p>Chord symbols like Cm7 and B&#x266D;7 carry the root and the quality and have no slot for the inversion. Where a question asks for root, quality, inversion and figures, a symbol answers half of it.</p>
   </section>
 
   <section class="panel">
     <h2>the same three pitches in two keys</h2>
-    <p>Part 7 closes by asking which two of its twelve chords are the same three pitches in different keys. They're numbers 4 and 9: A, C and E&#x266D;, with C in the bass both times.</p>
+    <p>Part 7 closes by asking which two of its twelve chords share their pitches. Numbers 4 and 9, A C E&#x266D; with C in the bass:</p>
 
     <div class="staff-row">
       <svg class="answer" data-staff="sonority" data-num="4" data-key="B&#x266D;:" data-flats="2"
@@ -59,7 +99,7 @@
            role="img" aria-label="In G minor, bass C, upper voices A, C and E flat"></svg>
     </div>
 
-    <p>A C E&#x266D; is a diminished triad. In B&#x266D; major it stands on 7&#x302;, so it's vii&#xB0;6. In G minor it stands on 2&#x302;, so it's ii&#xB0;6. The sound is identical and the function is not: vii&#xB0;6 pulls to the tonic a semitone above it, ii&#xB0;6 goes on to the dominant.</p>
+    <p>The notation is identical. In B&#x266D; major the triad stands on 7&#x302; and reads vii&#xB0;6, resolving to the tonic a semitone above. In G minor it stands on 2&#x302; and reads ii&#xB0;6, going on to the dominant.</p>
   </section>
 
   <footer>
