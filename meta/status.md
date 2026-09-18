@@ -12,6 +12,8 @@
 
 `review/part-1.html` through `review/part-4.html`. Four problem sets, one per part of the harmony review. Workbooks: blank staff paper, ruled lines, and tables to fill, worked by hand, with a button that prints the page or saves it as a PDF. No answers on the page. They stand outside the twelve packets and are not weighted.
 
+`review/part-1-key.md`. Answers to problem set 1, parts 1 through 8; bass lines, roman numerals and marking criteria for part 9. Not linked from `README.md`.
+
 `assets/notation.js`, shared by all three tools. `assets/workbook.js`, shared by the four problem sets: it draws the blank staves and adds the print control. `assets/style.css` and self-hosted fonts.
 
 `meta/outline.md`, the sixteen-week schedule.
