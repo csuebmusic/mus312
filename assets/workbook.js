@@ -31,6 +31,10 @@
      clears it at NUM_Y and the box opens above that */
   var FIG_Y = 250, FIG_STEP = 21, ROMAN_Y = 276, NUM_Y = 42, CHORD_ADV = 130;
   var ROMAN_SIZE = 20, ROMAN_ROW = 30, KEY_W = 48;
+  /* a numeral's figures stack to its right, straddling its baseline */
+  var RFIG_SIZE = 14, RFIG_UP = 9, RFIG_STEP = 14, RFIG_GAP = 2;
+  /* a row names itself at the left, right-aligned, clear of the first chord */
+  var LABEL_X = 140, LABEL_STEP = 17;
   /* the key stands under the bass clef, boxed */
   var KEY_X = 14, KEY_Y = 264, KEY_SIZE = 19, KEY_PAD = 8;
   var ACC_W = { "\u266D": 0.32, "\u266F": 0.34, "\u266E": 0.26 };
@@ -71,6 +75,26 @@
     });
     flush();
     return width;
+  }
+
+  /* what marks() will run to, without drawing it */
+  function runWidth(label, size) {
+    var w = 0;
+    label.split("").forEach(function (ch) {
+      w += (ACC_W[ch] || 0.6) * size;
+    });
+    return w;
+  }
+
+  /* a label at the left of a row, one text per line, last on the baseline */
+  function rowLabel(svg, text, baseY) {
+    var lines = text.split("/");
+    lines.forEach(function (line, i) {
+      svg.appendChild(MUS.el("text", {
+        x: LABEL_X, y: baseY - (lines.length - 1 - i) * LABEL_STEP,
+        "class": "rowlabel"
+      }, line));
+    });
   }
 
   function keyBox(svg, label) {
@@ -203,6 +227,11 @@
     return deepest;
   }
 
+  /* the numeral row sits below the deepest figure the staff carries */
+  function romanTop(svg) {
+    return ROMAN_Y + Math.max(0, figRows(svg) - 1) * FIG_STEP;
+  }
+
   /* One numeral to a chord, on the home key's row. A numeral written
      "old=new" is the pivot: it takes both rows inside a box, everything after
      it reads on the lower row, and an empty box to its left is where the new
@@ -214,14 +243,37 @@
     for (i = 0; i < list.length; i++) {
       if (list[i].indexOf("=") > 0) { pivot = i; break; }
     }
-    var top = ROMAN_Y + Math.max(0, figRows(svg) - 1) * FIG_STEP;
+    var top = romanTop(svg);
     var low = top + ROMAN_ROW;
 
+    /* a numeral's figures stack, so V6/5 reads 6 over 5 rather than across.
+       A trailing letter is an applied chord's target, not a figure. */
     function put(label, x, y) {
-      var t = MUS.el("text", { x: x, y: y, "class": "roman" });
-      var w = marks(t, label, ROMAN_SIZE);
+      var split = /^(.*?)([0-9]+(?:\/[0-9]+)*)$/.exec(label);
+      var stem = split ? split[1] : label;
+      var figs = split ? split[2].split("/") : [];
+      if (!figs.length) {
+        var plain = MUS.el("text", { x: x, y: y, "class": "roman" });
+        var pw = marks(plain, label, ROMAN_SIZE);
+        svg.appendChild(plain);
+        return pw;
+      }
+      var stemW = runWidth(stem, ROMAN_SIZE), figW = 0;
+      figs.forEach(function (f) { figW = Math.max(figW, runWidth(f, RFIG_SIZE)); });
+      var total = stemW + RFIG_GAP + figW;
+      var left = x - total / 2;
+      var t = MUS.el("text", { x: left, y: y, "class": "roman stem" });
+      marks(t, stem, ROMAN_SIZE);
       svg.appendChild(t);
-      return w;
+      var cx = left + stemW + RFIG_GAP + figW / 2;
+      figs.forEach(function (f, row) {
+        var ft = MUS.el("text", {
+          x: cx, y: y - RFIG_UP + row * RFIG_STEP, "class": "romanfig"
+        });
+        marks(ft, f, RFIG_SIZE);
+        svg.appendChild(ft);
+      });
+      return total;
     }
 
     list.forEach(function (r, n) {
@@ -272,6 +324,10 @@
     if (num) {
       svg.appendChild(MUS.el("text", { x: 18, y: NUM_Y, "class": "itemnum" }, num));
     }
+    var figLabel = svg.getAttribute("data-fig-label");
+    if (figLabel) { rowLabel(svg, figLabel, FIG_Y); }
+    var romanLabel = svg.getAttribute("data-roman-label");
+    if (romanLabel) { rowLabel(svg, romanLabel, romanTop(svg)); }
     var key = svg.getAttribute("data-key");
     if (key) { keyBox(svg, key); }
   }
