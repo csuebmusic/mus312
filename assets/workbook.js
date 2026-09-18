@@ -193,6 +193,16 @@
     return end;
   }
 
+  /* the deepest stack of figures on the staff, so numerals can clear it */
+  function figRows(svg) {
+    var deepest = 0;
+    (svg.getAttribute("data-fig") || "").split("|").forEach(function (f) {
+      var n = f.split(",").filter(Boolean).length;
+      if (n > deepest) { deepest = n; }
+    });
+    return deepest;
+  }
+
   /* One numeral to a chord, on the home key's row. A numeral written
      "old=new" is the pivot: it takes both rows inside a box, everything after
      it reads on the lower row, and an empty box to its left is where the new
@@ -204,7 +214,8 @@
     for (i = 0; i < list.length; i++) {
       if (list[i].indexOf("=") > 0) { pivot = i; break; }
     }
-    var low = ROMAN_Y + ROMAN_ROW;
+    var top = ROMAN_Y + Math.max(0, figRows(svg) - 1) * FIG_STEP;
+    var low = top + ROMAN_ROW;
 
     function put(label, x, y) {
       var t = MUS.el("text", { x: x, y: y, "class": "roman" });
@@ -216,13 +227,13 @@
     list.forEach(function (r, n) {
       var x = at[n] + 7;
       if (n !== pivot) {
-        put(r, x, pivot >= 0 && n > pivot ? low : ROMAN_Y);
+        put(r, x, pivot >= 0 && n > pivot ? low : top);
         return;
       }
       var both = r.split("=");
-      var w = Math.max(put(both[0], x, ROMAN_Y), put(both[1], x, low)) + 16;
+      var w = Math.max(put(both[0], x, top), put(both[1], x, low)) + 16;
       svg.appendChild(MUS.el("rect", {
-        x: Math.round(x - w / 2), y: ROMAN_Y - ROMAN_SIZE,
+        x: Math.round(x - w / 2), y: top - ROMAN_SIZE,
         width: Math.round(w), height: ROMAN_ROW + ROMAN_SIZE + 6, "class": "pivotbox"
       }));
       svg.appendChild(MUS.el("rect", {
