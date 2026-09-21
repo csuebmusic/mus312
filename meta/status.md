@@ -10,7 +10,7 @@
 
 `tools/annotation-guide.html`. Caplin's annotation rules on a C minor sentence in four layers, both notations at once; this course's numerals degree by degree; his Guide to Harmonic Annotation in full; two four-voice passages.
 
-`tools/theme-types.html`. The sentence, the period, and the four hybrids as idea boxes with function and theme brackets, each element linked to its definition.
+`tools/theme-types.html`. Caplin chapters 2 to 5: the sentence, the period, the four hybrids, formal function, four phrase deviations, three cadential deviations, and two framing diagrams, as idea boxes with function and theme brackets, each element linked to its definition.
 
 `review/part-1.html` through `review/part-4.html`. Four problem sets, one per part of the harmony review. Workbooks: blank staff paper, ruled lines, and tables to fill, worked by hand, with a button that prints the page or saves it as a PDF. No answers on the page. They stand outside the twelve packets and are not weighted.
 

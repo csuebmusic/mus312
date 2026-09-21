@@ -129,11 +129,11 @@ A cadence bracket and its boxed label belong to the row of numerals they annotat
 
 ## theme diagrams
 
-A theme diagram draws eight measures from x = 150 at 125 a measure, on `viewBox="0 0 1200 310"` at scale 1. Each idea is a box in its idea color, 80 tall at y = 70, inset 9 from its bar lines, with its abbreviation at 19px and its name beneath where the box is wider than 200. A `+` stands in every gap between boxes. Measure numbers sit above at y = 22 and each cadence is boxed over the measure it arrives in.
+A theme diagram draws its measures across x = 150 to 1150 in equal widths, on `viewBox="0 0 1200 332"` at scale 1. Each idea is a box in its idea color, 80 tall at y = 92, inset 9 from its bar lines, with its abbreviation at 19px, stepping down to 15 and 13px and then to a short form where the box is too narrow, and its name beneath where the name fits. Interpolations and framing ideas take `--muted`, framing ideas with a dashed outline. A `+` stands in every gap between boxes, and `//` where a cadence is evaded or abandoned. Measure numbers sit at y = 20. A deviation is marked by a bracket over its measures at y = 48 with its name above it, and each cadence, or cadential deviation, is boxed at y = 56 over the measure it arrives in.
 
-Beneath the boxes, in ink, a bracket for each function at y = 182 names the function and, under it in `--muted`, phrase or subphrase; a bracket for the theme at y = 252 names the theme and its number of phrases. Rows are named at the left, right-aligned to x = 130. In a theme diagram subphrases take brackets; on a score they stay unbracketed.
+Beneath the boxes, in ink, a bracket for each function at y = 204 names the function and, under it in `--muted`, phrase, subphrase, or framing; a bracket for the theme at y = 274 spans the theme without its framing functions and names the theme and its number of phrases. Rows are named at the left, right-aligned to x = 130. In a theme diagram subphrases take brackets; on a score they stay unbracketed.
 
-One element is pressed at a time across the page, and none when the page opens. Choosing a hybrid lights its definition. The element pressed takes the accent on its outline and labels. Its definition paragraph takes `--accent-wash`. A copy stands under the figure for an idea box, and for any element whose paragraph sits in another section.
+One element is pressed at a time across the page, and none when the page opens. Choosing a diagram from a row of buttons lights its definition. The element pressed takes the accent on its outline and labels. Its definition paragraph takes `--accent-wash`. A copy stands under the figure for an idea box, and for any element whose paragraph sits in another section.
 
 ## sound
 

@@ -41,7 +41,7 @@ Enter up to four notes from the bass up and read what they make: the stack of th
 
 **theme types**
 https://csuebmusic.github.io/mus312/tools/theme-types.html
-Caplin's eight-measure themes drawn as colored idea boxes added together, basic idea, contrasting idea, continuation processes and cadential idea, with brackets beneath naming each function and the theme. The sentence, the period, and the four hybrids: antecedent + continuation, antecedent + cadential, compound basic idea + continuation, and compound basic idea + consequent. Pressing a box, bracket, or cadence lights its definition. Phrase and subphrase as this course uses them, alongside Caplin's usage.
+Caplin's simple themes drawn as colored idea boxes added together, with brackets beneath naming each function and the theme. The sentence, the period, and the four hybrids; formal function, with a table of functions by their place in time; the phrase deviations, extension, expansion, compression and interpolation; the deceptive, evaded and abandoned cadences; and the thematic introduction, closing section and standing on the dominant. Pressing a box, bracket, or cadence lights its definition. Phrase and subphrase as this course uses them, alongside Caplin's usage.
 
 ## texts
 
