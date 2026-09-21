@@ -304,8 +304,8 @@
       }
       readout.innerHTML = "";
       src.classList.add("on");
-      /* a definition kept in another section is shown under the figure */
-      if (src.closest("section") !== svg.closest("section")) {
+      /* an idea's definition, and any definition kept in another section, is shown under the figure */
+      if (entry.g.classList.contains("idea") || src.closest("section") !== svg.closest("section")) {
         var p = document.createElement("p");
         p.innerHTML = src.innerHTML;
         readout.appendChild(p);
