@@ -18,7 +18,7 @@ Colors are addressed through these variables. Component CSS uses no hex values.
 | `--accent-2` | `#1f5fa8` | a second strand, where two things move at once and must be told apart |
 | `--idea-basic` | `#0e7c86` | basic idea |
 | `--idea-contrast` | `#7c4dab` | contrasting idea |
-| `--idea-fragment` | `#4f7f1c` | fragment |
+| `--idea-continuation` | `#4f7f1c` | continuation processes |
 | `--idea-cadential` | `#b02e5c` | cadential idea, expanded cadential progression |
 
 The four idea colors fill a box at 14 percent over `--paper`, mixed with `color-mix(in srgb, …)`, and stroke it at full strength. They name an idea's function wherever it's drawn and are never used as a highlight.
@@ -39,7 +39,7 @@ A dark ground follows the reader's system setting until they choose otherwise wi
 | `--accent-2` | `#6ba0dc` |
 | `--idea-basic` | `#4db6bf` |
 | `--idea-contrast` | `#b393e3` |
-| `--idea-fragment` | `#93c45e` |
+| `--idea-continuation` | `#93c45e` |
 | `--idea-cadential` | `#e27a9f` |
 
 Ink stays short of white and the ground short of black. A figure exported to a file is drawn on paper in either mode: the exporting page sets `on-paper` on the root element for the length of the serialization, and the dark block is written `:root.dark:not(.on-paper)`.

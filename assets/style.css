@@ -49,7 +49,7 @@
   --accent-2: #1f5fa8;
   --idea-basic: #0e7c86;
   --idea-contrast: #7c4dab;
-  --idea-fragment: #4f7f1c;
+  --idea-continuation: #4f7f1c;
   --idea-cadential: #b02e5c;
 
   --font-body: "Plex Sans", system-ui, sans-serif;
@@ -73,7 +73,7 @@
   --accent-2: #6ba0dc;
   --idea-basic: #4db6bf;
   --idea-contrast: #b393e3;
-  --idea-fragment: #93c45e;
+  --idea-continuation: #93c45e;
   --idea-cadential: #e27a9f;
 }
 

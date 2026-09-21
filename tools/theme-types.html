@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mus 312 &middot; theme types</title>
-<link rel="stylesheet" href="../assets/style.css?v=21">
+<link rel="stylesheet" href="../assets/style.css?v=22">
 <script src="../assets/theme.js?v=2"></script>
 <style>
   section.panel { margin-top: calc(var(--step) * 5); }
@@ -13,7 +13,7 @@
 
   .k-bi   { --k: var(--idea-basic); }
   .k-ci   { --k: var(--idea-contrast); }
-  .k-frag { --k: var(--idea-fragment); }
+  .k-cont { --k: var(--idea-continuation); }
   .k-cad, .k-ecp { --k: var(--idea-cadential); }
 
   .chip {
@@ -28,6 +28,7 @@
 
   .box { fill: color-mix(in srgb, var(--k) 14%, var(--paper)); stroke: var(--k); stroke-width: 1.5; }
   .idea-abbr { font-family: var(--font-data); font-size: 19px; font-weight: 500; fill: var(--k); text-anchor: middle; }
+  .idea-abbr.long { font-size: 15px; }
   .idea-name { font-family: var(--font-body); font-size: 12px; fill: var(--muted); text-anchor: middle; }
   .plus { font-family: var(--font-data); font-size: 16px; fill: var(--muted); text-anchor: middle; }
   .mnum { font-family: var(--font-data); font-size: 12px; fill: var(--muted); text-anchor: middle; }
@@ -81,20 +82,20 @@
   <section class="panel">
     <h2 id="ideas">the ideas</h2>
     <p data-term="bi">A basic idea <span class="chip k-bi">b.i.</span> is the two-measure unit that opens a theme. It states the theme's characteristic melodic material, usually several motives, and prolongs tonic harmony, most often in root position. Two measures means two metrical downbeats: the idea often begins on an upbeat and ends before its second bar line (pp. 38&ndash;40).</p>
-    <p data-term="ci">A contrasting idea <span class="chip k-ci">c.i.</span> is a two-measure unit that follows a basic idea and isn't heard as its repetition. The contrast can be striking or slight, sometimes only a change of contour, and where the two ideas share motives the harmony tells them apart. In an antecedent or a consequent it closes with a cadential progression, and it often shows continuation traits: fragmentation, faster harmonic rhythm, a hint of sequence (pp. 77&ndash;79).</p>
-    <p data-term="frag">A fragment <span class="chip k-frag">frag.</span> is a unit shorter than the ideas before it: one measure after two-measure ideas, then half a measure. Fragmentation concerns length alone. A fragment can take its motives from the basic idea or bring new ones (p. 51).</p>
+    <p data-term="ci">A contrasting idea <span class="chip k-ci">c.i.</span> is a two-measure unit that follows a basic idea and isn't heard as its repetition. The contrast can be striking or slight, sometimes only a change of contour, and where the two ideas share motives the harmony tells them apart. In an antecedent or a consequent it closes with a cadential progression, and it often shows continuation processes: fragmentation, faster harmonic rhythm, a hint of sequence (pp. 77&ndash;79).</p>
+    <p data-term="cont">The opening of a continuation <span class="chip k-cont">frag. / accel. / seq.</span> takes one or more of Caplin's four continuation processes, and none of them is required. Fragmentation breaks the two-measure units into shorter ones, usually one measure, then half a measure. It concerns length alone, and a fragment can take its motives from the basic idea or bring new ones. Harmonic acceleration changes harmony faster than the presentation did. Surface rhythm grows busier, with shorter note values or more of them. Sequential harmony moves by a consistent root motion, sometimes with model&ndash;sequence technique. A continuation that keeps the two-measure grouping of the ideas before it usually shows harmonic acceleration in place of fragmentation (pp. 47&ndash;55, 105&ndash;106).</p>
     <p data-term="cad">A cadential idea <span class="chip k-cad">cad.</span> closes a theme over a cadential progression, usually in mm. 7&ndash;8. Its melody tends to be conventional and falling. The characteristic motives of the basic idea have been liquidated by this point, eliminated gradually until only formulaic material remains (pp. 55&ndash;57).</p>
     <p data-term="ecp">An expanded cadential progression <span class="chip k-ecp">ECP</span> is a single cadential progression stretched across a whole four-measure unit, beginning in its first measure (p. 61).</p>
   </section>
 
   <section class="panel">
     <h2 id="sentence">the sentence</h2>
-    <div class="scroll-wrap"><svg id="fig-sentence" viewBox="0 0 1200 310" role="img" aria-label="Sentence: a basic idea plus its repetition form the presentation; two fragments plus a cadential idea form the continuation, closing with a PAC at measure 8"></svg></div>
+    <div class="scroll-wrap"><svg id="fig-sentence" viewBox="0 0 1200 310" role="img" aria-label="Sentence: a basic idea plus its repetition form the presentation; continuation processes plus a cadential idea form the continuation, closing with a PAC at measure 8"></svg></div>
     <div class="readout def" id="read-sentence" aria-live="polite"></div>
     <p data-term="sentence">A sentence is an eight-measure theme of presentation + continuation. It closes with one cadence at m. 8, of any of the three types, and it's one phrase (pp. 33&ndash;36).</p>
     <p data-term="presentation">A presentation is a basic idea and its repetition over a tonic prolongation, with no cadence (p. 36).</p>
     <p data-term="rep">A repetition restates an idea immediately, with nothing between the two. The repetition of the basic idea in a presentation takes one of three types, read from the harmony rather than the melody. An exact repetition keeps the original harmony, even with the melody varied or transposed. A statement&ndash;response repetition answers a tonic version with a dominant version, or occasionally a subdominant one. A sequential repetition transposes melody and harmony together, and it's rare at the start of a sentence (pp. 41&ndash;45).</p>
-    <p data-term="continuation">A continuation takes the theme out of the stability the presentation established. Caplin names four processes: fragmentation, faster harmonic rhythm, busier surface rhythm, and sequential harmony. None is required, and a continuation often shows several. It ends with a cadential idea: a sentence's continuation fuses continuation and cadential function in one unit. It closes most often with a PAC, sometimes an HC, rarely an IAC. Where an ECP supports the whole unit, Caplin writes continuation &rArr; cadential, the arrow read as &ldquo;becomes&rdquo; (pp. 36, 47&ndash;48, 60&ndash;61).</p>
+    <p data-term="continuation">A continuation takes the theme out of the stability the presentation established. It opens with one or more of the continuation processes and ends with a cadential idea: a sentence's continuation fuses continuation and cadential function in one unit. It closes most often with a PAC, sometimes an HC, rarely an IAC. Where an ECP supports the whole unit, Caplin writes continuation &rArr; cadential, the arrow read as &ldquo;becomes&rdquo; (pp. 36, 47&ndash;48, 60&ndash;61).</p>
   </section>
 
   <section class="panel">
@@ -118,7 +119,7 @@
     <p data-term="cbi-cons">Compound basic idea + consequent resembles a period without the weak cadence at m. 4. It's one phrase, and its consequent is a subphrase. Caplin finds it infrequent (pp. 102&ndash;103).</p>
     <h3>the functions</h3>
     <p data-term="cbi">A compound basic idea is a basic idea followed by a contrasting idea with no cadence, usually over a tonic prolongation. Its ideas resemble an antecedent's and its harmony a presentation's. Caplin reads it as a basic idea at the four-measure level (pp. 101&ndash;102, 107).</p>
-    <p data-term="cadential">A cadential unit is four measures over an ECP, with few or none of the continuation traits. It follows an antecedent (pp. 101, 106).</p>
+    <p data-term="cadential">A cadential unit is four measures over an ECP, with few or none of the continuation processes. It follows an antecedent (pp. 101, 106).</p>
     <p>Caplin groups the functions by their place in time. Presentation, antecedent, and compound basic idea initiate. Continuation is medial. Cadential and consequent conclude. Each theme type orders them beginning, middle, end (p. 103).</p>
   </section>
 
@@ -142,7 +143,7 @@
   var IDEAS = {
     bi:   { abbr: "b.i.",  name: "basic idea" },
     ci:   { abbr: "c.i.",  name: "contrasting idea" },
-    frag: { abbr: "frag.", name: "fragment" },
+    cont: { abbr: "frag. / accel. / seq.", name: "continuation processes" },
     cad:  { abbr: "cad.",  name: "cadential idea" },
     ecp:  { abbr: "ECP",   name: "expanded cadential progression" }
   };
@@ -159,7 +160,7 @@
   var THEMES = {
     sentence: {
       name: "sentence",
-      ideas: [["bi", 1, 2], ["bi", 3, 4, "rep", "repetition"], ["frag", 5, 5], ["frag", 6, 6], ["cad", 7, 8]],
+      ideas: [["bi", 1, 2], ["bi", 3, 4, "rep", "repetition"], ["cont", 5, 6], ["cad", 7, 8]],
       units: [["presentation", 1, 4], ["continuation", 5, 8]],
       cads: [[8, "PAC"]]
     },
@@ -171,7 +172,7 @@
     },
     "ant-cont": {
       name: "antecedent + continuation",
-      ideas: [["bi", 1, 2], ["ci", 3, 4], ["frag", 5, 5], ["frag", 6, 6], ["cad", 7, 8]],
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["cont", 5, 6], ["cad", 7, 8]],
       units: [["antecedent", 1, 4], ["continuation", 5, 8]],
       cads: [[4, "HC"], [8, "PAC"]]
     },
@@ -183,7 +184,7 @@
     },
     "cbi-cont": {
       name: "compound basic idea + continuation",
-      ideas: [["bi", 1, 2], ["ci", 3, 4], ["frag", 5, 5], ["frag", 6, 6], ["cad", 7, 8]],
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["cont", 5, 6], ["cad", 7, 8]],
       units: [["cbi", 1, 4], ["continuation", 5, 8]],
       cads: [[8, "PAC"]]
     },
@@ -246,7 +247,7 @@
       g.setAttribute("class", "idea k-" + d[0]);
       var x = left(d[1]), w = right(d[2]) - x, cx = x + w / 2;
       g.appendChild(el("rect", { x: x, y: Y_BOX, width: w, height: H_BOX, "class": "box" }));
-      g.appendChild(el("text", { x: cx, y: Y_BOX + 38, "class": "idea-abbr" }, info.abbr));
+      g.appendChild(el("text", { x: cx, y: Y_BOX + 38, "class": info.abbr.length > 8 ? "idea-abbr long" : "idea-abbr" }, info.abbr));
       if (w > 200) {
         g.appendChild(el("text", { x: cx, y: Y_BOX + 60, "class": "idea-name" }, name));
       }
