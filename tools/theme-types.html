@@ -57,7 +57,9 @@
   .readout.def p { margin: 0; max-width: none; }
   .readout.def:empty { display: none; }
   p[data-term] { padding: calc(var(--step) * 0.6) calc(var(--step) * 1.2); margin-left: calc(var(--step) * -1.2); }
-  p[data-term].on { background: var(--accent-wash); }
+  ol.defs { margin: calc(var(--step) * 2) 0 0; padding-left: calc(var(--step) * 3); }
+  ol.defs li { padding: calc(var(--step) * 0.6) calc(var(--step) * 1.2); margin-bottom: calc(var(--step) * 1.5); }
+  p[data-term].on, li[data-term].on { background: var(--accent-wash); }
   .scroll-wrap { overflow-x: auto; }
   .scroll-wrap svg { min-width: 760px; }
 </style>
@@ -93,9 +95,10 @@
     <div class="scroll-wrap"><svg id="fig-sentence" viewBox="0 0 1200 310" role="img" aria-label="Sentence: a basic idea plus its repetition form the presentation; continuation processes plus a cadential idea form the continuation, closing with a PAC at measure 8"></svg></div>
     <div class="readout def" id="read-sentence" aria-live="polite"></div>
     <p data-term="sentence">A sentence is an eight-measure theme of presentation + continuation. It closes with one cadence at m. 8, of any of the three types, and it's one phrase (pp. 33&ndash;36).</p>
-    <p data-term="presentation">A presentation is a basic idea and its repetition over a tonic prolongation, with no cadence (p. 36).</p>
-    <p data-term="rep">A repetition restates an idea immediately, with nothing between the two. The repetition of the basic idea in a presentation takes one of three types, read from the harmony rather than the melody. An exact repetition keeps the original harmony, even with the melody varied or transposed. A statement&ndash;response repetition answers a tonic version with a dominant version, or occasionally a subdominant one. A sequential repetition transposes melody and harmony together, and it's rare at the start of a sentence (pp. 41&ndash;45).</p>
-    <p data-term="continuation">A continuation takes the theme out of the stability the presentation established. It opens with one or more of the continuation processes and ends with a cadential idea: a sentence's continuation fuses continuation and cadential function in one unit. It closes most often with a PAC, sometimes an HC, rarely an IAC. Where an ECP supports the whole unit, Caplin writes continuation &rArr; cadential, the arrow read as &ldquo;becomes&rdquo; (pp. 36, 47&ndash;48, 60&ndash;61).</p>
+    <ol class="defs">
+      <li data-term="presentation rep">A presentation is a basic idea and its repetition over a tonic prolongation, with no cadence (p. 36). A repetition restates an idea immediately, with nothing between the two. The repetition of the basic idea in a presentation takes one of three types, read from the harmony rather than the melody. An exact repetition keeps the original harmony, even with the melody varied or transposed. A statement&ndash;response repetition answers a tonic version with a dominant version, or occasionally a subdominant one. A sequential repetition transposes melody and harmony together, and it's rare at the start of a sentence (pp. 41&ndash;45).</li>
+      <li data-term="continuation">A continuation takes the theme out of the stability the presentation established. It opens with one or more of the continuation processes and ends with a cadential idea: a sentence's continuation fuses continuation and cadential function in one unit. It closes most often with a PAC, sometimes an HC, rarely an IAC. Where an ECP supports the whole unit, Caplin writes continuation &rArr; cadential, the arrow read as &ldquo;becomes&rdquo; (pp. 36, 47&ndash;48, 60&ndash;61).</li>
+    </ol>
   </section>
 
   <section class="panel">
@@ -103,8 +106,10 @@
     <div class="scroll-wrap"><svg id="fig-period" viewBox="0 0 1200 310" role="img" aria-label="Period: basic idea plus contrasting idea form the antecedent, closing with an HC at measure 4; basic idea plus contrasting idea form the consequent, closing with a PAC at measure 8"></svg></div>
     <div class="readout def" id="read-period" aria-live="polite"></div>
     <p data-term="period">A period is an eight-measure theme of antecedent + consequent: a weak cadence at m. 4, answered by a stronger one at m. 8 after the basic idea returns. It's two phrases. Caplin reserves the term for themes whose second phrase opens with the basic idea. A theme whose second half starts with new material is a hybrid rather than a contrasting period (pp. 73&ndash;76).</p>
-    <p data-term="antecedent">An antecedent is a basic idea followed by a contrasting idea that closes with a weak cadence, usually an HC, sometimes an IAC. A PAC can't close it (pp. 74, 79&ndash;80).</p>
-    <p data-term="consequent">A consequent brings back the basic idea, most often over its original harmony, then a contrasting idea that closes with a stronger cadence: almost always a PAC, rarely an IAC after an antecedent's HC. Its contrasting idea often resembles the antecedent's, and its cadential progression often begins earlier (pp. 74, 80&ndash;85).</p>
+    <ol class="defs">
+      <li data-term="antecedent">An antecedent is a basic idea followed by a contrasting idea that closes with a weak cadence, usually an HC, sometimes an IAC. A PAC can't close it (pp. 74, 79&ndash;80).</li>
+      <li data-term="consequent">A consequent brings back the basic idea, most often over its original harmony, then a contrasting idea that closes with a stronger cadence: almost always a PAC, rarely an IAC after an antecedent's HC. Its contrasting idea often resembles the antecedent's, and its cadential progression often begins earlier (pp. 74, 80&ndash;85).</li>
+    </ol>
   </section>
 
   <section class="panel">
@@ -210,6 +215,11 @@
     return closes && opens ? "phrase" : "subphrase";
   }
 
+  /* the paragraph or list item that defines a term */
+  function def(term) {
+    return document.querySelector("p[data-term~=\"" + term + "\"], li[data-term~=\"" + term + "\"]");
+  }
+
   function hit(g, x, y, w, h, label) {
     var r = el("rect", { x: x, y: y, width: w, height: h, "class": "hit",
       tabindex: "0", role: "button", "aria-label": label });
@@ -286,11 +296,11 @@
 
     function select(entry) {
       groups.forEach(function (o) { o.g.classList.toggle("on", o === entry); });
-      var src = document.querySelector("p[data-term=\"" + entry.term + "\"]");
+      var src = def(entry.term);
       var was = readout.dataset.lit;
       readout.dataset.lit = entry.term;
       if (was && !document.querySelector(".readout[data-lit=\"" + was + "\"]")) {
-        document.querySelector("p[data-term=\"" + was + "\"]").classList.remove("on");
+        def(was).classList.remove("on");
       }
       readout.innerHTML = "";
       src.classList.add("on");
