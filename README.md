@@ -39,6 +39,10 @@ Eight sections on the figured-bass realizations and the four-voice writing: coun
 https://csuebmusic.github.io/mus312/tools/chord-finder.html
 Enter up to four notes from the bass up and read what they make: the stack of thirds with the semitone distance between each pair, the quality, the chord symbol, the note in the bass and its figure. Two notes give an interval. Set a tonic and a mode and the same chord comes back as a roman numeral with its function, whether it is diatonic, borrowed from the parallel mode, applied to another degree, or one of the chromatic pre-dominants.
 
+**theme types**
+https://csuebmusic.github.io/mus312/tools/theme-types.html
+Caplin's eight-measure themes drawn as colored idea boxes added together, basic idea, contrasting idea, fragment and cadential idea, with brackets beneath naming each function and the theme. The sentence, the period, and the four hybrids: antecedent + continuation, antecedent + cadential, compound basic idea + continuation, and compound basic idea + consequent. Pressing a box, bracket, or cadence lights its definition. Phrase and subphrase as this course uses them, alongside Caplin's usage.
+
 ## texts
 
 Caplin, *Analyzing Classical Form*, chapter 1 and Parts I and II. Laitz and Bartlette, *The Graduate Review of Tonal Theory*. Hepokoski and Darcy, *Elements of Sonata Theory*.
