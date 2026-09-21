@@ -133,7 +133,7 @@ A theme diagram draws eight measures from x = 150 at 125 a measure, on `viewBox=
 
 Beneath the boxes, in ink, a bracket for each function at y = 182 names the function and, under it in `--muted`, phrase or subphrase; a bracket for the theme at y = 252 names the theme and its number of phrases. Rows are named at the left, right-aligned to x = 130. In a theme diagram subphrases take brackets; on a score they stay unbracketed.
 
-One element is pressed at a time across the page, and none when the page opens. The element pressed takes the accent on its outline and labels. Its definition paragraph takes `--accent-wash`. A copy stands under the figure for an idea box, and for any element whose paragraph sits in another section.
+One element is pressed at a time across the page, and none when the page opens. Choosing a hybrid lights its definition. The element pressed takes the accent on its outline and labels. Its definition paragraph takes `--accent-wash`. A copy stands under the figure for an idea box, and for any element whose paragraph sits in another section.
 
 ## sound
 

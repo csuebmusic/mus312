@@ -120,11 +120,16 @@
     <div class="controls" id="pick-hybrid"></div>
     <div class="scroll-wrap"><svg id="fig-hybrid" viewBox="0 0 1200 310" role="img" aria-label="The selected hybrid theme, drawn as idea boxes with function brackets beneath"></svg></div>
     <div class="readout def" id="read-hybrid" aria-live="polite"></div>
-    <p data-term="ant-cont">Antecedent + continuation begins like a period and ends like a sentence. It's two phrases. Caplin finds it the most frequent hybrid, and its continuation almost always closes with a PAC (pp. 100&ndash;101, 105).</p>
-    <p data-term="ant-cad">Antecedent + cadential follows the antecedent with a four-measure cadential unit. It's two phrases and rarely modulates (pp. 101, 106&ndash;107).</p>
-    <p data-term="cbi-cont">Compound basic idea + continuation resembles a sentence, with a contrasting idea in mm. 3&ndash;4 where the sentence repeats its basic idea. It's one phrase, and its continuation is a subphrase (pp. 101&ndash;102).</p>
-    <p data-term="cbi-cons">Compound basic idea + consequent resembles a period without the weak cadence at m. 4. It's one phrase, and its consequent is a subphrase. Caplin finds it infrequent (pp. 102&ndash;103).</p>
-    <h3>the functions</h3>
+    <ol class="defs">
+      <li data-term="ant-cont">Antecedent + continuation begins like a period and ends like a sentence. It's two phrases. Caplin finds it the most frequent hybrid, and its continuation almost always closes with a PAC (pp. 100&ndash;101, 105).</li>
+      <li data-term="ant-cad">Antecedent + cadential follows the antecedent with a four-measure cadential unit. It's two phrases and rarely modulates (pp. 101, 106&ndash;107).</li>
+      <li data-term="cbi-cont">Compound basic idea + continuation resembles a sentence, with a contrasting idea in mm. 3&ndash;4 where the sentence repeats its basic idea. It's one phrase, and its continuation is a subphrase (pp. 101&ndash;102).</li>
+      <li data-term="cbi-cons">Compound basic idea + consequent resembles a period without the weak cadence at m. 4. It's one phrase, and its consequent is a subphrase. Caplin finds it infrequent (pp. 102&ndash;103).</li>
+    </ol>
+  </section>
+
+  <section class="panel">
+    <h2 id="functions">the functions</h2>
     <p data-term="cbi">A compound basic idea is a basic idea followed by a contrasting idea with no cadence, usually over a tonic prolongation. Its ideas resemble an antecedent's and its harmony a presentation's. Caplin reads it as a basic idea at the four-measure level (pp. 101&ndash;102, 107).</p>
     <p data-term="cadential">A cadential unit is four measures over an ECP, with few or none of the continuation processes. It follows an antecedent (pp. 101, 106).</p>
     <p>Caplin groups the functions by their place in time. Presentation, antecedent, and compound basic idea initiate. Continuation is medial. Cadential and consequent conclude. Each theme type orders them beginning, middle, end (p. 103).</p>
@@ -332,11 +337,12 @@
       readH = document.getElementById("read-hybrid"),
       buttons = [];
 
-  function showHybrid(key) {
+  function showHybrid(key, opening) {
     buttons.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.key === key ? "true" : "false"); });
     figH.setAttribute("aria-label", THEMES[key].name + ", drawn as idea boxes with function brackets beneath");
     clearAll();
     draw(figH, key, readH);
+    if (!opening) { def(key).classList.add("on"); }
   }
 
   HYBRIDS.forEach(function (key) {
@@ -350,7 +356,7 @@
     buttons.push(b);
   });
 
-  showHybrid(HYBRIDS[0]);
+  showHybrid(HYBRIDS[0], true);
 })();
 </script>
 </body>
