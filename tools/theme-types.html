@@ -85,6 +85,7 @@
     <h2 id="ideas">the ideas</h2>
     <p data-term="bi">A basic idea <span class="chip k-bi">b.i.</span> is the two-measure unit that opens a theme. It states the theme's characteristic melodic material, usually several motives, and prolongs tonic harmony, most often in root position. Two measures means two metrical downbeats: the idea often begins on an upbeat and ends before its second bar line (pp. 38&ndash;40).</p>
     <p data-term="rep">A repetition <span class="chip k-bi">b.i.</span> restates the basic idea immediately, with nothing between the two statements. Caplin sorts repetitions into three types by their harmony rather than their melody. In an exact repetition the harmony is essentially the same as the original's, allowing minor variants, and the melody can be varied or even transposed to other scale degrees that harmony supports. In a statement&ndash;response repetition the statement, a tonic version, begins on I, and the response, a dominant version, begins on V. The response's melody is often transposed by a step, and IV occasionally takes the place of V. In a sequential repetition, the least common type, the whole idea (melody, harmony, and accompaniment) is transposed by the same interval in the same direction: the original is the model and the transposition the sequence. Sequential repetition is rare in a presentation, which has to prolong the tonic, and where it occurs the broader tonic prolongation emerges later in the theme. A melody that rises by a step can belong to either statement&ndash;response or sequential repetition, and the harmony tells them apart (pp. 36, 41&ndash;45).</p>
+    <p data-term="restart">A restart <span class="chip k-bi">b.i.</span> brings the basic idea back at the start of the consequent, after the antecedent's contrasting idea. Caplin calls a restatement that follows intervening material a return, and one that follows immediately a repetition (p. 83). Most often the restart is exact: the basic idea comes back over the harmony it had in mm. 1&ndash;2, even when its melody is heavily varied. Occasionally it's a dominant version answering the antecedent's tonic version, which gives the period a statement&ndash;response design. A sequential restart, usually a step higher in the supertonic region, is less stable (pp. 80&ndash;83).</p>
     <p data-term="ci">A contrasting idea <span class="chip k-ci">c.i.</span> is a two-measure unit that follows a basic idea and isn't heard as its repetition. The contrast can be striking or slight, sometimes only a change of contour, and where the two ideas share motives the harmony tells them apart. In an antecedent or a consequent it closes with a cadential progression, and it often shows continuation processes: fragmentation, faster harmonic rhythm, a hint of sequence (pp. 77&ndash;79).</p>
     <p data-term="cont">The opening of a continuation <span class="chip k-cont">frag. / accel. / seq.</span> takes one or more of Caplin's four continuation processes, and none of them is required. Fragmentation breaks the two-measure units into shorter ones, usually one measure, then half a measure. It concerns length alone, and a fragment can take its motives from the basic idea or bring new ones. Harmonic acceleration changes harmony faster than the presentation did. Surface rhythm grows busier, with shorter note values or more of them. Sequential harmony moves by a consistent root motion, sometimes with model&ndash;sequence technique. A continuation that keeps the two-measure grouping of the ideas before it usually shows harmonic acceleration in place of fragmentation (pp. 47&ndash;55, 105&ndash;106).</p>
     <p data-term="cad">A cadential idea <span class="chip k-cad">cad.</span> closes a theme over a cadential progression, usually in mm. 7&ndash;8. Its melody tends to be conventional and falling. The characteristic motives of the basic idea have been liquidated by this point, eliminated gradually until only formulaic material remains (pp. 55&ndash;57).</p>
@@ -109,7 +110,7 @@
     <p data-term="period">A period is an eight-measure theme of antecedent + consequent: a weak cadence at m. 4, answered by a stronger one at m. 8 after the basic idea restarts. It's two phrases. Caplin reserves the term for themes whose second phrase opens with the basic idea. A theme whose second half starts with new material is a hybrid rather than a contrasting period (pp. 73&ndash;76).</p>
     <ol class="defs">
       <li data-term="antecedent">An antecedent is a basic idea followed by a contrasting idea that closes with a weak cadence, usually an HC, sometimes an IAC. A PAC can't close it (pp. 74, 79&ndash;80).</li>
-      <li data-term="consequent restart">A consequent begins with a restart: the basic idea brought back after the antecedent's contrasting idea, at m. 5. Caplin calls this restatement a return (p. 83). The restart most often keeps the original harmony, even under a heavily varied melody. Less often it answers the antecedent's tonic version with a dominant version, or restates the basic idea sequentially, usually a step higher in the supertonic region. A contrasting idea follows and closes with a stronger cadence: almost always a PAC, rarely an IAC after an antecedent's HC. It often resembles the antecedent's contrasting idea, and its cadential progression often begins earlier (pp. 74, 80&ndash;85).</li>
+      <li data-term="consequent">A consequent begins with the restart of the basic idea, then a contrasting idea that closes with a stronger cadence: almost always a PAC, rarely an IAC after an antecedent's HC. The consequent's contrasting idea often resembles the antecedent's, and its cadential progression often begins earlier (pp. 74, 80&ndash;85).</li>
     </ol>
   </section>
 
@@ -221,6 +222,12 @@
     return document.querySelector("p[data-term~=\"" + term + "\"], li[data-term~=\"" + term + "\"]");
   }
 
+  /* one element is pressed at a time across the page */
+  function clearAll() {
+    document.querySelectorAll("svg g.on, p[data-term].on, li[data-term].on").forEach(function (n) { n.classList.remove("on"); });
+    document.querySelectorAll(".readout.def").forEach(function (r) { r.innerHTML = ""; });
+  }
+
   function hit(g, x, y, w, h, label) {
     var r = el("rect", { x: x, y: y, width: w, height: h, "class": "hit",
       tabindex: "0", role: "button", "aria-label": label });
@@ -296,14 +303,9 @@
     hit(tg, left(1), Y_THEME - TICK - 2, right(8) - left(1), 58, theme.name + ", " + (phrases === 2 ? "two phrases" : "one phrase"));
 
     function select(entry) {
-      groups.forEach(function (o) { o.g.classList.toggle("on", o === entry); });
+      clearAll();
+      entry.g.classList.add("on");
       var src = def(entry.term);
-      var was = readout.dataset.lit;
-      readout.dataset.lit = entry.term;
-      if (was && !document.querySelector(".readout[data-lit=\"" + was + "\"]")) {
-        def(was).classList.remove("on");
-      }
-      readout.innerHTML = "";
       src.classList.add("on");
       /* an idea's definition, and any definition kept in another section, is shown under the figure */
       if (entry.g.classList.contains("idea") || src.closest("section") !== svg.closest("section")) {
@@ -320,8 +322,6 @@
         if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(o); }
       });
     });
-
-    select(groups[groups.length - 1]);
   }
 
   draw(document.getElementById("fig-sentence"), "sentence", document.getElementById("read-sentence"));
@@ -335,6 +335,7 @@
   function showHybrid(key) {
     buttons.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.key === key ? "true" : "false"); });
     figH.setAttribute("aria-label", THEMES[key].name + ", drawn as idea boxes with function brackets beneath");
+    clearAll();
     draw(figH, key, readH);
   }
 
