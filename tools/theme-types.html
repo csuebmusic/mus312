@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mus 312 &middot; theme types</title>
+<link rel="stylesheet" href="../assets/style.css?v=21">
+<script src="../assets/theme.js?v=2"></script>
+<style>
+  section.panel { margin-top: calc(var(--step) * 5); }
+  section.panel > p { max-width: 46rem; }
+  section.panel > h3 { margin-top: calc(var(--step) * 4); }
+
+  .k-bi   { --k: var(--idea-basic); }
+  .k-ci   { --k: var(--idea-contrast); }
+  .k-frag { --k: var(--idea-fragment); }
+  .k-cad, .k-ecp { --k: var(--idea-cadential); }
+
+  .chip {
+    font-family: var(--font-data);
+    font-size: 0.8em;
+    color: var(--k);
+    background: color-mix(in srgb, var(--k) 14%, var(--paper));
+    border: var(--line) solid var(--k);
+    padding: 0 0.35em;
+    white-space: nowrap;
+  }
+
+  .box { fill: color-mix(in srgb, var(--k) 14%, var(--paper)); stroke: var(--k); stroke-width: 1.5; }
+  .idea-abbr { font-family: var(--font-data); font-size: 19px; font-weight: 500; fill: var(--k); text-anchor: middle; }
+  .idea-name { font-family: var(--font-body); font-size: 12px; fill: var(--muted); text-anchor: middle; }
+  .plus { font-family: var(--font-data); font-size: 16px; fill: var(--muted); text-anchor: middle; }
+  .mnum { font-family: var(--font-data); font-size: 12px; fill: var(--muted); text-anchor: middle; }
+  .rowname { font-family: var(--font-data); font-size: 12px; fill: var(--muted); text-anchor: end; }
+  .cadbox { fill: var(--paper); stroke: var(--ink); stroke-width: 1.2; }
+  .cadtext { font-family: var(--font-data); font-size: 13px; fill: var(--ink); text-anchor: middle; }
+  .bracket { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+  .unit-label { font-family: var(--font-body); font-size: 15px; fill: var(--ink); text-anchor: middle; }
+  .unit-cap { font-family: var(--font-data); font-size: 12px; fill: var(--muted); text-anchor: middle; }
+  .hit { fill: transparent; cursor: pointer; }
+  .hit:focus { outline: none; }
+  .hit:focus-visible { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 4 3; }
+
+  .on .box { stroke: var(--accent); stroke-width: 3; }
+  .on .bracket, .on .cadbox { stroke: var(--accent); stroke-width: 2.5; }
+  .on .unit-label, .on .unit-cap, .on .cadtext { fill: var(--accent); }
+
+  .readout.def {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--ink);
+    max-width: 46rem;
+    border-left: 3px solid var(--accent);
+    padding: calc(var(--step) * 1.2) calc(var(--step) * 2);
+    margin-bottom: calc(var(--step) * 2);
+  }
+  .readout.def p { margin: 0; max-width: none; }
+  .readout.def:empty { display: none; }
+  p[data-term] { padding: calc(var(--step) * 0.6) calc(var(--step) * 1.2); margin-left: calc(var(--step) * -1.2); }
+  p[data-term].on { background: var(--accent-wash); }
+  .scroll-wrap { overflow-x: auto; }
+  .scroll-wrap svg { min-width: 760px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">mus 312 &middot; theme types</p>
+  <h1 id="top">sentence, period, and hybrids</h1>
+
+  <p class="lede full">Caplin's simple themes fill eight real measures and are built from two-measure ideas. The sentence and the period are the two fundamental types (Caplin, chapters 2 and 3). The hybrids combine functions of both (chapter 4).</p>
+
+  <p class="howto">Press any box, bracket, or cadence for its definition. Colors name the idea. The brackets beneath name the function each group of ideas takes and the theme they make.</p>
+
+  <section class="panel">
+    <h2 id="phrase">phrase and subphrase</h2>
+    <p>A phrase runs to a cadence, weak or strong, from the start of a theme or from the cadence before it. A functional unit that doesn't span a phrase on its own is a subphrase. A sentence is one phrase made of two subphrases. A period is two phrases.</p>
+    <p>Caplin calls every one of these four-measure units a phrase and their functions phrase functions, and he rejects the rule that a phrase closes with a cadence (p. 60). A unit his analyses label a presentation phrase is, in this course, a presentation, and a presentation is a subphrase.</p>
+    <p data-term="cadence">A cadence closes a phrase. The HC and the IAC are weak cadences and the PAC is strong. Caplin ranks them by type alone, whatever their meter or dynamics: the HC weakest, the IAC between, the PAC strongest (p. 80). The boxed label stands where the final harmony of the cadential progression arrives, on the downbeat of m. 4 or m. 8 in these models (p. 58).</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="ideas">the ideas</h2>
+    <p data-term="bi">A basic idea <span class="chip k-bi">b.i.</span> is the two-measure unit that opens a theme. It states the theme's characteristic melodic material, usually several motives, and prolongs tonic harmony, most often in root position. Two measures means two metrical downbeats: the idea often begins on an upbeat and ends before its second bar line (pp. 38&ndash;40).</p>
+    <p data-term="ci">A contrasting idea <span class="chip k-ci">c.i.</span> is a two-measure unit that follows a basic idea and isn't heard as its repetition. The contrast can be striking or slight, sometimes only a change of contour, and where the two ideas share motives the harmony tells them apart. In an antecedent or a consequent it closes with a cadential progression, and it often shows continuation traits: fragmentation, faster harmonic rhythm, a hint of sequence (pp. 77&ndash;79).</p>
+    <p data-term="frag">A fragment <span class="chip k-frag">frag.</span> is a unit shorter than the ideas before it: one measure after two-measure ideas, then half a measure. Fragmentation concerns length alone. A fragment can take its motives from the basic idea or bring new ones (p. 51).</p>
+    <p data-term="cad">A cadential idea <span class="chip k-cad">cad.</span> closes a theme over a cadential progression, usually in mm. 7&ndash;8. Its melody tends to be conventional and falling. The characteristic motives of the basic idea have been liquidated by this point, eliminated gradually until only formulaic material remains (pp. 55&ndash;57).</p>
+    <p data-term="ecp">An expanded cadential progression <span class="chip k-ecp">ECP</span> is a single cadential progression stretched across a whole four-measure unit, beginning in its first measure (p. 61).</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="sentence">the sentence</h2>
+    <div class="scroll-wrap"><svg id="fig-sentence" viewBox="0 0 1200 310" role="img" aria-label="Sentence: basic idea plus basic idea form the presentation; two fragments plus a cadential idea form the continuation, closing with a PAC at measure 8"></svg></div>
+    <div class="readout def" id="read-sentence" aria-live="polite"></div>
+    <p data-term="sentence">A sentence is an eight-measure theme of presentation + continuation. It closes with one cadence at m. 8, of any of the three types, and it's one phrase (pp. 33&ndash;36).</p>
+    <p data-term="presentation">A presentation is a basic idea and its immediate repetition over a tonic prolongation, with no cadence. The repetition is exact when the harmony stays the same, even with the melody varied or transposed. It's statement&ndash;response when a tonic version is answered by a dominant version, and, rarely, sequential when melody and harmony are transposed together. The repetition type is read from the harmony rather than the melody (pp. 36, 41&ndash;45).</p>
+    <p data-term="continuation">A continuation takes the theme out of the stability the presentation established. Caplin names four processes: fragmentation, faster harmonic rhythm, busier surface rhythm, and sequential harmony. None is required, and a continuation often shows several. It ends with a cadential idea: a sentence's continuation fuses continuation and cadential function in one unit. It closes most often with a PAC, sometimes an HC, rarely an IAC. Where an ECP supports the whole unit, Caplin writes continuation &rArr; cadential, the arrow read as &ldquo;becomes&rdquo; (pp. 36, 47&ndash;48, 60&ndash;61).</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="period">the period</h2>
+    <div class="scroll-wrap"><svg id="fig-period" viewBox="0 0 1200 310" role="img" aria-label="Period: basic idea plus contrasting idea form the antecedent, closing with an HC at measure 4; basic idea plus contrasting idea form the consequent, closing with a PAC at measure 8"></svg></div>
+    <div class="readout def" id="read-period" aria-live="polite"></div>
+    <p data-term="period">A period is an eight-measure theme of antecedent + consequent: a weak cadence at m. 4, answered by a stronger one at m. 8 after the basic idea returns. It's two phrases. Caplin reserves the term for themes whose second phrase opens with the basic idea. A theme whose second half starts with new material is a hybrid rather than a contrasting period (pp. 73&ndash;76).</p>
+    <p data-term="antecedent">An antecedent is a basic idea followed by a contrasting idea that closes with a weak cadence, usually an HC, sometimes an IAC. A PAC can't close it (pp. 74, 79&ndash;80).</p>
+    <p data-term="consequent">A consequent brings back the basic idea, most often over its original harmony, then a contrasting idea that closes with a stronger cadence: almost always a PAC, rarely an IAC after an antecedent's HC. Its contrasting idea often resembles the antecedent's, and its cadential progression often begins earlier (pp. 74, 80&ndash;85).</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="hybrids">the hybrids</h2>
+    <p>Caplin names four hybrids, each by its two functions. None opens with a presentation. Two open with an antecedent and two with a compound basic idea (pp. 99&ndash;101).</p>
+    <div class="controls" id="pick-hybrid"></div>
+    <div class="scroll-wrap"><svg id="fig-hybrid" viewBox="0 0 1200 310" role="img" aria-label="The selected hybrid theme, drawn as idea boxes with function brackets beneath"></svg></div>
+    <div class="readout def" id="read-hybrid" aria-live="polite"></div>
+    <p data-term="ant-cont">Antecedent + continuation begins like a period and ends like a sentence. It's two phrases. Caplin finds it the most frequent hybrid, and its continuation almost always closes with a PAC (pp. 100&ndash;101, 105).</p>
+    <p data-term="ant-cad">Antecedent + cadential follows the antecedent with a four-measure cadential unit. It's two phrases and rarely modulates (pp. 101, 106&ndash;107).</p>
+    <p data-term="cbi-cont">Compound basic idea + continuation resembles a sentence, with a contrasting idea in mm. 3&ndash;4 where the sentence repeats its basic idea. It's one phrase, and its continuation is a subphrase (pp. 101&ndash;102).</p>
+    <p data-term="cbi-cons">Compound basic idea + consequent resembles a period without the weak cadence at m. 4. It's one phrase, and its consequent is a subphrase. Caplin finds it infrequent (pp. 102&ndash;103).</p>
+    <h3>the functions</h3>
+    <p data-term="cbi">A compound basic idea is a basic idea followed by a contrasting idea with no cadence, usually over a tonic prolongation. Its ideas resemble an antecedent's and its harmony a presentation's. Caplin reads it as a basic idea at the four-measure level (pp. 101&ndash;102, 107).</p>
+    <p data-term="cadential">A cadential unit is four measures over an ECP, with few or none of the continuation traits. It follows an antecedent (pp. 101, 106).</p>
+    <p>Caplin groups the functions by their place in time. Presentation, antecedent, and compound basic idea initiate. Continuation is medial. Cadential and consequent conclude. Each theme type orders them beginning, middle, end (p. 103).</p>
+  </section>
+
+  <footer>
+    <p>Text set in IBM Plex, under the SIL Open Font License.</p>
+  </footer>
+
+</div>
+
+<script src="../assets/notation.js?v=25"></script>
+<script>
+(function () {
+  "use strict";
+
+  var el = MUS.el;
+
+  var X0 = 150, MW = 125, GAP = 18;
+  var Y_MNUM = 22, Y_CAD = 34, Y_BOX = 70, H_BOX = 80;
+  var Y_UNIT = 182, Y_THEME = 252, TICK = 10;
+
+  var IDEAS = {
+    bi:   { abbr: "b.i.",  name: "basic idea" },
+    ci:   { abbr: "c.i.",  name: "contrasting idea" },
+    frag: { abbr: "frag.", name: "fragment" },
+    cad:  { abbr: "cad.",  name: "cadential idea" },
+    ecp:  { abbr: "ECP",   name: "expanded cadential progression" }
+  };
+
+  var UNITS = {
+    presentation: "presentation",
+    continuation: "continuation",
+    cadential: "cadential",
+    antecedent: "antecedent",
+    consequent: "consequent",
+    cbi: "compound basic idea"
+  };
+
+  var THEMES = {
+    sentence: {
+      name: "sentence",
+      ideas: [["bi", 1, 2], ["bi", 3, 4], ["frag", 5, 5], ["frag", 6, 6], ["cad", 7, 8]],
+      units: [["presentation", 1, 4], ["continuation", 5, 8]],
+      cads: [[8, "PAC"]]
+    },
+    period: {
+      name: "period",
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["bi", 5, 6], ["ci", 7, 8]],
+      units: [["antecedent", 1, 4], ["consequent", 5, 8]],
+      cads: [[4, "HC"], [8, "PAC"]]
+    },
+    "ant-cont": {
+      name: "antecedent + continuation",
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["frag", 5, 5], ["frag", 6, 6], ["cad", 7, 8]],
+      units: [["antecedent", 1, 4], ["continuation", 5, 8]],
+      cads: [[4, "HC"], [8, "PAC"]]
+    },
+    "ant-cad": {
+      name: "antecedent + cadential",
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["ecp", 5, 8]],
+      units: [["antecedent", 1, 4], ["cadential", 5, 8]],
+      cads: [[4, "HC"], [8, "PAC"]]
+    },
+    "cbi-cont": {
+      name: "compound basic idea + continuation",
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["frag", 5, 5], ["frag", 6, 6], ["cad", 7, 8]],
+      units: [["cbi", 1, 4], ["continuation", 5, 8]],
+      cads: [[8, "PAC"]]
+    },
+    "cbi-cons": {
+      name: "compound basic idea + consequent",
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["bi", 5, 6], ["ci", 7, 8]],
+      units: [["cbi", 1, 4], ["consequent", 5, 8]],
+      cads: [[8, "PAC"]]
+    }
+  };
+
+  var HYBRIDS = ["ant-cont", "ant-cad", "cbi-cont", "cbi-cons"];
+
+  function left(m) { return X0 + (m - 1) * MW + GAP / 2; }
+  function right(m) { return X0 + m * MW - GAP / 2; }
+  function mid(a, b) { return (left(a) + right(b)) / 2; }
+
+  /* a phrase runs to a cadence, from the start of the theme or from the cadence before it */
+  function level(theme, u) {
+    var ends = theme.cads.map(function (c) { return c[0]; });
+    var closes = ends.indexOf(u[2]) >= 0;
+    var opens = u[1] === 1 || ends.indexOf(u[1] - 1) >= 0;
+    return closes && opens ? "phrase" : "subphrase";
+  }
+
+  function hit(g, x, y, w, h, label) {
+    var r = el("rect", { x: x, y: y, width: w, height: h, "class": "hit",
+      tabindex: "0", role: "button", "aria-label": label });
+    g.appendChild(r);
+    return r;
+  }
+
+  function bracket(g, x1, x2, y) {
+    g.appendChild(el("path", { d: "M" + x1 + " " + (y - TICK) + " V" + y + " H" + x2 + " V" + (y - TICK), "class": "bracket" }));
+  }
+
+  function draw(svg, key, readout) {
+    var theme = THEMES[key];
+    while (svg.firstChild) { svg.removeChild(svg.firstChild); }
+    var groups = [];
+
+    function item(term, label) {
+      var g = el("g", { "data-term": term });
+      svg.appendChild(g);
+      groups.push({ g: g, term: term, label: label });
+      return g;
+    }
+
+    [["ideas", Y_BOX + H_BOX / 2 + 4], ["function", Y_UNIT + 18], ["theme", Y_THEME + 18]].forEach(function (r) {
+      svg.appendChild(el("text", { x: X0 - 20, y: r[1], "class": "rowname" }, r[0]));
+    });
+
+    for (var m = 1; m <= 8; m++) {
+      svg.appendChild(el("text", { x: X0 + (m - 0.5) * MW, y: Y_MNUM, "class": "mnum" }, String(m)));
+    }
+
+    theme.ideas.forEach(function (d, i) {
+      var info = IDEAS[d[0]];
+      var g = item(d[0], info.name);
+      g.setAttribute("class", "idea k-" + d[0]);
+      var x = left(d[1]), w = right(d[2]) - x, cx = x + w / 2;
+      g.appendChild(el("rect", { x: x, y: Y_BOX, width: w, height: H_BOX, "class": "box" }));
+      g.appendChild(el("text", { x: cx, y: Y_BOX + 38, "class": "idea-abbr" }, info.abbr));
+      if (w > 200) {
+        g.appendChild(el("text", { x: cx, y: Y_BOX + 60, "class": "idea-name" }, info.name));
+      }
+      hit(g, x, Y_BOX, w, H_BOX, info.name + ", measures " + d[1] + (d[2] > d[1] ? " to " + d[2] : ""));
+      if (i < theme.ideas.length - 1) {
+        svg.appendChild(el("text", { x: X0 + d[2] * MW, y: Y_BOX + H_BOX / 2 + 5, "class": "plus" }, "+"));
+      }
+    });
+
+    theme.cads.forEach(function (c) {
+      var g = item("cadence", c[1]);
+      var cx = X0 + (c[0] - 0.5) * MW, w = 46;
+      g.appendChild(el("rect", { x: cx - w / 2, y: Y_CAD - 2, width: w, height: 24, "class": "cadbox" }));
+      g.appendChild(el("text", { x: cx, y: Y_CAD + 15, "class": "cadtext" }, c[1]));
+      hit(g, cx - w / 2, Y_CAD - 2, w, 24, c[1] + " at measure " + c[0]);
+    });
+
+    theme.units.forEach(function (u) {
+      var name = UNITS[u[0]], lev = level(theme, u);
+      var g = item(u[0], name);
+      g.setAttribute("class", "unit");
+      var x1 = left(u[1]), x2 = right(u[2]);
+      bracket(g, x1, x2, Y_UNIT);
+      g.appendChild(el("text", { x: (x1 + x2) / 2, y: Y_UNIT + 22, "class": "unit-label" }, name));
+      g.appendChild(el("text", { x: (x1 + x2) / 2, y: Y_UNIT + 40, "class": "unit-cap" }, lev));
+      hit(g, x1, Y_UNIT - TICK - 2, x2 - x1, 58, name + ", " + lev + ", measures " + u[1] + " to " + u[2]);
+    });
+
+    var phrases = theme.units.filter(function (u) { return level(theme, u) === "phrase"; }).length;
+    var tg = item(key, theme.name);
+    tg.setAttribute("class", "unit");
+    bracket(tg, left(1), right(8), Y_THEME);
+    tg.appendChild(el("text", { x: mid(1, 8), y: Y_THEME + 22, "class": "unit-label" }, theme.name));
+    tg.appendChild(el("text", { x: mid(1, 8), y: Y_THEME + 40, "class": "unit-cap" }, phrases === 2 ? "two phrases" : "one phrase"));
+    hit(tg, left(1), Y_THEME - TICK - 2, right(8) - left(1), 58, theme.name + ", " + (phrases === 2 ? "two phrases" : "one phrase"));
+
+    function select(entry) {
+      groups.forEach(function (o) { o.g.classList.toggle("on", o === entry); });
+      var src = document.querySelector("p[data-term=\"" + entry.term + "\"]");
+      var was = readout.dataset.lit;
+      readout.dataset.lit = entry.term;
+      if (was && !document.querySelector(".readout[data-lit=\"" + was + "\"]")) {
+        document.querySelector("p[data-term=\"" + was + "\"]").classList.remove("on");
+      }
+      readout.innerHTML = "";
+      src.classList.add("on");
+      /* a definition kept in another section is shown under the figure */
+      if (src.closest("section") !== svg.closest("section")) {
+        var p = document.createElement("p");
+        p.innerHTML = src.innerHTML;
+        readout.appendChild(p);
+      }
+    }
+
+    groups.forEach(function (o) {
+      var r = o.g.querySelector(".hit");
+      r.addEventListener("click", function () { select(o); });
+      r.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(o); }
+      });
+    });
+
+    select(groups[groups.length - 1]);
+  }
+
+  draw(document.getElementById("fig-sentence"), "sentence", document.getElementById("read-sentence"));
+  draw(document.getElementById("fig-period"), "period", document.getElementById("read-period"));
+
+  var pick = document.getElementById("pick-hybrid"),
+      figH = document.getElementById("fig-hybrid"),
+      readH = document.getElementById("read-hybrid"),
+      buttons = [];
+
+  function showHybrid(key) {
+    buttons.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.key === key ? "true" : "false"); });
+    figH.setAttribute("aria-label", THEMES[key].name + ", drawn as idea boxes with function brackets beneath");
+    draw(figH, key, readH);
+  }
+
+  HYBRIDS.forEach(function (key) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.dataset.key = key;
+    b.setAttribute("aria-pressed", "false");
+    b.appendChild(document.createTextNode(THEMES[key].name));
+    b.addEventListener("click", function () { showHybrid(key); });
+    pick.appendChild(b);
+    buttons.push(b);
+  });
+
+  showHybrid(HYBRIDS[0]);
+})();
+</script>
+</body>
+</html>

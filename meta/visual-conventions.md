@@ -127,6 +127,14 @@ A second level sits below the numerals, its label set at the head of each span w
 
 A cadence bracket and its boxed label belong to the row of numerals they annotate and move with it.
 
+## theme diagrams
+
+A theme diagram draws eight measures from x = 150 at 125 a measure, on `viewBox="0 0 1200 310"` at scale 1. Each idea is a box in its idea color, 80 tall at y = 70, inset 9 from its bar lines, with its abbreviation at 19px and its name beneath where the box is wider than 200. A `+` stands in every gap between boxes. Measure numbers sit above at y = 22 and each cadence is boxed over the measure it arrives in.
+
+Beneath the boxes, in ink, a bracket for each function at y = 182 names the function and, under it in `--muted`, phrase or subphrase; a bracket for the theme at y = 252 names the theme and its number of phrases. Rows are named at the left, right-aligned to x = 130. In a theme diagram subphrases take brackets; on a score they stay unbracketed.
+
+The element pressed takes the accent on its outline and labels. Its definition paragraph takes `--accent-wash`, and where that paragraph sits in another section a copy stands under the figure.
+
 ## sound
 
 Playback reads the staff. `playButtons` walks the page in document order and puts a `button.play` under every figure with `text.notehead[data-note]`, labelled from the headings above it, unless the figure takes `data-play="no"`. `figureNotes(svg)` returns one entry per sounding notehead: its onset is `data-beat` where the figure is metered and its column index otherwise, and its length is `data-dur` in beats or one beat. A tied note takes the length of both halves and the note it ties into takes `data-tie`. Noteheads marked `optional` are silent.
