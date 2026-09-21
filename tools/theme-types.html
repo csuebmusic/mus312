@@ -103,12 +103,12 @@
 
   <section class="panel">
     <h2 id="period">the period</h2>
-    <div class="scroll-wrap"><svg id="fig-period" viewBox="0 0 1200 310" role="img" aria-label="Period: basic idea plus contrasting idea form the antecedent, closing with an HC at measure 4; basic idea plus contrasting idea form the consequent, closing with a PAC at measure 8"></svg></div>
+    <div class="scroll-wrap"><svg id="fig-period" viewBox="0 0 1200 310" role="img" aria-label="Period: basic idea plus contrasting idea form the antecedent, closing with an HC at measure 4; the restart of the basic idea plus a contrasting idea form the consequent, closing with a PAC at measure 8"></svg></div>
     <div class="readout def" id="read-period" aria-live="polite"></div>
-    <p data-term="period">A period is an eight-measure theme of antecedent + consequent: a weak cadence at m. 4, answered by a stronger one at m. 8 after the basic idea returns. It's two phrases. Caplin reserves the term for themes whose second phrase opens with the basic idea. A theme whose second half starts with new material is a hybrid rather than a contrasting period (pp. 73&ndash;76).</p>
+    <p data-term="period">A period is an eight-measure theme of antecedent + consequent: a weak cadence at m. 4, answered by a stronger one at m. 8 after the basic idea restarts. It's two phrases. Caplin reserves the term for themes whose second phrase opens with the basic idea. A theme whose second half starts with new material is a hybrid rather than a contrasting period (pp. 73&ndash;76).</p>
     <ol class="defs">
       <li data-term="antecedent">An antecedent is a basic idea followed by a contrasting idea that closes with a weak cadence, usually an HC, sometimes an IAC. A PAC can't close it (pp. 74, 79&ndash;80).</li>
-      <li data-term="consequent">A consequent brings back the basic idea, most often over its original harmony, then a contrasting idea that closes with a stronger cadence: almost always a PAC, rarely an IAC after an antecedent's HC. Its contrasting idea often resembles the antecedent's, and its cadential progression often begins earlier (pp. 74, 80&ndash;85).</li>
+      <li data-term="consequent restart">A consequent begins with a restart: the basic idea brought back after the antecedent's contrasting idea, at m. 5. Caplin calls this restatement a return (p. 83). The restart most often keeps the original harmony, even under a heavily varied melody. Less often it answers the antecedent's tonic version with a dominant version, or restates the basic idea sequentially, usually a step higher in the supertonic region. A contrasting idea follows and closes with a stronger cadence: almost always a PAC, rarely an IAC after an antecedent's HC. It often resembles the antecedent's contrasting idea, and its cadential progression often begins earlier (pp. 74, 80&ndash;85).</li>
     </ol>
   </section>
 
@@ -171,7 +171,7 @@
     },
     period: {
       name: "period",
-      ideas: [["bi", 1, 2], ["ci", 3, 4], ["bi", 5, 6], ["ci", 7, 8]],
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["bi", 5, 6, "restart", "restart"], ["ci", 7, 8]],
       units: [["antecedent", 1, 4], ["consequent", 5, 8]],
       cads: [[4, "HC"], [8, "PAC"]]
     },
