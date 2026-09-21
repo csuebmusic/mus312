@@ -24,7 +24,7 @@ Sonata-form terminology follows Hepokoski and Darcy.
 
 Harmonic function follows Laitz: four functions, tonic, mediant, pre-dominant, dominant. Where Caplin differs, student-facing material names his reading alongside. Caplin counts three functions, placing vi with the tonic and treating iii as a dominant substitute.
 
-A phrase closes with a cadence, following Laitz and Hepokoski and Darcy. The units inside a phrase are subphrases, whatever their formal function: presentation, continuation, antecedent, consequent, cadential. Caplin calls these units phrases, and student-facing material names his usage where his rules are given.
+A phrase runs to a cadence, weak or strong, from the start of a theme or from the cadence before it. A functional unit that doesn't span a phrase on its own is a subphrase. A sentence is one phrase of two subphrases, presentation and continuation. A period is two phrases, antecedent and consequent. Caplin calls all of these units phrases, and student-facing material names his usage where his rules are given.
 
 Elsewhere formal terminology follows Caplin.
 
