@@ -47,6 +47,10 @@
   --accent-wash: rgba(226, 86, 13, 0.10);
   --accent-edge: rgba(226, 86, 13, 0.38);
   --accent-2: #1f5fa8;
+  --idea-basic: #0e7c86;
+  --idea-contrast: #7c4dab;
+  --idea-fragment: #4f7f1c;
+  --idea-cadential: #b02e5c;
 
   --font-body: "Plex Sans", system-ui, sans-serif;
   --font-data: "Plex Mono", ui-monospace, monospace;
@@ -67,6 +71,10 @@
   --accent-wash: rgba(226, 86, 13, 0.18);
   --accent-edge: rgba(226, 86, 13, 0.45);
   --accent-2: #6ba0dc;
+  --idea-basic: #4db6bf;
+  --idea-contrast: #b393e3;
+  --idea-fragment: #93c45e;
+  --idea-cadential: #e27a9f;
 }
 
 * { box-sizing: border-box; }
