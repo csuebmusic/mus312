@@ -10,7 +10,8 @@ Each file owns one kind of statement. A sentence goes where it is owned, and now
 | `visual-conventions.md` | how a page is drawn: palette, type, notation geometry, figure size, spacing, structure, interaction | what a label means, what is built |
 | `outline.md` | the schedule: calendar, texts, week by week | anything not on the calendar |
 | `status.md` | what exists, in a line each, and what is open | descriptions of features, verification results, page counts, history |
-| `README.md` | the public front: live links and what each page is for | rules, status, anything instructor-only |
+| `README.md` | the public front: the course, the syllabus link, pointers to the folder READMEs | rules, status, anything instructor-only |
+| `tools/README.md`, `review/README.md`, `assets/README.md` | live links and what each page or file in the folder is for | rules, status, anything instructor-only |
 
 Update by replacing, not appending. A change edits the sentence that is now wrong. Where no sentence is wrong, nothing is added: a file records the state, not the sequence of states that reached it.
 
@@ -80,7 +81,7 @@ When changing a rotating figure, read the coordinates off the drawn elements, an
 
 ## checks before pushing a meta file
 
-Split every file in `meta/` and `README.md` into sentences and report any that appear in two files, or twice in one. A hit means two owners for one statement; delete the copy that sits outside its owner.
+Split every file in `meta/` and every `README.md` into sentences and report any that appear in two files, or twice in one. A hit means two owners for one statement; delete the copy that sits outside its owner.
 
 Grep the meta files for every path and identifier they name, and confirm each still exists. A moved function or a renamed file leaves the sentence that described it behind.
 
@@ -94,4 +95,4 @@ Commits to main, one logical change each, pushed. Commit messages name what chan
 
 Student-facing pages are HTML linking `assets/style.css` with a `?v=N` query. Visual rules are in `meta/visual-conventions.md`.
 
-Live links to student-facing pages go in `README.md` as they are built.
+Live links to student-facing pages go in the README of the page's folder as they are built.

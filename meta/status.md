@@ -18,7 +18,7 @@
 
 `review/part-8-9-notes.html`. Class-wide notes on parts 8 and 9, in eight sections on twelve sonority staves, the notes under discussion lit.
 
-`review/part-1-key.md`. Answers to problem set 1, parts 1 through 8; bass lines, roman numerals and marking criteria for part 9. Not linked from `README.md`.
+`review/part-1-key.md`. Answers to problem set 1, parts 1 through 8; bass lines, roman numerals and marking criteria for part 9. Not linked from `review/README.md`.
 
 `assets/notation.js`, shared by all three tools. `assets/workbook.js`, shared by the four problem sets: it draws the blank staves and adds the print control. `assets/style.css` and self-hosted fonts.
 
