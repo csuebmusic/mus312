@@ -4,44 +4,14 @@ Course materials for MUS 312 at California State University, East Bay. An upper-
 
 Instructor: Inés Thiebaut, ines.thiebaut@csueastbay.edu. Office hours Wednesdays 1:00 to 3:00 PM in MB2012.
 
-## student-facing pages
+## syllabus
 
-Live links, for Canvas.
-
-**syllabus**
 https://csuebmusic.github.io/mus312/syllabus.html
 Course information, important dates, the catalog description and learning outcomes, assessment and the grade scale, the coursework, the AI policy, the week-by-week schedule, policies, and the campus statements.
 
-**harmony review**
-https://csuebmusic.github.io/mus312/tools/harmony-review.html
-Part 1, counting in semitones: the four scale types on a linked staff and clock, interval names, diatonic triads in major and all three minors, the chord builder, figured bass, inversions, nonchord tones. Part 2, harmonic progressions and functions: tonal syntax, the seven triads by function, the diatonic function chart, structural and prolongational harmony, the cadential six-four, the cadence types, the diatonic sequences. Part 3, chromatic harmony: applied dominant and applied leading-tone chords, extended tonicization, the augmented sixths and the Neapolitan, modal mixture, the master function and prolongation chart, and a guided analysis that draws one progression seven times. Part 4, modulation: tonicization against modulation, the three stages, destabilizing the tonic, the pivot chord, closely related keys and chromatic modulation.
+## course pages
 
-**annotation guide**
-https://csuebmusic.github.io/mus312/tools/annotation-guide.html
-Caplin's rules for annotating a score, at work on an eight-bar sentence in C minor: formal brackets and subphrase labels above, figured bass and two rows of roman numerals below, this course's and Caplin's, each with its own cadence bracket and boxed cadence. Four layers turn on and off independently, and pressing a rule lights the marks it governs. Below it, this course's numerals read degree by degree, Caplin's Guide to Harmonic Annotation in full with a specimen of each mark, and two four-voice passages holding the marks the sentence has no room for: prolongation, a sequence and two cadences; applied chords, an extended tonicization and a pivot modulation read in three levels.
-
-**harmony review problem sets**
-https://csuebmusic.github.io/mus312/review/part-1.html
-https://csuebmusic.github.io/mus312/review/part-2.html
-https://csuebmusic.github.io/mus312/review/part-3.html
-https://csuebmusic.github.io/mus312/review/part-4.html
-One set per part of the harmony review, worked by hand on blank staff paper. Semitone distances, interval names, scales, diatonic triads, chord spelling, figured bass, and two realizations, one from roman numerals in SATB and one from a figured bass in keyboard style. Function and depth of structure read under four written-out bass lines, the cadential six-four in six keys, six cadences written out to be identified and bracketed, three sequences to realize, the prolongation patterns written on bass staves, and a closing exercise reading a progression from a figured bass and writing one from numerals, both analyzed on two levels. Applied dominants and applied leading-tone chords, twelve of each to spell and twelve of each to recognize with their targets, ten augmented sixths and Neapolitans to spell and resolve and ten more to recognize, the function each chromatic chord takes, modal mixture, and a closing exercise reading a chromatic progression from a figured bass and writing one from numerals, both analyzed on two levels. Three bass lines to sort into tonicization, extended tonicization, and modulation, the three stages, destabilizing the tonic, closely related keys, pivot charts for a diatonic and a chromatic move, and a closing exercise reading a modulation from a figured bass and writing one from numerals. Every exercise links the section of the review it draws on. A button prints the set or saves it as a PDF.
-
-**problem set 1 notes**
-https://csuebmusic.github.io/mus312/review/part-1-notes.html
-What the class as a whole got wrong on problem set 1, worked in notation: one triad under three bass notes and one seventh chord under four, with their figures and numerals set; C to F♯ against C to G♭; i and V in F♯ minor with the one written accidental the signature leaves; the three triads that change quality between the two minors, each written twice in C minor; one chord named three ways, as Cm7/E♭, as a figured bass and as ii6/5; and A C E♭ with C in the bass, read as vii°6 in B♭ major and ii°6 in G minor.
-
-**problem set 1 notes, parts 8 and 9**
-https://csuebmusic.github.io/mus312/review/part-8-9-notes.html
-Eight sections on the figured-bass realizations and the four-voice writing: counting the numeral from the root rather than the bass, case and the flat in a minor key, the three upper voices keyboard style takes, the seventh as part of a chord's name, spacing within an octave, the leading tone up and the chordal seventh down, parallel fifths and octaves broken by contrary motion, and the order to check a realization in.
-
-**chord finder**
-https://csuebmusic.github.io/mus312/tools/chord-finder.html
-Enter up to four notes from the bass up and read what they make: the stack of thirds with the semitone distance between each pair, the quality, the chord symbol, the note in the bass and its figure. Two notes give an interval. Set a tonic and a mode and the same chord comes back as a roman numeral with its function, whether it is diatonic, borrowed from the parallel mode, applied to another degree, or one of the chromatic pre-dominants.
-
-**theme types**
-https://csuebmusic.github.io/mus312/tools/theme-types.html
-Caplin's simple themes drawn as colored idea boxes added together, with brackets beneath naming each function and the theme. The sentence, the period, and the four hybrids; formal function, with a table of functions by their place in time; the phrase deviations, extension, expansion, compression and interpolation; the deceptive, evaded and abandoned cadences; and the thematic introduction, closing section and standing on the dominant. Pressing a box, bracket, or cadence lights its definition. Phrase and subphrase as this course uses them, alongside Caplin's usage.
+Live links to the interactive tools are in [tools](https://github.com/csuebmusic/mus312/tree/main/tools), and to the problem sets and their notes in [review](https://github.com/csuebmusic/mus312/tree/main/review).
 
 ## texts
 
@@ -57,5 +27,3 @@ meta/         instructor notes and conventions
 ```
 
 Pages are hand-authored HTML on `assets/style.css`, self-contained and viewable in any browser. Notation is drawn as inline SVG with Bravura. GitHub Pages serves the site through the Actions workflow.
-
-Notation set in Bravura, Steinberg Media Technologies. Text set in IBM Plex. Both under the SIL Open Font License.
