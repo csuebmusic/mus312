@@ -4,7 +4,7 @@
 
 `syllabus.html`. Course information, dates, description and outcomes, assessment and the grade scale, the coursework, the tools, the AI policy, the schedule, policies, campus statements.
 
-`tools/harmony-review.html`. Four parts: counting in semitones, progressions and functions, chromatic harmony, modulation. 78 figures, 54 of them with playback.
+`tools/harmony-review.html`. Four parts: counting in semitones, progressions and functions, chromatic harmony, modulation. 80 figures, 56 of them with playback.
 
 `tools/chord-finder.html`. Up to four spelled notes in, the stack of thirds and its intervals out, read again as a roman numeral once a key is set.
 
