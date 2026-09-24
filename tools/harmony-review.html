@@ -184,6 +184,14 @@
   .triad.lit .degree { fill: var(--accent); }
   .triad.lit .caret { stroke: var(--accent); }
   .triad.lit .degree-acc { fill: var(--accent); }
+  .roman-fig { font-family: var(--font-data); font-size: 12px; }
+  .quality {
+    font-family: var(--font-data);
+    font-size: 14px;
+    fill: var(--muted);
+    text-anchor: middle;
+  }
+  .triad.lit .quality { fill: var(--accent); }
 
   .page { max-width: 97rem; margin: 0 auto; }
 
@@ -579,6 +587,7 @@
     <li><a href="#sec-intervals">interval names</a></li>
     <li><a href="#sec-triads">diatonic triads</a></li>
     <li><a href="#sec-minor-triads">diatonic triads in minor</a></li>
+    <li><a href="#sec-sevenths">diatonic seventh chords</a></li>
     <li><a href="#sec-builder">chord builder</a></li>
     <li><a href="#sec-figured">figured bass</a></li>
     <li><a href="#sec-voice-leading">basic voice leading rules</a></li>
@@ -845,6 +854,46 @@
       <section class="panel">
         <h3>melodic minor ascending</h3>
         <svg id="triads-mel" viewBox="-144 0 889 240" role="group" aria-label="The seven diatonic triads of C melodic minor ascending on a treble staff, with scale degrees above and roman numerals and chord symbols below"></svg>
+      </section>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section class="scale" data-scale="sec-sevenths">
+    <h2 id="sec-sevenths">diatonic seventh chords</h2>
+    <p class="full">A third stacked on each diatonic triad gives the seven diatonic seventh chords. A seventh chord is named by its triad and by the seventh above its root.</p>
+    <div class="callout">
+      <p>Not every diatonic seventh chord is used freely in classical tonal music. The ones in regular use are V7, the sevenths on ii and IV, and the seventh on vii, half-diminished in major and fully diminished in minor. The others turn up mostly as links in a <a href="#sec-sequences">sequence</a>. Jazz, rock, and pop use all of them. Build and recognize every one here; <a href="#part-2">part 2</a> takes up where each goes.</p>
+    </div>
+
+    <div class="panels uneven">
+      <section class="panel">
+        <h3>major</h3>
+        <svg id="sevenths" viewBox="-144 0 889 266" role="group" aria-label="The seven diatonic seventh chords of C major on a treble staff, with scale degrees above and roman numerals, chord symbols, and names below"></svg>
+      </section>
+      <section class="panel">
+        <table>
+          <thead><tr><th>name</th><th>label</th><th>triad</th><th>seventh</th></tr></thead>
+          <tbody>
+            <tr><th>major seventh</th><td>M7th</td><td>major</td><td>major</td></tr>
+            <tr><th>dominant seventh</th><td>Dom7th</td><td>major</td><td>minor</td></tr>
+            <tr><th>minor seventh</th><td>m7th</td><td>minor</td><td>minor</td></tr>
+            <tr><th>half-diminished seventh</th><td>ø7</td><td>diminished</td><td>minor</td></tr>
+            <tr><th>fully diminished seventh</th><td>°7</td><td>diminished</td><td>diminished</td></tr>
+          </tbody>
+        </table>
+        <p>The roman numeral follows the triad: upper case for a major triad, lower case for minor and diminished, with ø or ° for the two diminished chords, and a 7 after it. I7 and V7 look alike as numerals. The chord symbol and the name beneath tell them apart.</p>
+      </section>
+    </div>
+
+    <div class="panels uneven">
+      <section class="panel">
+        <h3>minor</h3>
+        <svg id="sevenths-minor" viewBox="-67 0 889 266" role="group" aria-label="The diatonic seventh chords of C minor on a treble staff, natural minor with the V7 and fully diminished seventh that the raised seventh degree gives, with scale degrees above and roman numerals, chord symbols, and names below"></svg>
+      </section>
+      <section class="panel">
+        <p>Written in C minor. Natural minor gives seven seventh chords. Raising 7̂, as harmonic minor does, turns v7 into V7 and ♭VII7 into vii°7. The staff has both forms of each.</p>
       </section>
     </div>
   </section>
@@ -1887,15 +1936,11 @@
     "4,8":  { code: "A", roman: "+", symbol: "+", word: "augmented" }
   };
 
-  function buildTriads(cfg) {
-    var svg = document.getElementById(cfg.id);
-    var key = cfg.keys[cfg.tonic];
-    var ks = keySigMap(key);
+  function triadStaff(svg, key, right) {
     var top = ROW_TOP;
-
     for (var L = 0; L < 5; L++) {
       svg.appendChild(el("line", {
-        x1: 10, y1: top + 12 * L, x2: 590, y2: top + 12 * L, "class": "staff-line"
+        x1: 10, y1: top + 12 * L, x2: right, y2: top + 12 * L, "class": "staff-line"
       }));
     }
     svg.appendChild(el("text", { x: 18, y: noteY(2, 0), "class": "clef" }, "\uE050"));
@@ -1906,6 +1951,22 @@
         x: 66 + 13 * a, y: noteY(sigSteps[a], 0), "class": "keysig"
       }, KEYSIG_GLYPH[key.kind]));
     }
+  }
+
+  function litOnHover(g) {
+    g.addEventListener("mouseenter", function () { this.classList.add("lit"); });
+    g.addEventListener("mouseleave", function () { this.classList.remove("lit"); });
+    g.addEventListener("focus", function () { this.classList.add("lit"); });
+    g.addEventListener("blur", function () { this.classList.remove("lit"); });
+  }
+
+  function buildTriads(cfg) {
+    var svg = document.getElementById(cfg.id);
+    var key = cfg.keys[cfg.tonic];
+    var ks = keySigMap(key);
+    var top = ROW_TOP;
+
+    triadStaff(svg, key, 590);
 
     var x0 = 104 + 13 * key.count, gap = 64;
 
@@ -1960,10 +2021,7 @@
       }));
 
       svg.appendChild(g);
-      g.addEventListener("mouseenter", function () { this.classList.add("lit"); });
-      g.addEventListener("mouseleave", function () { this.classList.remove("lit"); });
-      g.addEventListener("focus", function () { this.classList.add("lit"); });
-      g.addEventListener("blur", function () { this.classList.remove("lit"); });
+      litOnHover(g);
     }
   }
 
@@ -1971,6 +2029,99 @@
   buildTriads({ id: "triads-nat", tonic: 0, keys: MINOR_KEYS, offsets: [0, 2, 3, 5, 7, 8, 10] });
   buildTriads({ id: "triads-harm", tonic: 0, keys: MINOR_KEYS, offsets: [0, 2, 3, 5, 7, 8, 11] });
   buildTriads({ id: "triads-mel", tonic: 0, keys: MINOR_KEYS, offsets: [0, 2, 3, 5, 7, 9, 11] });
+
+  /* ---------- diatonic seventh chords ---------- */
+
+  var SEVENTH_QUALITY = {
+    "4,7,11": { upper: true,  mark: "",       symbol: "M7",      label: "M7th",    word: "major seventh" },
+    "4,7,10": { upper: true,  mark: "",       symbol: "7",       label: "Dom7th",  word: "dominant seventh" },
+    "3,7,10": { upper: false, mark: "",       symbol: "-7",      label: "m7th",    word: "minor seventh" },
+    "3,6,10": { upper: false, mark: "\u00F8", symbol: "\u00F87", label: "\u00F87", word: "half-diminished seventh" },
+    "3,6,9":  { upper: false, mark: "\u00B0", symbol: "\u00B07", label: "\u00B07", word: "fully diminished seventh" }
+  };
+
+  function buildSevenths(cfg) {
+    var svg = document.getElementById(cfg.id);
+    var key = cfg.keys[cfg.tonic];
+    var ks = keySigMap(key);
+    var top = ROW_TOP;
+    var x0 = 104 + 13 * key.count, gap = 64;
+
+    triadStaff(svg, key, cfg.right);
+
+    cfg.chords.forEach(function (c, n) {
+      var i = c.deg, x = x0 + gap * n;
+      var tones = [0, 2, 4, 6].map(function (k) {
+        var idx = i + k;
+        var semis = c.offsets[idx % 7] + 12 * Math.floor(idx / 7);
+        return spellNote(cfg.tonic, key, [semis, idx]);
+      });
+
+      var steps = tones.slice(1).map(function (m) { return (m.pc - tones[0].pc + 12) % 12; });
+      var q = SEVENTH_QUALITY[steps.join(",")];
+      var rootAlt = degreeAlt(c.offsets[i], i);
+      var roman = (q.upper ? ROMAN_BASE[i] : ROMAN_BASE[i].toLowerCase()) + q.mark;
+      var rootName = tones[0].name;
+      var symbol = (q.upper ? rootName : rootName.charAt(0).toLowerCase() + rootName.slice(1)) +
+                   q.symbol;
+
+      var g = el("g", {
+        "class": "triad", tabindex: "0", role: "img",
+        "aria-label": "degree " + (DEG_WORD[String(rootAlt)] || "") + (i + 1) + ", " +
+                      (DEG_WORD[String(rootAlt)] || "") + roman + " 7, " +
+                      tones[0].name + " " + q.word + ", " +
+                      tones.map(function (m) { return m.name; }).join(" ")
+      });
+
+      var accCount = 0;
+      tones.slice().reverse().forEach(function (m) {
+        var y = noteY(m.step, 0);
+        ledgers(g, x, m.step, noteY(0, 0));
+        if (m.alt !== (ks[m.letterIndex] || 0)) {
+          g.appendChild(el("text", {
+            x: x - 17 - 13 * accCount, y: y, "class": "accidental"
+          }, ACC_GLYPH[String(m.alt)]));
+          accCount += 1;
+        }
+        g.appendChild(head(x, y, "notehead", m.pitch));
+      });
+
+      drawDegree(g, x + 10, top - 34, i + 1, rootAlt);
+      g.appendChild(el("path", {
+        d: "M" + (x + 5) + " " + (top - 45) + " L" + (x + 10) + " " + (top - 49) +
+           " L" + (x + 15) + " " + (top - 45), "class": "caret"
+      }));
+      romanText(g, x + 10, top + 108, rootAlt, roman);
+      g.lastChild.appendChild(el("tspan", { "class": "roman-fig", dy: "-6" }, "7"));
+      g.appendChild(el("text", { x: x + 10, y: top + 134, "class": "chordsym" }, symbol));
+      g.appendChild(el("text", { x: x + 10, y: top + 160, "class": "quality" }, q.label));
+      g.appendChild(el("rect", {
+        x: x - 22, y: top - 52, width: 54, height: 222, "class": "note-hit"
+      }));
+
+      svg.appendChild(g);
+      litOnHover(g);
+    });
+  }
+
+  var MAJOR_OFFSETS = [0, 2, 4, 5, 7, 9, 11];
+  var NATURAL_OFFSETS = [0, 2, 3, 5, 7, 8, 10];
+  var HARMONIC_OFFSETS = [0, 2, 3, 5, 7, 8, 11];
+
+  buildSevenths({
+    id: "sevenths", tonic: 0, keys: MAJOR_KEYS, right: 590,
+    chords: [0, 1, 2, 3, 4, 5, 6].map(function (d) { return { deg: d, offsets: MAJOR_OFFSETS }; })
+  });
+  buildSevenths({
+    id: "sevenths-minor", tonic: 0, keys: MINOR_KEYS, right: 745,
+    chords: [
+      { deg: 0, offsets: NATURAL_OFFSETS }, { deg: 1, offsets: NATURAL_OFFSETS },
+      { deg: 2, offsets: NATURAL_OFFSETS }, { deg: 3, offsets: NATURAL_OFFSETS },
+      { deg: 4, offsets: NATURAL_OFFSETS }, { deg: 4, offsets: HARMONIC_OFFSETS },
+      { deg: 5, offsets: NATURAL_OFFSETS }, { deg: 6, offsets: NATURAL_OFFSETS },
+      { deg: 6, offsets: HARMONIC_OFFSETS }
+    ]
+  });
 
   /* ---------- triad recipes ---------- */
 
