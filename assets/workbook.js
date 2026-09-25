@@ -10,6 +10,11 @@
      "blank"    a staff of its own to write on, data-chords wide
      "figured"  a full-width bass line with its figures already set
      "numerals" both staves with roman numerals already set beneath
+   A single staff with data-up and any of data-label, data-degree, or
+   data-roman-boxes writes its chords in the key of data-flats or
+   data-sharps and puts a row of boxes over or under them, one box to a
+   chord, each entry of the list filling its box and an empty entry leaving
+   it blank.
    Any of these takes data-flats or data-sharps for its key signature.
    data-bass names the bass notes and data-fig the figure under each of them,
    chords separated by bars and the figures of one chord by commas. A sonority
@@ -250,6 +255,97 @@
     return last;
   }
 
+  /* Chords on one treble staff in a key, each named in rows of boxes: a
+     chord label and a scale degree above, a roman numeral below. A row is
+     drawn where its attribute is present, one entry to a chord, separated
+     by semicolons; an empty entry leaves the box blank. */
+  var BOX_W = 84, BOX_H = 36, BOX_FIRST = 370;
+  var BOX_ROWS = [
+    { attr: "data-label",       name: "chord label",    top: -34 },
+    { attr: "data-degree",      name: "scale degree",   top: 10 },
+    { attr: "data-roman-boxes", name: "roman numeral",  top: 154 }
+  ];
+  var TREBLE_BOTTOM = 128;
+
+  function trebleSig(svg) {
+    var flats = count(svg, "data-flats"), sharps = count(svg, "data-sharps");
+    var n = flats || sharps, sig = {}, b;
+    var order = flats ? MUS.FLAT_ORDER : MUS.SHARP_ORDER;
+    var steps = flats ? MUS.FLAT_STEPS : MUS.SHARP_STEPS;
+    var glyph = flats ? MUS.KEYSIG_GLYPH.flat : MUS.KEYSIG_GLYPH.sharp;
+    for (b = 0; b < n; b++) {
+      sig[order[b]] = flats ? -1 : 1;
+      svg.appendChild(MUS.el("text", {
+        x: MUS.SIG_X + MUS.SIG_STEP * b, y: TREBLE_BOTTOM - 6 * steps[b], "class": "keysig"
+      }, glyph));
+    }
+    return sig;
+  }
+
+  /* a scale degree: the digit, its accidental ahead of it, the caret over it */
+  function degree(svg, cx, y, label) {
+    var t = MUS.el("text", { x: cx, y: y, "class": "roman" });
+    marks(t, label, ROMAN_SIZE);
+    svg.appendChild(t);
+    var digits = label.replace(/[^0-9]/g, "");
+    var right = cx + runWidth(label, ROMAN_SIZE) / 2;
+    var mid = right - runWidth(digits, ROMAN_SIZE) / 2;
+    svg.appendChild(MUS.el("path", {
+      d: "M" + (mid - 5) + " " + (y - 18) + " L" + mid + " " + (y - 23) +
+         " L" + (mid + 5) + " " + (y - 18), "class": "degree-caret"
+    }));
+  }
+
+  function boxedChords(svg) {
+    var sig = trebleSig(svg);
+    var chords = (svg.getAttribute("data-up") || "").split("|").filter(Boolean);
+    var at = chords.map(function (c, i) { return BOX_FIRST + i * CHORD_ADV; });
+
+    chords.forEach(function (c, i) {
+      var notes = c.split(/\s+/).filter(Boolean), x = at[i];
+      var shift = MUS.secondsShift(notes, 0, 13).shift;
+      var col = columns(notes, sig, "t");
+      notes.forEach(function (n) {
+        var step = MUS.stepOf(n), y = MUS.noteY(step, 0), nx = x + (shift[n] || 0);
+        MUS.ledgers(svg, nx, step, TREBLE_BOTTOM);
+        if (altered(n, sig)) {
+          svg.appendChild(MUS.el("text", {
+            x: x - 17 - 13 * (col[n] || 0), y: y, "class": "accidental"
+          }, MUS.ACC_GLYPH[String(MUS.noteAlt(n))]));
+        }
+        svg.appendChild(MUS.head(nx, y, "notehead", n, { col: x }));
+      });
+    });
+
+    BOX_ROWS.forEach(function (row) {
+      if (!svg.hasAttribute(row.attr)) { return; }
+      var given = svg.getAttribute(row.attr).split(";");
+      var base = row.top + 26;
+      rowLabel(svg, row.name, base);
+      at.forEach(function (x, i) {
+        var cx = x + 10;
+        svg.appendChild(MUS.el("rect", {
+          x: cx - BOX_W / 2, y: row.top, width: BOX_W, height: BOX_H, "class": "fillbox"
+        }));
+        var label = (given[i] || "").trim();
+        if (!label) { return; }
+        if (row.attr === "data-degree") {
+          degree(svg, cx, base, label);
+        } else {
+          var t = MUS.el("text", { x: cx, y: base, "class": "roman" });
+          marks(t, label, ROMAN_SIZE);
+          svg.appendChild(t);
+        }
+      });
+    });
+
+    var last = at[at.length - 1];
+    var width = last + TAIL + 10;
+    svg.setAttribute("viewBox", "0 -44 " + width + " 244");
+    svg.style.maxWidth = Math.round(width * SCALE) + "px";
+    return last;
+  }
+
   /* a compact staff with nothing on it, wide enough for data-chords chords */
   function blank(svg) {
     MUS.grandStaff(svg, count(svg, "data-flats"), count(svg, "data-sharps"));
@@ -356,7 +452,8 @@
     var end = null;
     if (kind === "single") {
       MUS.staff(svg);
-      if (svg.getAttribute("data-up")) { end = trebleChords(svg); }
+      var boxed = BOX_ROWS.some(function (r) { return svg.hasAttribute(r.attr); });
+      if (svg.getAttribute("data-up")) { end = boxed ? boxedChords(svg) : trebleChords(svg); }
     } else if (kind === "bass") {
       MUS.bassStaff(svg);
     } else if (kind === "chord") {
