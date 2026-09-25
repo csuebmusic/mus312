@@ -14,6 +14,8 @@
 
 `review/part-1/part-1.html` through `review/part-4/part-4.html`. Four problem sets, one per part of the harmony review. Workbooks: blank staff paper, ruled lines, and tables to fill, worked by hand, with a button that prints the page or saves it as a PDF. No answers on the page. They stand outside the twelve packets and are not weighted.
 
+`review/part-1/part-1-set-2.html`. A second set for part 1: the diatonic triads of E♭ major and E minor named in boxes, chord label and scale degree above, roman numeral below.
+
 `review/part-1/part-1-notes-1.html`. Class-wide notes on problem set 1, in six sections built on eight figures: two figured-bass staves carrying their own numerals, and six sonority staves.
 
 `review/part-1/part-1-notes-2.html`. Class-wide notes on parts 8 and 9, in eight sections on twelve sonority staves, the notes under discussion lit.
