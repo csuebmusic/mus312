@@ -10,11 +10,12 @@
      "blank"    a staff of its own to write on, data-chords wide
      "figured"  a full-width bass line with its figures already set
      "numerals" both staves with roman numerals already set beneath
-   A single staff with data-up and any of data-label, data-degree, or
-   data-roman-boxes writes its chords in the key of data-flats or
-   data-sharps and puts a row of boxes over or under them, one box to a
-   chord, each entry of the list filling its box and an empty entry leaving
-   it blank.
+   A single staff with any of data-label, data-degree, or data-roman-boxes
+   puts a row of boxes over or under its chords, one box to a chord, each
+   entry of the list filling its box and an empty entry leaving it blank.
+   Its chords come from data-up, written in the key of data-flats or
+   data-sharps, or stand empty, data-chords of them, for the student to
+   write.
    Any of these takes data-flats or data-sharps for its key signature.
    data-bass names the bass notes and data-fig the figure under each of them,
    chords separated by bars and the figures of one chord by commas. A sonority
@@ -299,7 +300,8 @@
   function boxedChords(svg) {
     var sig = trebleSig(svg);
     var chords = (svg.getAttribute("data-up") || "").split("|").filter(Boolean);
-    var at = chords.map(function (c, i) { return BOX_FIRST + i * CHORD_ADV; });
+    var n = chords.length || count(svg, "data-chords"), at = [], i;
+    for (i = 0; i < n; i++) { at.push(BOX_FIRST + i * CHORD_ADV); }
 
     chords.forEach(function (c, i) {
       var notes = c.split(/\s+/).filter(Boolean), x = at[i];
@@ -453,7 +455,8 @@
     if (kind === "single") {
       MUS.staff(svg);
       var boxed = BOX_ROWS.some(function (r) { return svg.hasAttribute(r.attr); });
-      if (svg.getAttribute("data-up")) { end = boxed ? boxedChords(svg) : trebleChords(svg); }
+      if (boxed) { end = boxedChords(svg); }
+      else if (svg.getAttribute("data-up")) { end = trebleChords(svg); }
     } else if (kind === "bass") {
       MUS.bassStaff(svg);
     } else if (kind === "chord") {
