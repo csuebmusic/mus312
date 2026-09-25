@@ -216,6 +216,8 @@ The section in view is marked with `.here`: the entry whose target last crossed 
 
 ## interaction
 
+A link to another page, on this site or off it, opens in a new tab: `target="_blank" rel="noopener"`. A link within the page and a `mailto:` link open in place.
+
 Every control is a real `button` with `aria-pressed` where it toggles. Hit targets are transparent shapes over the drawing rather than the drawn marks themselves.
 
 Focus is visible: a 2px accent outline at 2px offset.
