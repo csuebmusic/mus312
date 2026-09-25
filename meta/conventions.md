@@ -35,10 +35,6 @@ Common modulation targets are given for the classical repertoire: V, vi, and IV 
 
 Student-facing prose follows the style rules in the profile and project instructions. Read them before drafting.
 
-Where a thing has a property, the verb is has, not takes: a mode has a key signature, a degree has a flat.
-
-The guided analysis in the harmony review, `#sec-quality`, keeps its own voice and register.
-
 ## labels
 
 An applied chord is written with its target after a slash and a curved arrow to that target, whether or not the target follows.
