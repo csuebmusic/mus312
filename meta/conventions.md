@@ -39,9 +39,9 @@ Student-facing prose follows the style rules in the profile and project instruct
 
 An applied chord is written with its target after a slash and a curved arrow to that target, whether or not the target follows.
 
-Roman numerals take the jazz flatted-degree convention: ♭3̂, ♭III.
+Roman numerals follow the jazz flatted-degree convention: ♭3̂, ♭III.
 
-A mode takes the key signature of the major scale it comes from: C dorian takes B♭ major's two flats. Its scale degrees and roman numerals read against the major scale on its own tonic: C dorian is 1̂ 2̂ ♭3̂ 4̂ 5̂ 6̂ ♭7̂, and its triad on ♭3̂ is ♭III.
+A mode has the key signature of the major scale it comes from: C dorian has B♭ major's two flats. Its scale degrees and roman numerals read against the major scale on its own tonic: C dorian is 1̂ 2̂ ♭3̂ 4̂ 5̂ 6̂ ♭7̂, and its triad on ♭3̂ is ♭III.
 
 The cadential six-four is Cad6/4. In a figured bass it takes the bass note twice, 6 over 4 under the first and 5 over 3 under the second, each row joined across, with the accidental in place of the 3 where the key raises it.
 
