@@ -1,6 +1,6 @@
 # mus 312 · problem set 1 key
 
-Answers to `review/part-1.html`.
+Answers to `review/part-1/part-1.html`.
 
 ## 1, semitone distances and interval names
 
