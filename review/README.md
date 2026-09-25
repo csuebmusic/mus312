@@ -11,7 +11,7 @@ One set per part of the harmony review, worked by hand on blank staff paper. Sem
 
 **harmony review problem set 1, second set**
 https://csuebmusic.github.io/mus312/review/part-1/part-1-set-2.html
-The diatonic triads of E♭ major and of E minor, each named three ways in boxes: chord label and scale degree above, roman numeral below. In E minor, degrees 5 and 7 each take a natural-minor and a harmonic-minor triad. Then A major, B♭ major, B minor, and F minor on blank staves: the key signature and the triads written by hand, and each triad named in the same boxes. The same for E dorian, C phrygian, B♭ lydian, D mixolydian, and A locrian.
+The diatonic triads of E♭ major and of E minor, each named three ways in boxes: chord label and scale degree above, roman numeral below. In E minor, degrees 5 and 7 each take a natural-minor and a harmonic-minor triad. Then A major, B♭ major, B minor, and F minor on blank staves: the key signature and the triads written by hand, and each triad named in the same boxes. The same for E dorian, C phrygian, B♭ lydian, D mixolydian, and A locrian, after F dorian worked in full.
 
 **problem set 1 notes**
 https://csuebmusic.github.io/mus312/review/part-1/part-1-notes-1.html
