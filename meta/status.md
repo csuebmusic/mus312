@@ -4,7 +4,7 @@
 
 `syllabus.html`. Course information, dates, description and outcomes, assessment and the grade scale, the coursework, the tools, the AI policy, the schedule, policies, campus statements.
 
-`tools/harmony-review.html`. Four parts: counting in semitones, progressions and functions, chromatic harmony, modulation. 80 figures, 56 of them with playback.
+`tools/harmony-review.html`. Four parts: fundamentals, progressions and functions, chromatic harmony, modulation. 80 figures, 56 of them with playback.
 
 `tools/chord-finder.html`. Up to four spelled notes in, the stack of thirds and its intervals out, read again as a roman numeral once a key is set.
 
@@ -12,13 +12,13 @@
 
 `tools/theme-types.html`. Caplin chapters 2 to 5: the sentence, the period, the four hybrids, formal function, four phrase deviations, three cadential deviations, and two framing diagrams, as idea boxes with function and theme brackets, each element linked to its definition.
 
-`review/part-1.html` through `review/part-4.html`. Four problem sets, one per part of the harmony review. Workbooks: blank staff paper, ruled lines, and tables to fill, worked by hand, with a button that prints the page or saves it as a PDF. No answers on the page. They stand outside the twelve packets and are not weighted.
+`review/part-1/part-1.html` through `review/part-4/part-4.html`. Four problem sets, one per part of the harmony review. Workbooks: blank staff paper, ruled lines, and tables to fill, worked by hand, with a button that prints the page or saves it as a PDF. No answers on the page. They stand outside the twelve packets and are not weighted.
 
-`review/part-1-notes.html`. Class-wide notes on problem set 1, in six sections built on eight figures: two figured-bass staves carrying their own numerals, and six sonority staves.
+`review/part-1/part-1-notes-1.html`. Class-wide notes on problem set 1, in six sections built on eight figures: two figured-bass staves carrying their own numerals, and six sonority staves.
 
-`review/part-8-9-notes.html`. Class-wide notes on parts 8 and 9, in eight sections on twelve sonority staves, the notes under discussion lit.
+`review/part-1/part-1-notes-2.html`. Class-wide notes on parts 8 and 9, in eight sections on twelve sonority staves, the notes under discussion lit.
 
-`review/part-1-key.md`. Answers to problem set 1, parts 1 through 8; bass lines, roman numerals and marking criteria for part 9. Not linked from `review/README.md`.
+`review/part-1/part-1-key.md`. Answers to problem set 1, parts 1 through 8; bass lines, roman numerals and marking criteria for part 9. Not linked from `review/README.md`.
 
 `assets/notation.js`, shared by all three tools. `assets/workbook.js`, shared by the four problem sets: it draws the blank staves and adds the print control. `assets/style.css` and self-hosted fonts.
 
