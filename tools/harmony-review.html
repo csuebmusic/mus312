@@ -184,6 +184,14 @@
   .triad.lit .degree { fill: var(--accent); }
   .triad.lit .caret { stroke: var(--accent); }
   .triad.lit .degree-acc { fill: var(--accent); }
+  .keyfig .hot { fill: var(--accent); }
+  .keyfig path.hot { fill: none; stroke: var(--accent); }
+  .sig-letter {
+    font-family: var(--font-data);
+    font-size: 15px;
+    fill: var(--ink);
+    text-anchor: middle;
+  }
   .roman-fig { font-family: var(--font-data); font-size: 12px; }
   .quality {
     font-family: var(--font-data);
@@ -584,6 +592,7 @@
     <li><a href="#sec-natural">natural minor</a></li>
     <li><a href="#sec-harmonic">harmonic minor</a></li>
     <li><a href="#sec-melodic">melodic minor</a></li>
+    <li><a href="#sec-keysig">key signatures</a></li>
     <li><a href="#sec-intervals">interval names</a></li>
     <li><a href="#sec-triads">diatonic triads</a></li>
     <li><a href="#sec-minor-triads">diatonic triads in minor</a></li>
@@ -714,6 +723,47 @@
     <div class="controls">
       <button class="reset" type="button">reset to A</button>
       <p class="readout"></p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section class="scale" data-scale="sec-keysig">
+    <h2 id="sec-keysig">key signatures</h2>
+    <div class="panels">
+      <section class="panel">
+        <h3>sharp keys</h3>
+        <p>The last sharp in the signature is 7̂, the leading tone. The key is a semitone above it: one sharp ends on F♯, and the key is G major; four sharps end on D♯, and the key is E major.</p>
+        <svg id="ks-g" class="keyfig" data-play="no" viewBox="0 20 741 150" role="img" aria-label="G major signature, one sharp, with the F sharp marked as scale degree seven and the tonic G marked as scale degree one"></svg>
+        <svg id="ks-e" class="keyfig" data-play="no" viewBox="0 20 741 150" role="img" aria-label="E major signature, four sharps, with the last sharp, D sharp, marked as scale degree seven and the tonic E marked as scale degree one"></svg>
+        <p>Sharps enter in this order: F C G D A E B.</p>
+        <svg id="ks-sharps" class="keyfig" data-play="no" viewBox="0 20 741 150" role="img" aria-label="The seven sharps in the order they enter a signature: F, C, G, D, A, E, B"></svg>
+      </section>
+      <section class="panel">
+        <h3>flat keys</h3>
+        <p>The second-to-last flat in the signature names the key. Four flats run B♭ E♭ A♭ D♭, and the second-to-last, A♭, is the key: A♭ major. One flat has no second-to-last. That signature is F major.</p>
+        <svg id="ks-ab" class="keyfig" data-play="no" viewBox="0 20 741 150" role="img" aria-label="A flat major signature, four flats, with the second-to-last flat, A flat, marked as scale degree one and the tonic A flat marked as scale degree one"></svg>
+        <p>Flats enter in the order of the sharps reversed: B E A D G C F.</p>
+        <svg id="ks-flats" class="keyfig" data-play="no" viewBox="0 20 741 150" role="img" aria-label="The seven flats in the order they enter a signature: B, E, A, D, G, C, F"></svg>
+      </section>
+    </div>
+
+    <h3>from the key to the signature</h3>
+    <div class="panels">
+      <section class="panel">
+        <p>For a sharp key, find 7̂ and write the sharps in order until it appears. In D major 7̂ is C♯: F♯, C♯, two sharps.</p>
+        <svg id="ks-d" class="keyfig" data-play="no" viewBox="0 20 741 150" role="img" aria-label="D major signature, two sharps, with the last sharp, C sharp, marked as scale degree seven and the tonic D marked as scale degree one"></svg>
+      </section>
+      <section class="panel">
+        <p>For a flat key, write the flats in order until the key's own name appears, then write one more. In D♭ major: B♭, E♭, A♭, D♭, then G♭, five flats.</p>
+        <svg id="ks-db" class="keyfig" data-play="no" viewBox="0 20 741 150" role="img" aria-label="D flat major signature, five flats, with the second-to-last flat, D flat, marked as scale degree one and the tonic D flat marked as scale degree one"></svg>
+      </section>
+    </div>
+
+    <div class="callout">
+      <h3>relative major and minor</h3>
+      <p>Both readings name a major key. Every signature also belongs to a minor key, the <strong>relative minor</strong>, whose tonic is 6̂ of the major key, three semitones below the major tonic. One sharp is G major or E minor; four flats are A♭ major or F minor.</p>
+      <p>From a minor key, the <strong>relative major</strong> has its tonic on ♭3̂, three semitones above the minor tonic. D minor shares one flat with F major; C♯ minor shares four sharps with E major.</p>
     </div>
   </section>
 
@@ -2029,6 +2079,80 @@
   buildTriads({ id: "triads-nat", tonic: 0, keys: MINOR_KEYS, offsets: [0, 2, 3, 5, 7, 8, 10] });
   buildTriads({ id: "triads-harm", tonic: 0, keys: MINOR_KEYS, offsets: [0, 2, 3, 5, 7, 8, 11] });
   buildTriads({ id: "triads-mel", tonic: 0, keys: MINOR_KEYS, offsets: [0, 2, 3, 5, 7, 9, 11] });
+
+  /* ---------- key signatures ---------- */
+
+  (function keySignatures() {
+    var top = ROW_TOP, SIG0 = 66, SIG_GAP = 13, TONIC_GAP = 62;
+
+    /* the panel's own width at the house scale, the drawing centred in it */
+    function frame(svg, right, h) {
+      svg.setAttribute("viewBox", -Math.round((741 - right) / 2) + " 20 741 " + h);
+    }
+
+    function staffLines(svg, right) {
+      for (var L = 0; L < 5; L++) {
+        svg.appendChild(el("line", {
+          x1: 10, y1: top + 12 * L, x2: right, y2: top + 12 * L, "class": "staff-line"
+        }));
+      }
+      svg.appendChild(el("text", { x: 18, y: noteY(2, 0), "class": "clef" }, "\uE050"));
+    }
+
+    function degreeMark(svg, cx, deg) {
+      drawDegree(svg, cx, top - 34, deg, 0);
+      svg.lastChild.setAttribute("class", "degree hot");
+      svg.appendChild(el("path", {
+        d: "M" + (cx - 5) + " " + (top - 45) + " L" + cx + " " + (top - 49) +
+           " L" + (cx + 5) + " " + (top - 45), "class": "caret hot"
+      }));
+    }
+
+    /* a signature with the accidental that names the key lit, and the tonic after it */
+    function reading(cfg) {
+      var svg = document.getElementById(cfg.id);
+      var steps = cfg.kind === "flat" ? FLAT_STEPS : SHARP_STEPS;
+      var tx = SIG0 + SIG_GAP * cfg.count + TONIC_GAP;
+      staffLines(svg, tx + 20 + 70);
+      frame(svg, tx + 20 + 70, 150);
+      for (var a = 0; a < cfg.count; a++) {
+        var x = SIG0 + SIG_GAP * a;
+        svg.appendChild(el("text", {
+          x: x, y: noteY(steps[a], 0), "class": "keysig" + (a === cfg.lit ? " hot" : "")
+        }, KEYSIG_GLYPH[cfg.kind]));
+        if (a === cfg.lit) { degreeMark(svg, x + 5, cfg.litDeg); }
+      }
+      var step = noteDia(cfg.tonic) - noteDia("E4");
+      ledgers(svg, tx, step, noteY(0, 0));
+      svg.appendChild(head(tx, noteY(step, 0), "notehead hot", cfg.tonic.replace("\u266D", "b")));
+      degreeMark(svg, tx + 10, 1);
+      svg.appendChild(el("text", { x: tx + 10, y: top + 80, "class": "chordsym hot" }, cfg.name));
+    }
+
+    /* the seven accidentals in the order they enter, each named */
+    function order(id, kind) {
+      var svg = document.getElementById(id);
+      var steps = kind === "flat" ? FLAT_STEPS : SHARP_STEPS;
+      var names = kind === "flat" ? "BEADGCF" : "FCGDAEB", gap = 34;
+      staffLines(svg, SIG0 + gap * 6 + 12 + 70);
+      frame(svg, SIG0 + gap * 6 + 12 + 70, 150);
+      for (var a = 0; a < 7; a++) {
+        var x = SIG0 + gap * a;
+        svg.appendChild(el("text", {
+          x: x, y: noteY(steps[a], 0), "class": "keysig"
+        }, KEYSIG_GLYPH[kind]));
+        svg.appendChild(el("text", { x: x + 5, y: top + 88, "class": "sig-letter" }, names.charAt(a)));
+      }
+    }
+
+    reading({ id: "ks-g",  kind: "sharp", count: 1, lit: 0, litDeg: 7, tonic: "G4",  name: "G major" });
+    reading({ id: "ks-e",  kind: "sharp", count: 4, lit: 3, litDeg: 7, tonic: "E4",  name: "E major" });
+    reading({ id: "ks-d",  kind: "sharp", count: 2, lit: 1, litDeg: 7, tonic: "D5",  name: "D major" });
+    reading({ id: "ks-ab", kind: "flat",  count: 4, lit: 2, litDeg: 1, tonic: "Ab4", name: "A\u266D major" });
+    reading({ id: "ks-db", kind: "flat",  count: 5, lit: 3, litDeg: 1, tonic: "Db5", name: "D\u266D major" });
+    order("ks-sharps", "sharp");
+    order("ks-flats", "flat");
+  })();
 
   /* ---------- diatonic seventh chords ---------- */
 
