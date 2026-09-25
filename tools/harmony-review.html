@@ -602,6 +602,7 @@
     <li><a href="#sec-voice-leading">basic voice leading rules</a></li>
     <li><a href="#sec-inversions">inversions</a></li>
     <li><a href="#sec-nct">nonchord tones</a></li>
+    <li><a href="#sec-modes">modes</a></li>
     <li class="toc-part"><a href="#part-2">part 2, progressions and functions</a></li>
     <li><a href="#sec-syntax">tonal syntax</a></li>
     <li><a href="#sec-fn-triads">the seven triads by function</a></li>
@@ -1103,6 +1104,66 @@
     </div>
 
     <p class="full">The four suspension figures are 9–8, 7–6, and 4–3 in an upper voice, and 2–3 in the bass. What separates a suspension from an accented passing tone is the preparation: the suspended note is already sounding, as a chord tone, before it turns into a dissonance.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section class="scale" data-scale="sec-modes">
+    <h2 id="sec-modes">modes</h2>
+    <p class="full">A mode is a seven-note scale named for the order of its whole tones and semitones from the tonic. Ionian is the major scale and aeolian the natural minor. The other five differ from one of them by one or two degrees. Each is written here on C, its degrees read against C major, and the degrees that differ are lit.</p>
+    <div class="panels">
+      <section class="panel">
+        <h3>ionian</h3>
+        <svg id="mode-ionian" class="keyfig" viewBox="-116 20 741 140" role="group" aria-label="C ionian ascending on a treble staff with its scale degrees, the degrees that differ from C major marked: one, two, three, four, five, six, seven"></svg>
+        <p>The major scale.</p>
+      </section>
+      <section class="panel">
+        <h3>dorian</h3>
+        <svg id="mode-dorian" class="keyfig" viewBox="-116 20 741 140" role="group" aria-label="C dorian ascending on a treble staff with its scale degrees, the degrees that differ from C major marked: one, two, flat three, four, five, six, flat seven"></svg>
+        <p>♭3̂ and ♭7̂: natural minor with 6̂ raised.</p>
+      </section>
+      <section class="panel">
+        <h3>phrygian</h3>
+        <svg id="mode-phrygian" class="keyfig" viewBox="-116 20 741 140" role="group" aria-label="C phrygian ascending on a treble staff with its scale degrees, the degrees that differ from C major marked: one, flat two, flat three, four, five, flat six, flat seven"></svg>
+        <p>♭2̂, ♭3̂, ♭6̂, and ♭7̂: natural minor with 2̂ lowered.</p>
+      </section>
+      <section class="panel">
+        <h3>lydian</h3>
+        <svg id="mode-lydian" class="keyfig" viewBox="-116 20 741 140" role="group" aria-label="C lydian ascending on a treble staff with its scale degrees, the degrees that differ from C major marked: one, two, three, sharp four, five, six, seven"></svg>
+        <p>♯4̂: major with 4̂ raised.</p>
+      </section>
+      <section class="panel">
+        <h3>mixolydian</h3>
+        <svg id="mode-mixolydian" class="keyfig" viewBox="-116 20 741 140" role="group" aria-label="C mixolydian ascending on a treble staff with its scale degrees, the degrees that differ from C major marked: one, two, three, four, five, six, flat seven"></svg>
+        <p>♭7̂: major with 7̂ lowered.</p>
+      </section>
+      <section class="panel">
+        <h3>aeolian</h3>
+        <svg id="mode-aeolian" class="keyfig" viewBox="-116 20 741 140" role="group" aria-label="C aeolian ascending on a treble staff with its scale degrees, the degrees that differ from C major marked: one, two, flat three, four, five, flat six, flat seven"></svg>
+        <p>♭3̂, ♭6̂, and ♭7̂: the natural minor scale.</p>
+      </section>
+      <section class="panel">
+        <h3>locrian</h3>
+        <svg id="mode-locrian" class="keyfig" viewBox="-116 20 741 140" role="group" aria-label="C locrian ascending on a treble staff with its scale degrees, the degrees that differ from C major marked: one, flat two, flat three, four, flat five, flat six, flat seven"></svg>
+        <p>♭2̂, ♭3̂, ♭5̂, ♭6̂, and ♭7̂: natural minor with 2̂ and 5̂ lowered. Its tonic triad is diminished.</p>
+      </section>
+      <section class="panel">
+        <h3>from the major scale</h3>
+        <p>Each mode is the major scale begun on another degree, and takes that major scale's key signature. On the white keys alone, the scale from D is D dorian. C dorian comes from B♭ major and takes two flats.</p>
+        <table>
+          <thead><tr><th>mode</th><th>major from</th><th>white keys</th><th>C mode from</th></tr></thead>
+          <tbody>
+            <tr><th>ionian</th><td>1̂</td><td>C</td><td>C major, none</td></tr>
+            <tr><th>dorian</th><td>2̂</td><td>D</td><td>B♭ major, two flats</td></tr>
+            <tr><th>phrygian</th><td>3̂</td><td>E</td><td>A♭ major, four flats</td></tr>
+            <tr><th>lydian</th><td>4̂</td><td>F</td><td>G major, one sharp</td></tr>
+            <tr><th>mixolydian</th><td>5̂</td><td>G</td><td>F major, one flat</td></tr>
+            <tr><th>aeolian</th><td>6̂</td><td>A</td><td>E♭ major, three flats</td></tr>
+            <tr><th>locrian</th><td>7̂</td><td>B</td><td>D♭ major, five flats</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
   </section>
 
   <hr class="rule">
@@ -2152,6 +2213,53 @@
     reading({ id: "ks-db", kind: "flat",  count: 5, lit: 3, litDeg: 1, tonic: "Db5", name: "D\u266D major" });
     order("ks-sharps", "sharp");
     order("ks-flats", "flat");
+  })();
+
+  /* ---------- modes ---------- */
+
+  (function modes() {
+    var top = ROW_TOP, X0 = 68, GAP = 50;
+    var LETTERS = "CDEFGAB";
+    var MODES = {
+      ionian:     [0, 0, 0, 0, 0, 0, 0],
+      dorian:     [0, 0, -1, 0, 0, 0, -1],
+      phrygian:   [0, -1, -1, 0, 0, -1, -1],
+      lydian:     [0, 0, 0, 1, 0, 0, 0],
+      mixolydian: [0, 0, 0, 0, 0, 0, -1],
+      aeolian:    [0, 0, -1, 0, 0, -1, -1],
+      locrian:    [0, -1, -1, 0, -1, -1, -1]
+    };
+    Object.keys(MODES).forEach(function (name) {
+      var svg = document.getElementById("mode-" + name);
+      var alts = MODES[name].concat([0]);
+      var right = X0 + GAP * 7 + 20 + 70;
+      for (var L = 0; L < 5; L++) {
+        svg.appendChild(el("line", {
+          x1: 10, y1: top + 12 * L, x2: right, y2: top + 12 * L, "class": "staff-line"
+        }));
+      }
+      svg.appendChild(el("text", { x: 18, y: noteY(2, 0), "class": "clef" }, ""));
+      for (var i = 0; i < 8; i++) {
+        var x = X0 + GAP * i, alt = alts[i];
+        var note = LETTERS.charAt(i % 7) + (alt < 0 ? "b" : alt > 0 ? "#" : "") + (i < 7 ? "4" : "5");
+        var step = noteDia(note) - noteDia("E4"), y = noteY(step, 0);
+        var hot = alt !== 0 ? " hot" : "";
+        ledgers(svg, x, step, noteY(0, 0));
+        if (alt) {
+          svg.appendChild(el("text", { x: x - 17, y: y, "class": "accidental" + hot }, ACC_GLYPH[String(alt)]));
+        }
+        svg.appendChild(head(x, y, "notehead" + hot, note));
+        var before = svg.childNodes.length;
+        drawDegree(svg, x + 10, top - 34, (i % 7) + 1, alt);
+        for (var k = before; k < svg.childNodes.length; k++) {
+          svg.childNodes[k].setAttribute("class", svg.childNodes[k].getAttribute("class") + hot);
+        }
+        svg.appendChild(el("path", {
+          d: "M" + (x + 5) + " " + (top - 45) + " L" + (x + 10) + " " + (top - 49) +
+             " L" + (x + 15) + " " + (top - 45), "class": "caret" + hot
+        }));
+      }
+    });
   })();
 
   /* ---------- diatonic seventh chords ---------- */
