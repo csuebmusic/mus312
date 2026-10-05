@@ -34,20 +34,22 @@ Twelve, one per chapter of Caplin read, each due at the start of the first meeti
 |---|---|---|
 | 1 | Aug 31 | 25–29 |
 | 2 | Sep 9 | 67–72 |
-| 3 | Sep 14 | 93–98 |
+| 3 | Sep 21 | 93–98 |
 | 4 | Sep 21 | 117–122 |
 | 5 | Sep 28 | 157–165 |
-| 6 | Oct 5 | 186–194 |
-| 7 | Oct 12 | 228–237 |
-| 8 | Oct 19 | 253–258 |
-| 9 | Oct 26 | 301–307 |
-| 10 | Nov 2 | 344–352 |
-| 11 | Nov 9 | 408–419 |
-| 12 | Nov 30 | 462–474, 510–518 |
+| 6 | Oct 12 | 186–194 |
+| 7 | Oct 19 | 228–237 |
+| 8 | Oct 26 | 253–258 |
+| 9 | | 301–307 |
+| 10 | | 344–352 |
+| 11 | | 408–419 |
+| 12 | | 462–474, 510–518 |
 
 The compiled PDF is 120 pages, a cover then twelve packets each opening on a divider. Distributed through Canvas, not the public site.
 
 ## open
+
+Part ii is undated in the syllabus and the outline; packets 9 through 12 have no due dates.
 
 Guidelines for the packets and the final analysis are not written. The syllabus points to them. They state what is handed in, how a score is annotated, and how the work is assessed, and they set the length of the final analysis and the extra credit for performing from it.
 
