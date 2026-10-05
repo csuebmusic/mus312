@@ -131,9 +131,9 @@ A cadence bracket and its boxed label belong to the row of numerals they annotat
 
 A theme diagram draws its measures across x = 150 to 1150 in equal widths, on `viewBox="0 0 1200 332"` at scale 1. Each idea is a box in its idea color, 80 tall at y = 92, inset 9 from its bar lines, with its abbreviation at 19px, stepping down to 15 and 13px and then to a short form where the box is too narrow, and its name beneath where the name fits. Interpolations and framing ideas take `--muted`, framing ideas with a dashed outline. A `+` stands in every gap between boxes, and `//` where a cadence is evaded or abandoned. Measure numbers sit at y = 20. A deviation is marked by a bracket over its measures at y = 48 with its name above it, and each cadence, or cadential deviation, is boxed at y = 56 over the measure it arrives in.
 
-Beneath the boxes, in ink, a bracket for each function at y = 204 names the function and, under it in `--muted`, phrase, subphrase, or framing; a bracket for the theme at y = 274 spans the theme without its framing functions and names the theme and its number of phrases. Rows are named at the left, right-aligned to x = 130. In a theme diagram subphrases take brackets; on a score they stay unbracketed.
+Beneath the boxes, in ink, a bracket for each function at y = 204 names the function and, under it in `--muted`, phrase, subphrase, or framing, or the number of phrases where it spans more than one; a bracket for the theme at y = 274 spans the theme without its framing functions and names the theme and its number of phrases. A compound theme adds a second function row at y = 274 for its eight-measure units, moves the theme bracket to y = 344, and draws on `viewBox="0 0 1200 402"`. Rows are named at the left, right-aligned to x = 130. In a theme diagram subphrases take brackets; on a score they stay unbracketed.
 
-One element is pressed at a time across the page, and none when the page opens. Choosing a diagram from a row of buttons lights its definition. The element pressed takes the accent on its outline and labels. Its definition paragraph takes `--accent-wash`. A copy stands under the figure for an idea box, and for any element whose paragraph sits in another section.
+One element is pressed at a time across the page, and none when the page opens. Choosing a diagram from a row of buttons lights its definition. The element pressed takes the accent on its outline and labels. Its definition paragraph takes `--accent-wash`. A copy stands under the figure for an idea box, and for any element whose paragraph sits in another section. An element whose term the page doesn't define puts a link under the figure to the section of the theme types page that does.
 
 ## sound
 
@@ -168,9 +168,9 @@ Tables, the two-column contents list `.toc`, and the `.num` cell for figures and
 
 Layout primitives live in `assets/style.css`: `.panels` and its `uneven` and `three` modifiers, `.panel.centered` and `.panel.centered.wide`, and `.stack` for panels stacked inside one grid cell. A page's own `<style>` block holds only what that page draws.
 
-The shared script takes a `?v=N` query of its own, bumped whenever `assets/notation.js` changes. The stylesheet's number is independent and moves only when the stylesheet does.
+Each shared script takes a `?v=N` query of its own, bumped whenever that script changes. The stylesheet's number is independent and moves only when the stylesheet does.
 
-Interactive tools live in `tools/`. Each is one HTML file linking `assets/notation.js`, which holds note spelling, staff and clock geometry, the notehead tag, the chord type tables, the grand staff and single-staff renderers, and playback. A page aliases what it uses at the top of its own IIFE. Anything two tools need goes in the module rather than into a second copy.
+Interactive tools live in `tools/`. Each is one HTML file linking `assets/notation.js`, which holds note spelling, staff and clock geometry, the notehead tag, the chord type tables, the grand staff and single-staff renderers, and playback. A page aliases what it uses at the top of its own IIFE. Anything two tools need goes in the module rather than into a second copy. Theme diagrams are drawn by `assets/themes.js`, loaded after `assets/notation.js`: a page passes its own themes to `draw` and `picker` and adds any ideas and units of its own to `IDEAS` and `UNITS`.
 
 A section with a transposable figure is found by `data-scale`, not by id. Ids on a section belong to its heading.
 
