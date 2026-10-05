@@ -30,6 +30,7 @@
   .idea-abbr { font-family: var(--font-data); font-size: 19px; font-weight: 500; fill: var(--k); text-anchor: middle; }
   .idea-abbr.long { font-size: 15px; }
   .idea-abbr.longer { font-size: 13px; }
+  .idea-abbr.smallest { font-size: 11px; }
   .idea-name { font-family: var(--font-body); font-size: 12px; fill: var(--muted); text-anchor: middle; }
   .plus { font-family: var(--font-data); font-size: 16px; fill: var(--muted); text-anchor: middle; }
   .mnum { font-family: var(--font-data); font-size: 12px; fill: var(--muted); text-anchor: middle; }
@@ -106,7 +107,7 @@
 
   <section class="panel">
     <h2 id="sentence">the sentence</h2>
-    <div class="scroll-wrap"><svg id="fig-sentence" viewBox="0 0 1200 332" role="img" aria-label="Sentence: a basic idea plus its repetition form the presentation; continuation processes plus a cadential idea form the continuation, closing with a PAC at measure 8"></svg></div>
+    <div class="scroll-wrap"><svg id="fig-sentence" viewBox="0 0 1200 332" role="group" aria-label="Sentence: a basic idea plus its repetition form the presentation; continuation processes plus a cadential idea form the continuation, closing with a PAC at measure 8"></svg></div>
     <div class="readout def" id="read-sentence" aria-live="polite"></div>
     <p data-term="sentence">A sentence is an eight-measure theme of presentation + continuation. It closes with one cadence at m. 8, of any of the three types, and it's one phrase (pp. 33&ndash;36).</p>
     <ol class="defs">
@@ -117,7 +118,7 @@
 
   <section class="panel">
     <h2 id="period">the period</h2>
-    <div class="scroll-wrap"><svg id="fig-period" viewBox="0 0 1200 332" role="img" aria-label="Period: basic idea plus contrasting idea form the antecedent, closing with an HC at measure 4; the restart of the basic idea plus a contrasting idea form the consequent, closing with a PAC at measure 8"></svg></div>
+    <div class="scroll-wrap"><svg id="fig-period" viewBox="0 0 1200 332" role="group" aria-label="Period: basic idea plus contrasting idea form the antecedent, closing with an HC at measure 4; the restart of the basic idea plus a contrasting idea form the consequent, closing with a PAC at measure 8"></svg></div>
     <div class="readout def" id="read-period" aria-live="polite"></div>
     <p data-term="period">A period is an eight-measure theme of antecedent + consequent: a weak cadence at m. 4, answered by a stronger one at m. 8 after the basic idea restarts. It's two phrases. Caplin reserves the term for themes whose second phrase opens with the basic idea. A theme whose second half starts with new material is a hybrid rather than a contrasting period (pp. 73&ndash;76).</p>
     <ol class="defs">
@@ -130,7 +131,7 @@
     <h2 id="hybrids">the hybrids</h2>
     <p>Caplin names four hybrids, each by its two functions. None opens with a presentation. Two open with an antecedent and two with a compound basic idea (pp. 99&ndash;101).</p>
     <div class="controls" id="pick-hybrid"></div>
-    <div class="scroll-wrap"><svg id="fig-hybrid" viewBox="0 0 1200 332" role="img" aria-label="The selected hybrid theme, drawn as idea boxes with function brackets beneath"></svg></div>
+    <div class="scroll-wrap"><svg id="fig-hybrid" viewBox="0 0 1200 332" role="group" aria-label="The selected hybrid theme, drawn as idea boxes with function brackets beneath"></svg></div>
     <div class="readout def" id="read-hybrid" aria-live="polite"></div>
     <ol class="defs">
       <li data-term="ant-cont">Antecedent + continuation begins like a period and ends like a sentence. It's two phrases. Caplin finds it the most frequent hybrid, and its continuation almost always closes with a PAC (pp. 100&ndash;101, 105).</li>
@@ -170,7 +171,7 @@
     <h2 id="phrase-deviations">phrase deviations</h2>
     <p>A theme's units can run longer or shorter than the model, and its ideas can be altered. Caplin describes each deviation by the function it acts on. A deviation departs from the model for a compositional purpose, and the word isn't a criticism. It isn't Hepokoski and Darcy's deformation either, which stretches a norm to its limits or past them. Deviations are routine throughout the classical repertoire (pp. 123&ndash;124).</p>
     <div class="controls" id="pick-phrase"></div>
-    <div class="scroll-wrap"><svg id="fig-phrase" viewBox="0 0 1200 332" role="img" aria-label="The selected phrase deviation, drawn as idea boxes with function brackets beneath"></svg></div>
+    <div class="scroll-wrap"><svg id="fig-phrase" viewBox="0 0 1200 332" role="group" aria-label="The selected phrase deviation, drawn as idea boxes with function brackets beneath"></svg></div>
     <p class="model" id="model-phrase"></p>
     <div class="readout def" id="read-phrase" aria-live="polite"></div>
     <ol class="defs">
@@ -186,7 +187,7 @@
     <h2 id="cadential-deviations">cadential deviations</h2>
     <p>Three cadential deviations deny a promised authentic cadence. A half cadence doesn't take them. After one, the music usually backs up to earlier material and tries again. Occasionally new material follows instead (p. 129).</p>
     <div class="controls" id="pick-cadential"></div>
-    <div class="scroll-wrap"><svg id="fig-cadential" viewBox="0 0 1200 332" role="img" aria-label="The selected cadential deviation, drawn as idea boxes with function brackets beneath"></svg></div>
+    <div class="scroll-wrap"><svg id="fig-cadential" viewBox="0 0 1200 332" role="group" aria-label="The selected cadential deviation, drawn as idea boxes with function brackets beneath"></svg></div>
     <p class="model" id="model-cadential"></p>
     <div class="readout def" id="read-cadential" aria-live="polite"></div>
     <ol class="defs">
@@ -201,7 +202,7 @@
     <h2 id="framing">framing functions</h2>
     <p data-term="framing">A theme runs from the start of its basic idea to its cadence. A thematic introduction can stand before the beginning, and postcadential material after the end. Caplin hears these framing functions as belonging to the theme they frame, the way taking a seat before class and packing up after it belong to the class without falling inside its hours (pp. 133, 135&ndash;136).</p>
     <div class="controls" id="pick-framing"></div>
-    <div class="scroll-wrap"><svg id="fig-framing" viewBox="0 0 1200 332" role="img" aria-label="The selected framing function, drawn as idea boxes with function brackets beneath"></svg></div>
+    <div class="scroll-wrap"><svg id="fig-framing" viewBox="0 0 1200 332" role="group" aria-label="The selected framing function, drawn as idea boxes with function brackets beneath"></svg></div>
     <p class="model" id="model-framing"></p>
     <div class="readout def" id="read-framing" aria-live="polite"></div>
     <ol class="defs">
@@ -220,7 +221,7 @@
 </div>
 
 <script src="../assets/notation.js?v=25"></script>
-<script src="../assets/themes.js?v=1"></script>
+<script src="../assets/themes.js?v=2"></script>
 <script>
 (function () {
   "use strict";

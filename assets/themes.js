@@ -149,6 +149,7 @@ MUS.themes = (function () {
       if (abbr.length * 11.4 > w - 14) { cls = "idea-abbr long"; }
       if (abbr.length * 9 > w - 14) { cls = "idea-abbr longer"; }
       if (abbr.length * 7.8 > w - 14 && info.short) { abbr = info.short; cls = "idea-abbr"; }
+      else if (abbr.length * 7.8 > w - 6) { cls = "idea-abbr smallest"; }
       g.appendChild(el("rect", { x: x, y: Y_BOX, width: w, height: H_BOX, "class": "box" }));
       g.appendChild(el("text", { x: cx, y: Y_BOX + 38, "class": cls }, abbr));
       if (name.length * 6.3 < w - 12) {
@@ -232,7 +233,7 @@ MUS.themes = (function () {
     function show(key, opening) {
       var t = themes[key];
       buttons.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.key === key ? "true" : "false"); });
-      fig.setAttribute("aria-label", (t.label || t.name) + ", drawn as idea boxes with function brackets beneath");
+      fig.setAttribute("aria-label", t.name + (t.label ? ", " + t.label : "") + ", drawn as idea boxes with function brackets beneath");
       clearAll();
       draw(fig, t, read, key);
       if (model) { model.textContent = t.model || ""; }
