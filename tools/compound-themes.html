@@ -111,7 +111,7 @@
     <p class="model" id="model-cperiod"></p>
     <div class="readout def" id="read-cperiod" aria-live="polite"></div>
     <ol class="defs">
-      <li data-term="c-antecedent">A compound antecedent is an eight-measure sentence or hybrid that closes with a weak cadence, usually an HC, regular or reinterpreted, and rarely an IAC. It doesn't end with a simple consequent. A simple consequent would bring the basic idea back at m. 5, before the return at m. 9 that opens the compound consequent (pp. 166, 171).</li>
+      <li data-term="c-antecedent">A compound antecedent is an eight-measure sentence or hybrid that closes with a weak cadence, usually an HC, regular or reinterpreted, and rarely an IAC (p. 166).</li>
       <li data-term="c-consequent">A compound consequent repeats the compound antecedent and closes with a PAC. Its cadence is usually more emphatic than the antecedent's, and its last four-measure unit often has an ECP. A four-measure ECP at the end of a compound period corresponds to the two-measure cadential progression under the final contrasting idea of a simple period (pp. 166, 171, 173).</li>
       <li data-term="return">The basic idea returns at m. 9 to open the compound consequent, and the whole first four-measure unit usually returns with it. It doesn't come back earlier in the theme. A restatement at mm. 3&ndash;4, inside a presentation, is heard as a repetition rather than a return (pp. 171&ndash;172).</li>
     </ol>
@@ -181,6 +181,8 @@
   T.UNITS.cpres = { name: "compound presentation", term: "c-presentation" };
   T.UNITS.ccont = { name: "continuation", term: "c-continuation" };
   T.UNITS.ccontcad = { name: "continuation ⇒ cadential", term: "c-compressed" };
+  T.IDEAS.sod = { abbr: "s.o.d.", name: "standing on the dominant (dominant pedal)", term: "sod", frame: true };
+  T.UNITS.sod = { name: "standing on the dominant (dominant pedal)", frame: true };
 
   var THEMES = {
     "cp-sentence": {
