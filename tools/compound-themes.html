@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mus 312 &middot; compound themes</title>
+<link rel="stylesheet" href="../assets/style.css?v=23">
+<script src="../assets/theme.js?v=2"></script>
+<style>
+  section.panel { margin-top: calc(var(--step) * 5); }
+  section.panel > p { max-width: none; }
+  section.panel > h3 { margin-top: calc(var(--step) * 4); }
+
+  .k-bi   { --k: var(--idea-basic); }
+  .k-ci   { --k: var(--idea-contrast); }
+  .k-cont { --k: var(--idea-continuation); }
+  .k-cad, .k-ecp { --k: var(--idea-cadential); }
+
+  .chip {
+    font-family: var(--font-data);
+    font-size: 0.8em;
+    color: var(--k);
+    background: color-mix(in srgb, var(--k) 14%, var(--paper));
+    border: var(--line) solid var(--k);
+    padding: 0 0.35em;
+    white-space: nowrap;
+  }
+
+  .box { fill: color-mix(in srgb, var(--k) 14%, var(--paper)); stroke: var(--k); stroke-width: 1.5; }
+  .idea-abbr { font-family: var(--font-data); font-size: 19px; font-weight: 500; fill: var(--k); text-anchor: middle; }
+  .idea-abbr.long { font-size: 15px; }
+  .idea-abbr.longer { font-size: 13px; }
+  .idea-name { font-family: var(--font-body); font-size: 12px; fill: var(--muted); text-anchor: middle; }
+  .plus { font-family: var(--font-data); font-size: 16px; fill: var(--muted); text-anchor: middle; }
+  .mnum { font-family: var(--font-data); font-size: 12px; fill: var(--muted); text-anchor: middle; }
+  .rowname { font-family: var(--font-data); font-size: 12px; fill: var(--muted); text-anchor: end; }
+  .cadbox { fill: var(--paper); stroke: var(--ink); stroke-width: 1.2; }
+  .cadtext { font-family: var(--font-data); font-size: 13px; fill: var(--ink); text-anchor: middle; }
+  .bracket { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+  .unit-label { font-family: var(--font-body); font-size: 15px; fill: var(--ink); text-anchor: middle; }
+  .unit-cap { font-family: var(--font-data); font-size: 12px; fill: var(--muted); text-anchor: middle; }
+  .hit { fill: transparent; cursor: pointer; }
+  .hit:focus { outline: none; }
+  .hit:focus-visible { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 4 3; }
+
+  .on .box { stroke: var(--accent); stroke-width: 3; }
+  .on .bracket, .on .cadbox { stroke: var(--accent); stroke-width: 2.5; }
+  .on .unit-label, .on .unit-cap, .on .cadtext { fill: var(--accent); }
+
+  .readout.def {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--ink);
+    border-left: 3px solid var(--accent);
+    padding: calc(var(--step) * 1.2) calc(var(--step) * 2);
+    margin-bottom: calc(var(--step) * 2);
+  }
+  .readout.def p { margin: 0; max-width: none; }
+  .readout.def:empty { display: none; }
+  p[data-term] { padding: calc(var(--step) * 0.6) calc(var(--step) * 1.2); margin-left: calc(var(--step) * -1.2); }
+  ol.defs { margin: calc(var(--step) * 2) 0 0; padding-left: calc(var(--step) * 3); }
+  ol.defs li { padding: calc(var(--step) * 0.6) calc(var(--step) * 1.2); margin-bottom: calc(var(--step) * 1.5); }
+  p[data-term].on, li[data-term].on { background: var(--accent-wash); }
+  .scroll-wrap { overflow-x: auto; }
+  .k-interp, .k-intro, .k-cod, .k-sod { --k: var(--muted); }
+  .frame .box { stroke-dasharray: 5 4; }
+  .mark { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+  .marktext { font-family: var(--font-data); font-size: 12px; fill: var(--muted); text-anchor: middle; }
+  .brk { font-family: var(--font-data); font-size: 16px; fill: var(--ink); text-anchor: middle; }
+  .on .mark { stroke: var(--accent); stroke-width: 2; }
+  .on .marktext { fill: var(--accent); }
+  .model { font-family: var(--font-data); font-size: 0.8rem; color: var(--muted); }
+  .scroll-wrap svg { min-width: 760px; }
+  .k-frag { --k: var(--idea-continuation); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">mus 312 &middot; compound themes</p>
+  <h1 id="top">compound themes</h1>
+
+  <p class="lede full">Caplin's compound themes fill sixteen real measures. The compound period and the compound sentence have the functions of the simple period and sentence, each one built from larger units (chapter 6, p. 166).</p>
+
+  <p class="howto">Press any box, bracket, or cadence for its definition. Colors name the idea. The brackets beneath name the function of each group, smaller units in the upper row and larger ones under them, and the theme. A term carried over from the simple themes links to the theme types page.</p>
+
+  <section class="panel">
+    <h2 id="simple-compound">simple and compound</h2>
+    <p>A simple theme is eight real measures and a compound theme sixteen. Real measures can differ from notated ones. Where R = 2N, a theme notated in sixteen measures sounds as a simple eight-measure theme. Where R = &frac12;N, a theme notated in eight measures can turn out, in the context of the whole movement, to be compound. Caplin finds the distinction often of little consequence: a simple theme and a compound theme have the same formal functions (pp. 166, 185&ndash;186).</p>
+    <p>Phrase and subphrase follow the rule on the <a href="theme-types.html#phrase" target="_blank" rel="noopener">theme types</a> page. A compound sentence that closes with one cadence is one phrase, sixteen measures long. A compound period has a phrase for each cadence it closes with: two where each half closes once, four where each half opens with an antecedent.</p>
+    <div class="scroll-wrap">
+      <table>
+        <thead>
+          <tr><td></td><th>simple, 8 mm.</th><th>compound, 16 mm.</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>sentence, first half</th><td>presentation: basic idea + repetition, 2 + 2 mm.</td><td>compound presentation: compound basic idea + repetition, 4 + 4 mm.</td></tr>
+          <tr><th>sentence, second half</th><td>continuation, 4 mm., fragmenting to 1 m., then &frac12; m.</td><td>continuation, 8 mm., fragmenting to 2 mm., then 1 m.</td></tr>
+          <tr><th>period, first half</th><td>antecedent: basic idea + contrasting idea, weak cadence at m. 4</td><td>compound antecedent: a sentence or a hybrid, weak cadence at m. 8</td></tr>
+          <tr><th>period, second half</th><td>consequent: the basic idea returns at m. 5, PAC at m. 8</td><td>compound consequent: the basic idea returns at m. 9, PAC at m. 16</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2 id="period">the compound period</h2>
+    <p data-term="compound-period">A compound period is a sixteen-measure theme of compound antecedent + compound consequent. The compound antecedent closes with a weak cadence at m. 8. The compound consequent opens with the return of the basic idea at m. 9 and closes with a PAC at m. 16. Caplin sorts compound periods by the simple theme type the compound antecedent is built as (pp. 166, 171&ndash;172).</p>
+    <div class="controls" id="pick-cperiod"></div>
+    <div class="scroll-wrap"><svg id="fig-cperiod" viewBox="0 0 1200 402" role="img" aria-label="The selected compound period, drawn as idea boxes with function brackets beneath"></svg></div>
+    <p class="model" id="model-cperiod"></p>
+    <div class="readout def" id="read-cperiod" aria-live="polite"></div>
+    <ol class="defs">
+      <li data-term="c-antecedent">A compound antecedent is an eight-measure sentence or hybrid that closes with a weak cadence: usually an HC, regular or reinterpreted, rarely an IAC. It doesn't end with a simple consequent, which would bring the basic idea back at m. 5, ahead of its return at m. 9 (pp. 166, 171).</li>
+      <li data-term="c-consequent">A compound consequent repeats the compound antecedent and closes with a PAC. Its cadence is usually more emphatic than the antecedent's, and its final phrase is often supported by an ECP. A four-measure ECP at the end of a compound period corresponds to the two-measure cadential progression under the final contrasting idea of a simple period (pp. 166, 171, 173).</li>
+      <li data-term="return">The return of the basic idea at m. 9 marks the compound consequent, and the whole first four-measure unit usually returns with it. The basic idea doesn't come back anywhere earlier. Its restatement inside a presentation, at mm. 3&ndash;4, is heard as a repetition rather than a return (pp. 171&ndash;172).</li>
+    </ol>
+    <ol class="defs">
+      <li data-term="cp-sentence">Where the compound antecedent is a sentence, the compound period is two eight-measure sentences. Caplin relates this category to the simple period whose four-measure antecedent is built as a sentence (pp. 88, 172).</li>
+      <li data-term="cp-cbi">Where the compound antecedent is compound basic idea + continuation, or continuation &rArr; cadential, each half is a hybrid that opens with a compound basic idea (pp. 173&ndash;174).</li>
+      <li data-term="cp-ant">Where the compound antecedent is antecedent + continuation, a weak cadence closes m. 4 as well as m. 8. The compound antecedent ends with a half cadence, regular or reinterpreted, rather than an IAC. The compound consequent's second phrase can be supported by an ECP, and the consequent then resembles the hybrid antecedent + cadential (pp. 174&ndash;175).</li>
+      <li data-term="reinterpreted">A reinterpreted half cadence closes an antecedent that has modulated to the dominant region and reached a PAC there. When the consequent returns at once to the home key, that PAC is heard again as a half cadence in the home key, written PAC &rArr; HC. It's rare in simple periods and more frequent in compound ones, where a PAC in the new key is a fitting close for the simple theme the compound antecedent is built as (pp. 90&ndash;92, 176).</li>
+    </ol>
+    <h3>cadential distribution</h3>
+    <p>With antecedent + continuation in each half, the order of weights the cadences suggest, HC at m. 4, IAC at m. 8, HC at m. 12, PAC at m. 16, is rare, since an IAC rarely ends an antecedent of any kind. Two HCs in a row, at mm. 4 and 8, are common. In Ex. 6.13 Haydn avoids a third at m. 12 by turning the consequent's first phrase into a compound basic idea. In Ex. 6.7 Mozart writes the third HC and weakens it, moving the bass down a step as the upper voices resolve. A reinterpreted HC at m. 8 orders the weights another way: after an IAC at m. 4 it's a PAC in the dominant, and in the whole theme it's an HC paired with the PAC at m. 16 (pp. 175&ndash;176, 184&ndash;185).</p>
+    <h3>the consequent's return</h3>
+    <p>Some themes bring material like the basic idea at mm. 5&ndash;6, as if a four-measure consequent stood inside the compound antecedent. In Ex. 6.12 (Haydn, Symphony No. 93 in D, iv) that material has different harmonies from the opening, and its faster harmonic rhythm makes it a continuation. The basic idea comes back with its own harmony at m. 9, and that return marks the consequent (p. 183).</p>
+    <h3>double period</h3>
+    <p>Laitz and Bartlette call the theme of Beethoven's Piano Sonata in A&#9837;, Op. 26, i, a parallel interrupted double period: sixteen measures in four phrases, each half divided like a period, with a half cadence at m. 8 too weak to close a period on its own (Laitz, p. 120). Caplin analyzes the same theme, his Ex. 6.1, as a compound period whose compound antecedent is antecedent + continuation, with HCs at mm. 4 and 8. He sets the term double period aside, since it implies a period within a period, and a simple period embedded in a larger one is rare in classical themes (Caplin, p. 167).</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="sentence">the compound sentence</h2>
+    <div class="scroll-wrap"><svg id="fig-csentence" viewBox="0 0 1200 402" role="img" aria-label="Compound sentence: a compound basic idea and its repetition form the compound presentation; fragments and a cadential idea form the continuation, closing with a PAC at measure 16"></svg></div>
+    <p class="model">Compare Caplin, Ex. 6.2: Beethoven, Piano Concerto No. 3 in C minor, Op. 37, i, whose compound basic idea is repeated as a dominant response (p. 168).</p>
+    <div class="readout def" id="read-csentence" aria-live="polite"></div>
+    <p data-term="compound-sentence">A compound sentence is a sixteen-measure theme of compound presentation + continuation. It closes with one cadence, most often a PAC, sometimes an HC, rarely an IAC, and it's one phrase. It often opens a symphony or a concerto and less often a solo or duo sonata (pp. 168, 178&ndash;179).</p>
+    <ol class="defs">
+      <li data-term="c-presentation">A compound presentation is a compound basic idea and its repetition over a tonic prolongation, with no cadence. The repetition is most often a dominant response to a tonic statement, less often exact, and rarely sequential (pp. 168, 178).</li>
+      <li data-term="cbi">A compound basic idea is four measures, a basic idea and a contrasting idea with no cadence. It has the place in a sixteen-measure theme that a two-measure basic idea has in an eight-measure one. A compound sentence opens with it twice, and a compound period can open each half with it (pp. 173, 177).</li>
+      <li data-term="c-continuation">The continuation of a compound sentence has the processes of a simple continuation: fragmentation, harmonic acceleration, faster surface rhythm, sequential harmony. It fuses with cadential function to close the theme. It's longer than a simple continuation and no more complex, and Caplin doesn't call it compound (pp. 168&ndash;169, 179).</li>
+      <li data-term="c-frag">Fragmentation is measured against the largest unit the presentation repeats, here the four-measure compound basic idea. The first stage usually cuts it to two-measure units, and these can fragment again to one measure. Heard against the two-measure ideas inside the compound basic idea, the two-measure units at m. 9 would seem to go on as before, and the fragmentation would go unheard (pp. 168, 179&ndash;180).</li>
+    </ol>
+    <h3>statement&ndash;response or antecedent&ndash;consequent</h3>
+    <p data-term="stmt-resp">A compound basic idea on I&ndash;V, repeated on V&ndash;I, can sound like an antecedent with an HC at m. 4 and a consequent with a PAC at m. 8, more so with root-position harmonies. Most often a single progression underlies each four-measure unit, and no cadential progression closes a prolongational one. The eight measures are then one tonic prolongation, an open presentation rather than a period (p. 179).</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="compressed">compressed continuation</h2>
+    <p data-term="c-compressed">Many compound sentences compress continuation and cadential function into one four-measure phrase, as in a simple sentence, often continuation &rArr; cadential over an ECP. Repeating that phrase, or adding a postcadential unit, brings the passage back to sixteen measures (p. 180).</p>
+    <div class="controls" id="pick-compressed"></div>
+    <div class="scroll-wrap"><svg id="fig-compressed" viewBox="0 0 1200 402" role="img" aria-label="The selected compound sentence, drawn as idea boxes with function brackets beneath"></svg></div>
+    <p class="model" id="model-compressed"></p>
+    <div class="readout def" id="read-compressed" aria-live="polite"></div>
+    <ol class="defs">
+      <li data-term="c-repeated">A repeated compressed continuation gives eight measures of continuation and cadential function to match the eight-measure presentation. Where the first statement ends with a deceptive cadence, the repetition brings the PAC it withheld (pp. 180&ndash;181).</li>
+      <li data-term="sod">A standing on the dominant can follow a compound sentence that ends with an HC, as a closing section follows a PAC, and it prolongs dominant harmony. A closing section usually has a recessive dynamic. A standing on the dominant tends to keep up the energy of an ending on the dominant. After a simple sentence it's very rare (p. 182).</li>
+    </ol>
+  </section>
+
+  <footer>
+    <p>Text set in IBM Plex, under the SIL Open Font License.</p>
+  </footer>
+
+</div>
+
+<script src="../assets/notation.js?v=25"></script>
+<script src="../assets/themes.js?v=1"></script>
+<script>
+(function () {
+  "use strict";
+
+  var T = MUS.themes;
+
+  T.IDEAS.frag = { abbr: "frag.", name: "fragment", term: "c-frag" };
+  T.UNITS.cant = { name: "compound antecedent", term: "c-antecedent" };
+  T.UNITS.ccons = { name: "compound consequent", term: "c-consequent" };
+  T.UNITS.cpres = { name: "compound presentation", term: "c-presentation" };
+  T.UNITS.ccont = { name: "continuation", term: "c-continuation" };
+  T.UNITS.ccontcad = { name: "continuation ⇒ cadential", term: "c-compressed" };
+
+  var THEMES = {
+    "cp-sentence": {
+      label: "sentence", name: "compound period", term: "compound-period", n: 16,
+      model: "Compare Caplin, Ex. 6.5: Beethoven, Piano Concerto No. 2 in B♭, Op. 19, iii, whose consequent is expanded by one measure (pp. 172–173).",
+      ideas: [["bi", 1, 2], ["bi", 3, 4, "rep", "repetition"], ["cont", 5, 6], ["cad", 7, 8],
+              ["bi", 9, 10, "return", "return"], ["bi", 11, 12, "rep", "repetition"], ["cont", 13, 14], ["cad", 15, 16]],
+      units: [["presentation", 1, 4], ["continuation", 5, 8], ["presentation", 9, 12], ["continuation", 13, 16],
+              ["cant", 1, 8, "", 1], ["ccons", 9, 16, "", 1]],
+      cads: [[8, "HC"], [16, "PAC"]]
+    },
+    "cp-cbi": {
+      label: "compound basic idea + continuation", name: "compound period", term: "compound-period", n: 16,
+      model: "Compare Caplin, Ex. 6.6: Mozart, Piano Concerto in A, K. 488, i, whose two continuations differ in their material (pp. 173–174).",
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["cont", 5, 6], ["cad", 7, 8],
+              ["bi", 9, 10, "return", "return"], ["ci", 11, 12], ["cont", 13, 14], ["cad", 15, 16]],
+      units: [["cbi", 1, 4], ["continuation", 5, 8], ["cbi", 9, 12], ["continuation", 13, 16],
+              ["cant", 1, 8, "", 1], ["ccons", 9, 16, "", 1]],
+      cads: [[8, "HC"], [16, "PAC"]]
+    },
+    "cp-ant": {
+      label: "antecedent + continuation", name: "compound period", term: "compound-period", n: 16,
+      model: "Compare Caplin, Ex. 6.7: Mozart, String Quartet in C (“Dissonance”), K. 465, iv (pp. 175–176), and Ex. 6.1: Beethoven, Piano Sonata in A♭, Op. 26, i, whose compound consequent closes with a continuation rather than an ECP (p. 167).",
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["cont", 5, 6], ["cad", 7, 8],
+              ["bi", 9, 10, "return", "return"], ["ci", 11, 12], ["ecp", 13, 16]],
+      units: [["antecedent", 1, 4], ["continuation", 5, 8], ["antecedent", 9, 12], ["cadential", 13, 16],
+              ["cant", 1, 8, "", 1], ["ccons", 9, 16, "", 1]],
+      cads: [[4, "HC"], [8, "HC"], [12, "HC"], [16, "PAC"]]
+    },
+    "cp-reint": {
+      label: "reinterpreted half cadence", name: "compound period", term: "compound-period", n: 16,
+      model: "Compare Caplin, Ex. 6.8: Mozart, Piano Trio in B♭, K. 502, ii, whose compound consequent closes its continuation with an IAC at m. 16 and adds a new continuation that reaches the PAC at m. 20 (pp. 176–177).",
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["cont", 5, 6], ["cad", 7, 8],
+              ["bi", 9, 10, "return", "return"], ["ci", 11, 12], ["cont", 13, 14], ["cad", 15, 16]],
+      units: [["antecedent", 1, 4], ["continuation", 5, 8], ["antecedent", 9, 12], ["continuation", 13, 16],
+              ["cant", 1, 8, "", 1], ["ccons", 9, 16, "", 1]],
+      cads: [[4, "IAC"], [8, "PAC ⇒ HC", "reinterpreted"], [12, "IAC"], [16, "PAC"]]
+    },
+    "cs": {
+      name: "compound sentence", term: "compound-sentence", n: 16,
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["bi", 5, 6], ["ci", 7, 8],
+              ["frag", 9, 10], ["frag", 11, 12], ["frag", 13, 13], ["frag", 14, 14], ["cad", 15, 16]],
+      units: [["cbi", 1, 4], ["cbi", 5, 8, "rep."],
+              ["cpres", 1, 8, "", 1], ["ccont", 9, 16, "", 1]],
+      cads: [[16, "PAC"]]
+    },
+    "cs-repeated": {
+      label: "repeated", name: "compound sentence", term: "compound-sentence", n: 16,
+      model: "Compare Caplin, Ex. 6.10: Mozart, Clarinet Trio in E♭, K. 498, i (pp. 180–181).",
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["bi", 5, 6], ["ci", 7, 8],
+              ["ecp", 9, 12], ["ecp", 13, 16, "ecp", "expanded cadential progression, repeated"]],
+      units: [["cbi", 1, 4], ["cbi", 5, 8, "rep."],
+              ["cpres", 1, 8, "", 1], ["ccontcad", 9, 12, "", 1], ["ccontcad", 13, 16, "", 1]],
+      cads: [[12, "deceptive"], [16, "PAC"]],
+      marks: [[9, 12, "compressed", "c-compressed"], [13, 16, "repetition", "c-repeated"]]
+    },
+    "cs-sod": {
+      label: "standing on the dominant", name: "compound sentence", term: "compound-sentence", n: 16, span: [1, 12],
+      model: "Compare Caplin, Ex. 6.11: Haydn, Symphony No. 83 in G minor (“The Hen”), i, whose standing on the dominant repeats one-measure units like the codettas of a closing section (p. 182).",
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["bi", 5, 6], ["ci", 7, 8],
+              ["cont", 9, 10], ["cad", 11, 12], ["sod", 13, 14], ["sod", 15, 16]],
+      units: [["cbi", 1, 4], ["cbi", 5, 8, "rep."],
+              ["cpres", 1, 8, "", 1], ["ccont", 9, 12, "compressed", 1], ["sod", 13, 16, "", 1]],
+      cads: [[12, "HC"]],
+      marks: [[9, 12, "compressed", "c-compressed"]]
+    }
+  };
+
+  T.picker(THEMES, "cperiod", ["cp-sentence", "cp-cbi", "cp-ant", "cp-reint"], function (k) { return k === "cp-reint" ? "reinterpreted" : k; });
+  T.draw(document.getElementById("fig-csentence"), THEMES.cs, document.getElementById("read-csentence"), "cs");
+  T.picker(THEMES, "compressed", ["cs-repeated", "cs-sod"], function (k) { return k === "cs-sod" ? "sod" : "c-repeated"; });
+})();
+</script>
+</body>
+</html>

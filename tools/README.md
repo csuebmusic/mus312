@@ -17,3 +17,7 @@ Enter up to four notes from the bass up and read what they make: the stack of th
 **theme types**
 https://csuebmusic.github.io/mus312/tools/theme-types.html
 Caplin's simple themes drawn as colored idea boxes added together, with brackets beneath naming each function and the theme. The sentence, the period, and the four hybrids; formal function, with a table of functions by their place in time; the phrase deviations, extension, expansion, compression and interpolation; the deceptive, evaded and abandoned cadences; and the thematic introduction, closing section and standing on the dominant. Pressing a box, bracket, or cadence lights its definition. Phrase and subphrase as this course uses them, alongside Caplin's usage.
+
+**compound themes**
+https://csuebmusic.github.io/mus312/tools/compound-themes.html
+Caplin's sixteen-measure themes drawn the same way, with a second row of brackets for the eight-measure units. The compound period by the build of its compound antecedent, as a sentence, a compound basic idea + continuation, or an antecedent + continuation, and with a reinterpreted half cadence; the compound sentence; and the compressed continuation, repeated or followed by a standing on the dominant. Simple and compound themes side by side, the cadences a compound period closes with, and the double period of Laitz and Bartlette against Caplin's compound period.
