@@ -8,6 +8,8 @@ The stylesheet, scripts, and fonts for the course site.
 
 `notation.js` draws notation as inline SVG. It's used by every page in `tools/` and `review/`.
 
+`themes.js` draws the theme diagrams on the theme types and compound themes pages.
+
 `workbook.js` draws the blank staves and the print control on the pages in `review/`.
 
 `fonts/` holds the self-hosted fonts and their licenses.
