@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mus 312 &middot; style chart</title>
+<link rel="stylesheet" href="../assets/style.css?v=23">
+<script src="../assets/theme.js?v=2"></script>
+<style>
+  .scroll-wrap { overflow-x: auto; margin-top: calc(var(--step) * 4); }
+  table.chart { min-width: 1100px; margin: 0; table-layout: fixed; }
+  table.chart col.c-era { width: 7.5rem; }
+  table.chart col.c-period { width: 8.5rem; }
+  table.chart col.c-style { width: 11rem; }
+  table.chart col.c-dates { width: 7.5rem; }
+  table.chart col.c-comp { width: 11rem; }
+  table.chart col.c-pp { width: 5.5rem; }
+  table.chart th, table.chart td { padding: calc(var(--step) * 1) calc(var(--step) * 1.2); }
+  table.chart td { font-size: 0.86rem; line-height: 1.45; }
+  table.chart thead th { vertical-align: bottom; }
+
+  table.chart th.era {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: normal;
+  }
+  table.chart th.period { width: auto; white-space: normal; color: var(--ink); }
+  table.chart th .span {
+    display: block;
+    font-family: var(--font-data);
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--muted);
+    margin-top: calc(var(--step) * 0.5);
+  }
+  td.style { font-weight: 600; }
+  td.dates { font-family: var(--font-data); font-size: 0.78rem; }
+  td.pp { font-family: var(--font-data); font-size: 0.75rem; color: var(--muted); }
+
+  tr.era-start > * { border-top: var(--line) solid var(--ink); }
+  table.chart tbody tr:first-child > * { border-top: none; }
+  th.era, th.period { border-bottom: var(--line) solid var(--ink); }
+
+  tr.lit > td, tr.lit > th { background: var(--accent-wash); }
+  th.era.lit { color: var(--accent); }
+
+  table.hide-dates .c-dates,
+  table.hide-comp .c-comp,
+  table.hide-voc .c-voc,
+  table.hide-ins .c-ins,
+  table.hide-pp .c-pp { display: none; }
+
+  .controls .label {
+    font-family: var(--font-data);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    width: 7rem;
+  }
+
+  @media (max-width: 48rem) {
+    .controls .label { width: 100%; }
+  }
+
+  @media print {
+    @page { size: landscape; }
+    .scroll-wrap { overflow: visible; }
+    table.chart { min-width: 0; font-size: 0.75rem; }
+    tr { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">mus 312 &middot; style chart</p>
+  <h1 id="top">style chart</h1>
+
+  <p class="lede full">Western art music from the Carolingian chant reform to 1945, in three levels: era, period, and style or school. Each style has its dates, up to four of its composers, and the vocal and instrumental genres and forms it cultivated. Neighboring styles overlap in time, and their dates show where. Eras, dates, and terms follow Paul Griffiths, <em>A Concise History of Western Music</em> (Cambridge University Press, 2006), and the last column gives his pages.</p>
+
+  <p class="howto">Press an era to light its rows; press it again to clear. The column buttons show and hide columns. The chart prints on landscape pages.</p>
+
+  <div class="controls" id="eras"><span class="label">era</span></div>
+  <div class="controls" id="cols"><span class="label">columns</span></div>
+
+  <div class="scroll-wrap">
+    <table class="chart" id="chart">
+      <colgroup>
+        <col class="c-era"><col class="c-period"><col class="c-style"><col class="c-dates"><col class="c-comp"><col class="c-voc"><col class="c-ins"><col class="c-pp">
+      </colgroup>
+      <thead>
+        <tr>
+          <th scope="col">era</th>
+          <th scope="col">period</th>
+          <th scope="col">style or school</th>
+          <th scope="col" class="c-dates">dates</th>
+          <th scope="col" class="c-comp">composers</th>
+          <th scope="col" class="c-voc">vocal genres and forms</th>
+          <th scope="col" class="c-ins">instrumental genres and forms</th>
+          <th scope="col" class="c-pp">Griffiths</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <footer>
+    <p>Text set in IBM Plex, under the SIL Open Font License.</p>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // [style, dates, composers, vocal, instrumental, Griffiths pages]
+  var ERAS = [
+    { name: "middle ages", span: "c. 750–1430", periods: [
+      { name: "early middle ages", span: "c. 750–1100", styles: [
+        ["Carolingian reform: Gregorian chant", "8th–11th c.", "anonymous",
+         "chant for the mass and the hours: introit, gradual, psalms, hymns; organum in parallel fifths (9th c.)",
+         "none notated", "11–16"]
+      ]},
+      { name: "high middle ages", span: "c. 1100–1300", styles: [
+        ["chant and court song: troubadours, trouv&egrave;res, Minnesinger", "12th–13th c.", "Hildegard of Bingen, Giraut de Bornelh, Adam de la Halle",
+         "chant, hymn; strophic song with refrain; play with songs",
+         "improvised accompaniment on fiddle, lute, harp", "22–24, 31"],
+        ["St Martial and Compostela", "c. 1100–1160", "anonymous",
+         "two-voice organum over a chant tenor", "", "25"],
+        ["Notre Dame polyphony", "late 12th – 13th c.", "Leonin, Perotin",
+         "organum in two to four voices, in organum and discant styles; clausula; conductus; rhythmic modes", "", "25–29"],
+        ["ars antiqua", "13th c.", "Petrus de Cruce, Adam de la Halle",
+         "motet: texted upper voices over a chant tenor (cantus firmus); Franconian notation", "", "29–31"]
+      ]},
+      { name: "late middle ages", span: "c. 1300–1430", styles: [
+        ["ars nova", "c. 1320 – c. 1400", "Philippe de Vitry, Guillaume de Machaut",
+         "isorhythmic motet; mass cycle (Machaut); formes fixes: ballade, rondeau, virelai; lai",
+         "dances", "32–37"],
+        ["trecento", "14th c.", "Jacopo da Bologna, Francesco Landini, Paolo da Firenze",
+         "secular song in two or three voices: ballata, madrigal, caccia",
+         "organ", "37–41"],
+        ["ars subtilior", "c. 1380 – c. 1410", "Solage, Matteo da Perugia",
+         "ballade and rondeau in rhythmically intricate notation", "", "37–39"]
+      ]}
+    ]},
+
+    { name: "renaissance", span: "c. 1430–1600", periods: [
+      { name: "early renaissance", span: "c. 1430–1480", styles: [
+        ["English: contenance angloise", "c. 1410–1450", "John Dunstable, Leonel Power",
+         "cyclic mass on a cantus firmus; motet; triadic sonority", "", "43–44, 52"],
+        ["Burgundian court", "c. 1430–1470", "Guillaume Du Fay, Gilles Binchois",
+         "cantus-firmus mass in four voices; mass on a song tenor; isorhythmic motet; chanson in the formes fixes",
+         "keyboard arrangements of songs (Buxheim Organ Book, c. 1470)", "43, 47–53"],
+        ["Franco-Netherlandish, first generation", "c. 1450–1490", "Johannes Ockeghem, Antoine Busnois",
+         "L&rsquo;homme arm&eacute; masses; Requiem; chanson", "", "53–56"]
+      ]},
+      { name: "high renaissance", span: "c. 1480–1550", styles: [
+        ["Franco-Netherlandish: imitative polyphony", "c. 1480–1520", "Josquin des Prez, Jacob Obrecht, Heinrich Isaac",
+         "mass on a cantus firmus or paraphrased chant; motet in four to six voices; chanson; pervasive imitation",
+         "fantasia, ricercare, variations on a song or chord pattern, dances, for lute, keyboard, or consort", "57–62"],
+        ["Franco-Netherlandish, final phase", "c. 1520–1560", "Nicolas Gombert, Adrian Willaert, Clemens non Papa",
+         "parody mass; motet in continuous imitation", "", "64–67"],
+        ["English: Eton Choirbook", "c. 1490–1545", "John Browne, John Taverner",
+         "florid festal mass and Marian motet for full choir with boys&rsquo; voices", "", "63, 67"],
+        ["Parisian chanson", "1520s–1540s", "Cl&eacute;ment Janequin, Claudin de Sermisy",
+         "four-voice chanson in dance rhythms; descriptive chanson", "dances", "65–66"],
+        ["early Italian madrigal", "from 1530", "Philippe Verdelot, Jacques Arcadelt",
+         "madrigal", "", "66"]
+      ]},
+      { name: "late renaissance", span: "c. 1550–1600", styles: [
+        ["Roman sacred polyphony after the Council of Trent", "c. 1550–1610", "Giovanni Pierluigi da Palestrina, Tom&aacute;s Luis de Victoria",
+         "mass in four to eight voices; motet; Requiem; declamatory polyphony", "", "68–70, 79–80"],
+        ["Venetian polychoral style", "c. 1550–1612", "Adrian Willaert, Giovanni Gabrieli",
+         "polychoral motet for voices and instruments", "polychoral sonata and canzona", "69, 72, 75"],
+        ["Italian madrigal", "c. 1550–1610", "Cipriano de Rore, Orlande de Lassus, Luca Marenzio, Carlo Gesualdo",
+         "madrigal in five voices; chromaticism and word-painting; spiritual madrigal", "", "71–79"],
+        ["Protestant church music", "from the 1520s", "Martin Luther, Thomas Tallis",
+         "Lutheran chorale; Calvinist psalm tune; Anglican service and anthem in English, largely homophonic", "", "70–72"],
+        ["Elizabethan and Jacobean England", "c. 1560–1625", "William Byrd, Thomas Morley, John Dowland",
+         "Latin motet; English madrigal; lute song",
+         "keyboard fantasia and variations; pavane and galliard; consort fantasia for viols", "76–78, 92"]
+      ]}
+    ]},
+
+    { name: "baroque", span: "c. 1600–1750", periods: [
+      { name: "early baroque", span: "c. 1600–1650", styles: [
+        ["Italian monody and early opera: seconda pratica", "c. 1600–1643", "Jacopo Peri, Giulio Caccini, Claudio Monteverdi",
+         "monody; opera; recitative; continuo madrigal; sacred concerto; solo motet",
+         "basso continuo; sinfonia", "81–89"],
+        ["Italian and Netherlandish keyboard and violin music", "c. 1600–1650", "Jan Pieterszoon Sweelinck, Girolamo Frescobaldi, Biagio Marini",
+         "", "toccata, ricercare, fantasia; violin sonata with continuo; canzona", "90, 92"],
+        ["Italian style in Lutheran Germany", "c. 1610–1670", "Michael Praetorius, Heinrich Sch&uuml;tz, Johann Hermann Schein",
+         "sacred concerto; German opera (Sch&uuml;tz, <em>Dafne</em>, 1627)",
+         "suite of dances for viols", "92, 96, 101"]
+      ]},
+      { name: "middle baroque", span: "c. 1640–1700", styles: [
+        ["Venetian public opera", "from 1637", "Claudio Monteverdi, Francesco Cavalli, Antonio Cesti",
+         "opera alternating recitative and aria", "", "99–101"],
+        ["French court style", "c. 1650–1700", "Jean-Baptiste Lully, Marc-Antoine Charpentier",
+         "opera sung throughout (trag&eacute;die en musique); court ballet; sacred music",
+         "French overture; suite of dances; chaconne and passacaglia", "98, 101–102"],
+        ["Roman cantata, oratorio, and sonata", "c. 1650–1714", "Giacomo Carissimi, Alessandro Stradella, Arcangelo Corelli",
+         "oratorio; chamber cantata",
+         "trio sonata; sonata da chiesa and sonata da camera; concerto grosso", "107–108, 117"],
+        ["English Restoration", "c. 1660–1695", "Matthew Locke, Henry Purcell",
+         "semi-opera; opera; anthem; ode",
+         "fantasia for viols; ground bass and chaconne; suite", "98, 103–104"],
+        ["North German organ and cantata", "c. 1660–1710", "Dieterich Buxtehude, Johann Pachelbel",
+         "sacred cantata; chorale",
+         "organ toccata, prelude, and fugue; organ settings of chorales; canon", "105–106"]
+      ]},
+      { name: "high baroque", span: "c. 1700–1750", styles: [
+        ["Italian concerto and keyboard sonata", "c. 1700–1757", "Tomaso Albinoni, Antonio Vivaldi, Domenico Scarlatti",
+         "",
+         "solo concerto, fast–slow–fast, solo against full ensemble (ritornello form); concerto grosso; keyboard sonata in binary form", "111–117"],
+        ["opera seria and oratorio", "c. 1690–1750", "Alessandro Scarlatti, George Frideric Handel",
+         "opera seria; da capo aria; recitative; English oratorio; anthem",
+         "Italian overture, fast–slow–fast; concerto grosso; organ concerto; orchestral suite", "108–109, 115, 118–120, 130"],
+        ["German Lutheran", "c. 1700–1750", "Georg Philipp Telemann, Johann Sebastian Bach",
+         "church cantata; Passion; Mass",
+         "fugue; prelude and fugue; chorale prelude; suite and partita; concerto; variations", "111–126, 131"],
+        ["French", "c. 1690–1764", "Fran&ccedil;ois Couperin, Jean-Philippe Rameau",
+         "trag&eacute;die lyrique and opera-ballet",
+         "harpsichord pieces in suites; French overture", "102–103, 113, 126–129"]
+      ]}
+    ]},
+
+    { name: "classical", span: "c. 1730–1815", periods: [
+      { name: "pre-classical", span: "c. 1730–1770", styles: [
+        ["galant and Neapolitan comic opera", "c. 1730–1770", "Giovanni Battista Pergolesi, Johann Adolf Hasse, Giovanni Battista Sammartini",
+         "intermezzo and opera buffa; opera seria on Metastasio&rsquo;s librettos",
+         "concert symphony from the opera overture", "123–129"],
+        ["empfindsamer Stil", "c. 1740–1788", "Carl Philipp Emanuel Bach",
+         "", "keyboard sonata; keyboard fantasia", "124, 132, 144"],
+        ["Mannheim and the early symphony", "c. 1745–1770", "Johann Stamitz, Christian Cannabich",
+         "", "symphony in four movements: fast, slow, minuet, fast finale; four-measure phrases", "129–133"],
+        ["reform opera", "1762–1779", "Christoph Willibald Gluck",
+         "reform opera: orchestra throughout, dance within the drama", "", "133–134"]
+      ]},
+      { name: "high classical", span: "c. 1770–1800", styles: [
+        ["Viennese Classicism", "c. 1770–1800", "Joseph Haydn, Wolfgang Amadeus Mozart",
+         "opera buffa; opera seria; Singspiel; Mass; oratorio",
+         "symphony; string quartet; piano sonata; piano concerto; piano trio; sonata form, minuet and trio, rondo, theme and variations; <a href=\"theme-types.html\" target=\"_blank\" rel=\"noopener\">sentence and period</a>", "135–148, 153–154"]
+      ]},
+      { name: "late classical", span: "c. 1789–1815", styles: [
+        ["Beethoven and the Revolution", "c. 1789–1815", "Luigi Cherubini, Ludwig van Beethoven",
+         "opera on the rescue theme",
+         "symphony in the heroic style; sonata form with expanded development and coda; scherzo in place of the minuet; piano sonata; concerto", "149–161"]
+      ]}
+    ]},
+
+    { name: "romantic", span: "1815–1907", periods: [
+      { name: "early romantic", span: "1815 – c. 1850", styles: [
+        ["German song and Romantic opera", "1815–1830", "Ludwig van Beethoven, Franz Schubert, Carl Maria von Weber",
+         "Lied; song cycle; German opera with spoken dialogue; Missa solemnis",
+         "late string quartet and piano sonata; symphony with choral finale; variations", "166–175"],
+        ["Italian opera: bel canto", "1813 – c. 1850", "Gioachino Rossini, Vincenzo Bellini, Gaetano Donizetti",
+         "comic and serious opera with long lyrical melody", "", "166–167, 177, 182–183"],
+        ["French grand opera and Berlioz", "1828 – c. 1850", "Giacomo Meyerbeer, Hector Berlioz",
+         "grand opera in five acts with ballet; dramatic symphony; Requiem",
+         "programme symphony; concert overture", "175, 177–184"],
+        ["Leipzig Romantics", "c. 1826–1856", "Felix Mendelssohn, Robert Schumann, Clara Schumann",
+         "Lied; song cycle; oratorio",
+         "concert overture; sets of character pieces; symphony; piano concerto; string quartet; piano quintet", "175–188"],
+        ["piano virtuosos", "c. 1828–1850", "Niccol&ograve; Paganini, Fr&eacute;d&eacute;ric Chopin, Franz Liszt",
+         "",
+         "nocturne, &eacute;tude, ballade, mazurka, polonaise, waltz; operatic fantasy; caprice", "174, 177–188"]
+      ]},
+      { name: "middle romantic", span: "c. 1850–1890", styles: [
+        ["New German School", "c. 1848–1882", "Franz Liszt, Richard Wagner",
+         "music drama; leitmotif",
+         "symphonic poem; programme symphony; one-movement sonata", "191–196"],
+        ["Viennese symphonists", "c. 1860–1897", "Johannes Brahms, Anton Bruckner",
+         "Lied; <em>Ein deutsches Requiem</em>; choral works with orchestra",
+         "symphony; chamber music; variations; passacaglia", "190, 201–206"],
+        ["Italian opera: Verdi", "1842–1893", "Giuseppe Verdi",
+         "opera, from the aria in three parts to continuous scenes", "", "196–198, 207–208"],
+        ["French opera and operetta", "c. 1855–1880", "Jacques Offenbach, Charles Gounod, Georges Bizet",
+         "opera; operetta", "", "197–198"],
+        ["national schools", "c. 1860–1900", "Bed&#345;ich Smetana, Modest Musorgsky, Anton&iacute;n Dvo&#345;&aacute;k, Edvard Grieg",
+         "national opera; melody modeled on speech",
+         "symphonic poem; character pieces; dances and rhapsodies; symphony", "198–200, 206, 211–212"]
+      ]},
+      { name: "late romantic", span: "c. 1890–1907", styles: [
+        ["Austro-German late Romanticism", "c. 1889–1910", "Gustav Mahler, Richard Strauss",
+         "orchestral song; song symphony; opera",
+         "symphony; symphonic poem", "213, 215–221"],
+        ["verismo", "1890 – c. 1910", "Pietro Mascagni, Ruggero Leoncavallo, Giacomo Puccini",
+         "opera on contemporary subjects", "", "213, 221"],
+        ["impressionism", "c. 1890–1918", "Claude Debussy, Maurice Ravel",
+         "opera; orchestral song cycle; song",
+         "orchestral prelude; nocturne; symphonic sketches; piano sets; whole-tone, pentatonic, and modal scales", "209–212, 218–223"]
+      ]}
+    ]},
+
+    { name: "modernism to 1945", span: "1908–1945", periods: [
+      { name: "early modernism", span: "1908–1918", styles: [
+        ["free atonality: Schoenberg and his pupils", "1908 – c. 1921", "Arnold Schoenberg, Alban Berg, Anton Webern",
+         "atonal song cycle; one-act monodrama; speech-song",
+         "orchestral pieces; piano pieces; atonal miniatures; chamber symphony", "227–239"],
+        ["Stravinsky and the Ballets Russes", "1910–1923", "Igor Stravinsky",
+         "choral ballet",
+         "ballet; layered ostinatos over a constant pulse", "236–239, 248"],
+        ["folk-based modernism", "c. 1904–1945", "Leo&scaron; Jan&aacute;&#269;ek, B&eacute;la Bart&oacute;k, Zolt&aacute;n Kod&aacute;ly",
+         "opera on the melodies of speech; folksong arrangement",
+         "string quartet; folk-dance settings; ballet", "221, 223, 241–243, 255"],
+        ["futurism", "c. 1913–1918", "Luigi Russolo",
+         "", "music for noise instruments", "240–241"],
+        ["American independents", "c. 1902–1920", "Charles Ives",
+         "song; choral psalm",
+         "orchestral and chamber music with layered tempos and keys; piano sonata", "218, 235, 256–257"]
+      ]},
+      { name: "between the wars and World War II", span: "1918–1945", styles: [
+        ["neoclassicism", "c. 1919 – 1940s", "Igor Stravinsky, Sergey Prokofiev, Paul Hindemith, Francis Poulenc",
+         "opera-oratorio; choral symphony",
+         "suite on Baroque models; concerto and concerto grosso; symphony; sonata", "248–251, 260"],
+        ["twelve-note serialism", "from 1923", "Arnold Schoenberg, Alban Berg, Anton Webern",
+         "atonal and serial opera",
+         "serial suite and dance forms; variations; symphony; string quartet; violin concerto", "253–255"],
+        ["jazz and popular theatre", "c. 1918–1945", "Darius Milhaud, Kurt Weill, George Gershwin",
+         "stage works with Brecht; Broadway musical comedy",
+         "concert works with jazz; ballet", "250–252, 267"],
+        ["socialist realism", "1932–1945", "Sergey Prokofiev, Dmitry Shostakovich",
+         "opera; oratorio", "symphony; ballet", "252, 261, 263–264, 268–269"],
+        ["American music", "c. 1920–1945", "Henry Cowell, Edgard Var&egrave;se, Aaron Copland",
+         "",
+         "ballet; symphony; piano clusters; works for winds and percussion; percussion ensemble", "257, 265–267"]
+      ]}
+    ]}
+  ];
+
+  var table = document.getElementById("chart");
+  var tbody = table.tBodies[0];
+  var eraRows = [];
+
+  function cell(tag, cls, html) {
+    var c = document.createElement(tag);
+    if (cls) c.className = cls;
+    c.innerHTML = html;
+    return c;
+  }
+
+  function label(name, span) {
+    return name + '<span class="span">' + span + "</span>";
+  }
+
+  ERAS.forEach(function (era, ei) {
+    var count = era.periods.reduce(function (n, p) { return n + p.styles.length; }, 0);
+    eraRows.push([]);
+    era.periods.forEach(function (period, pi) {
+      period.styles.forEach(function (s, si) {
+        var tr = document.createElement("tr");
+        tr.dataset.era = ei;
+        if (pi === 0 && si === 0) {
+          tr.className = "era-start";
+          var th = cell("th", "era", label(era.name, era.span));
+          th.scope = "rowgroup";
+          th.rowSpan = count;
+          tr.appendChild(th);
+        }
+        if (si === 0) {
+          var ph = cell("th", "period", label(period.name, period.span));
+          ph.scope = "rowgroup";
+          ph.rowSpan = period.styles.length;
+          tr.appendChild(ph);
+        }
+        tr.appendChild(cell("td", "style", s[0]));
+        tr.appendChild(cell("td", "dates c-dates", s[1]));
+        tr.appendChild(cell("td", "comp c-comp", s[2]));
+        tr.appendChild(cell("td", "voc c-voc", s[3]));
+        tr.appendChild(cell("td", "ins c-ins", s[4]));
+        tr.appendChild(cell("td", "pp c-pp", s[5]));
+        tbody.appendChild(tr);
+        eraRows[ei].push(tr);
+      });
+    });
+  });
+
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var eraBox = document.getElementById("eras");
+  var eraButtons = ERAS.map(function (era, ei) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.textContent = era.name;
+    b.setAttribute("aria-pressed", "false");
+    b.addEventListener("click", function () {
+      var on = b.getAttribute("aria-pressed") !== "true";
+      eraButtons.forEach(function (o) { o.setAttribute("aria-pressed", "false"); });
+      eraRows.forEach(function (rows) {
+        rows.forEach(function (r) { r.classList.remove("lit"); });
+      });
+      table.querySelectorAll("th.era.lit").forEach(function (t) { t.classList.remove("lit"); });
+      if (!on) return;
+      b.setAttribute("aria-pressed", "true");
+      eraRows[ei].forEach(function (r) { r.classList.add("lit"); });
+      eraRows[ei][0].querySelector("th.era").classList.add("lit");
+      if (eraRows[ei][0].scrollIntoView) {
+        eraRows[ei][0].scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      }
+    });
+    eraBox.appendChild(b);
+    return b;
+  });
+
+  var COLS = [["dates", "dates"], ["comp", "composers"], ["voc", "vocal"], ["ins", "instrumental"], ["pp", "Griffiths"]];
+  var colBox = document.getElementById("cols");
+  COLS.forEach(function (c) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.textContent = c[1];
+    b.setAttribute("aria-pressed", "true");
+    b.addEventListener("click", function () {
+      var shown = b.getAttribute("aria-pressed") === "true";
+      b.setAttribute("aria-pressed", shown ? "false" : "true");
+      table.classList.toggle("hide-" + c[0], shown);
+    });
+    colBox.appendChild(b);
+  });
+})();
+</script>
+</body>
+</html>
