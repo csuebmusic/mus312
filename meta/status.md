@@ -14,6 +14,8 @@
 
 `tools/compound-themes.html`. Caplin chapter 6: the compound period in four diagrams, by the build of the compound antecedent and the reinterpreted half cadence; the compound sentence; the compressed continuation, repeated and followed by a standing on the dominant; with two function rows, and terms from the simple themes linked to the theme types page.
 
+`tools/style-chart.html`. Six eras from the Carolingian chant reform to 1945, seventeen periods, sixty-two styles and schools, with dates, composers, vocal and instrumental genres and forms, and page references to Griffiths, *A Concise History of Western Music*.
+
 `review/part-1/part-1.html` through `review/part-4/part-4.html`. Four problem sets, one per part of the harmony review. Workbooks: blank staff paper, ruled lines, and tables to fill, worked by hand, with a button that prints the page or saves it as a PDF. No answers on the page. They stand outside the twelve packets and are not weighted.
 
 `review/part-1/part-1-set-2.html`. A second set for part 1: the diatonic triads of E♭ major and E minor named in boxes, chord label and scale degree above, roman numeral below; then A major, B♭ major, B minor, and F minor, and five modes after a completed F dorian, with the signature and the triads written by hand and named in the same boxes.
