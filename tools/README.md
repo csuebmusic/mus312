@@ -21,3 +21,7 @@ Caplin's simple themes drawn as colored idea boxes added together, with brackets
 **compound themes**
 https://csuebmusic.github.io/mus312/tools/compound-themes.html
 Caplin's sixteen-measure themes drawn the same way, with a second row of brackets for the larger units. The compound period by the build of its compound antecedent, as a sentence, a compound basic idea + continuation, or an antecedent + continuation, and with a reinterpreted half cadence; the compound sentence; and the compressed continuation, repeated or followed by a standing on the dominant. Simple and compound themes side by side, the order of cadences in a compound period, and the double period of Laitz and Bartlette against Caplin's compound period.
+
+**style chart**
+https://csuebmusic.github.io/mus312/tools/style-chart.html
+Western art music from the Carolingian chant reform to 1945 in one table: six eras, their periods, and the styles and schools inside them, each with its dates, up to four composers, its vocal and instrumental genres and forms, and its pages in Griffiths, *A Concise History of Western Music*. Pressing an era lights its rows, and columns show and hide.
