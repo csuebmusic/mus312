@@ -2,59 +2,25 @@
 
 ## built
 
-`syllabus.html`. Course information, dates, description and outcomes, assessment and the grade scale, the coursework, the tools, the AI policy, the schedule, policies, campus statements.
-
-`tools/harmony-review.html`. Four parts: fundamentals, progressions and functions, chromatic harmony, modulation. 96 figures, 65 of them with playback.
-
-`tools/chord-finder.html`. Up to four spelled notes in, the stack of thirds and its intervals out, read again as a roman numeral once a key is set.
-
-`tools/annotation-guide.html`. Caplin's annotation rules on a C minor sentence in four layers, both notations at once; this course's numerals degree by degree; his Guide to Harmonic Annotation in full; two four-voice passages.
-
-`tools/theme-types.html`. Caplin chapters 2 to 5: the sentence, the period, the four hybrids, formal function, four phrase deviations, three cadential deviations, and two framing diagrams, as idea boxes with function and theme brackets, each element linked to its definition.
-
-`tools/compound-themes.html`. Caplin chapter 6: the compound period in four diagrams, by the build of the compound antecedent and the reinterpreted half cadence; the compound sentence; the compressed continuation, repeated and followed by a standing on the dominant; with two function rows, and terms from the simple themes linked to the theme types page.
-
-`tools/style-chart.html`. Six eras from the Carolingian chant reform to 1945, seventeen periods, sixty-two styles and schools, with dates, composers, vocal and instrumental genres and forms, and page references to Griffiths, *A Concise History of Western Music*.
-
-`review/part-1/part-1.html` through `review/part-4/part-4.html`. Four problem sets, one per part of the harmony review. Workbooks: blank staff paper, ruled lines, and tables to fill, worked by hand, with a button that prints the page or saves it as a PDF. No answers on the page. They stand outside the twelve packets and are not weighted.
-
-`review/part-1/part-1-set-2.html`. A second set for part 1: the diatonic triads of E♭ major and E minor named in boxes, chord label and scale degree above, roman numeral below; then A major, B♭ major, B minor, and F minor, and five modes after a completed F dorian, with the signature and the triads written by hand and named in the same boxes.
-
-`review/part-1/part-1-notes-1.html`. Class-wide notes on problem set 1, in six sections built on eight figures: two figured-bass staves carrying their own numerals, and six sonority staves.
-
-`review/part-1/part-1-notes-2.html`. Class-wide notes on parts 8 and 9, in eight sections on twelve sonority staves, the notes under discussion lit.
-
-`review/part-1/part-1-key.md`. Answers to problem set 1, parts 1 through 8; bass lines, roman numerals and marking criteria for part 9. Not linked from `review/README.md`.
-
-`assets/notation.js`, shared by every tool. `assets/themes.js`, shared by the two theme-diagram pages. `assets/workbook.js`, shared by the four problem sets: it draws the blank staves and adds the print control. `assets/style.css` and self-hosted fonts.
-
-`meta/outline.md`, the sixteen-week schedule.
-
-## homework packets
-
-Twelve, one per chapter of Caplin read, each due at the start of the first meeting on the next chapter, on paper. Chapters 9 and 10 share packet 9; chapters 13 and 14 share packet 12. Students hand in the Examples for Analysis, work the review questions against Caplin's companion website without handing them in, and are not assigned Model Composition.
-
-| packet | due | Caplin |
-|---|---|---|
-| 1 | Aug 31 | 25–29 |
-| 2 | Sep 9 | 67–72 |
-| 3 | Sep 21 | 93–98 |
-| 4 | Sep 21 | 117–122 |
-| 5 | Sep 28 | 157–165 |
-| 6 | Oct 12 | 186–194 |
-| 7 | Oct 19 | 228–237 |
-| 8 | Oct 26 | 253–258 |
-| 9 | | 301–307 |
-| 10 | | 344–352 |
-| 11 | | 408–419 |
-| 12 | | 462–474, 510–518 |
-
-The compiled PDF is 120 pages, a cover then twelve packets each opening on a divider. Distributed through Canvas, not the public site.
+- `syllabus.html`, the syllabus.
+- `tools/harmony-review.html`, the harmony review, in four parts.
+- `tools/chord-finder.html`, the chord finder.
+- `tools/annotation-guide.html`, the annotation guide.
+- `tools/theme-types.html`, the simple themes of Caplin chapters 2 to 5.
+- `tools/compound-themes.html`, the compound themes of Caplin chapter 6.
+- `tools/style-chart.html`, the style chart.
+- `review/part-1/part-1.html` through `review/part-4/part-4.html`, problem sets 1 to 4, one for each part of the harmony review.
+- `review/part-1/part-1-set-2.html`, a second problem set for part 1.
+- `review/part-1/part-1-notes-1.html` and `review/part-1/part-1-notes-2.html`, class-wide notes on problem set 1.
+- `review/part-1/part-1-key.md`, answers to problem set 1, not linked from `review/README.md`.
+- `assets/notation.js`, `assets/themes.js`, `assets/workbook.js`, `assets/theme.js`, `assets/style.css`, and the self-hosted fonts.
+- `meta/outline.md`, the sixteen-week schedule.
+- The twelve homework packets, compiled as one PDF.
 
 ## open
 
 Part ii is undated in the syllabus and the outline; packets 9 through 12 have no due dates, and the final-analysis movement has no date to be chosen by.
 
-Guidelines for the packets and the final analysis are not written. The syllabus points to them. They state what is handed in, how a score is annotated, and how the work is assessed, and they set the length of the final analysis and the extra credit for performing from it.
+Guidelines for the packets and the final analysis aren't written. The syllabus points to them. They state what is handed in, how a score is annotated, and how the work is assessed, and they set the length of the final analysis and the extra credit for performing from it.
 
 SLO 4 asks students to implement the concepts through performance on their major instrument or voice. On the syllabus that performance is extra credit, so a student can complete the course without meeting it.
