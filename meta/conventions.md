@@ -13,6 +13,8 @@ Each file owns one kind of statement. A sentence goes where it is owned, and now
 | `README.md` | the public front: the course, the syllabus link, pointers to the folder READMEs | rules, status, anything instructor-only |
 | `tools/README.md`, `review/README.md`, `assets/README.md` | live links and what each page or file in the folder is for | rules, status, anything instructor-only |
 
+A convention settled in conversation holds until it's written to the file that owns it.
+
 Update by replacing, not appending. A change edits the sentence that is now wrong. Where no sentence is wrong, nothing is added: a file records the state, not the sequence of states that reached it.
 
 A commit reference belongs in a commit, not in a file.
@@ -111,10 +113,18 @@ Read `status.md` end to end. Any sentence that would still be true if the work h
 
 ## repository
 
-Commits to main, one logical change each, pushed. Commit messages name what changed.
+Commits go to main, one logical change each, authored as Inés Thiebaut <ines.thiebaut@csueastbay.edu>, and each is pushed. Commit messages name what changed.
 
-`meta/` is Markdown and instructor-only by convention. The repo is public.
+A reorganization, a mass rename, or a deletion is described first and waits for confirmation.
+
+Repo files aren't presented or attached in chat. Inés pulls locally.
+
+Folders are added as materials need them.
+
+`meta/` is Markdown and instructor-only by convention. GitHub Pages publishes the whole repository through the Actions workflow: `meta/` and every Markdown file are public at the repo and at the Pages URL.
 
 Student-facing pages are HTML linking `assets/style.css` with a `?v=N` query. Visual rules are in `meta/visual-conventions.md`.
 
 Live links to student-facing pages go in the README of the page's folder as they are built.
+
+Each fall, the term facts in `syllabus.html`, `README.md`, and `meta/outline.md` are updated.
