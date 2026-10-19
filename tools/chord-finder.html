@@ -165,7 +165,7 @@
         </section>
         <section class="panel">
           <h2>on the clock</h2>
-          <svg id="cf-clock" viewBox="0 0 445 445" role="img" aria-label="The twelve pitch classes on a clock face, with the notes entered marked and the semitone distance between adjacent members arced on the rim"></svg>
+          <svg id="cf-clock" viewBox="0 0 445 445" role="img" aria-label="The twelve pitch classes on a clock face, with the notes entered marked and the semitone distance between adjacent notes arced on the rim"></svg>
         </section>
       </div>
     </div>
@@ -561,7 +561,7 @@
 
     var found = stacks();
     if (!found.length) {
-      answer(readEl, "this will not stack in thirds", true);
+      answer(readEl, "this won't stack in thirds", true);
       line(readEl, "notes", set.map(nameOf).join(" "));
       line(readEl, "pitch classes", set.map(pcOf).join(" "));
       var p = document.createElement("p");
@@ -683,7 +683,7 @@
           FUNCTION[td.degree - 1] + " (" + applied.base + (fig || "") + "/" + tn + ")");
         line(keyReadEl, "in", keyName());
         line(keyReadEl, "points at", tn + ", " + nameOf(applied.target));
-        line(keyReadEl, "source", "an applied chord takes the function of its target");
+        line(keyReadEl, "source", "an applied chord has the function of its target");
         return;
       }
     }
