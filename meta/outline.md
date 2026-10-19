@@ -1,7 +1,5 @@
 # mus 312 outline, fall 2026
 
-working document. topics and readings by week. not student-facing.
-
 ## calendar
 
 Classes begin Tuesday, August 18. Last day of classes Saturday, December 5. Final exams December 7 to 12.
@@ -18,7 +16,7 @@ No class meeting is given to an exam. All twenty-six meetings are chapter conten
 
 Caplin, *Analyzing Classical Form*, chapter 1 and Parts I and II (chapters 2 through 16). Main text, one chapter per week.
 
-Hepokoski and Darcy, *Elements of Sonata Theory*. Sonata-form terminology and the sonata weeks.
+Hepokoski and Darcy, *Elements of Sonata Theory*. The sonata weeks.
 
 Laitz and Bartlette, *Graduate Review of Tonal Theory*. Review, harmony and form. Laitz mixes the two within single chapters; the harmony sections are read in weeks 1 and 2, the form sections at the chapter they belong to.
 
@@ -53,7 +51,26 @@ Not yet dated. Remaining meetings: Mon Oct 26, Wed Oct 28; Mon Nov 2, Wed Nov 4;
 | | | Ch. 13, development (developmental space) (420–474) | H&D 195–230 |
 | | | Ch. 13 continued, and Ch. 14, recapitulation (recapitulatory rotation; essential structural closure, ESC) (475–518) | H&D 231–254 |
 | | | Ch. 15, coda and Ch. 16, slow introduction (parageneric spaces) (519–550, 551–562) | H&D 281–305 |
-| — | Mon Dec 7, 10:15–12:15 | final analysis due | |
+| finals | Mon Dec 7, 10:15–12:15 | final analysis due | |
+
+## homework packets
+
+Chapters 9 and 10 share packet 9; chapters 13 and 14 share packet 12.
+
+| packet | due | Caplin |
+|---|---|---|
+| 1 | Aug 31 | 25–29 |
+| 2 | Sep 9 | 67–72 |
+| 3 | Sep 21 | 93–98 |
+| 4 | Sep 21 | 117–122 |
+| 5 | Sep 28 | 157–165 |
+| 6 | Oct 12 | 186–194 |
+| 7 | Oct 19 | 228–237 |
+| 8 | Oct 26 | 253–258 |
+| 9 | | 301–307 |
+| 10 | | 344–352 |
+| 11 | | 408–419 |
+| 12 | | 462–474, 510–518 |
 
 ## omitted
 
