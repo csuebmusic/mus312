@@ -6,7 +6,7 @@ Each file owns one kind of statement. A sentence goes where it is owned, and now
 
 | file | owns | never contains |
 |---|---|---|
-| `conventions.md` | rules to follow: terminology, what a label means, assessment, the checks, repository practice | how anything is drawn, what is built, what happened |
+| `conventions.md` | rules to follow: level, sources, terminology, what a label means, assessment, the checks, repository practice | how anything is drawn, what is built, what happened |
 | `visual-conventions.md` | how a page is drawn: palette, type, notation geometry, figure size, spacing, structure, interaction | what a label means, what is built |
 | `outline.md` | the schedule: calendar, texts, week by week | anything not on the calendar |
 | `status.md` | what exists, in a line each, and what is open | descriptions of features, verification results, page counts, history |
@@ -16,6 +16,20 @@ Each file owns one kind of statement. A sentence goes where it is owned, and now
 Update by replacing, not appending. A change edits the sentence that is now wrong. Where no sentence is wrong, nothing is added: a file records the state, not the sequence of states that reached it.
 
 A commit reference belongs in a commit, not in a file.
+
+## level
+
+Students are undergraduate music majors arriving from MUS 211, Theory III. Student-facing material assumes the vocabulary of the earlier theory sequence and defines each new formal term on first use. Analysis is connected to how a piece works and to how it's performed.
+
+## sources
+
+Conceptual and pedagogical questions are answered from the course texts, searched first: the three assigned texts in `meta/outline.md`; Griffiths, *A Concise History of Western Music*; Beach, *Advanced Schenkerian Analysis*; and Tymoczko's course handouts, in two parts.
+
+A claim the course texts don't support is flagged rather than installed. Where a topic has no source, the gap is flagged and a handout offered. Bibliographic details are checked against the source itself.
+
+## mus 601
+
+MUS 601, Birth and Death of Tonality, is the graduate counterpart. Analytical material can be adapted between the two courses. The research and citation apparatus stays in 601.
 
 ## terminology
 
@@ -61,7 +75,11 @@ A cadence bracket covers the dominant and its target at an authentic cadence, an
 
 ## assessment
 
+Written analysis reaches a claim about how a piece works.
+
 Twelve homework packets weighted equally at 70 percent, the final analysis at 30 percent. Performing a passage from the movement analyzed, in the final exam slot, earns extra credit.
+
+Attendance and promptness at every meeting are expected and not separately weighted.
 
 The department's 0 to 4 grade-point scale. The score is the GPA.
 
