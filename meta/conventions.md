@@ -2,7 +2,7 @@
 
 ## the meta files
 
-Each file owns one kind of statement. A sentence goes where it is owned, and nowhere else.
+Each file owns one kind of statement. A sentence goes where it's owned, and nowhere else.
 
 | file | owns | never contains |
 |---|---|---|
@@ -15,13 +15,13 @@ Each file owns one kind of statement. A sentence goes where it is owned, and now
 
 A convention settled in conversation holds until it's written to the file that owns it.
 
-Update by replacing, not appending. A change edits the sentence that is now wrong. Where no sentence is wrong, nothing is added: a file records the state, not the sequence of states that reached it.
+Update by replacing, not appending. A change edits the sentence that's now wrong. Where no sentence is wrong, nothing is added: a file records the state, not the sequence of states that reached it.
 
 A commit reference belongs in a commit, not in a file.
 
 ## level
 
-Students are undergraduate music majors arriving from MUS 211, Theory III. Student-facing material assumes the vocabulary of the earlier theory sequence and defines each new formal term on first use. Analysis is connected to how a piece works and to how it's performed.
+Students are undergraduate music majors who've completed MUS 211, Theory III, or its equivalent. Student-facing material assumes the vocabulary of the earlier theory sequence and defines each new formal term on first use. Analysis is connected to how a piece works and to how it's performed.
 
 ## sources
 
@@ -35,7 +35,7 @@ MUS 601, Birth and Death of Tonality, is the graduate counterpart. Analytical ma
 
 ## terminology
 
-Caplin, *Analyzing Classical Form*, chapter 1 and Parts I and II, is the main text. Hepokoski and Darcy, *Elements of Sonata Theory*, covers sonata form. Laitz and Bartlette, *The Graduate Review of Tonal Theory*, covers the review, chromatic harmony, and the form topics outside Caplin.
+Caplin, *Analyzing Classical Form*, is the main text. Hepokoski and Darcy, *Elements of Sonata Theory*, covers sonata form. Laitz and Bartlette, *The Graduate Review of Tonal Theory*, covers the review, chromatic harmony, and the form topics outside Caplin.
 
 Sonata-form terminology follows Hepokoski and Darcy.
 
@@ -59,9 +59,9 @@ An applied chord is written with its target after a slash and a curved arrow to 
 
 Roman numerals follow the jazz flatted-degree convention: ♭3̂, ♭III.
 
-A mode has the key signature of the major scale it comes from: C dorian has B♭ major's two flats. Its scale degrees and roman numerals read against the major scale on its own tonic: C dorian is 1̂ 2̂ ♭3̂ 4̂ 5̂ 6̂ ♭7̂, and its triad on ♭3̂ is ♭III.
+A mode has the key signature of its parent major scale: C dorian has B♭ major's two flats. Its scale degrees and roman numerals read against the major scale on its own tonic: C dorian is 1̂ 2̂ ♭3̂ 4̂ 5̂ 6̂ ♭7̂, and its triad on ♭3̂ is ♭III.
 
-The cadential six-four is Cad6/4. In a figured bass it takes the bass note twice, 6 over 4 under the first and 5 over 3 under the second, each row joined across, with the accidental in place of the 3 where the key raises it.
+The cadential six-four is Cad6/4. In a figured bass the bass note is written twice, 6 over 4 under the first and 5 over 3 under the second, each row joined across, with the accidental in place of the 3 where the key raises it.
 
 A note belonging to a chord is a chord tone. Nothing is a member.
 
@@ -73,13 +73,17 @@ Subphrase labels are unbracketed and stand at the point the subphrase begins. Br
 
 Second-level analysis names the function of each span: T, M, PD, D. Prolongations inside a span are labelled by what they do: N neighbor, P passing, CL chordal leap, arp arpeggiation.
 
-A cadence bracket covers the dominant and its target at an authentic cadence, and the pre-dominant and the dominant at a half cadence. Caplin brackets the whole cadential progression; where both notations appear, each takes its own bracket.
+A cadence bracket covers the dominant and its target at an authentic cadence, and the pre-dominant and the dominant at a half cadence. Caplin brackets the whole cadential progression; where both notations appear, each has its own bracket.
 
 ## assessment
 
 Written analysis reaches a claim about how a piece works.
 
 Twelve homework packets weighted equally at 70 percent, the final analysis at 30 percent. Performing a passage from the movement analyzed, in the final exam slot, earns extra credit.
+
+A packet is the end-of-chapter material for one chapter of Caplin, due on paper at the start of the first meeting on the next chapter. Students hand in the Examples for Analysis, work the review questions against Caplin's companion website without handing them in, and aren't assigned Model Composition. The packets are distributed through Canvas, not the public site.
+
+The review problem sets are outside the packets and aren't weighted. They're worked by hand and have no answers on the page.
 
 Attendance and promptness at every meeting are expected and not separately weighted.
 
@@ -101,11 +105,11 @@ When changing playback, stub `AudioContext`, record every oscillator frequency a
 
 When changing a highlight, list every painted class the highlighted group contains in the rendered DOM against every class its rule recolours, and account for each difference.
 
-When changing a rotating figure, read the coordinates off the drawn elements, and confirm every point still sits on the circle it was drawn on and the tonic ring lands on the pitch class that was clicked. Check all twelve, at rest and at frames through the glide.
+When changing a rotating figure, read the coordinates off the drawn elements, and confirm every point still sits on the circle it was drawn on and the tonic ring ends on the pitch class that was clicked. Check all twelve, at rest and at frames through the glide.
 
 ## checks before pushing a meta file
 
-Split every file in `meta/` and every `README.md` into sentences and report any that appear in two files, or twice in one. A hit means two owners for one statement; delete the copy that sits outside its owner.
+Split every file in `meta/` and every `README.md` into sentences and report any that appear in two files, or twice in one. A hit means two owners for one statement; delete the copy outside its owner.
 
 Grep the meta files for every path and identifier they name, and confirm each still exists. A moved function or a renamed file leaves the sentence that described it behind.
 
