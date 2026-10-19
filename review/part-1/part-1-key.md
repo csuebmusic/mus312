@@ -24,7 +24,7 @@ Answers to `review/part-1/part-1.html`.
 | 3 | D4 to G♭4 | d4 | 4 |
 | 4 | B♭3 to C♯4 | A2 | 3 |
 
-The difference. Items 1 and 2 span the same six semitones. The letter names set the size before quality enters: C up to F covers four letter names and is a fourth, C up to G covers five and is a fifth. Item 3 has the four semitones of a major third, and D up to G covers four letter names, so it is a fourth, diminished.
+The difference. Items 1 and 2 span the same six semitones. The letter names set the size before quality enters: C up to F covers four letter names and is a fourth, C up to G covers five and is a fifth. Item 3 has the four semitones of a major third, and D up to G covers four letter names, so it's a fourth, diminished.
 
 ## 3, scales
 
@@ -79,7 +79,7 @@ The three that change are the three containing 7̂. In C minor: E♭ G B♭ as �
 7. A♭ C♭ E♭
 8. B D F A♭
 
-Item 7 takes C♭ and not B♮. Item 3 takes E♭ and not D♯.
+Item 7 has C♭, not B♮. Item 3 has E♭, not D♯.
 
 ## 6, chord recognition
 
@@ -163,4 +163,4 @@ Doubling. Root doubled in root-position triads. In vii°6, ii6 and iv6 the bass 
 
 Range and motion. Each voice stays in its own range, no voice crosses another, and upper voices move by step or small leap where the harmony allows.
 
-Nonchord tones. Where one is written in, it is a passing tone between chord tones a third apart, a neighbor over a repeated chord tone, or a suspension prepared as a chord tone and resolved down by step.
+Nonchord tones. Where one is written in, it's a passing tone between chord tones a third apart, a neighbor over a repeated chord tone, or a suspension prepared as a chord tone and resolved down by step.
