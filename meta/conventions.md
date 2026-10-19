@@ -15,7 +15,7 @@ Each file owns one kind of statement. A sentence goes where it is owned, and now
 
 Update by replacing, not appending. A change edits the sentence that is now wrong. Where no sentence is wrong, nothing is added: a file records the state, not the sequence of states that reached it.
 
-Settled decisions are written as rules. Leave out why a rule was chosen, what was weighed against it, when it changed, and what it replaced. A commit reference belongs in a commit, not in a file.
+A commit reference belongs in a commit, not in a file.
 
 ## terminology
 
@@ -33,7 +33,7 @@ Common modulation targets are given for the classical repertoire: V, vi, and IV 
 
 ## prose
 
-Student-facing prose follows the style rules in the profile and project instructions. Read them before drafting.
+Prose follows the "how I want you to communicate" section of Inés's profile.
 
 ## labels
 
