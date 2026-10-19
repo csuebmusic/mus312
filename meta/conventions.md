@@ -125,7 +125,7 @@ Repo files aren't presented or attached in chat. Inés pulls locally.
 
 Folders are added as materials need them.
 
-`meta/` is Markdown and instructor-only by convention. GitHub Pages publishes the whole repository through the Actions workflow: `meta/` and every Markdown file are public at the repo and at the Pages URL.
+`meta/` is Markdown and instructor-only by convention. GitHub Pages publishes the whole repository from the root of main: `meta/` and every Markdown file are public at the repo and at the Pages URL.
 
 Student-facing pages are HTML linking `assets/style.css` with a `?v=N` query. Visual rules are in `meta/visual-conventions.md`.
 
