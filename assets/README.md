@@ -6,7 +6,7 @@ The stylesheet, scripts, and fonts for the course site.
 
 `theme.js` sets the light or dark ground before the first paint. The palette for each ground is in `style.css`.
 
-`notation.js` draws notation as inline SVG. It's used by every page in `tools/` and `review/`.
+`notation.js` draws notation as inline SVG. Every page in `tools/` and `review/` uses it except the style chart.
 
 `themes.js` draws the theme diagrams on the theme types and compound themes pages.
 
