@@ -35,6 +35,8 @@ Common modulation targets are given for the classical repertoire: V, vi, and IV 
 
 Prose follows the "how I want you to communicate" section of Inés's profile.
 
+The "quality informs function" section of `tools/harmony-review.html` keeps its own voice and register.
+
 ## labels
 
 An applied chord is written with its target after a slash and a curved arrow to that target, whether or not the target follows.
