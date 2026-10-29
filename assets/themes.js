@@ -38,9 +38,10 @@ MUS.themes = (function () {
     sod:          { name: "standing on the dominant", frame: true }
   };
 
-  var CADS = { deceptive: true, evaded: true, abandoned: true };
+  /* cadential deviations, boxed but not counted as cadences; the value ends the label read aloud */
+  var CADS = { deceptive: " cadence", evaded: " cadence", abandoned: " cadence", "dominant arrival": "" };
 
-  var COUNT = ["no phrase", "one phrase", "two phrases", "three phrases", "four phrases"];
+  var COUNT = ["no phrase", "one phrase", "two phrases", "three phrases", "four phrases", "five phrases", "six phrases"];
 
   /* where the theme types page defines a term, for a page that draws it without defining it */
   var HOME = "theme-types.html";
@@ -87,16 +88,16 @@ MUS.themes = (function () {
 
   function measures(a, b) { return "measure" + (b > a ? "s " + a + " to " + b : " " + a); }
 
-  /* ideas: [kind, from, to, term, name]; units: [function, from, to, suffix, row];
+  /* ideas: [kind, from, to, term, name]; units: [function, from, to, suffix, row, caption];
      cads: [measure, label, term]; marks: [from, to, label, term]; breaks: measures followed by //.
-     A unit in row 1 stands on a second function row, under the first. */
+     A unit in row 1 stands on a second function row, under the first. A caption replaces the computed one. */
   function draw(svg, theme, readout, key) {
     var n = theme.n, MW = SPAN / n;
     var span = theme.span || [1, n];
     var breaks = theme.breaks || [];
     var rows = theme.units.some(function (u) { return u[4]; }) ? 2 : 1;
     var yTheme = Y_UNIT + rows * ROW;
-    var cadEnds = theme.cads.filter(function (c) { return !CADS[c[1]]; }).map(function (c) { return c[0]; });
+    var cadEnds = theme.cads.filter(function (c) { return !(c[1] in CADS); }).map(function (c) { return c[0]; });
     function left(m) { return X0 + (m - 1) * MW + GAP / 2; }
     function right(m) { return X0 + m * MW - GAP / 2; }
     function closings(a, b) { return cadEnds.filter(function (m) { return m >= a && m <= b; }).length; }
@@ -163,16 +164,16 @@ MUS.themes = (function () {
     });
 
     theme.cads.forEach(function (c) {
-      var term = c[2] || (CADS[c[1]] ? c[1] : "cadence");
+      var term = c[2] || (c[1] in CADS ? c[1] : "cadence");
       var g = item(term, c[1]);
       var cx = X0 + (c[0] - 0.5) * MW, w = 18 + c[1].length * 7.8;
       g.appendChild(el("rect", { x: cx - w / 2, y: Y_CAD, width: w, height: 24, "class": "cadbox" }));
       g.appendChild(el("text", { x: cx, y: Y_CAD + 17, "class": "cadtext" }, c[1]));
-      hit(g, cx - w / 2, Y_CAD, w, 24, c[1] + (CADS[c[1]] ? " cadence" : "") + " at measure " + c[0]);
+      hit(g, cx - w / 2, Y_CAD, w, 24, c[1] + (c[1] in CADS ? CADS[c[1]] : "") + " at measure " + c[0]);
     });
 
     theme.units.forEach(function (u) {
-      var info = UNITS[u[0]], lev = level(u), y = Y_UNIT + (u[4] || 0) * ROW;
+      var info = UNITS[u[0]], lev = u[5] || level(u), y = Y_UNIT + (u[4] || 0) * ROW;
       var name = info.name + (u[3] ? " (" + u[3] + ")" : "");
       var g = item(info.term || u[0], name, "unit");
       var x1 = left(u[1]), x2 = right(u[2]);
