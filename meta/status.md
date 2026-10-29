@@ -8,6 +8,7 @@
 - `tools/annotation-guide.html`, the annotation guide.
 - `tools/theme-types.html`, the simple themes of Caplin chapters 2 to 5.
 - `tools/compound-themes.html`, the compound themes of Caplin chapter 6.
+- `tools/small-ternary-binary.html`, the small ternary and small binary of Caplin chapters 7 and 8.
 - `tools/style-chart.html`, the style chart.
 - `review/part-1/part-1.html` through `review/part-4/part-4.html`, problem sets 1 to 4, one for each part of the harmony review.
 - `review/part-1/part-1-set-2.html`, a second problem set for part 1.
