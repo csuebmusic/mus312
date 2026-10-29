@@ -73,6 +73,8 @@
   .model { font-family: var(--font-data); font-size: 0.8rem; color: var(--muted); }
   .scroll-wrap svg { min-width: 760px; }
   .k-new { --k: var(--muted); }
+  .rep-thick, .rep-dot { fill: var(--ink); }
+  .rep-thin { stroke: var(--ink); stroke-width: 1.5; }
 </style>
 </head>
 <body>
@@ -83,7 +85,7 @@
 
   <p class="lede full">Caplin's small ternary and small binary are the last two of his theme types. The small ternary brings its opening basic idea back in the home key to begin its last section, and the small binary never does. Both are often written with repeat signs, and a small ternary written that way is called a rounded binary (chapters 7 and 8, pp. 195&ndash;196, 238).</p>
 
-  <p class="howto">Press any box, bracket, or cadence for its definition. Colors name the idea, and a gray box is a new idea that has none of those functions. Beneath the boxes, the first row of brackets names the units inside each section, the second names the sections, and a last bracket names the theme. Terms from the simple themes link to their definitions on the theme types page.</p>
+  <p class="howto">Press any box, bracket, or cadence for its definition. Colors name the idea, and a gray box is a new idea that has none of those functions. Beneath the boxes, the first row of brackets names the units inside each section, the second names the sections, and a last bracket names the theme. Repeat signs mark the two repeated parts of a rounded binary and of a small binary; a small ternary can also be written without repeats, or with them written out. Terms from the simple themes link to their definitions on the theme types page.</p>
 
   <section class="panel">
     <h2 id="ternary">the small ternary</h2>
@@ -245,7 +247,7 @@
 </div>
 
 <script src="../assets/notation.js?v=25"></script>
-<script src="../assets/themes.js?v=3"></script>
+<script src="../assets/themes.js?v=4"></script>
 <script>
 (function () {
   "use strict";
@@ -274,42 +276,42 @@
 
   var THEMES = {
     "ternary": {
-      name: "small ternary", term: "small-ternary", n: 16,
+      name: "small ternary", term: "small-ternary", n: 16, repeats: [[1, 8], [9, 16]],
       ideas: PERIOD.concat([["new", 9, 10], ["new", 11, 12, "new-idea", "repetition"]], recapIdeas(13)),
       units: PERIOD_UNITS.concat([["bsod", 9, 12], ["middle", 9, 12, "B", 1]], recapUnits(13)),
       cads: [[4, "HC"], [8, "PAC"], [16, "PAC"]]
     },
 
     "m-continuation": {
-      label: "continuation", name: "small ternary", term: "small-ternary", n: 16,
+      label: "continuation", name: "small ternary", term: "small-ternary", n: 16, repeats: [[1, 8], [9, 16]],
       model: "Compare Caplin, Ex. 7.7: Haydn, Piano Sonata in G, H. 40, ii, whose B section develops the opening motive in model–sequence technique and alters the last sequence into a half-cadential idea, after an exposition that ends with a closing section (pp. 208–211).",
       ideas: PERIOD.concat([["cont", 9, 10], ["cad", 11, 12]], recapIdeas(13)),
       units: PERIOD_UNITS.concat([["continuation", 9, 12], ["middle", 9, 12, "B", 1]], recapUnits(13)),
       cads: [[4, "HC"], [8, "PAC"], [12, "HC"], [16, "PAC"]]
     },
     "m-sentence": {
-      label: "sentence", name: "small ternary", term: "small-ternary", n: 20,
+      label: "sentence", name: "small ternary", term: "small-ternary", n: 20, repeats: [[1, 8], [9, 20]],
       model: "Compare Caplin, Ex. 7.8: Haydn, Piano Sonata in E♭, H. 49, iii, whose presentation prolongs I6 and opens on V7, and whose continuation prolongs the same I6 by a stepwise descending sequence to the HC. Its exposition is a modulating hybrid, restated in the home key as the recapitulation (pp. 212–215).",
       ideas: PERIOD.concat([["bi", 9, 10], ["bi", 11, 12, "rep", "repetition"], ["cont", 13, 14], ["cad", 15, 16]], recapIdeas(17)),
       units: PERIOD_UNITS.concat([["presentation", 9, 12], ["continuation", 13, 16], ["middle", 9, 16, "B", 1]], recapUnits(17)),
       cads: [[4, "HC"], [8, "PAC"], [16, "HC"], [20, "PAC"]]
     },
     "m-postcadential": {
-      label: "postcadential standing on the dominant", name: "small ternary", term: "small-ternary", n: 20,
+      label: "postcadential standing on the dominant", name: "small ternary", term: "small-ternary", n: 20, repeats: [[1, 8], [9, 20]],
       model: "Compare Caplin, Ex. 7.6: Mozart, String Quartet in E♭, K. 428, iv, whose brief standing on the dominant elides with the HC at m. 24 and thins to a single voice before the recapitulation (pp. 207–208, 211, 214).",
       ideas: PERIOD.concat([["cont", 9, 10], ["cad", 11, 12], ["sod", 13, 14, "postcadential"], ["sod", 15, 16, "postcadential", "standing on the dominant, repeated"]], recapIdeas(17)),
       units: PERIOD_UNITS.concat([["continuation", 9, 12], ["pcsod", 13, 16], ["middle", 9, 16, "B", 1, "phrase"]], recapUnits(17)),
       cads: [[4, "HC"], [8, "PAC"], [12, "HC"], [20, "PAC"]]
     },
     "m-arrival": {
-      label: "dominant arrival", name: "small ternary", term: "small-ternary", n: 16,
+      label: "dominant arrival", name: "small ternary", term: "small-ternary", n: 16, repeats: [[1, 8], [9, 16]],
       model: "Compare Caplin, Ex. 7.12: Beethoven, Piano Sonata in G minor, Op. 49, No. 1, ii, whose B section prolongs tonic and ends on an inverted V7 under a fermata, and Ex. 7.14: Beethoven, Piano Sonata in E♭, Op. 31, No. 3, ii, whose dominant arrival at m. 16 is premature, three measures before the section ends (pp. 221–225).",
       ideas: PERIOD.concat([["cont", 9, 12]], recapIdeas(13)),
       units: PERIOD_UNITS.concat([["continuation", 9, 12], ["middle", 9, 12, "B", 1]], recapUnits(13)),
       cads: [[4, "HC"], [8, "PAC"], [12, "dominant arrival", "dom-arrival"], [16, "PAC"]]
     },
     "m-modulating": {
-      label: "modulating, with retransition", name: "small ternary", term: "small-ternary", n: 24,
+      label: "modulating, with retransition", name: "small ternary", term: "small-ternary", n: 24, repeats: [[1, 8], [9, 24]],
       model: "Compare Caplin, Ex. 7.13: Haydn, Symphony No. 101 in D (“The Clock”), iv, whose exposition begins with a compound basic idea and whose recapitulation restates the whole exposition (p. 223).",
       ideas: PERIOD.concat([["bi", 9, 10, "b-modulating", "new basic idea"], ["ci", 11, 12, "b-modulating", "new contrasting idea"], ["ecp", 13, 16],
               ["cont", 17, 18, "retransition", "model and sequence"], ["cad", 19, 20]], recapIdeas(21)),
@@ -318,7 +320,7 @@
     },
 
     "r-same": {
-      label: "the same as the exposition", name: "small ternary", term: "small-ternary", n: 20,
+      label: "the same as the exposition", name: "small ternary", term: "small-ternary", n: 20, repeats: [[1, 8], [9, 20]],
       model: "Compare Caplin, Ex. 7.5: Haydn, Capriccio in G, H. XVII:1, whose exposition is a single consequent extended by one measure, and whose B section is a standing on the dominant ending under a fermata (pp. 206, 210, 214).",
       ideas: PERIOD.concat([["new", 9, 10], ["new", 11, 12, "new-idea", "repetition"],
               ["bi", 13, 14, "return", "return"], ["ci", 15, 16], ["bi", 17, 18, "restart", "restart"], ["ci", 19, 20]]),
@@ -327,7 +329,7 @@
       cads: [[4, "HC"], [8, "PAC"], [16, "HC"], [20, "PAC"]]
     },
     "r-adjusted": {
-      label: "tonally adjusted", name: "small ternary", term: "small-ternary", n: 20,
+      label: "tonally adjusted", name: "small ternary", term: "small-ternary", n: 20, repeats: [[1, 8], [9, 20]],
       model: "Compare Caplin, Ex. 7.2: Haydn, Piano Sonata in D, H. 37, iii, a rounded binary whose B section is a single continuation phrase that returns to the home key by a descending-fifths sequence (pp. 200–201).",
       ideas: [["bi", 1, 2], ["ci", 3, 4], ["cont", 5, 6], ["cad", 7, 8], ["cont", 9, 10], ["cad", 11, 12],
               ["bi", 13, 14, "return", "return"], ["ci", 15, 16], ["cont", 17, 18], ["cad", 19, 20]],
@@ -336,7 +338,7 @@
       cads: [[8, "PAC in V", "subordinate-key"], [12, "HC"], [20, "PAC", "tonal-adjustment"]]
     },
     "r-continuation": {
-      label: "compressed, with a new continuation", name: "small ternary", term: "small-ternary", n: 22,
+      label: "compressed, with a new continuation", name: "small ternary", term: "small-ternary", n: 22, repeats: [[1, 8], [9, 22]],
       model: "Compare Caplin, Ex. 7.10: Beethoven, Piano Sonata in D, Op. 28, ii, in D minor, whose consequent begins in ♭III and modulates to v. The recapitulation sequences the second half of the basic idea down a step and back before a tonally adjusted cadential idea, six measures against the exposition's eight (pp. 217–219).",
       ideas: [["bi", 1, 2], ["ci", 3, 4], ["bi", 5, 6, "restart", "restart"], ["ci", 7, 8],
               ["new", 9, 10], ["new", 11, 12, "new-idea", "repetition"], ["cont", 13, 16, "b-sod", "fragmentation"],
@@ -345,7 +347,7 @@
       cads: [[4, "HC"], [8, "PAC in v", "subordinate-key"], [22, "PAC", "compressed"]]
     },
     "r-expanded": {
-      label: "expanded", name: "small ternary", term: "small-ternary", n: 24,
+      label: "expanded", name: "small ternary", term: "small-ternary", n: 24, repeats: [[1, 8], [9, 24]],
       model: "Compare Caplin, Ex. 7.11: Beethoven, Piano Sonata in E♭, Op. 7, ii. The new continuation develops the dotted-rhythm motive of the basic idea, its cadential progression fills m. 19 alone and resolves deceptively, and the second continuation, from m. 20, develops the stepwise motive before the PAC (pp. 220–221).",
       ideas: [["bi", 1, 2], ["bi", 3, 4, "rep", "repetition"], ["cont", 5, 6], ["cad", 7, 8],
               ["new", 9, 10], ["new", 11, 12, "new-idea", "repetition"], ["new", 13, 14, "new-idea", "repetition"],
@@ -356,7 +358,7 @@
     },
 
     "binary": {
-      name: "small binary", term: "small-binary", n: 16,
+      name: "small binary", term: "small-binary", n: 16, repeats: [[1, 8], [9, 16]],
       ideas: [["bi", 1, 2], ["bi", 3, 4, "rep", "repetition"], ["cont", 5, 6], ["cad", 7, 8],
               ["bi", 9, 10, "part2-opening", "dominant version"], ["ci", 11, 12], ["cont", 13, 14], ["cad", 15, 16]],
       units: [["presentation", 1, 4], ["continuation", 5, 8], ["part1", 1, 8, "", 1],
@@ -365,7 +367,7 @@
     },
 
     "p-cadential": {
-      label: "contrasting middle + cadential", name: "small binary", term: "small-binary", n: 16,
+      label: "contrasting middle + cadential", name: "small binary", term: "small-binary", n: 16, repeats: [[1, 8], [9, 16]],
       model: "Compare Caplin, Ex. 8.2: Beethoven, Variations for Piano in E♭, Op. 35, 66–81, whose contrasting middle is a standing on the dominant and whose cadential phrase, after that standing on the dominant, has a continuational character from its faster harmonic rhythm (pp. 243–244, 248).",
       ideas: [["bi", 1, 2], ["bi", 3, 4, "rep", "repetition"], ["cont", 5, 6], ["cad", 7, 8],
               ["new", 9, 10], ["new", 11, 12, "new-idea", "repetition"], ["ecp", 13, 16]],
@@ -374,7 +376,7 @@
       cads: [[8, "HC"], [16, "PAC", "p2-cadential"]]
     },
     "p-consequent": {
-      label: "contrasting middle + new consequent", name: "small binary", term: "small-binary", n: 16,
+      label: "contrasting middle + new consequent", name: "small binary", term: "small-binary", n: 16, repeats: [[1, 8], [9, 16]],
       model: "Compare Caplin, Ex. 8.3: Beethoven, Violin Sonata in A, Op. 30, No. 1, iii, written out with its repeats, so that part 2 begins at m. 17. The new consequent's opening idea derives from the standing on the dominant before it, a relation within part 2 like that of a period (pp. 244–245, 250–251).",
       ideas: [["bi", 1, 2], ["ci", 3, 4], ["bi", 5, 6, "restart", "restart"], ["ci", 7, 8],
               ["new", 9, 10], ["new", 11, 12, "new-idea", "repetition"], ["bi", 13, 14, "new-consequent", "new idea"], ["ci", 15, 16]],
@@ -383,7 +385,7 @@
       cads: [[8, "HC", "failed-consequent"], [16, "PAC"]]
     },
     "p-dominant": {
-      label: "contrasting middle + further dominant", name: "small binary", term: "small-binary", n: 16,
+      label: "contrasting middle + further dominant", name: "small binary", term: "small-binary", n: 16, repeats: [[1, 8], [9, 16]],
       model: "Compare Caplin, Ex. 8.7: Haydn, Piano Sonata in E, H. 22, iii, whose part 1 is a modulating compound basic idea + consequent, and whose dominant resolves deceptively on the last beat of m. 14 (pp. 251–252).",
       ideas: [["bi", 1, 2], ["ci", 3, 4], ["bi", 5, 6, "restart", "restart"], ["ci", 7, 8],
               ["cont", 9, 10], ["cad", 11, 12], ["new", 13, 14, "further-dominant"], ["cad", 15, 16]],
@@ -393,7 +395,7 @@
       marks: [[13, 14, "dominant prolonged", "further-dominant"]]
     },
     "p-none": {
-      label: "no contrasting middle", name: "small binary", term: "small-binary", n: 16,
+      label: "no contrasting middle", name: "small binary", term: "small-binary", n: 16, repeats: [[1, 8], [9, 16]],
       model: "Compare Caplin, Ex. 8.4: Haydn, Piano Sonata in E, H. 31, iii, whose part 2 groups like a sentence, but whose first four measures of model–sequence technique leave no tonic prolongation for a presentation (pp. 245, 252).",
       ideas: [["bi", 1, 2], ["ci", 3, 4], ["bi", 5, 6, "restart", "restart"], ["ci", 7, 8],
               ["cont", 9, 10, "no-middle", "model"], ["cont", 11, 12, "no-middle", "sequence"], ["cont", 13, 14], ["cad", 15, 16]],
