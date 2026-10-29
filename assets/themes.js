@@ -12,6 +12,7 @@ MUS.themes = (function () {
   var X0 = 150, SPAN = 1000, GAP = 18;
   var Y_MNUM = 20, Y_MARK = 48, Y_CAD = 56, Y_BOX = 92, H_BOX = 80;
   var Y_UNIT = 204, ROW = 70, TICK = 10;
+  var REP_INSET = 19, REP_THIN = 7, REP_DOT = 12;
 
   var IDEAS = {
     bi:     { abbr: "b.i.",  name: "basic idea" },
@@ -89,7 +90,8 @@ MUS.themes = (function () {
   function measures(a, b) { return "measure" + (b > a ? "s " + a + " to " + b : " " + a); }
 
   /* ideas: [kind, from, to, term, name]; units: [function, from, to, suffix, row, caption];
-     cads: [measure, label, term]; marks: [from, to, label, term]; breaks: measures followed by //.
+     cads: [measure, label, term]; marks: [from, to, label, term]; breaks: measures followed by //;
+     repeats: [from, to] for each span between repeat signs.
      A unit in row 1 stands on a second function row, under the first. A caption replaces the computed one. */
   function draw(svg, theme, readout, key) {
     var n = theme.n, MW = SPAN / n;
@@ -100,6 +102,14 @@ MUS.themes = (function () {
     var cadEnds = theme.cads.filter(function (c) { return !(c[1] in CADS); }).map(function (c) { return c[0]; });
     function left(m) { return X0 + (m - 1) * MW + GAP / 2; }
     function right(m) { return X0 + m * MW - GAP / 2; }
+    /* a repeat sign stands at a bar line, after measure b, opening a span, closing one, or both */
+    var reps = {};
+    (theme.repeats || []).forEach(function (r) {
+      (reps[r[0] - 1] = reps[r[0] - 1] || {}).open = true;
+      (reps[r[1]] = reps[r[1]] || {}).close = true;
+    });
+    function boxLeft(m) { return reps[m - 1] ? X0 + (m - 1) * MW + REP_INSET : left(m); }
+    function boxRight(m) { return reps[m] ? X0 + m * MW - REP_INSET : right(m); }
     function closings(a, b) { return cadEnds.filter(function (m) { return m >= a && m <= b; }).length; }
 
     /* a phrase runs to a cadence, from the start of the theme or from the cadence before it */
@@ -145,22 +155,38 @@ MUS.themes = (function () {
     theme.ideas.forEach(function (d, i) {
       var info = IDEAS[d[0]], name = d[4] || info.name, term = d[3] || info.term || d[0];
       var g = item(term, name, "idea k-" + d[0] + (info.frame ? " frame" : ""));
-      var x = left(d[1]), w = right(d[2]) - x, cx = x + w / 2;
+      var x = boxLeft(d[1]), w = boxRight(d[2]) - x, cx = x + w / 2;
+      /* the abbreviation is sized from the box's width without a repeat sign beside it, so a row reads alike */
+      var fw = right(d[2]) - left(d[1]);
       var abbr = info.abbr, cls = "idea-abbr";
-      if (abbr.length * 11.4 > w - 14) { cls = "idea-abbr long"; }
-      if (abbr.length * 9 > w - 14) { cls = "idea-abbr longer"; }
-      if (abbr.length * 7.8 > w - 14 && info.short) { abbr = info.short; cls = "idea-abbr"; }
-      else if (abbr.length * 7.8 > w - 6) { cls = "idea-abbr smallest"; }
+      if (abbr.length * 11.4 > fw - 14) { cls = "idea-abbr long"; }
+      if (abbr.length * 9 > fw - 14) { cls = "idea-abbr longer"; }
+      if (abbr.length * 7.8 > fw - 14 && info.short) { abbr = info.short; cls = "idea-abbr"; }
+      else if (abbr.length * 7.8 > fw - 6) { cls = "idea-abbr smallest"; }
       g.appendChild(el("rect", { x: x, y: Y_BOX, width: w, height: H_BOX, "class": "box" }));
       g.appendChild(el("text", { x: cx, y: Y_BOX + 38, "class": cls }, abbr));
       if (name.length * 6.3 < w - 12) {
         g.appendChild(el("text", { x: cx, y: Y_BOX + 60, "class": "idea-name" }, name));
       }
       hit(g, x, Y_BOX, w, H_BOX, name + ", " + measures(d[1], d[2]));
-      if (i < theme.ideas.length - 1) {
+      if (i < theme.ideas.length - 1 && !reps[d[2]]) {
         var brk = breaks.indexOf(d[2]) >= 0;
         svg.appendChild(el("text", { x: X0 + d[2] * MW, y: Y_BOX + H_BOX / 2 + 5, "class": brk ? "brk" : "plus" }, brk ? "//" : "+"));
       }
+    });
+
+    Object.keys(reps).forEach(function (k) {
+      var b = X0 + Number(k) * MW, r = reps[k], y1 = Y_BOX - 6, y2 = Y_BOX + H_BOX + 6, cy = Y_BOX + H_BOX / 2;
+      var g = el("g", { "class": "repeat", "aria-hidden": "true" });
+      g.appendChild(el("rect", { x: b - 2, y: y1, width: 4, height: y2 - y1, "class": "rep-thick" }));
+      [[r.close, -1], [r.open, 1]].forEach(function (side) {
+        if (!side[0]) { return; }
+        var t = b + side[1] * REP_THIN, dx = b + side[1] * REP_DOT;
+        g.appendChild(el("line", { x1: t, x2: t, y1: y1, y2: y2, "class": "rep-thin" }));
+        g.appendChild(el("circle", { cx: dx, cy: cy - 8, r: 2.4, "class": "rep-dot" }));
+        g.appendChild(el("circle", { cx: dx, cy: cy + 8, r: 2.4, "class": "rep-dot" }));
+      });
+      svg.appendChild(g);
     });
 
     theme.cads.forEach(function (c) {
