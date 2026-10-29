@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mus 312 &middot; small ternary and small binary</title>
+<link rel="stylesheet" href="../assets/style.css?v=23">
+<script src="../assets/theme.js?v=2"></script>
+<style>
+  section.panel { margin-top: calc(var(--step) * 5); }
+  section.panel > p { max-width: none; }
+  section.panel > h3 { margin-top: calc(var(--step) * 4); }
+
+  .k-bi   { --k: var(--idea-basic); }
+  .k-ci   { --k: var(--idea-contrast); }
+  .k-cont { --k: var(--idea-continuation); }
+  .k-cad, .k-ecp { --k: var(--idea-cadential); }
+
+  .chip {
+    font-family: var(--font-data);
+    font-size: 0.8em;
+    color: var(--k);
+    background: color-mix(in srgb, var(--k) 14%, var(--paper));
+    border: var(--line) solid var(--k);
+    padding: 0 0.35em;
+    white-space: nowrap;
+  }
+
+  .box { fill: color-mix(in srgb, var(--k) 14%, var(--paper)); stroke: var(--k); stroke-width: 1.5; }
+  .idea-abbr { font-family: var(--font-data); font-size: 19px; font-weight: 500; fill: var(--k); text-anchor: middle; }
+  .idea-abbr.long { font-size: 15px; }
+  .idea-abbr.longer { font-size: 13px; }
+  .idea-abbr.smallest { font-size: 11px; }
+  .idea-name { font-family: var(--font-body); font-size: 12px; fill: var(--muted); text-anchor: middle; }
+  .plus { font-family: var(--font-data); font-size: 16px; fill: var(--muted); text-anchor: middle; }
+  .mnum { font-family: var(--font-data); font-size: 12px; fill: var(--muted); text-anchor: middle; }
+  .rowname { font-family: var(--font-data); font-size: 12px; fill: var(--muted); text-anchor: end; }
+  .cadbox { fill: var(--paper); stroke: var(--ink); stroke-width: 1.2; }
+  .cadtext { font-family: var(--font-data); font-size: 13px; fill: var(--ink); text-anchor: middle; }
+  .bracket { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+  .unit-label { font-family: var(--font-body); font-size: 15px; fill: var(--ink); text-anchor: middle; }
+  .unit-cap { font-family: var(--font-data); font-size: 12px; fill: var(--muted); text-anchor: middle; }
+  .hit { fill: transparent; cursor: pointer; }
+  .hit:focus { outline: none; }
+  .hit:focus-visible { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 4 3; }
+
+  .on .box { stroke: var(--accent); stroke-width: 3; }
+  .on .bracket, .on .cadbox { stroke: var(--accent); stroke-width: 2.5; }
+  .on .unit-label, .on .unit-cap, .on .cadtext { fill: var(--accent); }
+
+  .readout.def {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--ink);
+    border-left: 3px solid var(--accent);
+    padding: calc(var(--step) * 1.2) calc(var(--step) * 2);
+    margin-bottom: calc(var(--step) * 2);
+  }
+  .readout.def p { margin: 0; max-width: none; }
+  .readout.def:empty { display: none; }
+  p[data-term] { padding: calc(var(--step) * 0.6) calc(var(--step) * 1.2); margin-left: calc(var(--step) * -1.2); }
+  ol.defs { margin: calc(var(--step) * 2) 0 0; padding-left: calc(var(--step) * 3); }
+  ol.defs li { padding: calc(var(--step) * 0.6) calc(var(--step) * 1.2); margin-bottom: calc(var(--step) * 1.5); }
+  p[data-term].on, li[data-term].on { background: var(--accent-wash); }
+  .scroll-wrap { overflow-x: auto; }
+  .k-interp, .k-intro, .k-cod, .k-sod { --k: var(--muted); }
+  .frame .box { stroke-dasharray: 5 4; }
+  .mark { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+  .marktext { font-family: var(--font-data); font-size: 12px; fill: var(--muted); text-anchor: middle; }
+  .brk { font-family: var(--font-data); font-size: 16px; fill: var(--ink); text-anchor: middle; }
+  .on .mark { stroke: var(--accent); stroke-width: 2; }
+  .on .marktext { fill: var(--accent); }
+  .model { font-family: var(--font-data); font-size: 0.8rem; color: var(--muted); }
+  .scroll-wrap svg { min-width: 760px; }
+  .k-new { --k: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">mus 312 &middot; small ternary and small binary</p>
+  <h1 id="top">small ternary and small binary</h1>
+
+  <p class="lede full">Caplin's small ternary and small binary are the last two of his theme types. The small ternary brings its opening basic idea back in the home key to begin its last section, and the small binary never does. Both are often written with repeat signs, and a small ternary written that way is called a rounded binary (chapters 7 and 8, pp. 195&ndash;196, 238).</p>
+
+  <p class="howto">Press any box, bracket, or cadence for its definition. Colors name the idea, and a gray box is a new idea that has none of those functions. Beneath the boxes, the first row of brackets names the units inside each section, the second names the sections, and a last bracket names the theme. Terms from the simple themes link to their definitions on the theme types page.</p>
+
+  <section class="panel">
+    <h2 id="ternary">the small ternary</h2>
+    <p data-term="small-ternary">A small ternary has three sections, A, B, and A&prime; (read &ldquo;A prime&rdquo;), and each has a formal function: A is the exposition, B the contrasting middle, and A&prime; the recapitulation. A relatively closed unit is followed by an open one of contrasting content and organization, and then the opening unit comes back in a form that closes the theme completely (pp. 195&ndash;196).</p>
+    <div class="scroll-wrap"><svg id="fig-ternary" viewBox="0 0 1200 402" role="group" aria-label="Small ternary: a period as the exposition, a standing on the dominant as the contrasting middle, and a single consequent as the recapitulation"></svg></div>
+    <p class="model">Compare Caplin, Ex. 7.1: Mozart, <i>Eine kleine Nachtmusik</i>, K. 525, ii, whose recapitulation sets the returning basic idea over a short descending-fifths sequence where the exposition had a tonic pedal (pp. 199&ndash;200).</p>
+    <div class="readout def" id="read-ternary" aria-live="polite"></div>
+    <ol class="defs">
+      <li data-term="exposition">The exposition is a relatively <a href="#tight-knit">tight-knit</a> eight-measure theme. It's most often a simple period, and it can also be a sentence or a hybrid, or less often a compound theme or a nonconventional design. It closes with a PAC, in the home key or in a subordinate key it has modulated to. Modulating or not, it opens and closes on I, so it emphasizes tonic harmony (pp. 196&ndash;197, 205).</li>
+      <li data-term="contrasting-middle">The contrasting middle differs from the exposition chiefly in its harmony and phrase structure, and only secondarily in melody and motive. It's more loosely organized than A and emphasizes the home key's dominant: it often begins on V and almost always ends on it, usually with an HC, before the return of the basic idea over I. It begins in the measure after the exposition ends and never elides with it. It's most often a standing on the dominant or a continuation ending with an HC (pp. 197, 210).</li>
+      <li data-term="recapitulation">The recapitulation has two requirements: it begins by restating the exposition's basic idea, and it closes with a PAC in the home key. If the exposition modulated, the recapitulation is adjusted to stay in the home key. It can keep the exposition's phrase structure, but more often it's compressed into a single consequent, and now and then it's extended to develop motives from earlier in the theme. Ornamental changes of melody, texture, dynamics, and instrumentation can happen anywhere in it (p. 198).</li>
+      <li data-term="return">The return of the basic idea, harmonized by I of the home key, opens the recapitulation. It's the event that makes a theme a small ternary, and the one a small binary doesn't have (pp. 198, 238).</li>
+      <li data-term="new-idea">A new idea, in gray, is a two-measure idea heard for the first time in the contrasting middle that isn't a basic, contrasting, continuation, or cadential idea. In a standing on the dominant it's usually stated and then repeated (p. 210).</li>
+      <li data-term="b-sod">A standing on the dominant that makes up a whole B section is supported entirely by a prolongation of the home key's dominant. A new two-measure idea and its repetition are typical, and fragmentation can follow when the section runs past four measures. The section ends without a cadence, even where its last chord has a fermata: a cadence needs a cadential progression, and a single prolonged harmony has none. A dominant prolongation is a harmonic progression; a standing on the dominant is a formal function, and its harmony is always a dominant prolongation (pp. 199, 210&ndash;211, 214).</li>
+    </ol>
+    <h3>phrase and subphrase</h3>
+    <p>Phrase and subphrase are used as defined on the <a href="theme-types.html#phrase" target="_blank" rel="noopener">theme types</a> page. A contrasting middle that ends without a cadence doesn't close a phrase, so the phrase it begins runs on through the recapitulation to the final PAC, and the diagrams caption both sections as subphrases. Caplin calls the units of each section phrases, as he does in the simple themes (p. 60).</p>
+    <h3>rounded binary</h3>
+    <p>When the exposition is repeated, and the contrasting middle and recapitulation are repeated together, |: A :|: B A&prime; :|, the small ternary is traditionally called a rounded binary. The repeats are usually marked with repeat signs and are sometimes written out with variations. In function the two are the same form (p. 196).</p>
+    <p>Theorists have long argued whether this form has two parts or three. The binary view points to two repeated parts of similar length, to the dependence of B on A&prime;, and, where A modulates, to a single tonal motion away from the home key and back. The ternary view points to the contrasting middle and to the recapitulation of the opening material. Caplin finds the two views compatible with each other and with the music. He takes the ternary view because it fits an account of formal function, and he uses the name rounded binary where the repeats matter (p. 198).</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="exposition">the exposition</h2>
+    <p data-term="subordinate-key">Caplin calls the key a movement begins and ends in the home key, and the principal related key it moves to the subordinate key, and he keeps the names tonic, dominant, and so on for harmonies. From a major home key the subordinate key is usually V. From a minor one it's most often &#9837;III, the relative major, and now and then v. Caplin writes the relative major as III; this course writes &#9837;III. A cadence box in the diagrams names the subordinate key the cadence closes in (pp. 196&ndash;197).</p>
+    <p>Caplin treats the modulating and the nonmodulating small ternary as one type, because most of their functional features don't depend on the tonal plan. Douglass Green separates them, calling a theme sectional when its first section stays in the home key and continuous when it modulates (p. 206).</p>
+    <p>When a modulating A section is repeated, the return to the home key can make its last cadence sound like a reinterpreted half cadence, and the repetition like a compound consequent in the making. When the repetition modulates again and closes with a PAC, the section is an exposition and its cadence is a PAC. An A section closes with an authentic cadence even when that cadence confirms a related key (pp. 201, 208).</p>
+    <p>Less often the exposition is nonconventional. In Ex. 7.5 (Haydn, Capriccio in G, H. XVII:1) it's a basic idea extended by a repetition of its second half and a cadential idea, a consequent with no antecedent. In Ex. 7.6 (Mozart, String Quartet in E&#9837;, K. 428, iv) it's two complete themes: a hybrid, compound basic idea + consequent, closing with a PAC in the home key, and a modulating period closing with a PAC in V. Because the exposition ends with a PAC, a codetta or a whole closing section can follow it, as in Ex. 7.7 (Haydn, Piano Sonata in G, H. 40, ii) (pp. 205&ndash;209).</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="middle">the contrasting middle</h2>
+    <p>B is looser than A, chiefly through its harmony: it often begins on the home key's dominant, ends on it with few exceptions, and can be loosened further by prominent sequences. Its grouping is usually less symmetrical, with extensions and expansions, and its functions rarely add up to a conventional theme. New motives and accompaniment patterns, changes of dynamics and articulation, and imitation among the voices can add to the contrast (p. 210). The diagrams below keep the period of the first diagram as A and a single consequent as A&prime;, and change only B.</p>
+    <div class="controls" id="pick-middle"></div>
+    <div class="scroll-wrap"><svg id="fig-middle" viewBox="0 0 1200 402" role="group" aria-label="The selected small ternary, drawn as idea boxes with function brackets beneath"></svg></div>
+    <p class="model" id="model-middle"></p>
+    <div class="readout def" id="read-middle" aria-live="polite"></div>
+    <ol class="defs">
+      <li data-term="b-continuation">A contrasting middle built as a continuation resembles the second half of a sentence. Sequential harmony, often with model&ndash;sequence technique, destabilizes it, and it usually closes with an HC, which creates a strong expectation of I at the start of the recapitulation (p. 211).</li>
+      <li data-term="b-sentence">Conventional theme types are infrequent in B, and the period and the hybrid compound basic idea + consequent never appear there. An eight-measure sentence ending with an HC appears occasionally, made looser than a tight-knit sentence by less stable harmony or less symmetrical grouping (pp. 210, 212).</li>
+      <li data-term="postcadential">After the HC that ends a contrasting middle, a postcadential standing on the dominant can reinforce the dominant and strengthen the expectation of I at the recapitulation. It can begin in the measure after the cadence or elide with it. Its texture is often reduced until one voice is left, and its motives often anticipate the basic idea about to return. A standing on the dominant that makes up a whole B section follows the exposition's PAC and can't elide with it; a postcadential one follows the B section's HC and can (pp. 213&ndash;214).</li>
+      <li data-term="dom-arrival">A B section can end on the home key's dominant without a cadence, either because no half-cadential progression leads to that dominant, or because the progression's last dominant is unstable: inverted, with a seventh, or both. Caplin calls that last dominant a dominant arrival, a cadential deviation of the half cadence. Where the dominant is reached before the section's phrase-structural end, so that the music seems stuck on it too early, it's a premature dominant arrival (p. 224).</li>
+      <li data-term="b-modulating">B can also emphasize the dominant by modulating to V and confirming it with a PAC. This usually follows an exposition that stayed in the home key. After an exposition that modulated, B moves on to other related regions or, more often, returns quickly to the home key (p. 223).</li>
+      <li data-term="retransition">A retransition brings back the home key after a B section that confirmed another one, in preparation for the recapitulation. It can be a single chord, the home key's V7, or a longer passage of model&ndash;sequence technique leading to the home key's dominant (p. 223).</li>
+    </ol>
+    <h3>dominant emphasis</h3>
+    <p>A B section can begin and end on V without prolonging V. In Ex. 7.12 (Beethoven, Piano Sonata in G minor, Op. 49, No. 1, ii) each downbeat dominant, an inverted V7, resolves to the tonic after it, so the section prolongs tonic until its last chord. The dominant still has emphasis: it opens and closes the section, it falls on the strong beats, and the melody stays on 5&#770;. Where V and I alternate, Caplin leaves the choice between a tonic and a dominant prolongation to the ear and to the melodic and rhythmic context (pp. 221&ndash;222).</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="recapitulation">the recapitulation</h2>
+    <p>Caplin's procedure for any restatement is to compare A&prime; with A bar by bar and note each change. A change in harmony, melodic patterning, grouping, or formal function is structural; a change in dynamics, texture, instrumentation, accompaniment, or melodic and harmonic embellishment is ornamental. Then ask why the composer made the change, and if nothing changed, why not (p. 215).</p>
+    <div class="controls" id="pick-recap"></div>
+    <div class="scroll-wrap"><svg id="fig-recap" viewBox="0 0 1200 402" role="group" aria-label="The selected small ternary, drawn as idea boxes with function brackets beneath"></svg></div>
+    <p class="model" id="model-recap"></p>
+    <div class="readout def" id="read-recap" aria-live="polite"></div>
+    <ol class="defs">
+      <li data-term="recap-same">A recapitulation can keep the exposition's structure and change only ornamentally. It's the easiest case to analyze and a relatively infrequent one, and it's possible only when the exposition stays in the home key (pp. 214&ndash;215).</li>
+      <li data-term="tonal-adjustment">After a modulating exposition, the recapitulation is rewritten to stay in the home key. Music the exposition placed in the subordinate key, or a clear variant of it, usually comes back in the home key. In Ex. 7.2 and Ex. 7.8 the recapitulation turns toward IV at the point where the exposition turned toward the subordinate key (pp. 200&ndash;201, 215).</li>
+      <li data-term="compressed">A compressed recapitulation drops what the exposition needed and the recapitulation doesn't. After a period, the interior HC and the restart of the basic idea usually go: B has just ended on the dominant, and the basic idea is already established. What's left is a single consequent, sometimes the second half of the period and sometimes the basic idea of mm. 1&ndash;2 joined to the contrasting idea of mm. 7&ndash;8. A recapitulation can also be compressed in a way particular to its theme (p. 217).</li>
+      <li data-term="expanded">A recapitulation can be longer than the exposition when it develops motives from A, or through other phrase and cadential deviations. Motivic development belongs to the contrasting middle, and it can happen in the recapitulation too (p. 219).</li>
+    </ol>
+    <h3>change in formal function</h3>
+    <p>A compressed or expanded recapitulation usually changes the exposition's internal functions, and one of the same length can change them as well. In Ex. 7.6 the phrase that was a consequent in the exposition follows the compound basic idea in A&prime;. There it doesn't restate the basic idea, and its harmony and surface rhythm move faster than the compound basic idea's, so in A&prime; it's a continuation. In Ex. 7.7 the recapitulation keeps the exposition's eight measures and follows the basic idea at once with fragmentation and model&ndash;sequence technique, a continuation where the exposition had a contrasting idea (pp. 219, 226).</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="tight-knit">tight-knit and loose</h2>
+    <p data-term="tight-knit">Caplin takes the distinction between tight-knit and loose organization from Schoenberg. Tight-knit organization promotes structural stability and loose organization instability. Seven parameters contribute, and the table orders each from tight-knit to loose (pp. 203&ndash;205).</p>
+    <div class="scroll-wrap">
+      <table>
+        <thead>
+          <tr><td></td><th>tight-knit</th><th>between</th><th>loose</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>tonality</th><td>begins and ends in the home key</td><td>begins and ends in a subordinate key</td><td>a distant key; modulating</td></tr>
+          <tr><th>cadence</th><td>PAC</td><td>IAC; HC</td><td>evaded or abandoned cadence; no cadence</td></tr>
+          <tr><th>harmony</th><td>tonic prolongation, authentic cadential progression; diatonic</td><td>I6 prolongation, dominant prolongation; modal mixture</td><td>sequential progression; chromatic</td></tr>
+          <tr><th>grouping</th><td>symmetrical in powers of two: 4 + 4, 8 + 8</td><td>symmetrical in threes and fives: 3 + 3, 6 + 6</td><td>asymmetrical: 4 + 3 + 5</td></tr>
+          <tr><th>functional efficiency</th><td>each function stated once</td><td>redundant through repetition, extension, expansion, interpolation</td><td>ambiguous</td></tr>
+          <tr><th>motivic material</th><td>uniform melody and accompaniment</td><td></td><td>diverse motives, changing accompaniment</td></tr>
+          <tr><th>thematic conventionality</th><td>period</td><td>hybrids, by their resemblance to the period or the sentence; sentence</td><td>nonconventional</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="model">After Caplin, Fig. 7.2 and pp. 204&ndash;205.</p>
+    <p>The parameters can agree, making a passage clearly tight-knit or clearly loose, or they can disagree, and then it may not be possible to say which of two passages is looser. In a small ternary A is tight-knit and B is loose. A&prime; depends on how it's built. Modeled closely on A, it stays tight-knit beside B. Built differently from A, it's usually looser than A, since compression and expansion are loosening techniques. The exception is a recapitulation that only adjusts a modulating exposition to stay in the home key, which is tighter than the exposition by the criterion of tonality, as in Ex. 7.8 (Haydn, Piano Sonata in E&#9837;, H. 49, iii) (pp. 205, 226&ndash;227).</p>
+    <p>The distinction is always relative to the rest of the movement: a sentence can be tight-knit beside one passage and loose beside another. In Ex. 7.11 (Beethoven, Piano Sonata in E&#9837;, Op. 7, ii) the recapitulation's asymmetry, sequences, chromaticism, and deceptive cadence make it looser than the exposition, and the contrasting middle, with its more unified motives, its 2 + 2 + 2 grouping, and its less chromatic harmony, may be the tighter of the last two sections (pp. 227&ndash;228).</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="binary">the small binary</h2>
+    <p data-term="small-binary">A small binary has two parts, each usually eight real measures closing with a cadence, and each usually repeated, with repeat signs or written out with variations. On the surface it resembles a rounded binary. The difference is that the basic idea, harmonized by I of the home key, doesn't return. More than any other theme type, it keeps to sixteen real measures, 8 + 8, and phrase deviations are infrequent in it. It's common in rondos and in themes for variations, where the basic idea's return is kept for the start of each variation (pp. 238&ndash;239).</p>
+    <div class="scroll-wrap"><svg id="fig-binary" viewBox="0 0 1200 402" role="group" aria-label="Small binary: a modulating sentence as part 1; a contrasting middle and a continuation as part 2, closing with a PAC at measure 16"></svg></div>
+    <p class="model">Compare Caplin, Ex. 8.1: Haydn, Piano Trio in A&#9837;, H. 14, ii (p. 242).</p>
+    <div class="readout def" id="read-binary" aria-live="polite"></div>
+    <ol class="defs">
+      <li data-term="part-1">Part 1 is most often built like the exposition of a small ternary, as a simple eight-measure theme that stays in the home key or modulates to a subordinate key. Unlike an exposition, it can close with an HC (p. 239).</li>
+      <li data-term="part-2">Part 2 often begins with a unit, usually four measures, equivalent to a contrasting middle, and it always closes with a PAC in the home key. What follows the contrasting middle is a continuation, a cadential phrase, a new consequent, or a further prolongation of the dominant (pp. 239&ndash;240).</li>
+      <li data-term="part2-opening">Part 2 usually begins with ideas related to the opening of part 1. The link makes the theme sound like two parts and weakens the expectation of a recapitulation. In Ex. 8.1 it begins with a dominant version of the basic idea. That isn't a recapitulation, since no contrasting middle has come before it. The unit it begins ends with an HC and emphasizes the dominant, so it's the contrasting middle itself. Where the basic idea would return in a small ternary, Haydn writes a continuation modeled on part 1's and adjusted to stay in the home key (pp. 239, 242).</li>
+    </ol>
+    <h3>naming the parts</h3>
+    <p>Caplin numbers the parts rather than lettering them. A&ndash;B would suggest an exposition followed by a contrasting middle, and A&ndash;A&prime; an exposition followed by a recapitulation, and the small binary is neither. His account follows Erwin Ratz, a student of Schoenberg, but rejects Ratz's claim that it lacks a contrasting middle: a small binary can have one, and what tells it from a small ternary is the absence of a recapitulation (pp. 238&ndash;239, 242).</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="part1">part 1</h2>
+    <p data-term="failed-consequent">When part 1 is a sentence or a compound basic idea + continuation ending with an HC, its functions are clear. When its second phrase is periodic and ends with an HC, the phrase sounds like a consequent that hasn't reached the strong cadence it promised, and Caplin calls it a failed consequent. In Ex. 8.3 (Beethoven, Violin Sonata in A, Op. 30, No. 1, iii) a compound basic idea is followed by a varied return of the basic idea that ends with an HC. In Ex. 8.4 (Haydn, Piano Sonata in E, H. 31, iii) an antecedent is followed by a phrase that begins the same way, modulates to vi, and ends there with an HC. A modulating phrase can't be a second antecedent, since antecedents don't modulate (pp. 243&ndash;245).</p>
+    <h3>small binary or compound period</h3>
+    <p>A part 1 ending with an HC can sound like the compound antecedent of a <a href="compound-themes.html#period" target="_blank" rel="noopener">compound period</a>, and its repetition like a compound consequent in the making. When the repetition ends with an HC again, the period is ruled out: an antecedent isn't repeated before its consequent begins, and the first repetition of an opening unit has to close more strongly to be heard as a consequent. A fully repeated compound antecedent is part 1 of a small binary. Without the repeats, Caplin allows a compound period in Ex. 8.4 (pp. 246, 253).</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="part2">part 2</h2>
+    <p>The first thing to look for in part 2 is whether it begins with a contrasting middle (p. 246). The diagram of the small binary above follows one with a continuation; the diagrams below show the other possibilities.</p>
+    <div class="controls" id="pick-part2"></div>
+    <div class="scroll-wrap"><svg id="fig-part2" viewBox="0 0 1200 402" role="group" aria-label="The selected small binary, drawn as idea boxes with function brackets beneath"></svg></div>
+    <p class="model" id="model-part2"></p>
+    <div class="readout def" id="read-part2" aria-live="polite"></div>
+    <ol class="defs">
+      <li data-term="p2-continuation">A continuation after the contrasting middle closes part 2 with a PAC. Its material may refer back to a continuation in part 1 or be new. When the contrasting middle is itself a continuation, part 2 is two continuations, the first ending with an HC and the second with a PAC, as in Ex. 8.5 (Haydn, String Quartet in G, Op. 33, No. 5, iv) (pp. 240, 246&ndash;247).</li>
+      <li data-term="p2-cadential">A cadential phrase after the contrasting middle is supported by a single expanded cadential progression. After a standing on the dominant, its faster harmonic rhythm can give it a continuational character. In Ex. 8.6 (Mozart, String Quartet in D minor, K. 421, iv) a contrasting middle that modulates to &#9837;III and returns by a retransition is followed by an exclusively cadential phrase whose ECP has the Neapolitan as its pre-dominant (pp. 240, 248&ndash;250).</li>
+      <li data-term="new-consequent">A new consequent is a new two-measure idea followed by a contrasting idea leading to a PAC. Were the idea the basic idea of part 1, the phrase would be a consequent and the theme a small ternary. It has no antecedent before it, and Caplin still calls it a consequent, since inside it has every characteristic of one (pp. 240, 250).</li>
+      <li data-term="further-dominant">The dominant that ends the contrasting middle can continue into the next phrase, often resolving deceptively to vi before the closing PAC. That deceptive resolution isn't a deceptive cadence, and the phrase it belongs to doesn't fit any of the conventional phrase functions (pp. 240, 251).</li>
+      <li data-term="no-middle">Part 2 can have no clear contrasting middle. It may follow a conventional theme type, most often a sentence and rarely a period, or bring only continuation or cadential function. Its opening may still suggest a contrasting middle, with dominant emphasis or with model&ndash;sequence technique from its first measure. In Ex. 8.8 (Beethoven, String Quartet in C&#9839; minor, Op. 131, iv) part 2 is a sentence whose presentation puts the dominant version before the tonic version (pp. 240, 252&ndash;253).</li>
+    </ol>
+  </section>
+
+  <section class="panel">
+    <h2 id="compare">small ternary and small binary</h2>
+    <div class="scroll-wrap">
+      <table>
+        <thead>
+          <tr><td></td><th>small ternary (rounded binary)</th><th>small binary</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>recapitulation</th><td>always</td><td>never</td></tr>
+          <tr><th>contrasting middle</th><td>always</td><td>usually; sometimes absent</td></tr>
+          <tr><th>first section closes with</th><td>a PAC</td><td>a PAC or an HC</td></tr>
+          <tr><th>grouping</th><td>varied</td><td>usually 8 + 8</td></tr>
+          <tr><th>second section begins with</th><td>usually new material</td><td>often the motives that open part 1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="model">After Caplin, Fig. 8.1 (p. 240).</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="laitz"><span class="caps">Laitz</span> and <span class="caps">Bartlette</span></h2>
+    <p>Laitz and Bartlette label a binary form on two axes. Its thematic design is simple when the second section doesn't restate the opening material, and rounded when the opening returns after a digression, an unstable passage that leads to an HC they call an interruption and mark //. Its harmonic structure is sectional when the first section ends on the tonic and continuous when it ends away from it. A binary form is balanced as well when the closing material of the first section comes back, in the tonic, to close the second (Laitz and Bartlette, pp. 156&ndash;159). In the diagrams on these pages // marks an evaded or abandoned cadence instead.</p>
+    <p>Their rounded binary is Caplin's small ternary, with the digression as the contrasting middle, and their simple binary corresponds to the small binary. Ex. 8.1 modulates in part 1 and closes part 2 with part 1's continuation adjusted to the home key, which makes it a balanced simple continuous binary in their terms. Their sectional and continuous divide small ternaries by the tonal plan of the first section, as Green's terms do, a division Caplin doesn't make into two types (Caplin, p. 206).</p>
+    <p>Their ternary form is a larger form than Caplin's small ternary. Its three sections are self-contained, usually beginning and ending in their own keys, with strong melodic contrast between them. A rounded binary, by contrast, has a three-part melodic design over a two-part tonal structure, and they tell a continuous ternary from a rounded binary by how much B depends on A (Laitz and Bartlette, pp. 197&ndash;198).</p>
+  </section>
+
+  <footer>
+    <p>Text set in IBM Plex, under the SIL Open Font License.</p>
+  </footer>
+
+</div>
+
+<script src="../assets/notation.js?v=25"></script>
+<script src="../assets/themes.js?v=3"></script>
+<script>
+(function () {
+  "use strict";
+
+  var T = MUS.themes;
+
+  T.IDEAS.new = { abbr: "new idea", short: "new", name: "new idea", term: "new-idea" };
+
+  T.UNITS.expo = { name: "exposition", term: "exposition" };
+  T.UNITS.middle = { name: "contrasting middle", term: "contrasting-middle" };
+  T.UNITS.recap = { name: "recapitulation", term: "recapitulation" };
+  T.UNITS.part1 = { name: "part 1", term: "part-1" };
+  T.UNITS.part2 = { name: "part 2", term: "part-2" };
+  T.UNITS.bsod = { name: "standing on the dominant", term: "b-sod" };
+  T.UNITS.pcsod = { name: "standing on the dominant", term: "postcadential", frame: true };
+  T.UNITS.retrans = { name: "retransition", term: "retransition" };
+  T.UNITS.newcons = { name: "new consequent", term: "new-consequent" };
+  T.UNITS.failed = { name: "failed consequent", term: "failed-consequent" };
+  T.UNITS.p2cont = { name: "continuation", term: "p2-continuation" };
+
+  /* the period every contrasting-middle diagram opens with, and the consequent it closes with */
+  var PERIOD = [["bi", 1, 2], ["ci", 3, 4], ["bi", 5, 6, "restart", "restart"], ["ci", 7, 8]];
+  var PERIOD_UNITS = [["antecedent", 1, 4], ["consequent", 5, 8], ["expo", 1, 8, "A", 1]];
+  function recapIdeas(m) { return [["bi", m, m + 1, "return", "return"], ["ci", m + 2, m + 3]]; }
+  function recapUnits(m) { return [["consequent", m, m + 3], ["recap", m, m + 3, "A′", 1]]; }
+
+  var THEMES = {
+    "ternary": {
+      name: "small ternary", term: "small-ternary", n: 16,
+      ideas: PERIOD.concat([["new", 9, 10], ["new", 11, 12, "new-idea", "repetition"]], recapIdeas(13)),
+      units: PERIOD_UNITS.concat([["bsod", 9, 12], ["middle", 9, 12, "B", 1]], recapUnits(13)),
+      cads: [[4, "HC"], [8, "PAC"], [16, "PAC"]]
+    },
+
+    "m-continuation": {
+      label: "continuation", name: "small ternary", term: "small-ternary", n: 16,
+      model: "Compare Caplin, Ex. 7.7: Haydn, Piano Sonata in G, H. 40, ii, whose B section develops the opening motive in model–sequence technique and alters the last sequence into a half-cadential idea, after an exposition that ends with a closing section (pp. 208–211).",
+      ideas: PERIOD.concat([["cont", 9, 10], ["cad", 11, 12]], recapIdeas(13)),
+      units: PERIOD_UNITS.concat([["continuation", 9, 12], ["middle", 9, 12, "B", 1]], recapUnits(13)),
+      cads: [[4, "HC"], [8, "PAC"], [12, "HC"], [16, "PAC"]]
+    },
+    "m-sentence": {
+      label: "sentence", name: "small ternary", term: "small-ternary", n: 20,
+      model: "Compare Caplin, Ex. 7.8: Haydn, Piano Sonata in E♭, H. 49, iii, whose presentation prolongs I6 and opens on V7, and whose continuation prolongs the same I6 by a stepwise descending sequence to the HC. Its exposition is a modulating hybrid, restated in the home key as the recapitulation (pp. 212–215).",
+      ideas: PERIOD.concat([["bi", 9, 10], ["bi", 11, 12, "rep", "repetition"], ["cont", 13, 14], ["cad", 15, 16]], recapIdeas(17)),
+      units: PERIOD_UNITS.concat([["presentation", 9, 12], ["continuation", 13, 16], ["middle", 9, 16, "B", 1]], recapUnits(17)),
+      cads: [[4, "HC"], [8, "PAC"], [16, "HC"], [20, "PAC"]]
+    },
+    "m-postcadential": {
+      label: "postcadential standing on the dominant", name: "small ternary", term: "small-ternary", n: 20,
+      model: "Compare Caplin, Ex. 7.6: Mozart, String Quartet in E♭, K. 428, iv, whose brief standing on the dominant elides with the HC at m. 24 and thins to a single voice before the recapitulation (pp. 207–208, 211, 214).",
+      ideas: PERIOD.concat([["cont", 9, 10], ["cad", 11, 12], ["sod", 13, 14, "postcadential"], ["sod", 15, 16, "postcadential", "standing on the dominant, repeated"]], recapIdeas(17)),
+      units: PERIOD_UNITS.concat([["continuation", 9, 12], ["pcsod", 13, 16], ["middle", 9, 16, "B", 1, "phrase"]], recapUnits(17)),
+      cads: [[4, "HC"], [8, "PAC"], [12, "HC"], [20, "PAC"]]
+    },
+    "m-arrival": {
+      label: "dominant arrival", name: "small ternary", term: "small-ternary", n: 16,
+      model: "Compare Caplin, Ex. 7.12: Beethoven, Piano Sonata in G minor, Op. 49, No. 1, ii, whose B section prolongs tonic and ends on an inverted V7 under a fermata, and Ex. 7.14: Beethoven, Piano Sonata in E♭, Op. 31, No. 3, ii, whose dominant arrival at m. 16 is premature, three measures before the section ends (pp. 221–225).",
+      ideas: PERIOD.concat([["cont", 9, 12]], recapIdeas(13)),
+      units: PERIOD_UNITS.concat([["continuation", 9, 12], ["middle", 9, 12, "B", 1]], recapUnits(13)),
+      cads: [[4, "HC"], [8, "PAC"], [12, "dominant arrival", "dom-arrival"], [16, "PAC"]]
+    },
+    "m-modulating": {
+      label: "modulating, with retransition", name: "small ternary", term: "small-ternary", n: 24,
+      model: "Compare Caplin, Ex. 7.13: Haydn, Symphony No. 101 in D (“The Clock”), iv, whose exposition begins with a compound basic idea and whose recapitulation restates the whole exposition (p. 223).",
+      ideas: PERIOD.concat([["bi", 9, 10, "b-modulating", "new basic idea"], ["ci", 11, 12, "b-modulating", "new contrasting idea"], ["ecp", 13, 16],
+              ["cont", 17, 18, "retransition", "model and sequence"], ["cad", 19, 20]], recapIdeas(21)),
+      units: PERIOD_UNITS.concat([["cbi", 9, 12], ["cadential", 13, 16], ["retrans", 17, 20], ["middle", 9, 20, "B", 1]], recapUnits(21)),
+      cads: [[4, "HC"], [8, "PAC"], [16, "PAC in V", "b-modulating"], [20, "HC"], [24, "PAC"]]
+    },
+
+    "r-same": {
+      label: "the same as the exposition", name: "small ternary", term: "small-ternary", n: 20,
+      model: "Compare Caplin, Ex. 7.5: Haydn, Capriccio in G, H. XVII:1, whose exposition is a single consequent extended by one measure, and whose B section is a standing on the dominant ending under a fermata (pp. 206, 210, 214).",
+      ideas: PERIOD.concat([["new", 9, 10], ["new", 11, 12, "new-idea", "repetition"],
+              ["bi", 13, 14, "return", "return"], ["ci", 15, 16], ["bi", 17, 18, "restart", "restart"], ["ci", 19, 20]]),
+      units: PERIOD_UNITS.concat([["bsod", 9, 12], ["middle", 9, 12, "B", 1],
+              ["antecedent", 13, 16], ["consequent", 17, 20], ["recap", 13, 20, "A′", 1]]),
+      cads: [[4, "HC"], [8, "PAC"], [16, "HC"], [20, "PAC"]]
+    },
+    "r-adjusted": {
+      label: "tonally adjusted", name: "small ternary", term: "small-ternary", n: 20,
+      model: "Compare Caplin, Ex. 7.2: Haydn, Piano Sonata in D, H. 37, iii, a rounded binary whose B section is a single continuation phrase that returns to the home key by a descending-fifths sequence (pp. 200–201).",
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["cont", 5, 6], ["cad", 7, 8], ["cont", 9, 10], ["cad", 11, 12],
+              ["bi", 13, 14, "return", "return"], ["ci", 15, 16], ["cont", 17, 18], ["cad", 19, 20]],
+      units: [["cbi", 1, 4], ["contcad", 5, 8], ["expo", 1, 8, "A", 1], ["continuation", 9, 12], ["middle", 9, 12, "B", 1],
+              ["cbi", 13, 16], ["contcad", 17, 20], ["recap", 13, 20, "A′", 1]],
+      cads: [[8, "PAC in V", "subordinate-key"], [12, "HC"], [20, "PAC", "tonal-adjustment"]]
+    },
+    "r-continuation": {
+      label: "compressed, with a new continuation", name: "small ternary", term: "small-ternary", n: 22,
+      model: "Compare Caplin, Ex. 7.10: Beethoven, Piano Sonata in D, Op. 28, ii, in D minor, whose consequent begins in ♭III and modulates to v. The recapitulation sequences the second half of the basic idea down a step and back before a tonally adjusted cadential idea, six measures against the exposition's eight (pp. 217–219).",
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["bi", 5, 6, "restart", "restart"], ["ci", 7, 8],
+              ["new", 9, 10], ["new", 11, 12, "new-idea", "repetition"], ["cont", 13, 16, "b-sod", "fragmentation"],
+              ["bi", 17, 18, "return", "return"], ["cont", 19, 20], ["cad", 21, 22]],
+      units: PERIOD_UNITS.concat([["bsod", 9, 16], ["middle", 9, 16, "B", 1], ["continuation", 19, 22], ["recap", 17, 22, "A′", 1]]),
+      cads: [[4, "HC"], [8, "PAC in v", "subordinate-key"], [22, "PAC", "compressed"]]
+    },
+    "r-expanded": {
+      label: "expanded", name: "small ternary", term: "small-ternary", n: 24,
+      model: "Compare Caplin, Ex. 7.11: Beethoven, Piano Sonata in E♭, Op. 7, ii. The new continuation develops the dotted-rhythm motive of the basic idea, its cadential progression fills m. 19 alone and resolves deceptively, and the second continuation, from m. 20, develops the stepwise motive before the PAC (pp. 220–221).",
+      ideas: [["bi", 1, 2], ["bi", 3, 4, "rep", "repetition"], ["cont", 5, 6], ["cad", 7, 8],
+              ["new", 9, 10], ["new", 11, 12, "new-idea", "repetition"], ["new", 13, 14, "new-idea", "repetition"],
+              ["bi", 15, 16, "return", "return"], ["cont", 17, 18], ["cad", 19, 20], ["cont", 21, 22], ["cad", 23, 24]],
+      units: [["presentation", 1, 4], ["continuation", 5, 8], ["expo", 1, 8, "A", 1], ["bsod", 9, 14], ["middle", 9, 14, "B", 1],
+              ["continuation", 17, 20], ["continuation", 21, 24], ["recap", 15, 24, "A′", 1]],
+      cads: [[8, "PAC"], [20, "deceptive"], [24, "PAC", "expanded"]]
+    },
+
+    "binary": {
+      name: "small binary", term: "small-binary", n: 16,
+      ideas: [["bi", 1, 2], ["bi", 3, 4, "rep", "repetition"], ["cont", 5, 6], ["cad", 7, 8],
+              ["bi", 9, 10, "part2-opening", "dominant version"], ["ci", 11, 12], ["cont", 13, 14], ["cad", 15, 16]],
+      units: [["presentation", 1, 4], ["continuation", 5, 8], ["part1", 1, 8, "", 1],
+              ["middle", 9, 12], ["p2cont", 13, 16], ["part2", 9, 16, "", 1]],
+      cads: [[8, "PAC in V", "subordinate-key"], [12, "HC"], [16, "PAC"]]
+    },
+
+    "p-cadential": {
+      label: "contrasting middle + cadential", name: "small binary", term: "small-binary", n: 16,
+      model: "Compare Caplin, Ex. 8.2: Beethoven, Variations for Piano in E♭, Op. 35, 66–81, whose contrasting middle is a standing on the dominant and whose cadential phrase, after that standing on the dominant, has a continuational character from its faster harmonic rhythm (pp. 243–244, 248).",
+      ideas: [["bi", 1, 2], ["bi", 3, 4, "rep", "repetition"], ["cont", 5, 6], ["cad", 7, 8],
+              ["new", 9, 10], ["new", 11, 12, "new-idea", "repetition"], ["ecp", 13, 16]],
+      units: [["presentation", 1, 4], ["continuation", 5, 8], ["part1", 1, 8, "", 1],
+              ["middle", 9, 12], ["cadential", 13, 16], ["part2", 9, 16, "", 1]],
+      cads: [[8, "HC"], [16, "PAC", "p2-cadential"]]
+    },
+    "p-consequent": {
+      label: "contrasting middle + new consequent", name: "small binary", term: "small-binary", n: 16,
+      model: "Compare Caplin, Ex. 8.3: Beethoven, Violin Sonata in A, Op. 30, No. 1, iii, written out with its repeats, so that part 2 begins at m. 17. The new consequent's opening idea derives from the standing on the dominant before it, a relation within part 2 like that of a period (pp. 244–245, 250–251).",
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["bi", 5, 6, "restart", "restart"], ["ci", 7, 8],
+              ["new", 9, 10], ["new", 11, 12, "new-idea", "repetition"], ["bi", 13, 14, "new-consequent", "new idea"], ["ci", 15, 16]],
+      units: [["cbi", 1, 4], ["failed", 5, 8], ["part1", 1, 8, "", 1],
+              ["middle", 9, 12], ["newcons", 13, 16], ["part2", 9, 16, "", 1]],
+      cads: [[8, "HC", "failed-consequent"], [16, "PAC"]]
+    },
+    "p-dominant": {
+      label: "contrasting middle + further dominant", name: "small binary", term: "small-binary", n: 16,
+      model: "Compare Caplin, Ex. 8.7: Haydn, Piano Sonata in E, H. 22, iii, whose part 1 is a modulating compound basic idea + consequent, and whose dominant resolves deceptively on the last beat of m. 14 (pp. 251–252).",
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["bi", 5, 6, "restart", "restart"], ["ci", 7, 8],
+              ["cont", 9, 10], ["cad", 11, 12], ["new", 13, 14, "further-dominant"], ["cad", 15, 16]],
+      units: [["cbi", 1, 4], ["consequent", 5, 8], ["part1", 1, 8, "", 1],
+              ["middle", 9, 12], ["part2", 9, 16, "", 1]],
+      cads: [[8, "PAC in V", "subordinate-key"], [12, "HC"], [16, "PAC"]],
+      marks: [[13, 14, "dominant prolonged", "further-dominant"]]
+    },
+    "p-none": {
+      label: "no contrasting middle", name: "small binary", term: "small-binary", n: 16,
+      model: "Compare Caplin, Ex. 8.4: Haydn, Piano Sonata in E, H. 31, iii, whose part 2 groups like a sentence, but whose first four measures of model–sequence technique leave no tonic prolongation for a presentation (pp. 245, 252).",
+      ideas: [["bi", 1, 2], ["ci", 3, 4], ["bi", 5, 6, "restart", "restart"], ["ci", 7, 8],
+              ["cont", 9, 10, "no-middle", "model"], ["cont", 11, 12, "no-middle", "sequence"], ["cont", 13, 14], ["cad", 15, 16]],
+      units: [["antecedent", 1, 4], ["failed", 5, 8], ["part1", 1, 8, "", 1],
+              ["continuation", 9, 16], ["part2", 9, 16, "", 1]],
+      cads: [[4, "HC"], [8, "HC in vi", "failed-consequent"], [16, "PAC"]]
+    }
+  };
+
+  T.draw(document.getElementById("fig-ternary"), THEMES.ternary, document.getElementById("read-ternary"), "ternary");
+  T.picker(THEMES, "middle", ["m-continuation", "m-sentence", "m-postcadential", "m-arrival", "m-modulating"], function (k) {
+    return { "m-continuation": "b-continuation", "m-sentence": "b-sentence", "m-postcadential": "postcadential",
+             "m-arrival": "dom-arrival", "m-modulating": "b-modulating" }[k];
+  });
+  T.picker(THEMES, "recap", ["r-same", "r-adjusted", "r-continuation", "r-expanded"], function (k) {
+    return { "r-same": "recap-same", "r-adjusted": "tonal-adjustment", "r-continuation": "compressed", "r-expanded": "expanded" }[k];
+  });
+  T.draw(document.getElementById("fig-binary"), THEMES.binary, document.getElementById("read-binary"), "binary");
+  T.picker(THEMES, "part2", ["p-cadential", "p-consequent", "p-dominant", "p-none"], function (k) {
+    return { "p-cadential": "p2-cadential", "p-consequent": "new-consequent", "p-dominant": "further-dominant", "p-none": "no-middle" }[k];
+  });
+})();
+</script>
+</body>
+</html>
