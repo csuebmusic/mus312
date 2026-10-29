@@ -27,6 +27,11 @@ Caplin's simple themes drawn as colored idea boxes added together, with brackets
 https://csuebmusic.github.io/mus312/tools/compound-themes.html
 Caplin's sixteen-measure themes drawn the same way, with a second row of brackets for the larger units. The compound period by the build of its compound antecedent, as a sentence, a compound basic idea + continuation, or an antecedent + continuation, and with a reinterpreted half cadence; the compound sentence; and the compressed continuation, repeated or followed by a standing on the dominant. Simple and compound themes side by side, the order of cadences in a compound period, and the double period of Laitz and Bartlette against Caplin's compound period.
 
+## small ternary and small binary
+
+https://csuebmusic.github.io/mus312/tools/small-ternary-binary.html
+Caplin's small ternary and small binary drawn the same way, with a row of brackets for the sections beneath the units inside them. The small ternary with five contrasting middles (continuation, sentence, postcadential standing on the dominant, dominant arrival, modulating with a retransition) and four recapitulations (unchanged, tonally adjusted, compressed with a new continuation, expanded); tight-knit and loose organization; the small binary, the failed consequent, and four ways to build part 2. The two theme types side by side, and the binary labels of Laitz and Bartlette against Caplin's.
+
 ## style chart
 
 https://csuebmusic.github.io/mus312/tools/style-chart.html
