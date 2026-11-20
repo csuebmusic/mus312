@@ -38,6 +38,15 @@
   .hit:focus { outline: none; }
   .hit:focus-visible { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 4 3; }
 
+  .keytext.start { text-anchor: start; }
+  .land .cadbox { fill: color-mix(in srgb, var(--idea-cadential) 14%, var(--paper)); stroke: var(--idea-cadential); stroke-width: 1.5; }
+  .land .cadtext, .land .marktext { fill: var(--idea-cadential); font-weight: 500; }
+  .land .tick { stroke: var(--idea-cadential); stroke-width: 2; }
+  .land .arc { stroke: var(--idea-cadential); }
+  .land .arrowhead { fill: var(--idea-cadential); }
+  .land2 .tick { stroke: var(--accent-2); stroke-width: 2; }
+  .land2 .marktext { fill: var(--accent-2); font-weight: 500; }
+
   .on .zone { stroke: var(--accent); stroke-width: 3; stroke-dasharray: none; }
   .on .zone-abbr, .on .zone-name, .on .cadtext, .on .marktext, .on .unit-label, .on .unit-cap { fill: var(--accent); }
   .on .bracket, .on .cadbox { stroke: var(--accent); stroke-width: 2.5; }
@@ -206,6 +215,9 @@
   var X0 = 150, SPAN = 1000, INSET = 5, TICK = 10;
   var Y_EVT = 56, H_EVT = 24, Y_ZONE = 92, H_ZONE = 56, LEVEL = 24, ROW_GAP = 36;
 
+  /* the landmarks drawn in the cadential color; the crux takes the second strand */
+  var LAND = { mc: true, eec: true, esc: true, interruption: true };
+
   var ZONES = {
     p:      { abbr: "P", name: "primary theme", term: "p" },
     tr:     { abbr: "TR", name: "transition", term: "tr" },
@@ -246,10 +258,10 @@
 
   /* zones: [kind, from, to, level]; events: [boundary, label, term, kind] where kind "mark" draws a tick and
      "double" two ticks; arcs: [from unit, to boundary, control y]; corr: [from, to, "match" | "new", term]
-     and crux: [boundary, term]; keys: [from, to, major, minor]; spaces: [from, to, label, caption, term];
+     and crux: [boundary, term]; keys: [first unit of a zone, major, minor], set at the zone's left edge; spaces: [from, to, label, caption, term];
      caplin: rows of [from, to, label, term], a label's lines split at \n */
   function draw(svg, f, readout) {
-    var n = f.n, MW = SPAN / n, groups = [];
+    var n = f.n, MW = SPAN / n, groups = [], INSET_MARK = 13;
     function bx(b) { return X0 + b * MW; }
     function item(term, name, cls) {
       var g = el("g", { "data-term": term });
@@ -266,25 +278,37 @@
     function gapBottom(b) {
       return Math.max.apply(null, [zoneAt(b), zoneAt(b + 1)].filter(Boolean).map(top)) + 18;
     }
+    /* a zone beside an MC, a final cadence, or the interruption leaves room for its ticks */
+    var marked = {};
+    (f.events || []).forEach(function (e) { if (e[3]) { marked[e[0]] = true; } });
+    function left(z) { return bx(z[1] - 1) + (marked[z[1] - 1] ? INSET_MARK : INSET); }
+    function right(z) { return bx(z[2]) - (marked[z[2]] ? INSET_MARK : INSET); }
     var band = Math.max.apply(null, f.zones.map(top)) + H_ZONE;
     var y = band + ROW_GAP, rows = [["zones", (Math.min.apply(null, f.zones.map(top)) + band) / 2 + 4]];
 
     (f.arcs || []).forEach(function (a) {
       var x0 = X0 + (a[0] - 0.5) * MW, y0 = top(zoneAt(Math.ceil(a[0]))), x1 = bx(a[1]), y1 = Y_EVT - 1, cx = (x0 + x1) / 2, cy = a[2];
-      var g = item("trajectory", "trajectory");
-      g.appendChild(el("path", { d: "M" + x0 + " " + y0 + " Q" + cx + " " + cy + " " + x1 + " " + y1, "class": "arc" }));
-      var dx = x1 - cx, dy = y1 - cy, len = Math.sqrt(dx * dx + dy * dy), ux = dx / len, uy = dy / len;
+      var g = item("trajectory", "trajectory", "land"), d, tx = cx, my;
+      if (a[4] === "high") {
+        var c1 = x0 + (x1 - x0) * 0.04, c2 = x1 - (x1 - x0) * 0.08;
+        d = "M" + x0 + " " + y0 + " C" + c1 + " " + cy + " " + c2 + " " + cy + " " + x1 + " " + y1;
+        tx = c2; my = 0.125 * y0 + 0.75 * cy + 0.125 * y1;
+      } else {
+        d = "M" + x0 + " " + y0 + " Q" + cx + " " + cy + " " + x1 + " " + y1;
+        my = 0.25 * y0 + 0.5 * cy + 0.25 * y1;
+      }
+      g.appendChild(el("path", { d: d, "class": "arc" }));
+      var dx = x1 - tx, dy = y1 - cy, len = Math.sqrt(dx * dx + dy * dy), ux = dx / len, uy = dy / len;
       var bxp = x1 - ux * 9, byp = y1 - uy * 9;
       g.appendChild(el("path", { d: "M" + x1 + " " + y1 + " L" + (bxp - uy * 4) + " " + (byp + ux * 4) +
         " L" + (bxp + uy * 4) + " " + (byp - ux * 4) + " Z", "class": "arrowhead" }));
-      var mx = 0.25 * x0 + 0.5 * cx + 0.25 * x1, my = 0.25 * y0 + 0.5 * cy + 0.25 * y1;
-      T.hit(g, mx - 40, my - 10, 80, 20, "trajectory to the " + a[3]);
+      T.hit(g, (x0 + x1) / 2 - 40, my - 10, 80, 20, "trajectory to the " + a[3]);
     });
 
     f.zones.forEach(function (z) {
       var info = ZONES[z[0]];
       var g = item(info.term, info.name || info.abbr, "idea" + (info.frame ? " frame" : ""));
-      var x = bx(z[1] - 1) + INSET, w = bx(z[2]) - INSET - x, cx = x + w / 2, zy = top(z);
+      var x = left(z), w = right(z) - x, cx = x + w / 2, zy = top(z);
       var abbr = info.abbr, cls = "zone-abbr";
       if (abbr.length * 11.4 > w - 14) { cls = "zone-abbr long"; }
       if (abbr.length * 9 > w - 14) { cls = "zone-abbr longer"; }
@@ -299,10 +323,11 @@
     });
 
     (f.events || []).forEach(function (e) {
-      var g = item(e[2], e[1].replace("_A", " active"));
+      var g = item(e[2], e[1].replace("_A", " active"), LAND[e[2]] ? "land" : "");
       var x = bx(e[0]);
       if (e[3]) {
-        label(g, x, Y_EVT + 17, "marktext", e[1]);
+        var mt = label(g, x, Y_EVT + 17, "marktext", e[1]);
+        if (x + e[1].length * 3.9 > 1194) { mt.setAttribute("x", x + 6); mt.style.textAnchor = "end"; }
         var ticks = e[3] === "double" ? [-3, 3] : [0];
         ticks.forEach(function (d) {
           g.appendChild(el("line", { x1: x + d, x2: x + d, y1: Y_EVT + 26, y2: gapBottom(e[0]), "class": "tick" }));
@@ -325,7 +350,7 @@
         g.appendChild(el("line", { x1: x1, x2: x2, y1: y, y2: y, "class": "corr" + (c[2] === "new" ? " new" : "") }));
         T.hit(g, x1, y - 8, x2 - x1, 16, c[2] === "match" ? "correspondence measures" : "recomposed, before the crux");
       });
-      var cg = item(f.crux[1], "crux"), cxp = bx(f.crux[0]);
+      var cg = item(f.crux[1], "crux", "land2"), cxp = bx(f.crux[0]);
       cg.appendChild(el("line", { x1: cxp, x2: cxp, y1: y - 9, y2: y + 9, "class": "tick" }));
       label(cg, cxp, y + 24, "marktext", "crux");
       T.hit(cg, cxp - 22, y - 10, 44, 38, "crux");
@@ -334,8 +359,9 @@
 
     rows.push(["major", y + 4], ["minor", y + 26]);
     f.keys.forEach(function (k) {
-      label(svg, (bx(k[0] - 1) + bx(k[1])) / 2, y + 4, "keytext", k[2]);
-      label(svg, (bx(k[0] - 1) + bx(k[1])) / 2, y + 26, "keytext", k[3]);
+      var kx = left(zoneAt(k[0]));
+      label(svg, kx, y + 4, "keytext start", k[1]);
+      label(svg, kx, y + 26, "keytext start", k[2]);
     });
     y += 58;
 
@@ -404,8 +430,8 @@
             ["p", 29, 31, 0], ["trr", 32, 34, 0], ["s", 35, 38, 0], ["c", 39, 42, 0], ["coda", 43, 46, 0]],
     events: [[11, "MC", "mc", "mark"], [16, "EEC", "eec"], [28, "interruption", "interruption", "double"],
              [34, "MC", "mc", "mark"], [38, "ESC", "esc"]],
-    arcs: [[4.5, 16, 10, "EEC"], [4.5, 38, -40, "ESC"], [13, 16, 40, "EEC"], [36, 38, 40, "ESC"]],
-    keys: [[4, 11, "I", "i"], [12, 19, "V", "♭III"], [20, 28, "other keys → V_A", "other keys → V_A"], [29, 42, "I", "i"], [43, 46, "I", "i"]],
+    arcs: [[6.3, 16, 10, "EEC"], [4.2, 38, -22, "ESC", "high"], [13, 16, 40, "EEC"], [35.3, 38, 10, "ESC"]],
+    keys: [[1, "I → V", "i → V"], [4, "I", "i"], [8, "I → V", "i → ♭III"], [12, "V", "♭III"], [17, "V", "♭III"], [20, "other keys → V_A", "other keys → V_A"], [29, "I", "i"], [32, "IV → I", "iv → i"], [35, "I", "i"], [39, "I", "i"], [43, "I", "i"]],
     spaces: [[1, 3, "intro.", "", "introduction"], [4, 19, "exposition", "rotation 1", "exposition"],
              [20, 28, "development", "", "development"], [29, 42, "recapitulation", "recapitulatory rotation", "recapitulation"],
              [43, 46, "coda", "", "coda"]],
@@ -424,8 +450,8 @@
       model: "Compare Haydn, Symphony No. 100 in G (“Military”), i: the half cadence on V/V is at m. 62 and is prolonged, with a passing seventh added, up to the MC; S begins at m. 75 (p. 26).",
       zones: [["p", 1, 5, 0], ["tr", 6, 10, 1], ["s", 11, 16, 2], ["c", 17, 22, 2], ["rt", 23, 24, 2]],
       events: [[10, "V:HC MC", "mc", "mark"], [16, "V:PAC EEC", "eec"], [22, "final cadence", "c", "mark"]],
-      arcs: [[3, 16, -10, "EEC"], [12, 16, 30, "EEC"]],
-      keys: [[1, 5, "I", "i"], [6, 10, "I → V", "i → ♭III"], [11, 22, "V", "♭III"], [23, 24, "→ I", "→ i"]],
+      arcs: [[3, 16, -34, "EEC"], [12, 16, 30, "EEC"]],
+      keys: [[1, "I", "i"], [6, "I → V", "i → ♭III"], [11, "V", "♭III"], [17, "V", "♭III"], [23, "→ I", "→ i"]],
       spaces: EXPO_SPACES, caplin: EXPO_CAPLIN
     },
     "i-hc": {
@@ -433,8 +459,8 @@
       model: "Compare Beethoven, Symphony No. 1 in C, Op. 21, i: a nonmodulating TR reaches a I:HC MC at m. 52, with triple hammer blows and a general pause, and S begins piano at m. 53 (p. 36).",
       zones: [["p", 1, 5, 0], ["tr", 6, 10, 1], ["s", 11, 16, 2], ["c", 17, 22, 2], ["rt", 23, 24, 2]],
       events: [[10, "I:HC MC", "mc", "mark"], [16, "V:PAC EEC", "eec"], [22, "final cadence", "c", "mark"]],
-      arcs: [[3, 16, -10, "EEC"], [12, 16, 30, "EEC"]],
-      keys: [[1, 5, "I", "i"], [6, 10, "I", "i"], [11, 22, "V", "♭III"], [23, 24, "→ I", "→ i"]],
+      arcs: [[3, 16, -34, "EEC"], [12, 16, 30, "EEC"]],
+      keys: [[1, "I", "i"], [6, "I", "i"], [11, "V", "♭III"], [17, "V", "♭III"], [23, "→ I", "→ i"]],
       spaces: EXPO_SPACES, caplin: EXPO_CAPLIN
     },
     "v-pac": {
@@ -442,8 +468,8 @@
       model: "Compare Mozart, Sonata for Two Pianos in D, K. 448, i: a V:HC MC effect at m. 25 is followed by caesura-fill that runs on to a V:PAC at m. 33, and that V:PAC is the MC; S begins in A major at m. 34 (p. 41).",
       zones: [["p", 1, 4, 0], ["tr", 5, 12, 1], ["s", 13, 17, 2], ["c", 18, 22, 2], ["rt", 23, 24, 2]],
       events: [[12, "V:PAC MC", "mc", "mark"], [17, "V:PAC EEC", "eec"], [22, "final cadence", "c", "mark"]],
-      arcs: [[2.5, 17, -10, "EEC"], [14, 17, 30, "EEC"]],
-      keys: [[1, 4, "I", "i"], [5, 12, "I → V", "i → ♭III"], [13, 22, "V", "♭III"], [23, 24, "→ I", "→ i"]],
+      arcs: [[2.5, 17, -34, "EEC"], [14, 17, 30, "EEC"]],
+      keys: [[1, "I", "i"], [5, "I → V", "i → ♭III"], [13, "V", "♭III"], [18, "V", "♭III"], [23, "→ I", "→ i"]],
       spaces: [[1, 12, "part 1", "", "two-part"], [13, 22, "part 2", "", "two-part"]],
       caplin: [[[1, 4, "main theme", "p"], [5, 12, "transition", "tr"], [13, 17, "subordinate theme", "s"],
                 [18, 22, "closing section", "c"], [23, 24, "retrans.", "rt"]]]
@@ -451,12 +477,12 @@
     "cf": {
       label: "caesura-fill", lights: "cf", n: 24,
       model: "Compare Beethoven, Symphony No. 2 in D, Op. 36, i: TR drives on A minor to a v:HC MC at m. 71, the first-level default shaded by the minor mode, and two bars of caesura-fill lead to S in A major at m. 73 (pp. 25–26).",
-      zones: [["p", 1, 5, 0], ["tr", 6, 9, 1], ["cf", 10, 10, 1], ["s", 11, 16, 2], ["c", 17, 22, 2], ["rt", 23, 24, 2]],
-      events: [[9, "V:HC MC", "mc", "mark"], [16, "V:PAC EEC", "eec"], [22, "final cadence", "c", "mark"]],
-      arcs: [[3, 16, -10, "EEC"], [12, 16, 30, "EEC"]],
-      keys: [[1, 5, "I", "i"], [6, 9, "I → V", "i → ♭III"], [11, 22, "V", "♭III"], [23, 24, "→ I", "→ i"]],
+      zones: [["p", 1, 5, 0], ["tr", 6, 8, 1], ["cf", 9, 10, 1], ["s", 11, 16, 2], ["c", 17, 22, 2], ["rt", 23, 24, 2]],
+      events: [[8, "V:HC MC", "mc", "mark"], [16, "V:PAC EEC", "eec"], [22, "final cadence", "c", "mark"]],
+      arcs: [[3, 16, -34, "EEC"], [12, 16, 30, "EEC"]],
+      keys: [[1, "I", "i"], [6, "I → V", "i → ♭III"], [11, "V", "♭III"], [17, "V", "♭III"], [23, "→ I", "→ i"]],
       spaces: EXPO_SPACES,
-      caplin: [[[1, 5, "main theme", "p"], [6, 9, "transition", "tr"], [11, 16, "subordinate theme", "s"],
+      caplin: [[[1, 5, "main theme", "p"], [6, 8, "transition", "tr"], [11, 16, "subordinate theme", "s"],
                 [17, 22, "closing section", "c"], [23, 24, "retrans.", "rt"]]]
     },
     "continuous": {
@@ -464,8 +490,8 @@
       model: "Compare Haydn, Symphony No. 96 in D (“Miracle”), i: a V:HC MC at m. 57 is canceled when its caesura-fill turns into Fortspinnung, and the V:PAC at m. 71, some 82 percent of the way through the exposition, is the EEC (pp. 57–58).",
       zones: [["p", 1, 5, 0], ["fs", 6, 16, 1], ["c", 17, 22, 2], ["rt", 23, 24, 2]],
       events: [[16, "V:PAC EEC", "eec"], [22, "final cadence", "c", "mark"]],
-      arcs: [[3, 16, -10, "EEC"]],
-      keys: [[1, 5, "I", "i"], [6, 16, "I → V", "i → ♭III"], [17, 22, "V", "♭III"], [23, 24, "→ I", "→ i"]],
+      arcs: [[3, 16, -34, "EEC"]],
+      keys: [[1, "I", "i"], [6, "I → V", "i → ♭III"], [17, "V", "♭III"], [23, "→ I", "→ i"]],
       spaces: [[1, 22, "exposition", "no MC, no S", "continuous"]],
       caplin: [[[1, 5, "main theme", "p"], [6, 16, "transition/subordinate theme", "continuous"],
                 [17, 22, "closing section", "c"], [23, 24, "retrans.", "rt"]]]
@@ -475,8 +501,8 @@
       model: "Compare Caplin, Exs. 9.1–9.3: Beethoven, Piano Sonata in F minor, Op. 2, No. 1, i. TR modulates to A♭ major, ♭III, and reaches an HC at m. 16, prolonged to m. 20; S begins at m. 21; a cadence is evaded at m. 37 and the PAC at m. 41 is the EEC; codettas follow in mm. 42–48 (Caplin, pp. 265–270).",
       zones: [["p", 1, 5, 0], ["tr", 6, 10, 1], ["s", 11, 16, 2], ["c", 17, 22, 2], ["rt", 23, 24, 2]],
       events: [[10, "♭III:HC MC", "mc", "mark"], [16, "♭III:PAC EEC", "eec"], [22, "final cadence", "c", "mark"]],
-      arcs: [[3, 16, -10, "EEC"], [12, 16, 30, "EEC"]],
-      keys: [[1, 5, "I", "i"], [6, 10, "I → V", "i → ♭III"], [11, 22, "V", "♭III"], [23, 24, "→ I", "→ i"]],
+      arcs: [[3, 16, -34, "EEC"], [12, 16, 30, "EEC"]],
+      keys: [[1, "I", "i"], [6, "I → V", "i → ♭III"], [11, "V", "♭III"], [17, "V", "♭III"], [23, "→ I", "→ i"]],
       spaces: EXPO_SPACES, caplin: EXPO_CAPLIN
     }
   };
@@ -489,7 +515,7 @@
       model: "Compare Caplin, Exs. 9.5–9.7: Beethoven, Piano Sonata in F minor, Op. 2, No. 1, i. The pre-core brings the main theme's basic idea in the subordinate key; the core sets up an 8-measure model from the subordinate theme, fragments it, and reaches the home key's HC at m. 81; a two-part standing on the dominant leads to the recapitulation at m. 101 (Caplin, pp. 274–277).",
       zones: DEV_ZONES,
       events: [[18, "I:HC", "core"], [24, "interruption", "interruption", "double"]],
-      keys: [[1, 7, "V", "♭III"], [8, 18, "vi, iii, ii → I", "iv, v → i"], [19, 24, "V_A", "V_A"]],
+      keys: [[1, "V", "♭III"], [3, "V", "♭III"], [8, "vi, iii, ii → I", "iv, v → i"], [19, "V_A", "V_A"]],
       spaces: DEV_SPACES,
       caplin: [[[1, 7, "pre-core", "pre-core"], [8, 24, "core", "core"]]]
     },
@@ -498,7 +524,7 @@
       model: "Compare Caplin, Ex. 13.3: Haydn, Piano Sonata in E♭, H. 49, i. The first of two cores sets up a 4-measure model at m. 84, sequences it by descending thirds, fragments it, and reaches an HC in F minor, ii, at m. 103; the second core follows (Caplin, pp. 432–433).",
       zones: DEV_ZONES,
       events: [[12, "vi:HC", "core"], [18, "I:HC", "core"], [24, "interruption", "interruption", "double"]],
-      keys: [[1, 7, "V", "♭III"], [8, 14, "vi", "iv"], [15, 18, "→ I", "→ i"], [19, 24, "V_A", "V_A"]],
+      keys: [[1, "V", "♭III"], [3, "V", "♭III"], [8, "vi → I", "iv → i"], [19, "V_A", "V_A"]],
       spaces: DEV_SPACES,
       caplin: [[[1, 7, "pre-core", "pre-core"], [8, 14, "core 1", "core"], [15, 24, "core 2", "core"]]]
     },
@@ -507,7 +533,7 @@
       model: "Compare Caplin, Exs. 13.7 and 13.13: Beethoven, Piano Sonata in G, Op. 14, No. 2, i. The core's 5-measure model begins at m. 81 and reaches a premature dominant arrival on V of E♭, ♭VI, at m. 93, held to a fermata at m. 98; the retransition begins like the main theme in E♭, a false recapitulation, and reaches the home key's HC at m. 107 (Caplin, pp. 439–440, 449–450).",
       zones: DEV_ZONES,
       events: [[12, "vi:HC", "core"], [18, "I:HC", "c-retransition"], [24, "interruption", "interruption", "double"]],
-      keys: [[1, 7, "V", "♭III"], [8, 14, "vi", "iv"], [15, 18, "→ I", "→ i"], [19, 24, "V_A", "V_A"]],
+      keys: [[1, "V", "♭III"], [3, "V", "♭III"], [8, "vi → I", "iv → i"], [19, "V_A", "V_A"]],
       spaces: DEV_SPACES,
       caplin: [[[1, 7, "pre-core", "pre-core"], [8, 14, "core", "core"], [15, 24, "retransition", "c-retransition"]]]
     }
@@ -517,10 +543,10 @@
     n: 24,
     zones: [["p", 1, 5], ["trr", 6, 10], ["s", 11, 16], ["c", 17, 22]],
     events: [[10, "I:HC MC", "mc", "mark"], [16, "I:PAC ESC", "esc"], [22, "final cadence", "c", "mark"]],
-    arcs: [[3, 16, -10, "ESC"], [12, 16, 30, "ESC"]],
+    arcs: [[3, 16, -34, "ESC"], [12, 16, 30, "ESC"]],
     corr: [[1, 6, "match", "correspondence"], [7, 8, "new", "crux"], [9, 22, "match", "correspondence"]],
     crux: [8, "crux"],
-    keys: [[1, 5, "I", "i"], [6, 10, "IV → I", "iv → i"], [11, 22, "I", "i"]],
+    keys: [[1, "I", "i"], [6, "IV → I", "iv → i"], [11, "I", "i"], [17, "I", "i"]],
     spaces: [[1, 22, "recapitulation", "recapitulatory rotation", "recapitulation"]],
     caplin: [[[1, 5, "main theme", "p"], [6, 10, "transition", "tr-recap"], [11, 16, "subordinate theme", "s"],
               [17, 22, "closing section", "c"]]]
