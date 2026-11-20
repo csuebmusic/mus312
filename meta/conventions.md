@@ -37,7 +37,7 @@ MUS 601, Birth and Death of Tonality, is the graduate counterpart. Analytical ma
 
 Caplin, *Analyzing Classical Form*, is the main text. Hepokoski and Darcy, *Elements of Sonata Theory*, covers sonata form. Laitz and Bartlette, *The Graduate Review of Tonal Theory*, covers the review, chromatic harmony, and the form topics outside Caplin.
 
-Sonata-form terminology follows Hepokoski and Darcy.
+Sonata-form terminology follows Hepokoski and Darcy. Student-facing sonata material gives Caplin's term for each span beside theirs.
 
 Harmonic function follows Laitz: four functions, tonic, mediant, pre-dominant, dominant. Where Caplin differs, student-facing material names his reading alongside. Caplin counts three functions, placing vi with the tonic and treating iii as a dominant substitute.
 
@@ -58,6 +58,8 @@ The "quality informs function" section of `tools/harmony-review.html` keeps its 
 An applied chord is written with its target after a slash and a curved arrow to that target, whether or not the target follows.
 
 Roman numerals follow the jazz flatted-degree convention: ♭3̂, ♭III.
+
+In sonata material a cadence is written with its key before a colon, as Hepokoski and Darcy write it: V:PAC, I:HC, ♭III:HC MC. V<sub>A</sub> is an active dominant and V<sub>T</sub> a tonicized one.
 
 A mode has the key signature of its parent major scale: C dorian has B♭ major's two flats. Its scale degrees and roman numerals read against the major scale on its own tonic: C dorian is 1̂ 2̂ ♭3̂ 4̂ 5̂ 6̂ ♭7̂, and its triad on ♭3̂ is ♭III.
 
