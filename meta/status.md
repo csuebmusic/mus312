@@ -21,8 +21,6 @@
 
 ## open
 
-The final-analysis movement has no date to be chosen by.
-
-Guidelines for the packets and the final analysis aren't written. The syllabus points to them. They state what is handed in, how a score is annotated, and how the work is assessed, and they set the length of the final analysis and the extra credit for performing from it.
+Guidelines for the packets aren't written.
 
 SLO 4 asks students to implement the concepts through performance on their major instrument or voice. On the syllabus that performance is extra credit, so a student can complete the course without meeting it.
