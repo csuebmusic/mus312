@@ -135,6 +135,16 @@ Beneath the boxes, in ink, a bracket for each function at y = 204 names the func
 
 One element is pressed at a time across the page, and none when the page opens. Choosing a diagram from a row of buttons lights its definition. The element pressed takes the accent on its outline and labels. Its definition paragraph takes `--accent-wash`. A copy stands under the figure for an idea box, and for any element whose paragraph sits in another section. An element whose term the page doesn't define puts a link under the figure to the section of the theme types page that does.
 
+## sonata diagrams
+
+A sonata diagram draws its spans across x = 150 to 1150 in equal schematic units, at scale 1, 1200 wide. Each zone is a box 80 tall at y = 92, inset 5 from its unit boundaries, outlined in ink on `--paper`, with its abbreviation in the data face at 19px, stepping down as an idea box's does, and its name beneath in `--muted` where the name fits. An optional or parageneric zone (introduction, coda, link, RT, CF) takes a dashed `--muted` outline and text.
+
+Events stand above the zones at y = 56 on the boundary they mark. A cadence that closes a zone (EEC, ESC, and the HCs of the development) is boxed as a theme diagram's cadence is. The MC and the final cadence are an unboxed label with a tick down into the gap between zones, and the interruption takes two ticks. Trajectories are dotted `--muted` arcs from the top of a zone to the box of the cadence they reach, each with its arrowhead drawn as part of its group.
+
+Rows beneath the zones begin at y = 204, each named at the left as a theme diagram's rows are: correspondence, where a recapitulation has one, as a 3-wide ink line under correspondence measures and a dashed `--muted` line under recomposed ones, with the crux a tick and label on its boundary; keys, in the data face at 13px, centred on their spans; spaces, as brackets with the label at 15px and a caption beneath; and Caplin's names, as brackets and 13px labels in `--muted`, on two lines where a span is too narrow for one. The `viewBox` height is set from the rows a diagram draws.
+
+Pressing follows the theme diagrams: a zone copies its definition under the figure as an idea box does.
+
 ## sound
 
 Playback reads the staff. `playButtons` walks the page in document order and puts a `button.play` under every figure with `text.notehead[data-note]`, labelled from the headings above it, unless the figure takes `data-play="no"`. `figureNotes(svg)` returns one entry per sounding notehead: its onset is `data-beat` where the figure is metered and its column index otherwise, and its length is `data-dur` in beats or one beat. A tied note has the length of both halves and the note it ties into takes `data-tie`. Noteheads marked `optional` are silent.
@@ -170,7 +180,7 @@ Layout primitives live in `assets/style.css`: `.panels` and its `uneven` and `th
 
 Each shared script takes a `?v=N` query of its own, bumped whenever that script changes. The stylesheet's number is independent and moves only when the stylesheet does.
 
-Interactive tools live in `tools/`. Each is one HTML file. Every tool except the style chart links `assets/notation.js`, which holds note spelling, staff and clock geometry, the notehead tag, the chord type tables, the grand staff and single-staff renderers, and playback. A page aliases what it uses at the top of its own IIFE. Anything two tools need is written in the module rather than in a second copy. Theme diagrams are drawn by `assets/themes.js`, loaded after `assets/notation.js`: a page passes its own themes to `draw` and `picker` and adds any ideas and units of its own to `IDEAS` and `UNITS`.
+Interactive tools live in `tools/`. Each is one HTML file. Every tool except the style chart links `assets/notation.js`, which holds note spelling, staff and clock geometry, the notehead tag, the chord type tables, the grand staff and single-staff renderers, and playback. A page aliases what it uses at the top of its own IIFE. Anything two tools need is written in the module rather than in a second copy. Theme diagrams are drawn by `assets/themes.js`, loaded after `assets/notation.js`: a page passes its own themes to `draw` and `picker` and adds any ideas and units of its own to `IDEAS` and `UNITS`. A page that draws other figures lights them with the module's `wire`, `hit`, and `bracket`.
 
 A section with a transposable figure is found by `data-scale`, not by id. Ids on a section belong to its heading.
 
