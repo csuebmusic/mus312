@@ -81,9 +81,9 @@ A cadence bracket covers the dominant and its target at an authentic cadence, an
 
 Written analysis reaches a claim about how a piece works.
 
-Twelve homework packets weighted equally at 70 percent, the final analysis at 30 percent. Performing a passage from the movement analyzed, in the final exam slot, earns extra credit.
+Eight homework packets, for Caplin chapters 1 through 8, weighted equally at 70 percent, the final analysis at 30 percent. Performing a passage from the movement analyzed, in the final exam slot, earns extra credit.
 
-A packet is the end-of-chapter material for one chapter of Caplin, due on paper at the start of the first meeting on the next chapter. Students hand in the Examples for Analysis, work the review questions against Caplin's companion website without handing them in, and aren't assigned Model Composition. The packets are distributed through Canvas, not the public site.
+A packet is the end-of-chapter material for one chapter of Caplin, due on paper at the start of the first meeting on the next chapter. Students hand in the Examples for Analysis, work the review questions against Caplin's companion website without handing them in, and aren't assigned Model Composition. The packets are distributed through Canvas, not the public site. Packets 9 through 12, for the sonata chapters, are worked in class and not handed in.
 
 The review problem sets are outside the packets and aren't weighted. They're worked by hand and have no answers on the page.
 
