@@ -41,7 +41,7 @@ Laitz and Bartlette, *Graduate Review of Tonal Theory*. Review, harmony and form
 
 ## part ii: sonata form
 
-Not yet dated. Remaining meetings: Mon Oct 26, Wed Oct 28; Mon Nov 2, Wed Nov 4; Mon Nov 9; Mon Nov 16, Wed Nov 18; Mon Nov 30, Wed Dec 2.
+Mon Oct 26 through Wed Dec 2, in the chapter order below, without fixed dates and without packets.
 
 | wk | meetings | Caplin | supplement |
 |---|---|---|---|
@@ -55,8 +55,6 @@ Not yet dated. Remaining meetings: Mon Oct 26, Wed Oct 28; Mon Nov 2, Wed Nov 4;
 
 ## homework packets
 
-Chapters 9 and 10 share packet 9; chapters 13 and 14 share packet 12.
-
 | packet | due | Caplin |
 |---|---|---|
 | 1 | Aug 31 | 25–29 |
@@ -67,10 +65,6 @@ Chapters 9 and 10 share packet 9; chapters 13 and 14 share packet 12.
 | 6 | Oct 12 | 186–194 |
 | 7 | Oct 19 | 228–237 |
 | 8 | Oct 26 | 253–258 |
-| 9 | | 301–307 |
-| 10 | | 344–352 |
-| 11 | | 408–419 |
-| 12 | | 462–474, 510–518 |
 
 ## omitted
 
