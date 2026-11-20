@@ -21,7 +21,7 @@
 
 ## open
 
-Part ii is undated in the syllabus and the outline; packets 9 through 12 have no due dates, and the final-analysis movement has no date to be chosen by.
+The final-analysis movement has no date to be chosen by.
 
 Guidelines for the packets and the final analysis aren't written. The syllabus points to them. They state what is handed in, how a score is annotated, and how the work is assessed, and they set the length of the final analysis and the extra credit for performing from it.
 
