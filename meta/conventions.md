@@ -79,9 +79,9 @@ A cadence bracket covers the dominant and its target at an authentic cadence, an
 
 ## assessment
 
-Written analysis reaches a claim about how a piece works.
+Analysis, written or presented, reaches a claim about how a piece works.
 
-Eight homework packets, for Caplin chapters 1 through 8, weighted equally at 70 percent, the final analysis at 30 percent. Performing a passage from the movement analyzed, in the final exam slot, earns extra credit.
+Eight homework packets, for Caplin chapters 1 through 8, weighted equally at 70 percent, the final analysis at 30 percent. The final analysis is a movement in sonata form or an art song, at least two if they're short, presented in the final exam slot, with the annotated score and a one-page formal diagram handed in. Performing a passage from it in the presentation adds 0.3 to the final analysis score, to a maximum of 4.0.
 
 A packet is the end-of-chapter material for one chapter of Caplin, due on paper at the start of the first meeting on the next chapter. Students hand in the Examples for Analysis, work the review questions against Caplin's companion website without handing them in, and aren't assigned Model Composition. The packets are distributed through Canvas, not the public site. Packets 9 through 12, for the sonata chapters, are worked in class and not handed in.
 
