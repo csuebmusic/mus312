@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mus 312 &middot; sonata form</title>
+<link rel="stylesheet" href="../assets/style.css?v=23">
+<script src="../assets/theme.js?v=2"></script>
+<style>
+  section.panel { margin-top: calc(var(--step) * 5); }
+  section.panel > p { max-width: none; }
+  section.panel > h3 { margin-top: calc(var(--step) * 4); }
+
+  .zone { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; }
+  .frame .zone { stroke: var(--muted); stroke-dasharray: 5 4; }
+  .zone-abbr { font-family: var(--font-data); font-size: 19px; font-weight: 500; fill: var(--ink); text-anchor: middle; }
+  .zone-abbr.long { font-size: 15px; }
+  .zone-abbr.longer { font-size: 13px; }
+  .zone-abbr.smallest { font-size: 11px; }
+  .frame .zone-abbr { fill: var(--muted); }
+  .zone-name { font-family: var(--font-body); font-size: 12px; fill: var(--muted); text-anchor: middle; }
+  .arc { fill: none; stroke: var(--muted); stroke-width: 1.3; stroke-dasharray: 2 4; }
+  .arrowhead { fill: var(--muted); }
+  .rowname { font-family: var(--font-data); font-size: 12px; fill: var(--muted); text-anchor: end; }
+  .cadbox { fill: var(--paper); stroke: var(--ink); stroke-width: 1.2; }
+  .cadtext, .marktext { font-family: var(--font-data); font-size: 13px; fill: var(--ink); text-anchor: middle; }
+  .tick { stroke: var(--ink); stroke-width: 1.5; }
+  .keytext { font-family: var(--font-data); font-size: 13px; fill: var(--ink); text-anchor: middle; }
+  text .sub { font-size: 0.7em; }
+  .bracket { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+  .bracket.alt { stroke: var(--muted); }
+  .unit-label { font-family: var(--font-body); font-size: 15px; fill: var(--ink); text-anchor: middle; }
+  .unit-label.alt { font-size: 13px; fill: var(--muted); }
+  .unit-cap { font-family: var(--font-data); font-size: 12px; fill: var(--muted); text-anchor: middle; }
+  .corr { stroke: var(--ink); stroke-width: 3; }
+  .corr.new { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 4 4; }
+  .hit { fill: transparent; cursor: pointer; }
+  .hit:focus { outline: none; }
+  .hit:focus-visible { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 4 3; }
+
+  .on .zone { stroke: var(--accent); stroke-width: 3; stroke-dasharray: none; }
+  .on .zone-abbr, .on .zone-name, .on .cadtext, .on .marktext, .on .unit-label, .on .unit-cap { fill: var(--accent); }
+  .on .bracket, .on .cadbox { stroke: var(--accent); stroke-width: 2.5; }
+  .on .arc { stroke: var(--accent); stroke-width: 2; }
+  .on .arrowhead { fill: var(--accent); }
+  .on .tick, .on .corr { stroke: var(--accent); }
+
+  .readout.def {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--ink);
+    border-left: 3px solid var(--accent);
+    padding: calc(var(--step) * 1.2) calc(var(--step) * 2);
+    margin-bottom: calc(var(--step) * 2);
+  }
+  .readout.def p { margin: 0; max-width: none; }
+  .readout.def:empty { display: none; }
+  p[data-term] { padding: calc(var(--step) * 0.6) calc(var(--step) * 1.2); margin-left: calc(var(--step) * -1.2); }
+  ol.defs { margin: calc(var(--step) * 2) 0 0; padding-left: calc(var(--step) * 3); }
+  ol.defs li { padding: calc(var(--step) * 0.6) calc(var(--step) * 1.2); margin-bottom: calc(var(--step) * 1.5); }
+  p[data-term].on, li[data-term].on { background: var(--accent-wash); }
+  .scroll-wrap { overflow-x: auto; }
+  .scroll-wrap svg { min-width: 760px; }
+  .model { font-family: var(--font-data); font-size: 0.8rem; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">mus 312 &middot; sonata form</p>
+  <h1 id="top">sonata form</h1>
+
+  <p class="lede full">Hepokoski and Darcy call the most typical sonata form of Haydn, Mozart, and early Beethoven the Type 3 sonata. Its large shape is a rounded binary: a first part, the exposition, usually repeated, and a second part, the development and recapitulation, sometimes repeated together. Inside that binary are three action-spaces, exposition, development, and recapitulation, laid out A || B A&prime; (pp. 15&ndash;16, 20). Caplin describes the same shape as an enlarged version of the rounded binary form of the <a href="small-ternary-binary.html#ternary" target="_blank" rel="noopener">small ternary</a>, with its three sections in the places of A, B, and A&prime; (Caplin, p. 262). Two optional spaces can frame the form: an introduction before it and a coda after it.</p>
+
+  <p class="howto">This page uses Hepokoski and Darcy's terms, from <i>Elements of Sonata Theory</i>, and gives Caplin's name for each span in the bottom row of every figure and in each definition. Press any box, bracket, label, or arrow for its definition. Page numbers are Hepokoski and Darcy's unless Caplin's name is beside them. The widths in the figures are schematic and don't count measures.</p>
+
+  <section class="panel">
+    <h2 id="whole">the whole form</h2>
+    <div class="scroll-wrap"><svg id="fig-whole" viewBox="0 0 1200 362" role="group" aria-label="The Type 3 sonata: introduction, exposition with P, TR, S, and C, development, recapitulation, and coda, with the MC, EEC, interruption, and ESC above and Caplin's names beneath"></svg></div>
+    <p class="model">After Hepokoski and Darcy, Fig. 2.1b (p. 17).</p>
+    <div class="readout def" id="read-whole" aria-live="polite"></div>
+    <ol class="defs">
+      <li data-term="exposition">The exposition has two tasks. Its harmonic task is to set out the tonic and then move to a second key and cadence there: in a major-mode sonata the dominant, and in a minor-mode sonata usually the relative major, less often the minor dominant. Its rhetorical task is to lay out the order of themes and textures that the development and recapitulation are measured against, which Hepokoski and Darcy call Rotation 1. Its second half predicts how the recapitulation will end, so they call the exposition a structure of promise (pp. 16&ndash;18). Caplin's exposition presents most of the movement's melodic-motivic material and sets up its tonal conflict, in three thematic functions: main theme, transition, and subordinate theme (Caplin, p. 263).</li>
+      <li data-term="development">The development makes the tonal tension of the exposition more fluid and complex. It shifts key more often than the exposition, usually through vi, iii, or other minor-mode keys in a major-mode sonata, and it ends on an active dominant of the home key. It takes up P and TR more often than S and C, and it may take up the exposition's themes in their original order (pp. 18&ndash;19). Caplin's development generates the movement's greatest tonal and phrase-structural instability. Its tonal regions are development keys, confirmed most often by an HC (Caplin, pp. 272&ndash;273, 420&ndash;421).</li>
+      <li data-term="recapitulation">The recapitulation resolves the tonal tension of the exposition. It begins again on the tonic, usually with P, and restates S and C, the exposition's part 2, in the tonic key. Because it retraces the exposition, Hepokoski and Darcy call it the recapitulatory rotation, and they call it a structure of accomplishment (p. 19). Caplin's recapitulation brings back most of the exposition's material in the home key, in the same order, with structural and ornamental changes (Caplin, pp. 279, 475).</li>
+      <li data-term="trajectory">The dotted arrows are Hepokoski and Darcy's trajectories. In the exposition one runs from the start of the exposition to the EEC, and a shorter one from the start of S to the same cadence. The longest runs from the start of the exposition to the ESC, the tonal goal of the whole sonata (pp. 18, 20).</li>
+      <li data-term="rotation">A rotation is one pass through the order of themes set out in the exposition. The exposition is Rotation 1, the recapitulation is a later rotation, and a development that takes up the exposition's themes in order is a rotation as well (pp. 16, 19, 611). Caplin uses the term for Haydn's developments that run through the exposition's material in order, and for the order of the recapitulation (Caplin, pp. 428, 483).</li>
+    </ol>
+  </section>
+
+  <section class="panel">
+    <h2 id="exposition">the exposition</h2>
+    <p data-term="two-part">The most common exposition has two parts. Part 1 is P and TR, beginning in the tonic. It ends with the medial caesura, MC, a break in the texture after which part 2, S and C, begins in the new key (pp. 23&ndash;24). An exposition without an MC is a continuous exposition, one of the options below.</p>
+    <p data-term="default">Hepokoski and Darcy describe the options a composer had at each point in a sonata as defaults. A first-level default is the option chosen most often, the first one that would occur to a composer; a second-level default is the next most common; and so on. Choosing a lower level takes a more conscious decision. A passage that rejects every default is a deformation (pp. 10&ndash;11).</p>
+    <div class="controls" id="pick-expo"></div>
+    <div class="scroll-wrap"><svg id="fig-expo" viewBox="0 0 1200 346" role="group" aria-label="The selected exposition, drawn as zones with the MC and EEC above and Caplin's names beneath"></svg></div>
+    <p class="model" id="model-expo"></p>
+    <div class="readout def" id="read-expo" aria-live="polite"></div>
+    <ol class="defs">
+      <li data-term="p">P, the primary theme, begins the exposition in the tonic and sets the emotional tone of the work (p. 18). Hepokoski and Darcy use &ldquo;theme&rdquo; for the leading idea of a zone, which can be a texture rather than a melody (p. 65). Caplin calls the same unit the main theme. It's relatively tight-knit, it's often a sentence, a period, or a hybrid, and it closes in the home key, most often with a PAC, sometimes with an HC, rarely with an IAC (Caplin, pp. 263&ndash;264, 286).</li>
+      <li data-term="tr">TR, the transition, gains energy after P and drives to the MC. It may modulate or not: a TR that stays in the tonic leads to a I:HC MC. In an orchestral Allegro, TR often begins with a strong tutti entrance, the tutti affirmation (pp. 93&ndash;94). Several of Hepokoski and Darcy's transition types begin like one of Caplin's theme types, a consequent, a sentence, a hybrid, and dissolve into transition partway through; the name of one, the dissolving hybrid, adapts Caplin's term (pp. 101&ndash;106). Caplin's transition destabilizes the home key, loosens the form, and liquidates the main theme's motives. It modulates, stays in the home key, or does both in two parts, and it ends on a dominant, usually with an HC (Caplin, pp. 308&ndash;309).</li>
+      <li data-term="mc">The MC, medial caesura, is the break that ends part 1 of the exposition, after which S begins. It's usually built around a half cadence, either in the tonic or in the new key. The HC itself often comes several measures before the break, and the dominant is held in a dominant-lock until the break. In fast movements TR's energy holds or grows all the way to the MC (pp. 24&ndash;25). Caplin treats the MC as one way a transition often ends, and he limits the term to a literal break, a silence or a fermata on the transition's last chord. For him it isn't required for a subordinate theme: every exposition has a subordinate theme, MC or not (Caplin, p. 310).</li>
+      <li data-term="mc-defaults">In a major-mode work of moderate length or longer, the first-level default MC is the V:HC MC, after a TR that has modulated. The second-level default is the I:HC MC, after a TR that stays in the tonic; it usually comes earlier and predicts a shorter, less ambitious sonata. The third-level default is the V:PAC MC. In a minor-mode work the first-level defaults are &#9837;III:HC and v:HC, and the second-level default i:HC is rare (pp. 25&ndash;27, 36). The options are used up in order: a I:HC MC is available roughly 15 to 45 percent of the way through the exposition, and once a composer passes it by, the next option is the V:HC, and then the V:PAC (pp. 36&ndash;37, 40). Hepokoski and Darcy write the relative major III; this course writes &#9837;III.</li>
+      <li data-term="cf">Caesura-fill, CF, is music that fills the break at the MC, often a single voice that lets the energy drop before S. It belongs to neither TR nor S (p. 40).</li>
+      <li data-term="s">S, the secondary theme, begins after the MC in the new key. Its task is to reach a PAC in that key, the EEC. There's no S without an MC: in a continuous exposition there is no S to find (pp. 18, 52, 117&ndash;118). Caplin calls the corresponding unit the subordinate theme. It contrasts with the main theme, it's looser, and it must close with a PAC in the subordinate key. An exposition can have several, each closing with a PAC, in a subordinate-theme group (Caplin, pp. 268, 353&ndash;354).</li>
+      <li data-term="eec">The EEC, essential expositional closure, is the first satisfactory PAC in the new key that goes on to different material: V:PAC in a major-mode sonata, &#9837;III:PAC or v:PAC in a minor-mode one. An immediate repetition of the melody or the cadence defers it to the next PAC (p. 18). Caplin makes no distinction among the PACs of a subordinate-theme group: each closes its theme, and all are equally strong as syntax, though they can differ in rhetorical force (Caplin, p. 387).</li>
+      <li data-term="c">C, the closing zone, is what follows the EEC. It can be a few codettas or a chain of new themes, C1, C2, and so on, and it can recall P. The exposition's final cadence is generally a PAC in the new key (pp. 18, 180&ndash;181). Caplin's closing section is a series of codettas after the last subordinate theme. What other writers call a closing theme he usually reads as either the last subordinate theme of a group or a set of codettas (Caplin, pp. 387&ndash;389).</li>
+      <li data-term="rt">RT, the retransition, reactivates V after the final cadence to prepare the repeat of the exposition (p. 18). Caplin uses the term for the same passage (Caplin, p. 390).</li>
+      <li data-term="continuous">A continuous exposition has no MC, and so no S. In the more familiar subtype, TR spins out its material, Fortspinnung, past the last point where an MC could come, and Hepokoski and Darcy call that long middle the expansion section. In the other, an early PAC in the new key is followed by varied repetitions of the cadence (pp. 51&ndash;52, 60). Haydn wrote continuous expositions throughout his career (p. 52). Caplin finds subordinate-theme function in every exposition and treats the difference between two-part and continuous expositions as a matter of texture and rhythm. Where no boundary between transition and subordinate theme can be found, he writes the fused function transition/subordinate theme (Caplin, pp. 310, 404&ndash;406).</li>
+    </ol>
+  </section>
+
+  <section class="panel">
+    <h2 id="development">the development</h2>
+    <p data-term="interruption">A development usually ends with a half cadence in the tonic, I:HC, often prolonged by a dominant-lock. That dominant is active, V<sub>A</sub>, a chord rather than a key. It doesn't resolve to the I that begins the recapitulation: the development ends on V<sub>A</sub> and the recapitulation launches a new cycle, a harmonic interruption. A development can also cadence in a nontonic key along the way, a vi:PAC being common in major-mode sonatas (p. 19).</p>
+    <p data-term="zones">Hepokoski and Darcy give a development up to four zones, not all of which need appear: a link, an entry, a central action, and an exit. Caplin's pre-core and core divide the same span differently, and his three typical plans are below; the four zones stay the same in each (pp. 229&ndash;230; Caplin, p. 423).</p>
+    <div class="controls" id="pick-dev"></div>
+    <div class="scroll-wrap"><svg id="fig-dev" viewBox="0 0 1200 346" role="group" aria-label="The development, drawn as Hepokoski and Darcy's four zones with Caplin's plan beneath"></svg></div>
+    <p class="model" id="model-dev"></p>
+    <div class="readout def" id="read-dev" aria-live="polite"></div>
+    <ol class="defs">
+      <li data-term="link">The link is a short, optional passage from the end of the exposition, from RT or the last module of C, that often precedes the sense of the development proper (p. 229).</li>
+      <li data-term="entry">The entry, or preparation zone, prepares the central action, often piano and in an anticipatory mood. It's often based on P, and it can be short or long (pp. 229&ndash;230).</li>
+      <li data-term="central-action">The central action is the main part of the development, in one or more parts: surging, moves to minor, Sturm und Drang outbursts, quieter reactive moments. One common option is a sequence-block, a model and its sequential repetitions, and it ends with fragmentation and liquidation (p. 230).</li>
+      <li data-term="exit">The exit, or retransition, prepares and sounds the dominant-lock on V<sub>A</sub> of the tonic, often with anticipations of P (p. 230).</li>
+      <li data-term="pre-core">Caplin's pre-core is the part of a development before the core. It's less intense than the core, often soft, and it usually begins in the subordinate key with the main theme's basic idea, material from the closing section, or new material. It can be a complete theme, part of one, or two units (Caplin, pp. 422, 440&ndash;446).</li>
+      <li data-term="core">Caplin's core sets up a large model, usually four to eight measures, sequences it one or more times, fragments it, and reaches an HC or dominant arrival in a development key or the home key, followed by a standing on the dominant. A large development can have two cores, the first ending in a development key and the second usually in the home key (Caplin, pp. 273, 422&ndash;423). Caplin counts the HC and the standing on the dominant as part of the core, where Ratz didn't (Caplin, p. 429), so a core that ends in the home key spans Hepokoski and Darcy's central action and exit.</li>
+      <li data-term="c-retransition">Caplin keeps the term retransition for a passage after a core that ended in a development key, whose function is to bring back the home key. It's typically a complete phrase or theme ending with an HC in the home key and a standing on the dominant, and any model it sequences is small, usually no more than a measure (Caplin, pp. 423, 446&ndash;447). Hepokoski and Darcy use retransition as another name for the exit (p. 230).</li>
+    </ol>
+    <h3>the <span class="caps">Ratz</span>&ndash;<span class="caps">Caplin</span> model</h3>
+    <p>Hepokoski and Darcy call Caplin's pre-core and core, adapted from Erwin Ratz, the Ratz&ndash;Caplin model. They find that it fits some developments from around 1800, Beethoven's Piano Sonata in F minor, Op. 2, No. 1, i, among them, and that many others resist it. Their objection is that it tracks one procedure, the sequence-block, and says little about which themes a development takes up and in what order (pp. 228&ndash;229). Caplin presents the pre-core and core as the most frequent organization, not the only one, and describes developments built without a core (Caplin, pp. 273, 450&ndash;451).</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="recapitulation">the recapitulation</h2>
+    <p>A recapitulation is analyzed by comparing it with the exposition measure by measure (p. 239; Caplin, pp. 279, 476). Hepokoski and Darcy mark the measures that match the exposition, and Caplin sorts the changes into structural and ornamental ones.</p>
+    <div class="scroll-wrap"><svg id="fig-recap" viewBox="0 0 1200 390" role="group" aria-label="The recapitulation, drawn as zones with the correspondence measures, the crux, and the ESC, and Caplin's names beneath"></svg></div>
+    <p class="model">Compare Caplin, Exs. 9.9&ndash;9.10: Beethoven, Piano Sonata in F minor, Op. 2, No. 1, i. The main theme returns unchanged; the transition begins in F minor where the exposition's began in C minor, tonicizes B&#9837; minor, iv, and reaches an HC in the home key at m. 117; the subordinate theme returns unchanged except for its transposition to the home key (Caplin, pp. 279&ndash;282).</p>
+    <div class="readout def" id="read-recap" aria-live="polite"></div>
+    <ol class="defs">
+      <li data-term="correspondence">Correspondence measures are measures of the recapitulation that restate the exposition bar for bar, written as &ldquo;m. 73 = m. 1.&rdquo; A recapitulation usually begins with them, slips off track somewhere around the end of P or in TR, and is recomposed on the way to the MC (p. 239).</li>
+      <li data-term="crux">The crux is the point where the recapitulation rejoins the exposition's pattern, after which the rest can be largely a matter of transposition. After an exposition with a V:HC MC, the music from the crux on usually returns a fifth lower or a fourth higher; after a I:HC MC it can return at the same pitch. The recompositions before the crux are precrux alterations (pp. 239&ndash;240).</li>
+      <li data-term="tr-recap">The recapitulation's TR is often recomposed, often with an emphasis on IV, so that it ends at a I:HC MC and S can follow in the tonic (pp. 17, 239). Caplin's transition in the recapitulation must stay in the home key. Typically it tonicizes the subdominant region, which then leads as a pre-dominant to the home key's dominant, and it may delete passages that prolong the tonic or add new model&ndash;sequence passages (Caplin, pp. 279, 478, 488&ndash;489).</li>
+      <li data-term="esc">The ESC, essential structural closure, is the first satisfactory I:PAC in the recapitulation's S that goes on to different material, most often the point parallel to the EEC. It's the tonal goal of the whole sonata. The S and C of the recapitulation together are the tonal resolution, and C follows the ESC in the tonic (pp. 19&ndash;20). In Caplin's terms the recapitulation's subordinate theme must close with a PAC in the home key, sometimes more emphatically than in the exposition. Mozart and Beethoven usually bring back their subordinate themes unaltered except for the transposition, and Haydn usually restructures them (Caplin, pp. 281, 478&ndash;479).</li>
+    </ol>
+    <h3>the sonata principle</h3>
+    <p>Edward T. Cone and Charles Rosen proposed a sonata principle: everything the exposition presents in the subordinate key comes back in the home key in the recapitulation. Hepokoski and Darcy question it, citing the changes Haydn and sometimes Mozart and Beethoven make to the recapitulation's S (p. 242; Caplin, p. 479). Caplin treats it as a tendency rather than a rule.</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="parageneric">coda and introduction</h2>
+    <p data-term="parageneric">Hepokoski and Darcy call the exposition, development, and recapitulation sonata-space, and anything in a movement outside them a parageneric space. The coda and the introduction are the most common (p. 281).</p>
+    <ol class="defs">
+      <li data-term="coda">The coda begins after the measure of the recapitulation that corresponds to the last measure of the exposition. It's outside the sonata form, and it confirms the tonic that the ESC secured. A brief tonic tag after the recapitulation is a coda in Hepokoski and Darcy's usage and a codetta in Caplin's (pp. 281&ndash;283). Caplin's rule for the start of the coda is the same, the point where the recapitulation stops corresponding to the exposition, and it often doesn't sound like a beginning. His coda usually contains at least one coda theme ending with a PAC in the home key, followed by a closing section, and it can compensate for what the recapitulation couldn't do: recall the main theme, restore material the recapitulation cut, refer to the development, or shape a new dynamic close (Caplin, pp. 519&ndash;521, 538&ndash;541).</li>
+      <li data-term="introduction">An introduction can be a brief, in-tempo gesture of a few chords, or a longer passage, almost always slow, that builds anticipation and usually ends on the dominant with an expectant pause before the exposition begins (pp. 292, 295). Caplin's slow introduction is a before-the-beginning, combining a stately, heraldic character with an uncertain, anticipatory one, and its harmonic goal is most often the home key's dominant (Caplin, pp. 551&ndash;552, 555&ndash;556).</li>
+    </ol>
+  </section>
+
+  <section class="panel">
+    <h2 id="repeats">repeats</h2>
+    <p>Repeating both parts, |: exposition :||: development and recapitulation :|, is the earliest norm. Many first movements after about 1760 repeat only the exposition, and after about 1790 a repeat of the second part is an uncommon gesture that invites interpretation. Overtures don't repeat the exposition. In a first movement after 1780 an unrepeated exposition is an exception and a deliberate choice, as in Mozart's &ldquo;Haffner&rdquo; Symphony, K. 385, and Beethoven's &ldquo;Appassionata&rdquo; Sonata, Op. 57 (p. 20). Hepokoski and Darcy argue that the repeats belong to the form and shouldn't be skipped in performance or passed over in analysis (p. 21). Caplin likewise describes the exposition as almost always repeated and the development and recapitulation as sometimes repeated together (Caplin, p. 262).</p>
+  </section>
+
+  <section class="panel">
+    <h2 id="vocabulary">two vocabularies</h2>
+    <div class="scroll-wrap">
+      <table>
+        <thead>
+          <tr><td></td><th><span class="caps">Hepokoski</span> and <span class="caps">Darcy</span></th><th><span class="caps">Caplin</span></th><th>where they differ</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>the form</th><td>Type 3 sonata</td><td>sonata form</td><td>Hepokoski and Darcy name four other types, and this course covers Type 3 only.</td></tr>
+          <tr><th>first zone</th><td>P, primary theme</td><td>main theme</td><td></td></tr>
+          <tr><th>second zone</th><td>TR, transition</td><td>transition</td><td>Neither requires a modulation.</td></tr>
+          <tr><th>the break</th><td>MC, medial caesura, including filled breaks</td><td>medial caesura, a literal silence or fermata only</td><td>For Hepokoski and Darcy there's no S without an MC; for Caplin every exposition has a subordinate theme.</td></tr>
+          <tr><th>zone after the break</th><td>S, secondary theme</td><td>subordinate theme, or a group of them</td><td></td></tr>
+          <tr><th>first PAC in the new key</th><td>EEC</td><td>the PAC closing the first subordinate theme</td><td>Caplin treats every PAC of a subordinate-theme group as equally strong syntactically.</td></tr>
+          <tr><th>after that PAC</th><td>C, closing zone, which can hold new themes</td><td>further subordinate themes, then a closing section of codettas</td><td></td></tr>
+          <tr><th>exposition without an MC</th><td>continuous exposition</td><td>transition/subordinate theme, fused</td><td></td></tr>
+          <tr><th>the development</th><td>link, entry, central action, exit</td><td>pre-core, core, retransition</td><td>Hepokoski and Darcy's exit is any final preparation of V<sub>A</sub>; Caplin's retransition follows a core in a development key.</td></tr>
+          <tr><th>end of the development</th><td>I:HC, V<sub>A</sub>, interruption</td><td>HC or dominant arrival, standing on the dominant</td><td></td></tr>
+          <tr><th>rejoining the exposition</th><td>crux</td><td></td><td>Caplin compares the two sections bar by bar without naming the point.</td></tr>
+          <tr><th>tonic PAC in the recapitulation</th><td>ESC</td><td>the PAC closing the subordinate theme</td><td></td></tr>
+          <tr><th>after the recapitulation</th><td>coda, a parageneric space</td><td>coda, an after-the-end</td><td>A brief tonic tag is a coda for Hepokoski and Darcy and a codetta for Caplin.</td></tr>
+          <tr><th>cadence labels</th><td>V:PAC, I:HC</td><td>SK: PAC, HK: HC</td><td>SK is the subordinate key and HK the home key.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>This page writes a cadence with its key before a colon, as Hepokoski and Darcy do: V:PAC is a PAC in the key of V, and I:HC MC is a medial caesura built on a half cadence in the tonic. V<sub>T</sub> is a dominant that is tonicized, sounded as a key, and V<sub>A</sub> is an active dominant, a chord that implies a resolution to the tonic (p. xxv). Caplin writes SK: PAC for a PAC in the subordinate key and HK: HC for a half cadence in the home key (Caplin, p. 270).</p>
+  </section>
+
+  <footer>
+    <p>Text set in IBM Plex, under the SIL Open Font License.</p>
+  </footer>
+
+</div>
+
+<script src="../assets/notation.js?v=25"></script>
+<script src="../assets/themes.js?v=5"></script>
+<script>
+(function () {
+  "use strict";
+
+  var el = MUS.el, T = MUS.themes;
+
+  var X0 = 150, SPAN = 1000, INSET = 5, TICK = 10;
+  var Y_EVT = 56, H_EVT = 24, Y_ZONE = 92, H_ZONE = 80, Y_ROWS = 204;
+
+  var ZONES = {
+    p:      { abbr: "P", name: "primary theme", term: "p" },
+    tr:     { abbr: "TR", name: "transition", term: "tr" },
+    trr:    { abbr: "TR", name: "recomposed", term: "tr-recap" },
+    s:      { abbr: "S", name: "secondary theme", term: "s" },
+    c:      { abbr: "C", name: "closing zone", term: "c" },
+    rt:     { abbr: "RT", name: "retransition", term: "rt", frame: true },
+    cf:     { abbr: "CF", name: "caesura-fill", term: "cf", frame: true },
+    fs:     { abbr: "TR → FS", short: "FS", name: "expansion section", term: "continuous" },
+    dev:    { abbr: "development", short: "dev.", name: "", term: "development" },
+    intro:  { abbr: "intro.", name: "introduction", term: "introduction", frame: true },
+    coda:   { abbr: "coda", name: "", term: "coda", frame: true },
+    link:   { abbr: "link", name: "", term: "link", frame: true },
+    entry:  { abbr: "entry", name: "preparation", term: "entry" },
+    action: { abbr: "central action", short: "action", name: "sequence-blocks, crisis points", term: "central-action" },
+    exit:   { abbr: "exit", name: "dominant-lock on V_A", term: "exit" }
+  };
+
+  /* a label with a flat set in Bravura, raised as notation.js raises it, and a subscript after an underscore */
+  function label(parent, x, y, cls, str) {
+    var t = el("text", { x: x, y: y, "class": cls }), lift = 0;
+    str.split(/(♭|_[A-Z])/).forEach(function (part) {
+      if (!part) { return; }
+      if (part === "♭") {
+        t.appendChild(el("tspan", { "class": "acc-inline", dy: -3.5 - lift }, part));
+        lift = -3.5;
+      } else if (part.charAt(0) === "_") {
+        t.appendChild(el("tspan", { "class": "sub", dy: 4 - lift }, part.charAt(1)));
+        lift = 4;
+      } else {
+        t.appendChild(lift ? el("tspan", { dy: -lift }, part) : document.createTextNode(part));
+        lift = 0;
+      }
+    });
+    parent.appendChild(t);
+    return t;
+  }
+
+  /* zones: [kind, from, to]; events: [boundary, label, term, kind] where kind "mark" draws a tick and
+     "double" two ticks; arcs: [from unit, to boundary, control y]; corr: [from, to, "match" | "new", term]
+     and crux: [boundary, term]; keys: [from, to, text]; spaces: [from, to, label, caption, term];
+     caplin: rows of [from, to, label, term], a label's lines split at \n */
+  function draw(svg, f, readout) {
+    var n = f.n, MW = SPAN / n, groups = [];
+    function bx(b) { return X0 + b * MW; }
+    function item(term, name, cls) {
+      var g = el("g", { "data-term": term });
+      if (cls) { g.setAttribute("class", cls); }
+      svg.appendChild(g);
+      groups.push({ g: g, term: term, label: name });
+      return g;
+    }
+    while (svg.firstChild) { svg.removeChild(svg.firstChild); }
+
+    var y = Y_ROWS, rows = [["zones", Y_ZONE + H_ZONE / 2 + 4]];
+
+    (f.arcs || []).forEach(function (a) {
+      var x0 = X0 + (a[0] - 0.5) * MW, y0 = Y_ZONE, x1 = bx(a[1]), y1 = Y_EVT - 1, cx = (x0 + x1) / 2, cy = a[2];
+      var g = item("trajectory", "trajectory");
+      g.appendChild(el("path", { d: "M" + x0 + " " + y0 + " Q" + cx + " " + cy + " " + x1 + " " + y1, "class": "arc" }));
+      var dx = x1 - cx, dy = y1 - cy, len = Math.sqrt(dx * dx + dy * dy), ux = dx / len, uy = dy / len;
+      var bxp = x1 - ux * 9, byp = y1 - uy * 9;
+      g.appendChild(el("path", { d: "M" + x1 + " " + y1 + " L" + (bxp - uy * 4) + " " + (byp + ux * 4) +
+        " L" + (bxp + uy * 4) + " " + (byp - ux * 4) + " Z", "class": "arrowhead" }));
+      var mx = 0.25 * x0 + 0.5 * cx + 0.25 * x1, my = 0.25 * y0 + 0.5 * cy + 0.25 * y1;
+      T.hit(g, mx - 40, my - 10, 80, 20, "trajectory to the " + a[3]);
+    });
+
+    f.zones.forEach(function (z) {
+      var info = ZONES[z[0]];
+      var g = item(info.term, info.name || info.abbr, "idea" + (info.frame ? " frame" : ""));
+      var x = bx(z[1] - 1) + INSET, w = bx(z[2]) - INSET - x, cx = x + w / 2;
+      var abbr = info.abbr, cls = "zone-abbr";
+      if (abbr.length * 11.4 > w - 14) { cls = "zone-abbr long"; }
+      if (abbr.length * 9 > w - 14) { cls = "zone-abbr longer"; }
+      if (abbr.length * 7.8 > w - 14 && info.short) { abbr = info.short; cls = "zone-abbr"; }
+      else if (abbr.length * 7.8 > w - 6) { cls = "zone-abbr smallest"; }
+      g.appendChild(el("rect", { x: x, y: Y_ZONE, width: w, height: H_ZONE, "class": "zone" }));
+      label(g, cx, Y_ZONE + 38, cls, abbr);
+      if (info.name && info.name.length * 6.3 < w - 12) {
+        label(g, cx, Y_ZONE + 60, "zone-name", info.name);
+      }
+      T.hit(g, x, Y_ZONE, w, H_ZONE, (info.name || info.abbr));
+    });
+
+    (f.events || []).forEach(function (e) {
+      var g = item(e[2], e[1].replace("_A", " active"));
+      var x = bx(e[0]);
+      if (e[3]) {
+        label(g, x, Y_EVT + 17, "marktext", e[1]);
+        var ticks = e[3] === "double" ? [-3, 3] : [0];
+        ticks.forEach(function (d) {
+          g.appendChild(el("line", { x1: x + d, x2: x + d, y1: Y_EVT + 26, y2: Y_ZONE + 18, "class": "tick" }));
+        });
+        var w = Math.max(30, e[1].length * 8 + 10);
+        T.hit(g, x - w / 2, Y_EVT, w, Y_ZONE + 18 - Y_EVT, e[1]);
+      } else {
+        var bw = 18 + e[1].replace(/_/g, "").length * 7.8;
+        g.appendChild(el("rect", { x: x - bw / 2, y: Y_EVT, width: bw, height: H_EVT, "class": "cadbox" }));
+        label(g, x, Y_EVT + 17, "cadtext", e[1]);
+        T.hit(g, x - bw / 2, Y_EVT, bw, H_EVT, e[1]);
+      }
+    });
+
+    if (f.corr) {
+      rows.push(["correspond.", y + 4]);
+      f.corr.forEach(function (c) {
+        var g = item(c[3], c[2] === "match" ? "correspondence measures" : "precrux alterations");
+        var x1 = bx(c[0] - 1) + INSET, x2 = bx(c[1]) - INSET;
+        g.appendChild(el("line", { x1: x1, x2: x2, y1: y, y2: y, "class": "corr" + (c[2] === "new" ? " new" : "") }));
+        T.hit(g, x1, y - 8, x2 - x1, 16, c[2] === "match" ? "correspondence measures" : "recomposed, before the crux");
+      });
+      var cg = item(f.crux[1], "crux"), cxp = bx(f.crux[0]);
+      cg.appendChild(el("line", { x1: cxp, x2: cxp, y1: y - 9, y2: y + 9, "class": "tick" }));
+      label(cg, cxp, y + 24, "marktext", "crux");
+      T.hit(cg, cxp - 22, y - 10, 44, 38, "crux");
+      y += 44;
+    }
+
+    rows.push(["keys", y + 4]);
+    f.keys.forEach(function (k) {
+      label(svg, (bx(k[0] - 1) + bx(k[1])) / 2, y + 4, "keytext", k[2]);
+    });
+    y += 36;
+
+    rows.push(["spaces", y + 18]);
+    f.spaces.forEach(function (s) {
+      var g = item(s[4], s[2], "unit"), x1 = bx(s[0] - 1) + INSET, x2 = bx(s[1]) - INSET;
+      T.bracket(g, x1, x2, y);
+      g.appendChild(el("text", { x: (x1 + x2) / 2, y: y + 22, "class": "unit-label" }, s[2]));
+      if (s[3]) { g.appendChild(el("text", { x: (x1 + x2) / 2, y: y + 40, "class": "unit-cap" }, s[3])); }
+      T.hit(g, x1, y - TICK - 2, x2 - x1, 58, s[2] + (s[3] ? ", " + s[3] : ""));
+    });
+    y += 70;
+
+    f.caplin.forEach(function (row, r) {
+      if (r === 0) { rows.push(["Caplin", y + 18]); }
+      var lines = 1;
+      row.forEach(function (u) {
+        var g = item(u[3], "Caplin: " + u[2].replace("\n", " "), "unit"), x1 = bx(u[0] - 1) + INSET, x2 = bx(u[1]) - INSET;
+        T.bracket(g, x1, x2, y);
+        g.lastChild.setAttribute("class", "bracket alt");
+        u[2].split("\n").forEach(function (line, i) {
+          g.appendChild(el("text", { x: (x1 + x2) / 2, y: y + 20 + 16 * i, "class": "unit-label alt" }, line));
+          lines = Math.max(lines, i + 1);
+        });
+        T.hit(g, x1, y - TICK - 2, x2 - x1, 30 + 16 * (u[2].split("\n").length - 1), "Caplin: " + u[2].replace("\n", " "));
+      });
+      y += 34 + 16 * lines;
+    });
+
+    rows.forEach(function (r) {
+      svg.appendChild(el("text", { x: X0 - 20, y: r[1], "class": "rowname" }, r[0]));
+    });
+    svg.setAttribute("viewBox", "0 0 1200 " + (y - 14));
+
+    T.wire(svg, groups, readout);
+  }
+
+  /* a figure with a row of buttons choosing what it draws; a choice lights the definition it names */
+  function picker(figs, id, keys) {
+    var pick = document.getElementById("pick-" + id), fig = document.getElementById("fig-" + id),
+        read = document.getElementById("read-" + id), model = document.getElementById("model-" + id), buttons = [];
+    function show(key, opening) {
+      var f = figs[key];
+      buttons.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.key === key ? "true" : "false"); });
+      T.clearAll();
+      draw(fig, f, read);
+      model.textContent = f.model;
+      if (!opening) { T.def(f.lights).classList.add("on"); }
+    }
+    keys.forEach(function (key) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.dataset.key = key;
+      b.setAttribute("aria-pressed", "false");
+      b.appendChild(document.createTextNode(figs[key].label));
+      b.addEventListener("click", function () { show(key); });
+      pick.appendChild(b);
+      buttons.push(b);
+    });
+    show(keys[0], true);
+  }
+
+  var WHOLE = {
+    n: 46,
+    zones: [["intro", 1, 3], ["p", 4, 7], ["tr", 8, 11], ["s", 12, 16], ["c", 17, 19], ["dev", 20, 28],
+            ["p", 29, 31], ["trr", 32, 34], ["s", 35, 38], ["c", 39, 42], ["coda", 43, 46]],
+    events: [[11, "MC", "mc", "mark"], [16, "EEC", "eec"], [28, "interruption", "interruption", "double"],
+             [34, "MC", "mc", "mark"], [38, "ESC", "esc"]],
+    arcs: [[4.5, 16, 10, "EEC"], [4.5, 38, -40, "ESC"], [13, 16, 40, "EEC"], [36, 38, 40, "ESC"]],
+    keys: [[4, 11, "I"], [12, 19, "V or ♭III"], [20, 28, "other keys → V_A"], [29, 42, "I"], [43, 46, "I"]],
+    spaces: [[1, 3, "intro.", "", "introduction"], [4, 19, "exposition", "rotation 1", "exposition"],
+             [20, 28, "development", "", "development"], [29, 42, "recapitulation", "recapitulatory rotation", "recapitulation"],
+             [43, 46, "coda", "", "coda"]],
+    caplin: [[[1, 3, "slow\nintro.", "introduction"], [4, 7, "main\ntheme", "p"], [8, 11, "transition", "tr"],
+              [12, 16, "subordinate\ntheme", "s"], [17, 19, "closing\nsection", "c"], [20, 28, "development", "development"],
+              [29, 42, "recapitulation", "recapitulation"], [43, 46, "coda", "coda"]]]
+  };
+
+  var EXPO_CAPLIN = [[[1, 5, "main theme", "p"], [6, 10, "transition", "tr"], [11, 16, "subordinate theme", "s"],
+                      [17, 22, "closing section", "c"], [23, 24, "retrans.", "rt"]]];
+  var EXPO_SPACES = [[1, 10, "part 1", "", "two-part"], [11, 22, "part 2", "", "two-part"]];
+
+  var EXPO = {
+    "v-hc": {
+      label: "V:HC MC", lights: "mc-defaults", n: 24,
+      model: "Compare Haydn, Symphony No. 100 in G (“Military”), i: the half cadence on V/V is at m. 62 and is prolonged, with a passing seventh added, up to the MC; S begins at m. 75 (p. 26).",
+      zones: [["p", 1, 5], ["tr", 6, 10], ["s", 11, 16], ["c", 17, 22], ["rt", 23, 24]],
+      events: [[10, "V:HC MC", "mc", "mark"], [16, "V:PAC EEC", "eec"], [22, "final cadence", "c", "mark"]],
+      arcs: [[3, 16, -10, "EEC"], [12, 16, 30, "EEC"]],
+      keys: [[1, 5, "I"], [6, 10, "I → V"], [11, 22, "V"], [23, 24, "→ I"]],
+      spaces: EXPO_SPACES, caplin: EXPO_CAPLIN
+    },
+    "i-hc": {
+      label: "I:HC MC", lights: "mc-defaults", n: 24,
+      model: "Compare Beethoven, Symphony No. 1 in C, Op. 21, i: a nonmodulating TR reaches a I:HC MC at m. 52, with triple hammer blows and a general pause, and S begins piano at m. 53 (p. 36).",
+      zones: [["p", 1, 5], ["tr", 6, 10], ["s", 11, 16], ["c", 17, 22], ["rt", 23, 24]],
+      events: [[10, "I:HC MC", "mc", "mark"], [16, "V:PAC EEC", "eec"], [22, "final cadence", "c", "mark"]],
+      arcs: [[3, 16, -10, "EEC"], [12, 16, 30, "EEC"]],
+      keys: [[1, 5, "I"], [6, 10, "I"], [11, 22, "V"], [23, 24, "→ I"]],
+      spaces: EXPO_SPACES, caplin: EXPO_CAPLIN
+    },
+    "v-pac": {
+      label: "V:PAC MC", lights: "mc-defaults", n: 24,
+      model: "Compare Mozart, Sonata for Two Pianos in D, K. 448, i: a V:HC MC effect at m. 25 is followed by caesura-fill that runs on to a V:PAC at m. 33, and that V:PAC is the MC; S begins in A major at m. 34 (p. 41).",
+      zones: [["p", 1, 4], ["tr", 5, 12], ["s", 13, 17], ["c", 18, 22], ["rt", 23, 24]],
+      events: [[12, "V:PAC MC", "mc", "mark"], [17, "V:PAC EEC", "eec"], [22, "final cadence", "c", "mark"]],
+      arcs: [[2.5, 17, -10, "EEC"], [14, 17, 30, "EEC"]],
+      keys: [[1, 4, "I"], [5, 12, "I → V"], [13, 22, "V"], [23, 24, "→ I"]],
+      spaces: [[1, 12, "part 1", "", "two-part"], [13, 22, "part 2", "", "two-part"]],
+      caplin: [[[1, 4, "main theme", "p"], [5, 12, "transition", "tr"], [13, 17, "subordinate theme", "s"],
+                [18, 22, "closing section", "c"], [23, 24, "retrans.", "rt"]]]
+    },
+    "cf": {
+      label: "caesura-fill", lights: "cf", n: 24,
+      model: "Compare Beethoven, Symphony No. 2 in D, Op. 36, i: TR drives on A minor to a v:HC MC at m. 71, the first-level default shaded by the minor mode, and two bars of caesura-fill lead to S in A major at m. 73 (pp. 25–26).",
+      zones: [["p", 1, 5], ["tr", 6, 9], ["cf", 10, 10], ["s", 11, 16], ["c", 17, 22], ["rt", 23, 24]],
+      events: [[9, "V:HC MC", "mc", "mark"], [16, "V:PAC EEC", "eec"], [22, "final cadence", "c", "mark"]],
+      arcs: [[3, 16, -10, "EEC"], [12, 16, 30, "EEC"]],
+      keys: [[1, 5, "I"], [6, 9, "I → V"], [11, 22, "V"], [23, 24, "→ I"]],
+      spaces: EXPO_SPACES,
+      caplin: [[[1, 5, "main theme", "p"], [6, 9, "transition", "tr"], [11, 16, "subordinate theme", "s"],
+                [17, 22, "closing section", "c"], [23, 24, "retrans.", "rt"]]]
+    },
+    "continuous": {
+      label: "continuous exposition", lights: "continuous", n: 24,
+      model: "Compare Haydn, Symphony No. 96 in D (“Miracle”), i: a V:HC MC at m. 57 is canceled when its caesura-fill turns into Fortspinnung, and the V:PAC at m. 71, some 82 percent of the way through the exposition, is the EEC (pp. 57–58).",
+      zones: [["p", 1, 5], ["fs", 6, 16], ["c", 17, 22], ["rt", 23, 24]],
+      events: [[16, "V:PAC EEC", "eec"], [22, "final cadence", "c", "mark"]],
+      arcs: [[3, 16, -10, "EEC"]],
+      keys: [[1, 5, "I"], [6, 16, "I → V"], [17, 22, "V"], [23, 24, "→ I"]],
+      spaces: [[1, 22, "exposition", "no MC, no S", "continuous"]],
+      caplin: [[[1, 5, "main theme", "p"], [6, 16, "transition/subordinate theme", "continuous"],
+                [17, 22, "closing section", "c"], [23, 24, "retrans.", "rt"]]]
+    },
+    "minor": {
+      label: "minor mode", lights: "mc-defaults", n: 24,
+      model: "Compare Caplin, Exs. 9.1–9.3: Beethoven, Piano Sonata in F minor, Op. 2, No. 1, i. TR modulates to A♭ major, ♭III, and reaches an HC at m. 16, prolonged to m. 20; S begins at m. 21; a cadence is evaded at m. 37 and the PAC at m. 41 is the EEC; codettas follow in mm. 42–48 (Caplin, pp. 265–270).",
+      zones: [["p", 1, 5], ["tr", 6, 10], ["s", 11, 16], ["c", 17, 22], ["rt", 23, 24]],
+      events: [[10, "♭III:HC MC", "mc", "mark"], [16, "♭III:PAC EEC", "eec"], [22, "final cadence", "c", "mark"]],
+      arcs: [[3, 16, -10, "EEC"], [12, 16, 30, "EEC"]],
+      keys: [[1, 5, "i"], [6, 10, "i → ♭III"], [11, 22, "♭III"], [23, 24, "→ i"]],
+      spaces: EXPO_SPACES, caplin: EXPO_CAPLIN
+    }
+  };
+
+  var DEV_ZONES = [["link", 1, 2], ["entry", 3, 7], ["action", 8, 18], ["exit", 19, 24]];
+  var DEV_SPACES = [[1, 24, "development", "developmental space", "development"]];
+  var DEV = {
+    "one": {
+      label: "pre-core, core", lights: "core", n: 24,
+      model: "Compare Caplin, Exs. 9.5–9.7: Beethoven, Piano Sonata in F minor, Op. 2, No. 1, i. The pre-core brings the main theme's basic idea in the subordinate key; the core sets up an 8-measure model from the subordinate theme, fragments it, and reaches the home key's HC at m. 81; a two-part standing on the dominant leads to the recapitulation at m. 101 (Caplin, pp. 274–277).",
+      zones: DEV_ZONES,
+      events: [[18, "I:HC", "core"], [24, "interruption", "interruption", "double"]],
+      keys: [[1, 7, "V"], [8, 18, "vi, iii, ii → I"], [19, 24, "V_A"]],
+      spaces: DEV_SPACES,
+      caplin: [[[1, 7, "pre-core", "pre-core"], [8, 24, "core", "core"]]]
+    },
+    "two": {
+      label: "pre-core, two cores", lights: "core", n: 24,
+      model: "Compare Caplin, Ex. 13.3: Haydn, Piano Sonata in E♭, H. 49, i. The first of two cores sets up a 4-measure model at m. 84, sequences it by descending thirds, fragments it, and reaches an HC in F minor, ii, at m. 103; the second core follows (Caplin, pp. 432–433).",
+      zones: DEV_ZONES,
+      events: [[12, "vi:HC", "core"], [18, "I:HC", "core"], [24, "interruption", "interruption", "double"]],
+      keys: [[1, 7, "V"], [8, 14, "vi"], [15, 18, "→ I"], [19, 24, "V_A"]],
+      spaces: DEV_SPACES,
+      caplin: [[[1, 7, "pre-core", "pre-core"], [8, 14, "core 1", "core"], [15, 24, "core 2", "core"]]]
+    },
+    "retransition": {
+      label: "pre-core, core, retransition", lights: "c-retransition", n: 24,
+      model: "Compare Caplin, Exs. 13.7 and 13.13: Beethoven, Piano Sonata in G, Op. 14, No. 2, i. The core's 5-measure model begins at m. 81 and reaches a premature dominant arrival on V of E♭, ♭VI, at m. 93, held to a fermata at m. 98; the retransition begins like the main theme in E♭, a false recapitulation, and reaches the home key's HC at m. 107 (Caplin, pp. 439–440, 449–450).",
+      zones: DEV_ZONES,
+      events: [[12, "vi:HC", "core"], [18, "I:HC", "c-retransition"], [24, "interruption", "interruption", "double"]],
+      keys: [[1, 7, "V"], [8, 14, "vi"], [15, 18, "→ I"], [19, 24, "V_A"]],
+      spaces: DEV_SPACES,
+      caplin: [[[1, 7, "pre-core", "pre-core"], [8, 14, "core", "core"], [15, 24, "retransition", "c-retransition"]]]
+    }
+  };
+
+  var RECAP = {
+    n: 24,
+    zones: [["p", 1, 5], ["trr", 6, 10], ["s", 11, 16], ["c", 17, 22]],
+    events: [[10, "I:HC MC", "mc", "mark"], [16, "I:PAC ESC", "esc"], [22, "final cadence", "c", "mark"]],
+    arcs: [[3, 16, -10, "ESC"], [12, 16, 30, "ESC"]],
+    corr: [[1, 6, "match", "correspondence"], [7, 8, "new", "crux"], [9, 22, "match", "correspondence"]],
+    crux: [8, "crux"],
+    keys: [[1, 5, "I"], [6, 10, "IV → I"], [11, 22, "I"]],
+    spaces: [[1, 22, "recapitulation", "recapitulatory rotation", "recapitulation"]],
+    caplin: [[[1, 5, "main theme", "p"], [6, 10, "transition", "tr-recap"], [11, 16, "subordinate theme", "s"],
+              [17, 22, "closing section", "c"]]]
+  };
+
+  draw(document.getElementById("fig-whole"), WHOLE, document.getElementById("read-whole"));
+  picker(EXPO, "expo", ["v-hc", "i-hc", "v-pac", "cf", "continuous", "minor"]);
+  picker(DEV, "dev", ["one", "two", "retransition"]);
+  draw(document.getElementById("fig-recap"), RECAP, document.getElementById("read-recap"));
+})();
+</script>
+</body>
+</html>
