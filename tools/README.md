@@ -32,6 +32,11 @@ Caplin's sixteen-measure themes drawn the same way, with a second row of bracket
 https://csuebmusic.github.io/mus312/tools/small-ternary-binary.html
 Caplin's small ternary and small binary drawn the same way, with a row of brackets for the sections beneath the units inside them. The small ternary with five contrasting middles (continuation, sentence, postcadential standing on the dominant, dominant arrival, modulating with a retransition) and four recapitulations (unchanged, tonally adjusted, compressed with a new continuation, expanded); tight-knit and loose organization; the small binary, the failed consequent, and four ways to build part 2. The two theme types side by side, and the binary labels of Laitz and Bartlette against Caplin's.
 
+## sonata form
+
+https://csuebmusic.github.io/mus312/tools/sonata-form.html
+The Type 3 sonata in Hepokoski and Darcy's terms, drawn after their Figure 2.1, with Caplin's name for each span in a row beneath. The whole form, from introduction to coda; the exposition with a V:HC, I:HC, or V:PAC medial caesura, with caesura-fill, as a continuous exposition, and in the minor mode; the development as Hepokoski and Darcy's four zones against Caplin's three plans of pre-core, core, and retransition; and the recapitulation with its correspondence measures, crux, and ESC. Coda and introduction, repeat schemes, and a table setting the two vocabularies side by side. Pressing a zone, cadence, bracket, or arrow lights its definition.
+
 ## style chart
 
 https://csuebmusic.github.io/mus312/tools/style-chart.html
