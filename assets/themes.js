@@ -2,7 +2,8 @@
 
    Idea boxes, function and theme brackets, cadence boxes, and the pickers
    that choose a diagram. Loaded after notation.js by every page that draws a
-   theme diagram. A page passes its own themes and may add ideas and units. */
+   theme diagram. A page passes its own themes and may add ideas and units.
+   A page that draws its own figures lights them with wire, hit, and bracket. */
 
 MUS.themes = (function () {
   "use strict";
@@ -88,6 +89,41 @@ MUS.themes = (function () {
   }
 
   function measures(a, b) { return "measure" + (b > a ? "s " + a + " to " + b : " " + a); }
+
+  /* pressing an element of a figure lights it and the definition it names;
+     groups are { g, term, label }, each g holding one .hit */
+  function wire(svg, groups, readout) {
+    function select(entry) {
+      clearAll();
+      entry.g.classList.add("on");
+      var src = def(entry.term), p;
+      if (!src) {
+        /* a term this page draws but doesn't define points to the page that does */
+        var home = away(entry.term);
+        p = document.createElement("p");
+        p.innerHTML = "Defined under <a target=\"_blank\" rel=\"noopener\"></a> on the theme types page.";
+        p.firstElementChild.textContent = home.title;
+        p.firstElementChild.setAttribute("href", home.href);
+        readout.appendChild(p);
+        return;
+      }
+      src.classList.add("on");
+      /* an idea's definition, and any definition kept in another section, is shown under the figure */
+      if (entry.g.classList.contains("idea") || src.closest("section") !== svg.closest("section")) {
+        p = document.createElement("p");
+        p.innerHTML = src.innerHTML;
+        readout.appendChild(p);
+      }
+    }
+
+    groups.forEach(function (o) {
+      var h = o.g.querySelector(".hit");
+      h.addEventListener("click", function () { select(o); });
+      h.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(o); }
+      });
+    });
+  }
 
   /* ideas: [kind, from, to, term, name]; units: [function, from, to, suffix, row, caption];
      cads: [measure, label, term]; marks: [from, to, label, term]; breaks: measures followed by //;
@@ -217,36 +253,7 @@ MUS.themes = (function () {
     tg.appendChild(el("text", { x: (t1 + t2) / 2, y: yTheme + 40, "class": "unit-cap" }, cap));
     hit(tg, t1, yTheme - TICK - 2, t2 - t1, 58, theme.name + ", " + cap);
 
-    function select(entry) {
-      clearAll();
-      entry.g.classList.add("on");
-      var src = def(entry.term), p;
-      if (!src) {
-        /* a term this page draws but doesn't define points to the page that does */
-        var home = away(entry.term);
-        p = document.createElement("p");
-        p.innerHTML = "Defined under <a target=\"_blank\" rel=\"noopener\"></a> on the theme types page.";
-        p.firstElementChild.textContent = home.title;
-        p.firstElementChild.setAttribute("href", home.href);
-        readout.appendChild(p);
-        return;
-      }
-      src.classList.add("on");
-      /* an idea's definition, and any definition kept in another section, is shown under the figure */
-      if (entry.g.classList.contains("idea") || src.closest("section") !== svg.closest("section")) {
-        p = document.createElement("p");
-        p.innerHTML = src.innerHTML;
-        readout.appendChild(p);
-      }
-    }
-
-    groups.forEach(function (o) {
-      var h = o.g.querySelector(".hit");
-      h.addEventListener("click", function () { select(o); });
-      h.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(o); }
-      });
-    });
+    wire(svg, groups, readout);
   }
 
   /* a figure with a row of buttons choosing what it draws; a choice lights the definition it names */
@@ -281,5 +288,6 @@ MUS.themes = (function () {
     show(keys[0], true);
   }
 
-  return { IDEAS: IDEAS, UNITS: UNITS, draw: draw, picker: picker };
+  return { IDEAS: IDEAS, UNITS: UNITS, draw: draw, picker: picker,
+           wire: wire, hit: hit, bracket: bracket, clearAll: clearAll, def: def };
 })();
