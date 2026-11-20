@@ -51,7 +51,7 @@ Mon Oct 26 through Wed Dec 2, in the chapter order below, without fixed dates an
 | | | Ch. 13, development (developmental space) (420–474) | H&D 195–230 |
 | | | Ch. 13 continued, and Ch. 14, recapitulation (recapitulatory rotation; essential structural closure, ESC) (475–518) | H&D 231–254 |
 | | | Ch. 15, coda and Ch. 16, slow introduction (parageneric spaces) (519–550, 551–562) | H&D 281–305 |
-| finals | Mon Dec 7, 10:15–12:15 | final analysis due | |
+| finals | Mon Dec 7, 10:15–12:15 | final analysis presentations | |
 
 ## homework packets
 
